@@ -1,0 +1,38 @@
+{
+	"what_chirho": "Batch B of the split-chapter measurement: the other 116 files that are parts of a chapter in Davar recordings (Joel 2 in the 57 Hebrew-count recordings not in batch A, and the two halves of Psalm 113 in the Mashi recording), each loaded once in a browser as far as its metadata. Approved by the coordinator in room message 34103.",
+	"how_chirho": "One audio element at a time with preload set to metadata, on a blank page in Chrome 157 driven through the Playwright tool. At least one second between attempts, no retries, a 15 second ceiling, and the element unloaded at once on metadata, error or timeout; the run would have stopped at the first file that did not load. Each address is exactly a name in that recording's own file list, taken from the files held back in davar_snapshot_chirho.json; none of batch A's six was asked again. Preload is a hint to the browser: this does not establish how much of each file was transferred.",
+	"read_on_chirho": "2026-11-13",
+	"started_chirho": "2026-11-13T23:29:13.603Z",
+	"finished_chirho": "2026-11-13T23:32:39.319Z",
+	"readings_chirho": {
+		"kept_chirho": "outside the repository",
+		"results_file_bytes_chirho": 48240,
+		"results_file_sha256_chirho": "36f23c9fa3a3fe10bce463976ba0576b2d58dc0cf82b17c806bd0cbf785ec543",
+		"network_log_file_bytes_chirho": 8709,
+		"network_log_file_sha256_chirho": "16e17e63af42bb27655fc69efef599ba1b31125968fc182215a513ba42a456f4"
+	},
+	"attempts_chirho": 116,
+	"loaded_chirho": 116,
+	"errors_chirho": 0,
+	"timeouts_chirho": 0,
+	"stopped_chirho": false,
+	"requests_seen_chirho": "116 GET requests to audio.dbs.org, one per file, each answered 206",
+	"longest_attempt_ms_chirho": 1334,
+	"transferred_bytes_chirho": "unknown: the host sends no Timing-Allow-Origin, so the browser reports 0 for every size",
+	"durations_chirho": {
+		"shortest_seconds_chirho": 57.093378,
+		"longest_seconds_chirho": 693.462378,
+		"outside_1_to_3600_seconds_chirho": 0
+	},
+	"with_batch_a_chirho": {
+		"files_chirho": 122,
+		"distinct_files_chirho": 122,
+		"chapters_chirho": 61,
+		"every_chapter_has_two_measured_parts_chirho": true,
+		"shortest_chapter_total_seconds_chirho": 254.28,
+		"longest_chapter_total_seconds_chirho": 818.6,
+		"chapters_over_7200_seconds_chirho": 0
+	},
+	"what_it_establishes_chirho": "Each of the 116 files answered, and its metadata could be read with a finite length inside the contract's bounds. It does not establish that the sound is complete, or that the files hold the verses their names suggest: nobody has listened.",
+	"not_done_chirho": "No catalogue data was written from this reading, and the builder was not changed. The per-file lengths stay in the private reading until the data step is approved."
+}

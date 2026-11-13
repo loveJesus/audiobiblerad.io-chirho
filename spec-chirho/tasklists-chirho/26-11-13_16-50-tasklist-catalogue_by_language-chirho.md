@@ -71,7 +71,11 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
       `composite_prior_reader_chirho.json`.
 - [x] Piece 2: six files measured in a browser (34101): all six loaded, one request each,
       answered 206; transferred bytes unknown. Evidence in `davar_parts_batch_a_chirho.json`.
-- [ ] Pieces 3 to 5 (the other 116 files, writing the data, the player) are held.
+- [x] Piece 3: the other 116 files measured (34103): all loaded, one request each, answered
+      206; all 61 chapters have two measured parts inside the bounds. Evidence in
+      `davar_parts_batch_b_chirho.json`.
+- [ ] Piece 4, writing the data: held until the coordinator has reviewed the 122 files.
+- [ ] Piece 5, the player: the coordinator's lane.
 
 ## Log
 
