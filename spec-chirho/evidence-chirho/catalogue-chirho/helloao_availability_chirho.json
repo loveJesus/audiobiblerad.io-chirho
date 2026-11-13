@@ -1,0 +1,37 @@
+{
+	"source_id_chirho": "helloao",
+	"stations_chirho": {
+		"helloao-bsb-hays": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 1189,
+			"chapters_found_chirho": 1189,
+			"chapters_absent_chirho": [],
+			"chapters_unverified_chirho": [],
+			"bytes_total_chirho": 4053887180,
+			"bytes_smallest_chapter_chirho": 253022,
+			"bytes_largest_chapter_chirho": 13240917,
+			"timings_chirho": {
+				"chapters_with_timings_chirho": 1188,
+				"chapters_without_timings_chirho": ["LEV 19"],
+				"chapters_with_unreadable_timings_chirho": []
+			}
+		},
+		"helloao-bsb-souer": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 1189,
+			"chapters_found_chirho": 1189,
+			"chapters_absent_chirho": [],
+			"chapters_unverified_chirho": [],
+			"bytes_total_chirho": 5497738768,
+			"bytes_smallest_chapter_chirho": 418877,
+			"bytes_largest_chapter_chirho": 20901594,
+			"timings_chirho": {
+				"chapters_with_timings_chirho": 1187,
+				"chapters_without_timings_chirho": ["LEV 19", "PSA 150"],
+				"chapters_with_unreadable_timings_chirho": []
+			}
+		}
+	}
+}

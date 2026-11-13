@@ -1,0 +1,13 @@
+{
+	"source_id_chirho": "openbible",
+	"stations_chirho": {
+		"openbible-bsb-gilbert": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "the host's own folder listing, then 5 or more files asked for directly",
+			"chapters_asked_chirho": 1189,
+			"chapters_found_chirho": 1189,
+			"chapters_absent_chirho": [],
+			"chapters_unverified_chirho": []
+		}
+	}
+}
