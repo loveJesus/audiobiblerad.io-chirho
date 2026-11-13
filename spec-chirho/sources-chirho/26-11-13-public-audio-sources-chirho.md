@@ -26,7 +26,10 @@ The record is in three places:
   a book or two each in Chinese, Dutch, Greek, Ancient Greek, German, French, Hebrew, Church
   Slavonic, Portuguese and Maori. The station register beside this page lists every one.
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
-  streaming only. Reaching "any language" depends on it.
+  streaming only.
+- **Open.Bible offers 157 languages under open licences with no key,** as downloads only. Playing
+  them means keeping copies, which is the owner's decision. Reaching "any language" depends on
+  one of these two.
 - **Not playing, for three different reasons.** Each source below says which applies.
   - **No licence on record:** the maker has not said who is speaking or under which terms. These
     cannot ship until that is read.
@@ -250,6 +253,42 @@ nothing was measured:** most of it is text to speech, which waits for the owner'
   Matthew and Romans, a Greek 1 and 2 Peter and a Hebrew Exodus, all read several chapters to a
   section. Playing those needs a start time inside a file, which the contract does not have yet.
 
+## Openly licensed, but only as downloads
+
+### Open.Bible (managed by Biblica)
+
+The largest find without a key, and it cannot be played the way this project plays everything
+else. Read on 2026-11-13 through the site's own public catalogue at
+`https://open.bible/api/translations`. Nothing was downloaded and nothing from it plays.
+
+- **What it is:** "your online hub for free Bible texts, audio Bibles, and maps — all freely
+  released for use under Creative Commons licensing." Every entry comes from the Digital Bible
+  Library.
+- **How much audio:** 331 audio translations in 245 languages, 1,489 GB in all.
+- **Under licences that allow copying and re-use:** 227 of them, in 157 languages, 1,334 GB: 222
+  under CC BY-SA, 1 under CC BY and 4 in the public domain. Of these, 57 are whole Bibles and 143
+  are New Testaments. The other 104 carry a non-commercial or no-derivatives condition.
+- **Whole Bibles among the 227 include** Standard Arabic, Assamese, Bengali, Central Kurdish,
+  Chichewa, Ewe, Gujarati, Haitian Creole, Hindi, Igbo, Kannada, Kikuyu, Lingala, Luganda, Luo,
+  Malayalam, Marathi, Ndebele, Nepali, Odia, Punjabi, Shona, Swahili, Tamil, Telugu, Twi, Urdu,
+  Vietnamese and Yoruba.
+- **Who gives them:** Davar Audio Bibles (116), Hosanna/Faith Comes By Hearing (65), Biblica (14),
+  Spoken Worldwide (9), The Seed Company (8), Pioneer Bible Translators (6) and others.
+- **Verse timings:** 119 of the 227 come with a timings archive, so the dial could keep the verse.
+- **Licence, in the site's words:** "Bible translations available under CC BY and CC BY-SA may be
+  freely used subject to their license terms." Each entry names its own licence and credit, for
+  example "Adavi Kuruba New Testament Audio Bible, CC-BY-SA-4.0, Davar Partners International,
+  Bridge Connectivity Solutions, 2026."
+- **Why it does not play today:** each recording is offered as one zip archive, not as a file per
+  chapter that a radio can open. The middle one is 2.9 GB and the largest 219 GB. To play them,
+  the chapters would have to be unpacked and served from storage of our own. The licences allow
+  that. This project's rule so far is to stream from the source's host and copy nothing, so
+  whether to keep copies of openly licensed recordings is the owner's decision. It would also
+  cost storage every month, and it cannot be prepared on the build machine, whose disk is nearly
+  full.
+- **Why it matters:** it is 157 languages with no key and no agreement, against the 26 that play
+  today, and many of the same recordings Bible Brain would stream.
+
 ## Tier 2: needs a key or an agreement in the owner's name
 
 ### Bible Brain, the Digital Bible Platform (Faith Comes By Hearing)
@@ -307,28 +346,31 @@ YouVersion Platform needs app registration, a key and an agreement with each pub
 
 ## Not read yet
 
-`https://open.bible/` (refuses plain fetchers), API.Bible's own terms, the YouVersion Platform's
-own terms, Global Recordings Network, Talking Bibles, Scripture Earth, Door43, Audio Treasure, and
-collections on the Internet Archive beyond LibriVox's.
+API.Bible's own terms, the YouVersion Platform's own terms, Global Recordings Network, Talking
+Bibles, Scripture Earth, Door43, Audio Treasure, and collections on the Internet Archive beyond
+LibriVox's.
 
 ## Next for the catalogue
 
 In rough order of what each would add. None of it is started.
 
 1. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
-   for a short-lived address. It is the only route found to most of the world's languages.
-2. **The owner's preference on synthetic voices.** A yes releases `ebible-webbe` in one line and
+   for a short-lived address. It streams, so it needs no storage of ours.
+2. **Open.Bible**, if the owner allows keeping copies of openly licensed recordings: 157
+   languages, many with verse timings. It needs storage, and a way to unpack archives that does
+   not pass through the build machine.
+3. **The owner's preference on synthetic voices.** A yes releases `ebible-webbe` in one line and
    opens complete Spanish, Portuguese and Chinese Bibles at PublicDomainAudioBibles.com, whose
    address patterns still have to be read and measured.
-3. **Winfred Henson's World English Bible** on eBible.org: a complete Bible read by a person. It
+4. **Winfred Henson's World English Bible** on eBible.org: a complete Bible read by a person. It
    needs a chapter index built from its 66 book pages.
-4. **A start time inside a file.** Several LibriVox recordings read two or more chapters to a
+5. **A start time inside a file.** Several LibriVox recordings read two or more chapters to a
    section: the Spanish Isaiah and minor prophets, a Chinese Matthew and Romans, a Hebrew Exodus.
    Playing them by chapter needs the contract to carry where in the file a chapter begins.
-5. **The makers who have not said:** the `david` voice, the Mandarin recording, the editions with
+6. **The makers who have not said:** the `david` voice, the Mandarin recording, the editions with
    music. A question to the Berean Bible's publisher would settle three of the four folders.
-6. **Sources not read yet,** listed above.
-7. **Measuring again.** Hosts change. Run the availability check for every source before each
+7. **Sources not read yet,** listed above.
+8. **Measuring again.** Hosts change. Run the availability check for every source before each
    release, and read what changed in the register before committing it.
 
 ## What this means for speed
