@@ -29,8 +29,10 @@ The record is in three places:
   streaming only.
 - **In the catalogue, loaded by language on demand:** 431 stations in 389 languages from Davar
   Audio Bibles, 349,722 chapters, served a file per chapter from its own host, free for
-  non-commercial use with its notices shown. The web player has no way to choose among them
-  yet; that is the next piece of work on the screen. Its register is
+  non-commercial use with its notices shown. The web player's language chooser offers them
+  beside the built-in ones: 460 stations under 400 language codes in all, 15 codes having both
+  kinds. Their coverage is what each recording's own list names, not chapters each opened. Its
+  register is
   `davar_station_register_chirho.md`, beside this page.
 - **Open.Bible offers 157 languages under open licences with no key,** as downloads only. Playing
   them means keeping copies, which is the owner's decision.
@@ -264,7 +266,8 @@ nothing was measured:** most of it is text to speech, which waits for the owner'
 The largest source found that fits this project's rule as it stands: it serves a file per
 chapter from its own host. Read with a real browser on 2026-11-13. Its 431 recordings are in
 the catalogue as stations that load by language, on demand, so that the first sound costs what
-it did before. The web player cannot choose among them yet.
+it did before. The web player's language chooser lists them, and loads a language's file when
+the listener picks it.
 
 - **How much:** its "Audio Bible Library" lists 431 recordings in 389 languages across 67
   countries: 132 whole Bibles, 172 Old Testaments, 125 New Testaments and 2 portions. 116
@@ -325,10 +328,10 @@ LibriVox's.
 
 In rough order of what each would add.
 
-1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue. Still to do:
-   a way for the listener to choose among 389 languages, which belongs to the player; a
-   recording's own chapter numbering, for the 61 that count Joel in four; and a word with Davar
-   before any native app relies on its host.
+1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue and the web
+   player can choose them. Still to do: a recording's own chapter numbering, for the 61 that
+   count Joel in four; opening every listed chapter, not only one per recording; and a word
+   with Davar before any native app relies on its host.
 2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.
 3. **Open.Bible**, if the owner allows keeping copies of openly licensed recordings: 157

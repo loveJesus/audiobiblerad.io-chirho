@@ -55,3 +55,5 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
   files name no chapter this catalogue counts, 61 of them a fourth chapter of Joel in recordings
   numbered as Hebrew Bibles are. That numbering is not carried yet and is written up in the
   sources file.
+- 2026-11-13 17:27 EST: the web seat finished the language chooser on this contract. The
+  sources file now says so.
