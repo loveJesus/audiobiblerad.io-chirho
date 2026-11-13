@@ -3,8 +3,11 @@
 import { describe, expect, it } from 'vitest';
 import { readIndexFilesChirho, type IndexFileChirho } from './index_files_chirho';
 
-function fileWithChirho(entryChirho: unknown): IndexFileChirho {
-	return { source_id_chirho: 'fixture', stations_chirho: { 'fixture-station': entryChirho } };
+function fileWithChirho(filesChirho: unknown): IndexFileChirho {
+	return {
+		station_id_chirho: 'fixture-station',
+		files_chirho: filesChirho as IndexFileChirho['files_chirho']
+	};
 }
 
 describe('reading an index of chapter addresses', () => {
@@ -51,9 +54,9 @@ describe('reading an index of chapter addresses', () => {
 		expect(filesChirho).toEqual({ JUD: ['https://audio.example/jude.mp3'] });
 	});
 
-	it('gives a station with no entry, or a broken one, no addresses', () => {
-		expect(readIndexFilesChirho(fileWithChirho({}), 'someone-else')).toEqual({});
-		expect(readIndexFilesChirho(fileWithChirho({}), '__proto__')).toEqual({});
+	it('gives no addresses from a file written for another station, or from a broken one', () => {
+		const anotherChirho = fileWithChirho({ JUD: ['https://audio.example/jude.mp3'] });
+		expect(readIndexFilesChirho(anotherChirho, 'someone-else')).toEqual({});
 		for (const brokenChirho of [null, 'nothing', 7, []]) {
 			expect(readIndexFilesChirho(fileWithChirho(brokenChirho), 'fixture-station')).toEqual({});
 		}

@@ -2,16 +2,17 @@
 
 // Index files: for sources whose file names follow no rule, the address of each chapter is
 // written down by a script that reads the source's own catalogue. This reads one back.
+// There is one file per station, so that no file can outgrow a whole Bible's worth of lines.
 // Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
 import { BOOKS_CHIRHO } from '../books-chirho/books_chirho';
 import type { IndexLocatorChirho } from '../contract_chirho';
 
-/** One source's index file, as its builder script writes it. */
+/** One station's index file, as its builder script writes it. */
 export interface IndexFileChirho {
-	readonly source_id_chirho: string;
-	/** By station id, then by book: one address per chapter, chapter 1 first. */
-	readonly stations_chirho: Readonly<Record<string, unknown>>;
+	readonly station_id_chirho: string;
+	/** By book: one address per chapter, chapter 1 first. Read with `readIndexFilesChirho`. */
+	readonly files_chirho: Readonly<Record<string, unknown>>;
 }
 
 function readAddressChirho(valueChirho: unknown): string | null {
@@ -20,21 +21,22 @@ function readAddressChirho(valueChirho: unknown): string | null {
 }
 
 /**
- * Read one station's addresses from an index file. Anything that is not a secure address in a
+ * Read a station's addresses from its index file. Anything that is not a secure address in a
  * real chapter of a real book is dropped, so a damaged file can only ever make a station
- * smaller. A station with no entry has no addresses.
+ * smaller. A file written for another station gives no addresses at all.
  */
 export function readIndexFilesChirho(
 	fileChirho: IndexFileChirho,
 	stationIdChirho: string
 ): IndexLocatorChirho['files_chirho'] {
-	const entryChirho = fileChirho.stations_chirho[stationIdChirho];
-	if (typeof entryChirho !== 'object' || entryChirho === null) return {};
-	const rawChirho = entryChirho as Record<string, unknown>;
+	const rawChirho: unknown = fileChirho.files_chirho;
+	if (fileChirho.station_id_chirho !== stationIdChirho) return {};
+	if (typeof rawChirho !== 'object' || rawChirho === null) return {};
+	const byBookChirho = rawChirho as Record<string, unknown>;
 
 	const filesChirho: Partial<Record<string, (string | null)[]>> = {};
 	for (const bookChirho of BOOKS_CHIRHO) {
-		const rawAddressesChirho = rawChirho[bookChirho.id_chirho];
+		const rawAddressesChirho = byBookChirho[bookChirho.id_chirho];
 		if (!Array.isArray(rawAddressesChirho)) continue;
 		const addressesChirho = rawAddressesChirho
 			.slice(0, bookChirho.chapters_chirho)

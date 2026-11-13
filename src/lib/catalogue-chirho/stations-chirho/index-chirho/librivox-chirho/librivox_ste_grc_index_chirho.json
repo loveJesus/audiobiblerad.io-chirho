@@ -1,0 +1,12 @@
+{
+	"station_id_chirho": "librivox-ste-grc",
+	"files_chirho": {
+		"JAS": [
+			"https://archive.org/download/kd20_iakobou_ste_puy_0809_librivox-0/kd20_iakobou_1_ste_64kb.mp3",
+			"https://archive.org/download/kd20_iakobou_ste_puy_0809_librivox-0/kd20_iakobou_2_ste_64kb.mp3",
+			"https://archive.org/download/kd20_iakobou_ste_puy_0809_librivox-0/kd20_iakobou_3_ste_64kb.mp3",
+			"https://archive.org/download/kd20_iakobou_ste_puy_0809_librivox-0/kd20_iakobou_4_ste_64kb.mp3",
+			"https://archive.org/download/kd20_iakobou_ste_puy_0809_librivox-0/kd20_iakobou_5_ste_64kb.mp3"
+		]
+	}
+}

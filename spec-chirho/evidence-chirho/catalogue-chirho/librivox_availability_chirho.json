@@ -1,19 +1,19 @@
 {
 	"source_id_chirho": "librivox",
 	"stations_chirho": {
-		"librivox-rv1909-es": {
+		"librivox-rva-es": {
 			"checked_on_chirho": "2026-11-13",
 			"method_chirho": "one HEAD request per chapter address",
-			"chapters_asked_chirho": 21,
-			"chapters_found_chirho": 21,
-			"chapters_absent_chirho": 0,
-			"absent_by_book_chirho": [],
-			"absent_answers_chirho": {},
+			"chapters_asked_chirho": 987,
+			"chapters_found_chirho": 986,
+			"chapters_absent_chirho": 1,
+			"absent_by_book_chirho": ["JOS 18"],
+			"absent_answers_chirho": { "status 404": 1 },
 			"chapters_unverified_chirho": [],
-			"chapters_with_no_address_chirho": 1168,
-			"bytes_total_chirho": 64260956,
-			"bytes_smallest_chapter_chirho": 1813024,
-			"bytes_largest_chapter_chirho": 4854096
+			"chapters_with_no_address_chirho": 202,
+			"bytes_total_chirho": 2174555410,
+			"bytes_smallest_chapter_chirho": 309800,
+			"bytes_largest_chapter_chirho": 8322143
 		},
 		"librivox-lb1912-de": {
 			"checked_on_chirho": "2026-11-13",
@@ -56,6 +56,104 @@
 			"bytes_total_chirho": 108512320,
 			"bytes_smallest_chapter_chirho": 1316672,
 			"bytes_largest_chapter_chirho": 4494656
+		},
+		"librivox-cuv-zh": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 61,
+			"chapters_found_chirho": 61,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1128,
+			"bytes_total_chirho": 185098546,
+			"bytes_smallest_chapter_chirho": 1564874,
+			"bytes_largest_chapter_chirho": 5135499
+		},
+		"librivox-sv-nl": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 43,
+			"chapters_found_chirho": 43,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1146,
+			"bytes_total_chirho": 117700096,
+			"bytes_smallest_chapter_chirho": 1109504,
+			"bytes_largest_chapter_chirho": 5415424
+		},
+		"librivox-pe-el": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 32,
+			"chapters_found_chirho": 32,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1157,
+			"bytes_total_chirho": 133260466,
+			"bytes_smallest_chapter_chirho": 2014608,
+			"bytes_largest_chapter_chirho": 7566564
+		},
+		"librivox-ste-grc": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 5,
+			"chapters_found_chirho": 5,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1184,
+			"bytes_total_chirho": 13869563,
+			"bytes_smallest_chapter_chirho": 2140496,
+			"bytes_largest_chapter_chirho": 3134193
+		},
+		"librivox-csb-cu": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 50,
+			"chapters_found_chirho": 50,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1139,
+			"bytes_total_chirho": 112186778,
+			"bytes_smallest_chapter_chirho": 1302278,
+			"bytes_largest_chapter_chirho": 4941658
+		},
+		"librivox-sacy-fr": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 16,
+			"chapters_found_chirho": 16,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1173,
+			"bytes_total_chirho": 58689536,
+			"bytes_smallest_chapter_chirho": 1849856,
+			"bytes_largest_chapter_chirho": 6042624
+		},
+		"librivox-matiu-mi": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 9,
+			"chapters_found_chirho": 9,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1180,
+			"bytes_total_chirho": 37160558,
+			"bytes_smallest_chapter_chirho": 2103587,
+			"bytes_largest_chapter_chirho": 5907053
 		}
 	}
 }

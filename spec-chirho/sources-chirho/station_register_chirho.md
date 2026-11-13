@@ -9,7 +9,7 @@ Every station that plays is listed here with its licence, the credit shown to li
 page the licence was read on. The words that grant each licence are quoted in the sources file
 beside this one.
 
-22 stations play, in 19 languages. 1 more is held back, at the end.
+29 stations play, in 26 languages. 1 more is held back, at the end.
 
 ## English
 
@@ -241,16 +241,16 @@ beside this one.
 
 ## Spanish (Español)
 
-### librivox-rv1909-es
+### librivox-rva-es
 
-- Version: Reina-Valera 1909 (RV1909)
+- Version: Reina-Valera Antigua (RVA)
 - Voice: LibriVox volunteers (human)
 - Source: LibriVox, https://librivox.org/
-- Chapters: 21 of 1,189, measured 2026-11-13
+- Chapters: 986 of 1,189, measured 2026-11-13
 - Verse timings: no
 - Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
 - Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
-- Credit shown: Reina-Valera 1909, read by LibriVox volunteers. A public domain recording from LibriVox.
+- Credit shown: Reina-Valera Antigua, read by LibriVox volunteers. A public domain recording from LibriVox.
 
 ## German (Deutsch)
 
@@ -290,6 +290,97 @@ beside this one.
 - Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
 - Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
 - Credit shown: Hebrew Bible, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Chinese (中文)
+
+### librivox-cuv-zh
+
+- Version: Chinese Union Version (CUV)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 61 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Chinese Union Version, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Dutch (Nederlands)
+
+### librivox-sv-nl
+
+- Version: Statenvertaling (SV)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 43 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Statenvertaling, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Greek (Ελληνικά)
+
+### librivox-pe-el
+
+- Version: Patriarchal Text of 1904 (PE)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 32 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Patriarchal Text of 1904, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Ancient Greek (Ἑλληνική)
+
+### librivox-ste-grc
+
+- Version: Stephanus Textus Receptus 1550 (STE)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 5 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Stephanus Textus Receptus 1550, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Church Slavonic (Церковнославянский)
+
+### librivox-csb-cu
+
+- Version: Church Slavonic Bible (CSB)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 50 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Church Slavonic Bible, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## French (Français)
+
+### librivox-sacy-fr
+
+- Version: Bible de Sacy (SACY)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 16 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Bible de Sacy, read by LibriVox volunteers. A public domain recording from LibriVox.
+
+## Maori (Te Reo Māori)
+
+### librivox-matiu-mi
+
+- Version: Māori translation, 1903 text (MI1903)
+- Voice: LibriVox volunteers (human)
+- Source: LibriVox, https://librivox.org/
+- Chapters: 9 of 1,189, measured 2026-11-13
+- Verse timings: no
+- Licence: Public domain, by LibriVox’s dedication (public-domain), https://librivox.org/pages/public-domain/
+- Licence read at: https://librivox.org/pages/public-domain/ on 2026-11-13
+- Credit shown: Māori translation, 1903 text, read by LibriVox volunteers. A public domain recording from LibriVox.
 
 ## Held back
 

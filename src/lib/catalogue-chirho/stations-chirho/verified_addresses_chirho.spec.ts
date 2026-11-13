@@ -99,6 +99,46 @@ const VERIFIED_ADDRESSES_CHIRHO: readonly VerifiedAddressChirho[] = [
 		chapter_chirho: 3,
 		url_chirho:
 			'https://audio-content.bibleineverylanguage.org/content/sw/ulb/jhn/3/CONTENTS/mp3/hi/chapter/sw_ulb_jhn_c3.mp3'
+	},
+	{
+		// An index station: the address is listed, not built.
+		station_chirho: 'librivox-rva-es',
+		book_chirho: 'JHN',
+		chapter_chirho: 3,
+		url_chirho:
+			'https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_03_rva_64kb.mp3'
+	},
+	{
+		// One recording holds 1, 2 and 3 John: its sixth section is 2 John 1.
+		station_chirho: 'librivox-rva-es',
+		book_chirho: '2JN',
+		chapter_chirho: 1,
+		url_chirho:
+			'https://archive.org/download/biblereinavalerant23-25juan_1706_librivox/epistolasdejuan_06_rva_64kb.mp3'
+	},
+	{
+		// One recording holds both letters: its eighth section is 2 Thessalonians 3.
+		station_chirho: 'librivox-rva-es',
+		book_chirho: '2TH',
+		chapter_chirho: 3,
+		url_chirho:
+			'https://archive.org/download/12tesalonicenses_rva_1711_librivox/12tesalonicenses_08_rva_64kb.mp3'
+	},
+	{
+		// The sections of this recording are titled in Chinese numerals.
+		station_chirho: 'librivox-cuv-zh',
+		book_chirho: 'JHN',
+		chapter_chirho: 21,
+		url_chirho:
+			'https://archive.org/download/bible_cuv_nt04_john_1904_librivox/john_21_cuv_64kb.mp3'
+	},
+	{
+		// A recording that stops early: Matthew 9 is its last chapter.
+		station_chirho: 'librivox-matiu-mi',
+		book_chirho: 'MAT',
+		chapter_chirho: 9,
+		url_chirho:
+			'https://archive.org/download/koterongopaiamatiuupoko_1_to_9_2008_librivox/ko_te_rongo_pai_a_matiu_upoko_1_to_9_09_64kb.mp3'
 	}
 ];
 

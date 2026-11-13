@@ -20,10 +20,11 @@ The record is in three places:
 
 ## In short
 
-- **Playing now with no key:** 22 stations in 19 languages. English in four voices; Gujarati,
-  Hindi, Kannada, Malayalam, Marathi, Nepali, Odia, Punjabi, Swahili, Tamil, Telugu, Vietnamese,
-  Tiriki and Olutsotso from Bible in Every Language; and Spanish, German, Portuguese and Hebrew
-  from LibriVox, a book or two each. The station register beside this page lists every one.
+- **Playing now with no key:** 29 stations in 26 languages. English in four voices; Gujarati, Hindi,
+  Kannada, Malayalam, Marathi, Nepali, Odia, Punjabi, Swahili, Tamil, Telugu, Vietnamese, Tiriki
+  and Olutsotso from Bible in Every Language; and from LibriVox most of the Bible in Spanish, and
+  a book or two each in Chinese, Dutch, Greek, Ancient Greek, German, French, Hebrew, Church
+  Slavonic, Portuguese and Maori. The station register beside this page lists every one.
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
   streaming only. Reaching "any language" depends on it.
 - **Not playing, for three different reasons.** Each source below says which applies.
@@ -205,32 +206,49 @@ nothing was measured:** most of it is text to speech, which waits for the owner'
 
 ### LibriVox
 
-- **Stations:** `librivox-rv1909-es` (Spanish, John), `librivox-lb1912-de` (German, Matthew),
-  `librivox-almeida-pt` (Portuguese, Ruth and Ecclesiastes) and `librivox-hebrew-he` (Hebrew,
-  Genesis). Every listed address was asked for and answered with audio: 21, 28, 16 and 50
-  chapters, 115 in all.
+- **Stations:** eleven, each named `librivox-`, the version and the language tag.
+  - Spanish, the Reina-Valera Antigua: 45 books, 986 chapters, all read by one volunteer. It
+    lacks Isaiah, the twelve minor prophets, Mark, Acts, Colossians, 1 and 2 Timothy, Titus, and
+    1 and 2 Peter.
+  - Chinese, the Chinese Union Version: Mark, Luke and John.
+  - Dutch, the Statenvertaling: John and Revelation.
+  - Greek, the Patriarchal Text of 1904: Matthew and Colossians. Ancient Greek, Stephanus's text
+    of 1550: James. LibriVox files these under two language names, and so does the catalogue.
+  - German, Luther's Bible of 1912: Matthew. French, Le Maistre de Sacy's translation: Mark.
+  - Hebrew: Genesis. Church Slavonic: Genesis. Portuguese, Almeida: Ruth and Ecclesiastes.
+  - Maori: Matthew 1 to 9, which is all that was recorded.
+- **Measured:** every listed address was asked for, 1,297 in all, and 1,296 answered with audio.
+  The one that did not is Joshua 18 in Spanish: LibriVox's catalogue lists an address for it that
+  the Internet Archive answers with 404. It is left out, and the station plays on from Joshua 17
+  to Joshua 19.
 - **Licence:** `https://librivox.org/pages/public-domain/` says: "LibriVox records only texts that
   are in the public domain (in the USA ...), and all our recordings are public domain (definitely
   in the USA, and maybe in your country as well ...). This means anyone can use all our recordings
   however they wish (even to sell them)." It adds that a recording is "public domain in the USA,
-  but not necessarily in other countries". The texts read here were published in 1909 (Reina-Valera),
-  1912 (Luther), 1860 and 1911 (Almeida), or are the Hebrew Bible itself.
+  but not necessarily in other countries". Every text read here was first published before 1920.
 - **Credit:** none is asked for. The stations name the version and LibriVox.
 - **Voices:** human. LibriVox states its aim as "To make all books in the public domain available,
   narrated by real people". Readers are volunteers; the stations credit "LibriVox volunteers".
 - **How a book qualifies:** LibriVox publishes one book at a time, and a recording's sections are
-  not always chapters (its French John has 5 sections for 21 chapters). A book is indexed only when
-  it has exactly one section per chapter, numbered and titled 1 to the last. The index is written
-  from LibriVox's catalogue (`https://librivox.org/api/feed/audiobooks`) by
-  `scripts-chirho/catalogue-chirho/build_librivox_index_chirho.ts`.
+  not always chapters: its French John has 5 sections for 21 chapters, and its Spanish Isaiah
+  reads two chapters to a section. A recording is indexed only when it has exactly one section
+  per chapter, numbered in order, each titled with its chapter number. A recording may hold
+  several short books one after another, or stop early; the project list says which. The index
+  is written from LibriVox's catalogue (`https://librivox.org/api/feed/audiobooks`) by
+  `scripts-chirho/catalogue-chirho/build_librivox_index_chirho.ts`, which refuses to write
+  anything if a single recording fails the rule.
+- **Where they were found:** the catalogue's "Bibles" genre, 192 recordings on 2026-11-13, 104 of
+  them English. English is well served elsewhere and was not indexed.
 - **Where the files are:** on the Internet Archive, under names that follow no rule. An address
   redirects once to a storage host, which sends an open cross-origin header and accepts range
   requests. LibriVox's catalogue gives addresses at `www.archive.org`, which only redirects to
   `archive.org`; the index starts at the second, which saves a round trip. Measured first byte of
-  a ranged request: 0.9 seconds, against 1.2 through the extra hop.
-- **More to index:** the catalogue also holds many English books (King James, American Standard,
-  World English, Douay-Rheims), and a Portuguese Proverbs whose sections had no address yet on
-  2026-11-13. English is well served elsewhere, so only the other languages were indexed.
+  a ranged request: 0.9 seconds, against 1.2 through the extra hop. These stations start more
+  slowly than the others.
+- **Held back, work to do:** a Portuguese Proverbs whose sections had no address yet; a Spanish 1
+  and 2 Timothy with the same gap; the Spanish Isaiah, minor prophets, Jonah and Titus, a Chinese
+  Matthew and Romans, a Greek 1 and 2 Peter and a Hebrew Exodus, all read several chapters to a
+  section. Playing those needs a start time inside a file, which the contract does not have yet.
 
 ## Tier 2: needs a key or an agreement in the owner's name
 
@@ -293,6 +311,26 @@ YouVersion Platform needs app registration, a key and an agreement with each pub
 own terms, Global Recordings Network, Talking Bibles, Scripture Earth, Door43, Audio Treasure, and
 collections on the Internet Archive beyond LibriVox's.
 
+## Next for the catalogue
+
+In rough order of what each would add. None of it is started.
+
+1. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
+   for a short-lived address. It is the only route found to most of the world's languages.
+2. **The owner's preference on synthetic voices.** A yes releases `ebible-webbe` in one line and
+   opens complete Spanish, Portuguese and Chinese Bibles at PublicDomainAudioBibles.com, whose
+   address patterns still have to be read and measured.
+3. **Winfred Henson's World English Bible** on eBible.org: a complete Bible read by a person. It
+   needs a chapter index built from its 66 book pages.
+4. **A start time inside a file.** Several LibriVox recordings read two or more chapters to a
+   section: the Spanish Isaiah and minor prophets, a Chinese Matthew and Romans, a Hebrew Exodus.
+   Playing them by chapter needs the contract to carry where in the file a chapter begins.
+5. **The makers who have not said:** the `david` voice, the Mandarin recording, the editions with
+   music. A question to the Berean Bible's publisher would settle three of the four folders.
+6. **Sources not read yet,** listed above.
+7. **Measuring again.** Hosts change. Run the availability check for every source before each
+   release, and read what changed in the register before committing it.
+
 ## What this means for speed
 
 - John 3 is between 4.5 and 7.4 MB at most sources and under 1 MB at eBible.org. Every host
@@ -302,5 +340,13 @@ collections on the Internet Archive beyond LibriVox's.
   eBible.org send no cross-origin header.** A web page can play their files with a plain audio
   element. It cannot read them with `fetch`, and routing them through Web Audio gives silence.
 - The verse timings files do send an open cross-origin header, so a web page can read them.
+- **How soon the first byte comes,** asking for the first 64 KB of John 1 from one machine in the
+  eastern United States on 2026-11-13: about 0.05 seconds at the Free Use Bible API, 0.08 to 0.2
+  at Bible in Every Language, 0.12 to 0.2 at openbible.com, and 0.9 at the Internet Archive. One
+  place and one afternoon, so a guide and not a promise. The Free Use Bible API stations come
+  first in the catalogue, which makes the quickest host the first one a new listener hears.
+- Bible in Every Language sends its audio with a download header (`content-disposition:
+attachment`). An audio element plays it all the same; opening the address in a browser tab
+  downloads the file instead.
 - Nothing is copied. Where the sizes were measured on 2026-11-13, one station's whole Bible is
   between 4 and 5.6 GB. It stays on the source's host.

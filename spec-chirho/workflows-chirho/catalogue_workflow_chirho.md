@@ -20,7 +20,7 @@ flowchart TD
     record_chirho --> names_chirho{Do its file names follow a rule?}
     names_chirho -- yes --> pattern_chirho[Write the station draft with an address pattern<br/>stations-chirho/sources-chirho/]
     names_chirho -- no --> index_chirho[Build its chapter index from the source's own catalogue<br/>build_librivox_index_chirho.ts]
-    index_chirho --> sections_chirho{One file per chapter, numbered and titled in order?}
+    index_chirho --> sections_chirho{One section per chapter, numbered and titled in order?<br/>readLibrivoxSectionsChirho}
     sections_chirho -- no --> held_chirho
     sections_chirho -- yes --> listed_chirho[Write the station draft with the index<br/>stations-chirho/sources-chirho/]
     pattern_chirho --> register_chirho
@@ -51,6 +51,9 @@ flowchart TD
 - The station register, `spec-chirho/sources-chirho/station_register_chirho.md`, lists every
   shipped station's licence, credit and where the licence was read. `register_chirho.spec.ts`
   fails when it differs from what ships.
+- A station can be held: defined and measured like the rest, but given to no player. Its source
+  lists it under `held_chirho` with the reason, the register prints that reason, and one line
+  moves it to `drafts_chirho` when the reason is gone.
 - The ship tests are in `catalogue_chirho.spec.ts`. They name no station, so adding one needs no
   change to them.
 

@@ -1,9 +1,58 @@
 {
 	"source_id_chirho": "librivox",
 	"stations_chirho": {
-		"librivox-rv1909-es": {
+		"librivox-rva-es": {
 			"checked_on_chirho": "2026-11-13",
-			"available_chirho": { "JHN": [[1, 21]] }
+			"available_chirho": {
+				"GEN": [[1, 50]],
+				"EXO": [[1, 40]],
+				"LEV": [[1, 27]],
+				"NUM": [[1, 36]],
+				"DEU": [[1, 34]],
+				"JOS": [
+					[1, 17],
+					[19, 24]
+				],
+				"JDG": [[1, 21]],
+				"RUT": [[1, 4]],
+				"1SA": [[1, 31]],
+				"2SA": [[1, 24]],
+				"1KI": [[1, 22]],
+				"2KI": [[1, 25]],
+				"1CH": [[1, 29]],
+				"2CH": [[1, 36]],
+				"EZR": [[1, 10]],
+				"NEH": [[1, 13]],
+				"EST": [[1, 10]],
+				"JOB": [[1, 42]],
+				"PSA": [[1, 150]],
+				"PRO": [[1, 31]],
+				"ECC": [[1, 12]],
+				"SNG": [[1, 8]],
+				"JER": [[1, 52]],
+				"LAM": [[1, 5]],
+				"EZK": [[1, 48]],
+				"DAN": [[1, 12]],
+				"MAT": [[1, 28]],
+				"LUK": [[1, 24]],
+				"JHN": [[1, 21]],
+				"ROM": [[1, 16]],
+				"1CO": [[1, 16]],
+				"2CO": [[1, 13]],
+				"GAL": [[1, 6]],
+				"EPH": [[1, 6]],
+				"PHP": [[1, 4]],
+				"1TH": [[1, 5]],
+				"2TH": [[1, 3]],
+				"PHM": [[1, 1]],
+				"HEB": [[1, 13]],
+				"JAS": [[1, 5]],
+				"1JN": [[1, 5]],
+				"2JN": [[1, 1]],
+				"3JN": [[1, 1]],
+				"JUD": [[1, 1]],
+				"REV": [[1, 22]]
+			}
 		},
 		"librivox-lb1912-de": {
 			"checked_on_chirho": "2026-11-13",
@@ -16,6 +65,34 @@
 		"librivox-hebrew-he": {
 			"checked_on_chirho": "2026-11-13",
 			"available_chirho": { "GEN": [[1, 50]] }
+		},
+		"librivox-cuv-zh": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "MRK": [[1, 16]], "LUK": [[1, 24]], "JHN": [[1, 21]] }
+		},
+		"librivox-sv-nl": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "JHN": [[1, 21]], "REV": [[1, 22]] }
+		},
+		"librivox-pe-el": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "MAT": [[1, 28]], "COL": [[1, 4]] }
+		},
+		"librivox-ste-grc": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "JAS": [[1, 5]] }
+		},
+		"librivox-csb-cu": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "GEN": [[1, 50]] }
+		},
+		"librivox-sacy-fr": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "MRK": [[1, 16]] }
+		},
+		"librivox-matiu-mi": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "MAT": [[1, 9]] }
 		}
 	}
 }

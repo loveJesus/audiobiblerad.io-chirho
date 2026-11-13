@@ -1,0 +1,41 @@
+{
+	"station_id_chirho": "librivox-pe-el",
+	"files_chirho": {
+		"MAT": [
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_01_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_02_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_03_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_04_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_05_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_06_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_07_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_08_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_09_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_10_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_11_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_12_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_13_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_14_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_15_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_16_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_17_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_18_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_19_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_20_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_21_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_22_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_23_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_24_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_25_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_26_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_27_pe_64kb.mp3",
+			"https://archive.org/download/biblia_pe_kd01_matthaiou_puy_1003_librivox/kd01_matthaiou_28_pe_64kb.mp3"
+		],
+		"COL": [
+			"https://archive.org/download/epistole_pros_collosaes_1005_librivox/colossaes_01_pe_64kb.mp3",
+			"https://archive.org/download/epistole_pros_collosaes_1005_librivox/colossaes_02_pe_64kb.mp3",
+			"https://archive.org/download/epistole_pros_collosaes_1005_librivox/colossaes_03_pe_64kb.mp3",
+			"https://archive.org/download/epistole_pros_collosaes_1005_librivox/colossaes_04_pe_64kb.mp3"
+		]
+	}
+}

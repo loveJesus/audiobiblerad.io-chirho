@@ -1,0 +1,25 @@
+{
+	"station_id_chirho": "librivox-almeida-pt",
+	"files_chirho": {
+		"RUT": [
+			"https://archive.org/download/livro_de_ruth_1811_librivox/ruth_1_almeida_64kb.mp3",
+			"https://archive.org/download/livro_de_ruth_1811_librivox/ruth_2_almeida_64kb.mp3",
+			"https://archive.org/download/livro_de_ruth_1811_librivox/ruth_3_almeida_64kb.mp3",
+			"https://archive.org/download/livro_de_ruth_1811_librivox/ruth_4_almeida_64kb.mp3"
+		],
+		"ECC": [
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_01_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_02_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_03_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_04_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_05_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_06_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_07_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_08_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_09_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_10_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_11_almeida_64kb.mp3",
+			"https://archive.org/download/biblia_almeida_21_ecclesiastes_2202_librivox/ecclesiastes_12_almeida_64kb.mp3"
+		]
+	}
+}
