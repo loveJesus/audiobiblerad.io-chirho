@@ -30,7 +30,8 @@
 				"template_chirho": "https://audio.dbs.org/RMCWFW_DAVR_OT_N/{book_order_pad2_chirho}_{book_code_chirho}_{chapter_pad_book_chirho}.mp3",
 				"book_codes_chirho": "davar_chirho",
 				"overrides_chirho": {
-					"EXO": { "40": "https://audio.dbs.org/RMCWFW_DAVR_OT_N/02_Exodus_40%20.mp3" }
+					"EXO": { "40": "https://audio.dbs.org/RMCWFW_DAVR_OT_N/02_Exodus_40%20.mp3" },
+					"JOL": { "3": "https://audio.dbs.org/RMCWFW_DAVR_OT_N/29_Joel_04.mp3" }
 				}
 			},
 			"has_timings_chirho": false,
@@ -63,7 +64,10 @@
 				"EZK": [[1, 48]],
 				"DAN": [[1, 12]],
 				"HOS": [[1, 14]],
-				"JOL": [[1, 3]],
+				"JOL": [
+					[1, 1],
+					[3, 3]
+				],
 				"AMO": [[1, 9]],
 				"OBA": [[1, 1]],
 				"JON": [[1, 4]],
@@ -75,7 +79,7 @@
 				"ZEC": [[1, 14]],
 				"MAL": [[1, 3]]
 			},
-			"chapter_count_chirho": 928
+			"chapter_count_chirho": 927
 		}
 	]
 }

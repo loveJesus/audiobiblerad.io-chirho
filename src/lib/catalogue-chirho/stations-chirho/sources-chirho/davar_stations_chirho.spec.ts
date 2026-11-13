@@ -119,3 +119,87 @@ describe('making a station from a recording', () => {
 		expect(emptyChirho.notes_chirho.refused_chirho).toContain('no chapter');
 	});
 });
+
+describe('a recording that counts Joel in four chapters', () => {
+	const JOEL_CHIRHO = ['29_Joel_01.mp3', '29_Joel_02.mp3', '29_Joel_03.mp3', '29_Joel_04.mp3'];
+	const MALACHI_CHIRHO = ['39_Malachi_01.mp3', '39_Malachi_02.mp3', '39_Malachi_03.mp3'];
+	const APPROVED_CHIRHO = new Set([ENTRY_CHIRHO.id]);
+	const builtChirho = (
+		namesChirho: string[],
+		approvedChirho: ReadonlySet<string> = APPROVED_CHIRHO
+	) =>
+		buildDavarStationChirho(
+			ENTRY_CHIRHO,
+			namesChirho,
+			LANGUAGE_CHIRHO,
+			'2026-11-13',
+			approvedChirho
+		);
+	const fileChirho = (
+		resultChirho: ReturnType<typeof builtChirho>,
+		bookChirho: 'JOL' | 'MAL' | 'AMO',
+		chapterChirho: number
+	) =>
+		resolveChapterChirho(resultChirho.station_chirho!, bookChirho, chapterChirho)
+			?.url_chirho.split('/')
+			.pop();
+
+	it('plays its fourth file as Joel 3 and offers no Joel 2, when it also ends Malachi at three', () => {
+		const hebrewChirho = builtChirho([...JOEL_CHIRHO, '30_Amos_01.mp3', ...MALACHI_CHIRHO]);
+		expect(hebrewChirho.notes_chirho.numbering_chirho).toBe('hebrew_inferred');
+		expect(fileChirho(hebrewChirho, 'JOL', 1)).toBe('29_Joel_01.mp3');
+		expect(fileChirho(hebrewChirho, 'JOL', 2)).toBeUndefined();
+		expect(fileChirho(hebrewChirho, 'JOL', 3)).toBe('29_Joel_04.mp3');
+		expect(hebrewChirho.station_chirho?.coverage_chirho.JOL).toEqual([
+			[1, 1],
+			[3, 3]
+		]);
+		expect(hebrewChirho.notes_chirho.withheld_chirho).toEqual(['29_Joel_02.mp3', '29_Joel_03.mp3']);
+		expect(hebrewChirho.notes_chirho.unmatched_chirho).toEqual([]);
+		// Malachi 3 plays their third file; a fourth chapter is not claimed.
+		expect(fileChirho(hebrewChirho, 'MAL', 3)).toBe('39_Malachi_03.mp3');
+		expect(fileChirho(hebrewChirho, 'MAL', 4)).toBeUndefined();
+		// Other books are untouched.
+		expect(fileChirho(hebrewChirho, 'AMO', 1)).toBe('30_Amos_01.mp3');
+		expect(hebrewChirho.station_chirho?.chapter_count_chirho).toBe(6);
+	});
+
+	it('is left as it is when it also lists a Malachi 4, or no Malachi 3', () => {
+		for (const namesChirho of [
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO, '39_Malachi_04.mp3'],
+			[...JOEL_CHIRHO, '39_Malachi_01.mp3']
+		]) {
+			const unresolvedChirho = builtChirho(namesChirho);
+			expect(unresolvedChirho.notes_chirho.numbering_chirho).toBe('unresolved');
+			expect(fileChirho(unresolvedChirho, 'JOL', 2)).toBe('29_Joel_02.mp3');
+			expect(fileChirho(unresolvedChirho, 'JOL', 3)).toBe('29_Joel_03.mp3');
+			expect(unresolvedChirho.notes_chirho.unmatched_chirho).toEqual(['29_Joel_04.mp3']);
+			expect(unresolvedChirho.notes_chirho.withheld_chirho).toEqual([]);
+		}
+	});
+
+	it('is left as it is when it fits the pattern but is not approved by name', () => {
+		const notApprovedChirho = builtChirho([...JOEL_CHIRHO, ...MALACHI_CHIRHO], new Set());
+		expect(notApprovedChirho.notes_chirho.numbering_chirho).toBe('unresolved');
+		expect(fileChirho(notApprovedChirho, 'JOL', 2)).toBe('29_Joel_02.mp3');
+		expect(fileChirho(notApprovedChirho, 'JOL', 3)).toBe('29_Joel_03.mp3');
+		expect(notApprovedChirho.notes_chirho.unmatched_chirho).toEqual(['29_Joel_04.mp3']);
+	});
+
+	it('remaps no recording by default unless it is on the approved list', () => {
+		const defaultChirho = buildDavarStationChirho(
+			ENTRY_CHIRHO,
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO],
+			LANGUAGE_CHIRHO,
+			'2026-11-13'
+		);
+		expect(defaultChirho.notes_chirho.numbering_chirho).toBe('unresolved');
+	});
+
+	it('does not touch a recording that counts Joel in three', () => {
+		const standardChirho = builtChirho([...JOEL_CHIRHO.slice(0, 3), ...MALACHI_CHIRHO]);
+		expect(standardChirho.notes_chirho.numbering_chirho).toBe('standard');
+		expect(fileChirho(standardChirho, 'JOL', 2)).toBe('29_Joel_02.mp3');
+		expect(fileChirho(standardChirho, 'JOL', 3)).toBe('29_Joel_03.mp3');
+	});
+});

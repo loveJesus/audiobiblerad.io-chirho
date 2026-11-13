@@ -29,6 +29,10 @@ const REGISTER_CHIRHO = new URL(
 	'../../../../spec-chirho/sources-chirho/davar_station_register_chirho.md',
 	import.meta.url
 );
+const EVIDENCE_CHIRHO = new URL(
+	'../../../../spec-chirho/evidence-chirho/catalogue-chirho/davar_snapshot_chirho.json',
+	import.meta.url
+);
 const fromDiskChirho: CatalogueReaderChirho = async (pathChirho) =>
 	JSON.parse(await readFile(new URL(pathChirho, STATIC_CHIRHO), 'utf8')) as unknown;
 
@@ -124,6 +128,57 @@ describe('the language files on disk', () => {
 				0
 			)
 		);
+	});
+
+	it('play the fourth file as Joel 3 on exactly the recordings taken to count Joel in four', async () => {
+		const evidenceChirho = JSON.parse(await readFile(EVIDENCE_CHIRHO, 'utf8')) as {
+			joel_and_malachi_numbering_chirho: {
+				taken_as_hebrew_chirho: { recording_chirho: string }[];
+				lists_a_joel_4_but_left_as_it_is_chirho: string[];
+			};
+		};
+		const numberingChirho = evidenceChirho.joel_and_malachi_numbering_chirho;
+		const hebrewChirho = new Set(
+			numberingChirho.taken_as_hebrew_chirho.map((entryChirho) => entryChirho.recording_chirho)
+		);
+		expect(hebrewChirho.size).toBe(59);
+		expect(numberingChirho.lists_a_joel_4_but_left_as_it_is_chirho).toHaveLength(2);
+		const fileChirho = (
+			stationChirho: StationChirho,
+			bookChirho: 'JOL' | 'MAL',
+			chapterChirho: number
+		) =>
+			resolveChapterChirho(stationChirho, bookChirho, chapterChirho)?.url_chirho.split('/').pop();
+		let seenChirho = 0;
+		for (const stationChirho of allStationsChirho) {
+			const recordingChirho = decodeURIComponent(
+				new URL(
+					stationChirho.locator_chirho.kind_chirho === 'pattern'
+						? stationChirho.locator_chirho.template_chirho.split('{')[0]
+						: ''
+				).pathname.split('/')[1]
+			);
+			const joelThreeChirho = fileChirho(stationChirho, 'JOL', 3);
+			if (hebrewChirho.has(recordingChirho)) {
+				seenChirho += 1;
+				expect(joelThreeChirho, stationChirho.id_chirho).toMatch(/^29_Joel_0*4\.mp3$/);
+				expect(fileChirho(stationChirho, 'JOL', 2), stationChirho.id_chirho).toBeUndefined();
+				expect(fileChirho(stationChirho, 'JOL', 1), stationChirho.id_chirho).toMatch(
+					/^29_Joel_0*1\.mp3$/
+				);
+				expect(fileChirho(stationChirho, 'MAL', 3), stationChirho.id_chirho).toMatch(
+					/^39_Malachi_0*3\.mp3$/
+				);
+				expect(fileChirho(stationChirho, 'MAL', 4), stationChirho.id_chirho).toBeUndefined();
+			} else if (joelThreeChirho !== undefined) {
+				// Every other station plays, as Joel 3, a file its maker numbered 3.
+				expect(joelThreeChirho, stationChirho.id_chirho).toMatch(/_0*3\s*\.mp3$/);
+				expect(fileChirho(stationChirho, 'JOL', 2), stationChirho.id_chirho).toMatch(
+					/_0*2\s*\.mp3$/
+				);
+			}
+		}
+		expect(seenChirho).toBe(59);
 	});
 
 	it('are on record: the register lists exactly the stations served, each with its notices', async () => {

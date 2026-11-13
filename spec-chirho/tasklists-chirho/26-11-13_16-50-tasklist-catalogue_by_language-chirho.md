@@ -44,6 +44,19 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
 - [x] Sources file and workflow page brought up to date. The fleet report is the coordinator's.
 - [x] Whole tree green (check 0 errors and 0 warnings, lint clean, 149 unit tests), committed by path.
 
+## Joel and Malachi in the Hebrew count (approved by the coordinator, room messages 34071 to 34074)
+
+- [x] On 59 recordings that list a Joel 4, a Malachi 3 and no Malachi 4, play the fourth file as
+      Joel 3 and hold back the second and third, which are each part of Joel 2.
+- [x] Remap only recordings approved by name, in `davar_numbering_chirho.ts`; the two that list a
+      Joel 4 in another pattern stay as they are. A reading that disagrees stops the build.
+- [x] Cite the crosswalk sources and say what they do and do not support; say that Hebrew
+      Malachi 3 holds Malachi 4 too.
+- [x] Sources file: put back the four sections (downloads only, Tier 2, Tier 3, not read yet)
+      that the first Davar commit dropped by mistake.
+- [ ] Playing a chapter from two files, which would bring Joel 2 back: proposed in the room
+      before any work on it.
+
 ## Log
 
 - 2026-11-13 16:50 EST: started. Agent code `BIBLERADIO-CLAUDE2-CHIRHO`. The progress database is
@@ -57,3 +70,6 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
   sources file.
 - 2026-11-13 17:27 EST: the web seat finished the language chooser on this contract. The
   sources file now says so.
+- 2026-11-13 17:57 EST: Joel numbering corrected on the 59 approved recordings. 349,663
+  chapters; 8 files left out, 118 held back as parts of a chapter. The coordinator's review of
+  every position found only the expected 59 withdrawals and 59 remaps.

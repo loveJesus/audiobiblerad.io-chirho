@@ -13,6 +13,7 @@ import { BOOK_CODE_SCHEMES_CHIRHO } from '../../books-chirho/book_code_schemes_c
 import type { PatternLocatorChirho, StationChirho } from '../../contract_chirho';
 import { expandTemplateChirho } from '../../locate-chirho/locate_chirho';
 import { chaptersToRangesChirho, countChaptersChirho } from '../coverage_chirho';
+import { DAVAR_HEBREW_JOEL_APPROVED_CHIRHO } from './davar_numbering_chirho';
 
 export const DAVAR_SOURCE_ID_CHIRHO = 'davar';
 export const DAVAR_SOURCE_NAME_CHIRHO = 'Davar Audio Bibles';
@@ -54,9 +55,37 @@ export interface DavarNotesChirho {
 	readonly unmatched_chirho: readonly string[];
 	/** Files for a chapter that another file already filled. */
 	readonly duplicates_chirho: number;
+	/** How the recording numbers Joel and Malachi, judged from its file list alone. */
+	readonly numbering_chirho: DavarNumberingChirho;
+	/** Files held back because they are part of a chapter and not the whole of it. */
+	readonly withheld_chirho: readonly string[];
 	/** Why no station was made, when none was. */
 	readonly refused_chirho?: string;
 }
+
+/**
+ * Hebrew Bibles, and translations that follow them, count Joel in four chapters and Malachi in
+ * three: Joel 2:28-32 is their chapter 3, Joel 3 is their chapter 4, and Malachi 4 is the end
+ * of their chapter 3.
+ * - `hebrew_inferred`: the list names a Joel 4 and a Malachi 3 and no Malachi 4, and the
+ *   recording is one approved by name in `davar_numbering_chirho.ts`. Inferred from the names.
+ *   Nobody has listened, and the maker has not confirmed it.
+ * - `unresolved`: the list names a Joel 4 but does not fit that pattern, or fits it and is not
+ *   approved. Left as it is: its Joel 4 file is not played.
+ */
+export type DavarNumberingChirho = 'standard' | 'hebrew_inferred' | 'unresolved';
+
+/**
+ * Where a file of Joel belongs when the recording counts Joel in four. Its fourth file is
+ * chapter 3, whole. Its second and third files are each a part of chapter 2, and are held
+ * back: this catalogue cannot yet play a chapter from two files.
+ */
+const HEBREW_JOEL_CHIRHO: Readonly<Record<number, number | 'withheld'>> = {
+	1: 1,
+	2: 'withheld',
+	3: 'withheld',
+	4: 3
+};
 
 function textOfChirho(valueChirho: unknown): string {
 	return typeof valueChirho === 'string' ? valueChirho.trim().replace(/\s+/g, ' ') : '';
@@ -71,6 +100,20 @@ function textOfChirho(valueChirho: unknown): string {
  * or names a book outside the 66 is not read: half a chapter must not play as a whole one.
  */
 export function parseDavarFileNameChirho(
+	nameChirho: unknown
+): { book_chirho: BookChirho; chapter_chirho: number } | null {
+	const readChirho = readDavarFileNameChirho(nameChirho);
+	return readChirho && readChirho.chapter_chirho <= readChirho.book_chirho.chapters_chirho
+		? readChirho
+		: null;
+}
+
+/**
+ * The book and the number a file name carries, as the recording numbers it. The number may be
+ * past the book's last chapter in this catalogue: a recording may count a book's chapters
+ * differently, and `buildDavarStationChirho` decides what such a file is.
+ */
+function readDavarFileNameChirho(
 	nameChirho: unknown
 ): { book_chirho: BookChirho; chapter_chirho: number } | null {
 	if (typeof nameChirho !== 'string') return null;
@@ -101,7 +144,7 @@ export function parseDavarFileNameChirho(
 	}
 	if (!bookChirho || chapterTextChirho === undefined) return null;
 	const chapterChirho = Number(chapterTextChirho);
-	if (chapterChirho < 1 || chapterChirho > bookChirho.chapters_chirho) return null;
+	if (chapterChirho < 1) return null;
 	return { book_chirho: bookChirho, chapter_chirho: chapterChirho };
 }
 
@@ -128,7 +171,8 @@ export function buildDavarStationChirho(
 	entryChirho: unknown,
 	fileNamesChirho: readonly unknown[],
 	languageChirho: DavarLanguageChirho,
-	readOnChirho: string
+	readOnChirho: string,
+	hebrewJoelApprovedChirho: ReadonlySet<string> = DAVAR_HEBREW_JOEL_APPROVED_CHIRHO
 ): { station_chirho: StationChirho | null; notes_chirho: DavarNotesChirho } {
 	const recordChirho =
 		typeof entryChirho === 'object' && entryChirho !== null
@@ -141,22 +185,50 @@ export function buildDavarStationChirho(
 		.filter((partChirho) => partChirho !== '')
 		.join(' · ');
 
+	const readNamesChirho = fileNamesChirho.map((nameChirho) => readDavarFileNameChirho(nameChirho));
+	const listsChirho = (bookIdChirho: string, numberChirho: number): boolean =>
+		readNamesChirho.some(
+			(readChirho) =>
+				readChirho?.book_chirho.id_chirho === bookIdChirho &&
+				readChirho.chapter_chirho === numberChirho
+		);
+	const numberingChirho: DavarNumberingChirho = !listsChirho('JOL', 4)
+		? 'standard'
+		: listsChirho('MAL', 3) &&
+			  !listsChirho('MAL', 4) &&
+			  hebrewJoelApprovedChirho.has(recordingChirho)
+			? 'hebrew_inferred'
+			: 'unresolved';
+
 	// Which file fills each chapter. The first file named for a chapter keeps it.
 	const filesChirho = new Map<string, Map<number, string>>();
 	const unmatchedChirho: string[] = [];
+	const withheldChirho: string[] = [];
 	let duplicatesChirho = 0;
-	for (const nameChirho of fileNamesChirho) {
-		const placeChirho = parseDavarFileNameChirho(nameChirho);
-		if (!placeChirho) {
-			unmatchedChirho.push(String(nameChirho));
-			continue;
+	fileNamesChirho.forEach((nameChirho, indexChirho) => {
+		const readChirho = readNamesChirho[indexChirho];
+		let chapterChirho: number | 'withheld' | undefined = readChirho?.chapter_chirho;
+		if (readChirho?.book_chirho.id_chirho === 'JOL' && numberingChirho === 'hebrew_inferred') {
+			chapterChirho = HEBREW_JOEL_CHIRHO[readChirho.chapter_chirho];
 		}
-		const bookIdChirho = placeChirho.book_chirho.id_chirho;
+		if (chapterChirho === 'withheld') {
+			withheldChirho.push(String(nameChirho));
+			return;
+		}
+		if (
+			!readChirho ||
+			chapterChirho === undefined ||
+			chapterChirho > readChirho.book_chirho.chapters_chirho
+		) {
+			unmatchedChirho.push(String(nameChirho));
+			return;
+		}
+		const bookIdChirho = readChirho.book_chirho.id_chirho;
 		if (!filesChirho.has(bookIdChirho)) filesChirho.set(bookIdChirho, new Map());
 		const chaptersChirho = filesChirho.get(bookIdChirho)!;
-		if (chaptersChirho.has(placeChirho.chapter_chirho)) duplicatesChirho += 1;
-		else chaptersChirho.set(placeChirho.chapter_chirho, nameChirho as string);
-	}
+		if (chaptersChirho.has(chapterChirho)) duplicatesChirho += 1;
+		else chaptersChirho.set(chapterChirho, nameChirho as string);
+	});
 
 	// The chapter width that names the most files as they are; the rest become overrides.
 	const candidatesChirho = CHAPTER_WIDTHS_CHIRHO.map((widthChirho) => {
@@ -210,6 +282,8 @@ export function buildDavarStationChirho(
 		overrides_chirho: chosenChirho.countChirho,
 		unmatched_chirho: unmatchedChirho,
 		duplicates_chirho: duplicatesChirho,
+		numbering_chirho: numberingChirho,
+		withheld_chirho: withheldChirho,
 		...(refusedChirho === undefined ? {} : { refused_chirho: refusedChirho })
 	};
 	if (refusedChirho !== undefined) return { station_chirho: null, notes_chirho: notesChirho };

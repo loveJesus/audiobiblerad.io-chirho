@@ -43,6 +43,10 @@ import {
 	type DavarLanguageChirho,
 	type DavarNotesChirho
 } from '../../src/lib/catalogue-chirho/stations-chirho/sources-chirho/davar_stations_chirho';
+import {
+	DAVAR_HEBREW_JOEL_APPROVED_CHIRHO,
+	DAVAR_JOEL_LEFT_AS_IS_CHIRHO
+} from '../../src/lib/catalogue-chirho/stations-chirho/sources-chirho/davar_numbering_chirho';
 import { ROOT_CHIRHO, catalogueFileChirho, failChirho, writeJsonChirho } from './files_chirho';
 
 const ALL_CHAPTERS_CHIRHO = BOOKS_CHIRHO.reduce(
@@ -225,6 +229,33 @@ for (const entryChirho of indexChirho as unknown[]) {
 	stationsByLanguageChirho.get(languageChirho.code_chirho)!.stationsChirho.push(stationChirho);
 }
 
+// The Hebrew reading of Joel is applied only to recordings approved by name. A reading of the
+// library that no longer agrees with those lists stops here, before anything is written, so a
+// person decides each new or changed recording.
+function sameSetChirho(
+	actualChirho: readonly string[],
+	expectedChirho: ReadonlySet<string>
+): boolean {
+	return (
+		actualChirho.length === expectedChirho.size &&
+		actualChirho.every((idChirho) => expectedChirho.has(idChirho))
+	);
+}
+const numberedChirho = (kindChirho: DavarNotesChirho['numbering_chirho']) =>
+	notesChirho
+		.filter((noteChirho) => noteChirho.numbering_chirho === kindChirho)
+		.map((noteChirho) => noteChirho.recording_chirho);
+if (!sameSetChirho(numberedChirho('hebrew_inferred'), DAVAR_HEBREW_JOEL_APPROVED_CHIRHO)) {
+	failChirho(
+		`the recordings read as Hebrew-numbered are not the approved list: ${numberedChirho('hebrew_inferred').join(', ')}`
+	);
+}
+if (!sameSetChirho(numberedChirho('unresolved'), DAVAR_JOEL_LEFT_AS_IS_CHIRHO)) {
+	failChirho(
+		`the recordings with a Joel 4 left as it is are not the known two: ${numberedChirho('unresolved').join(', ')}`
+	);
+}
+
 const languagesChirho = [...stationsByLanguageChirho.values()].sort((aChirho, bChirho) =>
 	aChirho.languageChirho.english_chirho.localeCompare(bChirho.languageChirho.english_chirho, 'en')
 );
@@ -305,6 +336,7 @@ const withAnythingToSayChirho = notesChirho.filter(
 	(noteChirho) =>
 		noteChirho.unmatched_chirho.length > 0 ||
 		noteChirho.duplicates_chirho > 0 ||
+		noteChirho.numbering_chirho !== 'standard' ||
 		noteChirho.overrides_chirho > 0 ||
 		noteChirho.refused_chirho
 );
@@ -338,6 +370,10 @@ await writeJsonChirho(catalogueFileChirho('evidence', 'davar_snapshot_chirho.jso
 		(sumChirho, noteChirho) => sumChirho + noteChirho.unmatched_chirho.length,
 		0
 	),
+	files_held_back_as_part_of_a_chapter_chirho: notesChirho.reduce(
+		(sumChirho, noteChirho) => sumChirho + noteChirho.withheld_chirho.length,
+		0
+	),
 	files_for_a_chapter_already_filled_chirho: notesChirho.reduce(
 		(sumChirho, noteChirho) => sumChirho + noteChirho.duplicates_chirho,
 		0
@@ -348,12 +384,31 @@ await writeJsonChirho(catalogueFileChirho('evidence', 'davar_snapshot_chirho.jso
 	),
 	recordings_refused_chirho: refusedChirho,
 	first_files_chirho: firstFilesChirho,
+	joel_and_malachi_numbering_chirho: {
+		what_chirho:
+			'Hebrew Bibles, and translations that follow them, count Joel in four chapters and Malachi in three: Joel 2:28-32 is their chapter 3, Joel 3 is their chapter 4, and Malachi 4 is the end of their chapter 3.',
+		how_judged_chirho:
+			'From file names alone: a recording that lists a Joel 4 and a Malachi 3 and no Malachi 4 is taken to number them so, and only when it is also on the list approved by name in src/lib/catalogue-chirho/stations-chirho/sources-chirho/davar_numbering_chirho.ts. Nobody has listened, and the maker has not confirmed it. The crosswalk is from the SBL Handbook of Style, appendix E, and SIL eng.vrs; they support the crosswalk, not the reading of any one recording.',
+		what_was_done_chirho:
+			'On those recordings Joel 3 is their fourth file. Their second and third files of Joel are each a part of chapter 2 and are held back, so Joel 2 is not offered. Malachi 3 plays their third file, which is wider than Malachi 3 elsewhere: it also holds what other stations call Malachi 4 (Hebrew Malachi 3:19-24). Malachi 4 is not offered separately on those stations.',
+		taken_as_hebrew_chirho: notesChirho
+			.filter((noteChirho) => noteChirho.numbering_chirho === 'hebrew_inferred')
+			.map((noteChirho) => ({
+				recording_chirho: noteChirho.recording_chirho,
+				withheld_chirho: noteChirho.withheld_chirho
+			})),
+		lists_a_joel_4_but_left_as_it_is_chirho: notesChirho
+			.filter((noteChirho) => noteChirho.numbering_chirho === 'unresolved')
+			.map((noteChirho) => noteChirho.recording_chirho)
+	},
 	recordings_with_something_to_note_chirho: withAnythingToSayChirho.map((noteChirho) => ({
 		recording_chirho: noteChirho.recording_chirho,
 		files_chirho: noteChirho.files_chirho,
 		chapters_chirho: noteChirho.chapters_chirho,
 		overrides_chirho: noteChirho.overrides_chirho,
 		duplicates_chirho: noteChirho.duplicates_chirho,
+		numbering_chirho: noteChirho.numbering_chirho,
+		withheld_chirho: noteChirho.withheld_chirho.length,
 		unmatched_chirho: noteChirho.unmatched_chirho.length,
 		unmatched_examples_chirho: noteChirho.unmatched_chirho.slice(0, UNMATCHED_SHOWN_CHIRHO)
 	}))

@@ -164,6 +164,7 @@
 						"4": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/25_Lamentations_004.mp3",
 						"5": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/25_Lamentations_005.mp3"
 					},
+					"JOL": { "3": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/29_Joel_04.mp3" },
 					"OBA": { "1": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/31_Obadiah_001.mp3" },
 					"MIC": {
 						"1": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/33_Micah_001.mp3",
@@ -365,7 +366,10 @@
 				"EZK": [[1, 48]],
 				"DAN": [[1, 12]],
 				"HOS": [[1, 14]],
-				"JOL": [[1, 3]],
+				"JOL": [
+					[1, 1],
+					[3, 3]
+				],
 				"AMO": [[1, 9]],
 				"OBA": [[1, 1]],
 				"JON": [[1, 4]],
@@ -404,7 +408,7 @@
 				"JUD": [[1, 1]],
 				"REV": [[1, 22]]
 			},
-			"chapter_count_chirho": 1188
+			"chapter_count_chirho": 1187
 		},
 		{
 			"id_chirho": "davar-alzugubs-davr-ot-n",

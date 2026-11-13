@@ -294,7 +294,7 @@ the listener picks it.
   seconds, and the index and a recording's file list could both be read. So a web page of ours
   can play it and can read what each recording has.
 - **Measured on 2026-11-13, in a browser:** the index and all 431 file lists, 349,789 file names.
-  A chapter is claimed only when the recording's own list names a file for it: 349,722 chapters,
+  A chapter is claimed only when the recording's own list names a file for it: 349,663 chapters,
   and every address the catalogue gives was matched, letter for letter, against a listed name.
   113 stations have every chapter. The first listed file of each of the 431 recordings was then
   loaded in an audio element on another website, and all 431 answered. The numbers, and what
@@ -303,14 +303,33 @@ the listener picks it.
   it has. Only 431 files, one per recording, were opened. The other chapters were not each
   asked for, so a file that is listed but broken would be found only when played. The built-in
   stations were measured chapter by chapter; these were not.
-- **Naming:** most recordings follow one of two patterns. 1,865 chapters are named otherwise (a
+- **Naming:** most recordings follow one of two patterns. 1,924 chapters are named otherwise (a
   stray space, another width, a book code in place of a name) and are reached by an address
   written out for that chapter.
-- **Left out, 67 files:** 61 recordings number Joel in four chapters, as Hebrew Bibles do, and
-  this catalogue counts three. Their fourth is not offered, and their first three are played
-  under the numbers the recording gives them. Also left out: two psalms split across two files,
-  and two chapters of Daniel that are not among the 66 books' chapters. Carrying a recording's
-  own chapter numbering is work not yet done.
+- **Joel and Malachi in the Hebrew count, 59 recordings:** Hebrew Bibles, and translations that
+  follow them, count Joel in four chapters and Malachi in three. English Joel 2:28-32 is their
+  Joel 3:1-5, English Joel 3 is their Joel 4, and English Malachi 4 is their Malachi 3:19-24
+  (the SBL Handbook of Style, appendix E,
+  `https://cpb-us-w2.wpmucdn.com/voices.uchicago.edu/dist/2/96/files/2016/06/the-sbl-handbook-of-stylesblhs-2f93p03.pdf`,
+  and SIL's English versification file,
+  `https://github.com/sillsdev/ptx2pdf/blob/master/python/lib/ptxprint/eng.vrs`). Those sources
+  support the crosswalk, not the reading of any one recording.
+  - **How the 59 were chosen:** each lists a Joel 4, a Malachi 3 and no Malachi 4. That is
+    judged from file names alone. Nobody has listened, and Davar has not confirmed it. Each is
+    named in `src/lib/catalogue-chirho/stations-chirho/sources-chirho/davar_numbering_chirho.ts`;
+    no other recording is ever remapped, and a new reading that disagrees with that list stops
+    the build.
+  - **What they play:** Joel 3 is their fourth file. Their second and third files of Joel are
+    each a part of chapter 2, so Joel 2 is not offered on those stations until a chapter can
+    play from two files. Malachi 3 plays their third file, which is wider than Malachi 3
+    elsewhere: it runs on through what other stations call Malachi 4. Malachi 4 is not offered
+    separately.
+  - **Two left as they are:** the Batak Toba and Fang Old Testaments list a Joel 4 but do not fit
+    that pattern. Their Joel 4 file is not played, and their other files of Joel play under the
+    numbers they carry.
+- **Left out, 8 files:** the two Joel 4 files above, two psalms split across two files each, and
+  Daniel 13 and 14, which are not among the 66 books' chapters. 118 files of Joel are held back
+  as parts of a chapter.
 - **Voices:** the library names no reader and does not say how its recordings are voiced, so
   every station says "unknown".
 - **How it is kept current:** what the catalogue holds is a reading taken on a day, not a live
@@ -322,6 +341,101 @@ the listener picks it.
   project does not disguise a script as a browser to get round that. Asking Davar would settle
   it; that is the owner's to send.
 
+## Openly licensed, but only as downloads
+
+### Open.Bible (managed by Biblica)
+
+The largest find without a key, and it cannot be played the way this project plays everything
+else. Read on 2026-11-13 through the site's own public catalogue at
+`https://open.bible/api/translations`. Nothing was downloaded and nothing from it plays.
+
+- **What it is:** "your online hub for free Bible texts, audio Bibles, and maps — all freely
+  released for use under Creative Commons licensing." Every entry comes from the Digital Bible
+  Library.
+- **How much audio:** 331 audio translations in 245 languages, 1,489 GB in all.
+- **Under licences that allow copying and re-use:** 227 of them, in 157 languages, 1,334 GB: 222
+  under CC BY-SA, 1 under CC BY and 4 in the public domain. Of these, 57 are whole Bibles and 143
+  are New Testaments. The other 104 carry a non-commercial or no-derivatives condition.
+- **Whole Bibles among the 227 include** Standard Arabic, Assamese, Bengali, Central Kurdish,
+  Chichewa, Ewe, Gujarati, Haitian Creole, Hindi, Igbo, Kannada, Kikuyu, Lingala, Luganda, Luo,
+  Malayalam, Marathi, Ndebele, Nepali, Odia, Punjabi, Shona, Swahili, Tamil, Telugu, Twi, Urdu,
+  Vietnamese and Yoruba.
+- **Who gives them:** Davar Audio Bibles (116), Hosanna/Faith Comes By Hearing (65), Biblica (14),
+  Spoken Worldwide (9), The Seed Company (8), Pioneer Bible Translators (6) and others.
+- **Verse timings:** 119 of the 227 come with a timings archive, so the dial could keep the verse.
+- **Licence, in the site's words:** "Bible translations available under CC BY and CC BY-SA may be
+  freely used subject to their license terms." Each entry names its own licence and credit, for
+  example "Adavi Kuruba New Testament Audio Bible, CC-BY-SA-4.0, Davar Partners International,
+  Bridge Connectivity Solutions, 2026."
+- **Why it does not play today:** each recording is offered as one zip archive, not as a file per
+  chapter that a radio can open. The middle one is 2.9 GB and the largest 219 GB. To play them,
+  the chapters would have to be unpacked and served from storage of our own. The licences allow
+  that. This project's rule so far is to stream from the source's host and copy nothing, so
+  whether to keep copies of openly licensed recordings is the owner's decision. It would also
+  cost storage every month, and it cannot be prepared on the build machine, whose disk is nearly
+  full.
+- **Why it matters:** it is 157 languages with no key and no agreement, against the 26 that play
+  today, and many of the same recordings Bible Brain would stream.
+
+## Tier 2: needs a key or an agreement in the owner's name
+
+### Bible Brain, the Digital Bible Platform (Faith Comes By Hearing)
+
+The largest catalogue of audio Bibles. The terms below are from the API licence at
+`https://www.faithcomesbyhearing.com/bible-brain/license`, marked "Last Modified: 4/15/21".
+
+- **A key is required**, granted to one named person: "you must (a) provide us with your name,
+  email, a description of your intended use and purpose for the API". They "may approve or deny
+  your API Key request at our sole discretion", and "You may not share your API Key with any other
+  person". There is no fee.
+- **Free to listeners:** "You enable your End Users to access DBP Content completely free of charge".
+- **Streaming only:** content is for use "solely through DBP (and not separately through offline
+  download) for your personal, non-commercial use". "No DBP Content may be downloaded or made
+  available for offline use ... except for DBP Content that is accessible via the /download endpoint".
+- **Credit must be easy to reach:** allowed "only if all copyright information from the
+  corresponding Content Licensors is readily accessible to them (for instance, via a clickable
+  'Copyrighted Material – LEARN MORE' button at the bottom of each chapter". Notices must be
+  "conspicuously" posted.
+- **Their terms go to every listener:** "Provide a copy of the DBP T&Cs to all End Users".
+- **No relaying to others:** "You do not create a proxy distribution network for DBP Content (for
+  instance, enabling other developers to use DBP Content or metadata via your servers or API
+  instead of ours)".
+- **Faith guidelines:** use must accord with their Statement of Faith and Mission Statement.
+- **On request,** they may ask for an account on our app that shows what listeners get.
+- **The API** is described at `https://4.dbt.io/open-api-4.json` (version 4.0.0-beta, 31 paths,
+  key scheme `dbp_key`). Useful paths: `/languages`, `/bibles`, `/bibles/{id}`,
+  `/bibles/filesets/{fileset_id}/{book}/{chapter}`, `/bibles/{bible_id}/copyright`,
+  `/timestamps/{fileset_id}/{book}/{chapter}`, `/download/list`. No call has been made because
+  there is no key.
+- **How audio arrives** (their core concepts page): files sit behind a delivery network and the API
+  returns signed addresses. Audio filesets come as 64 kbps MP3, as 16 kbps Opus, and for a few as
+  an HLS stream. Some have approximate verse start times. A version can have drama and non-drama
+  recordings.
+- **Question to settle with them when asking for the key:** this project's source is public, so the
+  key cannot live in the code or in a web page. The clean answer is our own server holding the key
+  and handing signed addresses to our own apps only. Their terms forbid relaying to other
+  developers, so ask them to confirm that this arrangement is acceptable.
+
+### Others, not read at their own pages
+
+The Free Use Bible API's documentation compares itself with two more services. These are its
+characterisations, not checked at the source: API.Bible needs an account and key, allows 5,000
+calls a month on its starter plan and needs a licence per translation for commercial use; the
+YouVersion Platform needs app registration, a key and an agreement with each publisher.
+
+## Tier 3: do not use without asking first
+
+- **Wordproject** (`https://www.wordproject.org/bibles/audio/`): many languages with direct files.
+  Its copyright page claims "the right of fair use for non-profit purposes" and says of the
+  narrations that "several have been done or sponsored by wordproject". That leaves the rest
+  unaccounted for. Write to them before using any of it.
+- **Faith Comes By Hearing MP3 downloads:** free personal downloads behind a form. It is not a
+  source for an app.
+
+## Not read yet
+
+API.Bible's own terms, the YouVersion Platform's own terms, Global Recordings Network, Talking
+Bibles, Scripture Earth, Door43, Audio Treasure, and collections on the Internet Archive beyond
 LibriVox's.
 
 ## Next for the catalogue
@@ -329,8 +443,8 @@ LibriVox's.
 In rough order of what each would add.
 
 1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue and the web
-   player can choose them. Still to do: a recording's own chapter numbering, for the 61 that
-   count Joel in four; opening every listed chapter, not only one per recording; and a word
+   player can choose them. Still to do: playing a chapter from two files, which would bring back
+   Joel 2 on the 59 recordings that count Joel in four; opening every listed chapter, not only one per recording; and a word
    with Davar before any native app relies on its host.
 2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.
