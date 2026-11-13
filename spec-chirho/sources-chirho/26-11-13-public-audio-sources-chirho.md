@@ -27,9 +27,11 @@ The record is in three places:
   Slavonic, Portuguese and Maori. The station register beside this page lists every one.
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
   streaming only.
+- **Davar Audio Bibles serves 431 recordings in 389 languages, a file per chapter, from its own
+  host,** free for non-commercial use with its notices shown. It fits this project's rule and is
+  the next thing to build. It needs the catalogue to load by language first.
 - **Open.Bible offers 157 languages under open licences with no key,** as downloads only. Playing
-  them means keeping copies, which is the owner's decision. Reaching "any language" depends on
-  one of these two.
+  them means keeping copies, which is the owner's decision.
 - **Not playing, for three different reasons.** Each source below says which applies.
   - **No licence on record:** the maker has not said who is speaking or under which terms. These
     cannot ship until that is read.
@@ -37,7 +39,7 @@ The record is in three places:
     call a draft. Nothing forbids these. They wait for the owner's preference.
   - **Clear terms, work to do:** file names that follow no rule and need a chapter index.
 
-## Tier 1: playing now without a key
+## Tier 1: no key needed, a file per chapter
 
 ### Free Use Bible API (bible.helloao.org)
 
@@ -253,6 +255,47 @@ nothing was measured:** most of it is text to speech, which waits for the owner'
   Matthew and Romans, a Greek 1 and 2 Peter and a Hebrew Exodus, all read several chapters to a
   section. Playing those needs a start time inside a file, which the contract does not have yet.
 
+## Clear terms and playable from the source, not yet built
+
+### Davar Audio Bibles (davaraudiobibles.org)
+
+The largest source found that fits this project's rule as it stands: it serves a file per
+chapter from its own host. Read with a real browser on 2026-11-13. Nothing from it plays yet,
+because it is too large for the catalogue as it is built today.
+
+- **How much:** its "Audio Bible Library" lists 431 recordings in 389 languages across 67
+  countries: 132 whole Bibles, 172 Old Testaments, 125 New Testaments and 2 portions. 116
+  languages have a whole Bible. India has 80 recordings, Kenya 25, Tanzania 24, Ghana and
+  Nigeria 22 each, Ethiopia 21, Indonesia 20, Cameroon 19.
+- **Whole Bibles include** Assamese, Bengali, Gujarati, Hausa, Hindi, Igbo, Indonesian, Javanese,
+  Kannada, Khmer, Lingala, Luganda, Malayalam, Marathi, Nepali, Odia, Persian, Punjabi, Russian,
+  Sundanese, Swahili, Tamil, Telugu, Twi, Urdu, Vietnamese and Yoruba.
+- **Terms,** on its library page: "This audio is free to download and distribute, but it may not
+  be sold or used for any commercial purpose. When sharing, you must include the copyright
+  notice visibly on any physical label or digital display. All other rights are reserved by the
+  copyright holder." So: free use only, and each station must show its notices. 69 recordings
+  also carry a CC BY-SA notice of their own.
+- **Credit:** the library's index gives each recording a text notice and an audio notice, for
+  example "Afar Bible © Bible Society of Ethiopia" and "Afar Audio Bible ℗ 2023, Davar Partners
+  International". Both must be shown.
+- **Where the files are:** the library is a player at `listen.dbs.org` reading
+  `https://audio.dbs.org/index.json`. Each recording has an id such as `AHRTLF_DAVR_NT_N`, a list
+  of its files at `https://audio.dbs.org/{id}/index.txt`, and chapters at
+  `https://audio.dbs.org/{id}/40_Matthew_01.mp3`: the book's number, its English name and the
+  chapter. Its player also asks each recording for a list of verse timings; the one recording
+  tried had none.
+- **Tested from another website, in a browser:** a chapter loaded in an audio element in 0.16
+  seconds, and the index and a recording's file list could both be read. So a web page of ours
+  can play it and can read what each recording has.
+- **Not tested:** whether the naming is the same for all 431, which chapters each really has, and
+  whether a phone app is served. The host answers 403 to a plain client that is not a browser,
+  so the availability check cannot measure it as written, and a native app may be refused.
+  Asking Davar would settle the second; that is the owner's to send.
+- **What it needs before it can play:** the catalogue loads every station at once today. 431
+  more would be far too much to send to every listener, so stations must load by language, on
+  demand. The check must run inside a browser. The player needs a way to choose among hundreds
+  of stations. None of that changes what plays now.
+
 ## Openly licensed, but only as downloads
 
 ### Open.Bible (managed by Biblica)
@@ -354,23 +397,26 @@ LibriVox's.
 
 In rough order of what each would add. None of it is started.
 
-1. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
+1. **Davar Audio Bibles:** 389 languages, playable from its own host, terms already clear. Split
+   the catalogue by language so that stations load on demand, run the check in a browser, and
+   give the player a way to choose among hundreds of stations.
+2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.
-2. **Open.Bible**, if the owner allows keeping copies of openly licensed recordings: 157
+3. **Open.Bible**, if the owner allows keeping copies of openly licensed recordings: 157
    languages, many with verse timings. It needs storage, and a way to unpack archives that does
    not pass through the build machine.
-3. **The owner's preference on synthetic voices.** A yes releases `ebible-webbe` in one line and
+4. **The owner's preference on synthetic voices.** A yes releases `ebible-webbe` in one line and
    opens complete Spanish, Portuguese and Chinese Bibles at PublicDomainAudioBibles.com, whose
    address patterns still have to be read and measured.
-4. **Winfred Henson's World English Bible** on eBible.org: a complete Bible read by a person. It
+5. **Winfred Henson's World English Bible** on eBible.org: a complete Bible read by a person. It
    needs a chapter index built from its 66 book pages.
-5. **A start time inside a file.** Several LibriVox recordings read two or more chapters to a
+6. **A start time inside a file.** Several LibriVox recordings read two or more chapters to a
    section: the Spanish Isaiah and minor prophets, a Chinese Matthew and Romans, a Hebrew Exodus.
    Playing them by chapter needs the contract to carry where in the file a chapter begins.
-6. **The makers who have not said:** the `david` voice, the Mandarin recording, the editions with
+7. **The makers who have not said:** the `david` voice, the Mandarin recording, the editions with
    music. A question to the Berean Bible's publisher would settle three of the four folders.
-7. **Sources not read yet,** listed above.
-8. **Measuring again.** Hosts change. Run the availability check for every source before each
+8. **Sources not read yet,** listed above.
+9. **Measuring again.** Hosts change. Run the availability check for every source before each
    release, and read what changed in the register before committing it.
 
 ## What this means for speed
