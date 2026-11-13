@@ -374,8 +374,9 @@ else. Read on 2026-11-13 through the site's own public catalogue at
   whether to keep copies of openly licensed recordings is the owner's decision. It would also
   cost storage every month, and it cannot be prepared on the build machine, whose disk is nearly
   full.
-- **Why it matters:** it is 157 languages with no key and no agreement, against the 26 that play
-  today, and many of the same recordings Bible Brain would stream.
+- **Why it matters:** it is 157 languages with no key and no agreement, many with verse timings,
+  and many of the same recordings Bible Brain would stream. The radio offers 400 language tags
+  today, from 29 built-in stations and 431 Davar stations.
 
 ## Tier 2: needs a key or an agreement in the owner's name
 
