@@ -1,0 +1,14 @@
+{
+	"outcome_chirho": "PASS",
+	"source_commit_chirho": "82f2faf",
+	"fixture_chirho": "Generated WAV decoded in real Chromium, actual source addresses intercepted; no upstream audio requested",
+	"book_chirho": "JOL",
+	"chapter_chirho": 3,
+	"available_chapters_chirho": ["1", "3"],
+	"selected_url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_04.mp3",
+	"seconds_chirho": 6.016665,
+	"one_active_scripture_element_chirho": true,
+	"intercepted_external_requests_chirho": 9,
+	"upstream_requests_chirho": 0,
+	"scope_chirho": "From English Joel 3 across the partial built-in French station into the remapped Davar station. The followed passage and fraction remained; Joel 2 was absent and canonical Joel 3 decoded the fourth-file address. No assessment of spoken Scripture content."
+}

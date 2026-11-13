@@ -1,0 +1,21 @@
+{
+	"outcome_chirho": "PASS",
+	"source_commit_chirho": "82f2faf",
+	"cases_chirho": [
+		{
+			"case_chirho": "approved id",
+			"remapped_chirho": true
+		},
+		{
+			"case_chirho": "unapproved id with the same chapter pattern",
+			"remapped_chirho": false
+		},
+		{
+			"case_chirho": "unapproved id with the same chapter pattern",
+			"remapped_chirho": false
+		}
+	],
+	"source_mutations_chirho": 0,
+	"network_requests_chirho": 0,
+	"scope_chirho": "Executed the default builder with an approved recording and two unapproved controls, including an approved-id prefix collision. Only exact approved membership allowed the remap."
+}

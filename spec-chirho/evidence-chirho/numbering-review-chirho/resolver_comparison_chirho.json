@@ -1,0 +1,15 @@
+{
+	"outcome_chirho": "PASS",
+	"baseline_commit_chirho": "d5d767e",
+	"reviewed_commit_chirho": "82f2faf79ea52d283f32ba8998b4c93c9870a96b",
+	"base_head_chirho": "82f2faf79ea52d283f32ba8998b4c93c9870a96b",
+	"uncommitted_data_chirho": false,
+	"station_count_chirho": 431,
+	"position_pairs_compared_chirho": 512459,
+	"affected_recordings_chirho": 59,
+	"unresolved_recordings_unchanged_chirho": 2,
+	"before_chapters_chirho": 349722,
+	"after_chapters_chirho": 349663,
+	"network_requests_chirho": 0,
+	"scope_chirho": "Executed the real loader and synchronous resolver on before/after data. Only canonical Joel 2 withdrawal and Joel 3 fourth-file mapping changed in the 59 approved recordings; all other returned chapter addresses, recording metadata and both exceptions were unchanged. No audio content was assessed."
+}
