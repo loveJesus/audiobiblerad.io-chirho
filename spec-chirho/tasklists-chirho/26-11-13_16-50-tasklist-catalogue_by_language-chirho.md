@@ -78,7 +78,10 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
       split chapters, each part a listed and measured file; it stops if a length is left unused
       or a split chapter is turned away. Every legacy answer is unchanged on the 58 language
       files touched.
-- [ ] Piece 5, the player: the coordinator's lane.
+- [x] Piece 5, the player (the coordinator's lane): the web player plays the 61 split chapters
+      part after part; its browser tests pass and one live French Joel 2 played both files.
+- [ ] Still open: each split chapter played through whole, per source and on real devices, and
+      its spoken content checked. Nobody has listened yet.
 
 ## Log
 

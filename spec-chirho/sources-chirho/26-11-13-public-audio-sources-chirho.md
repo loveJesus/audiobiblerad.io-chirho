@@ -328,9 +328,11 @@ the listener picks it.
   - **Two left as they are:** the Batak Toba and Fang Old Testaments list a Joel 4 but do not fit
     that pattern. Their Joel 4 file is not played, and their other files of Joel play under the
     numbers they carry.
-- **Left out, 8 files:** the two Joel 4 files above, two psalms split across two files each, and
-  Daniel 13 and 14, which are not among the 66 books' chapters. 118 files of Joel are held back
-  as parts of a chapter.
+- **Not a chapter of their own, 8 files:** none of these is in any station's ordinary coverage.
+  They are the two Joel 4 files above; the four halves of Psalms 9 and 113 on the Mashi
+  recording, which are offered below as two chapters played from parts; and Daniel 13 and 14,
+  which are not among the 66 books' chapters. Likewise the 118 files of Joel 2 are never a
+  chapter of their own; they are played only as the parts of Joel 2 below.
 - **Chapters played from several files, 61:** Joel 2 on the 59 recordings above, and Psalms 9
   and 113 on the Mashi recording, whose halves are lettered A and B. Each of the 122 files was
   loaded once in a browser as far as its length on 2026-11-13, and every one answered
@@ -452,8 +454,10 @@ LibriVox's.
 In rough order of what each would add.
 
 1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue and the web
-   player can choose them, and 61 chapters split across files are in the data. Still to do: the
-   web player playing those split chapters (the web seat's work); opening every listed chapter, not only one per recording; and a word
+   player can choose them. The web player also plays the 61 chapters split across files, part
+   after part. Still to do: verifying those chapters end to end (that each whole chapter plays
+   through, in each source, on real devices, and holds the verses it should), opening every
+   listed chapter, not only one per recording; and a word
    with Davar before any native app relies on its host.
 2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.
