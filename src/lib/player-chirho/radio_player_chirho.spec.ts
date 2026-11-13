@@ -1,8 +1,11 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { readFileSync } from 'node:fs';
 import {
 	STATIONS_CHIRHO,
+	loadLanguageStationsChirho,
+	type StationChirho,
 	nextChapterChirho,
 	resolveChapterChirho
 } from '$lib/catalogue-chirho/catalogue_chirho';
@@ -62,7 +65,8 @@ const playersChirho: RadioPlayerChirho[] = [];
 function setupChirho(
 	rawChirho: string | null = null,
 	brokenStorageChirho = false,
-	timedChirho = false
+	timedChirho = false,
+	stationsChirho?: readonly StationChirho[]
 ) {
 	const audioChirho = new FakeAudioChirho();
 	const soundsChirho = {
@@ -97,7 +101,8 @@ function setupChirho(
 		storage_chirho: storageChirho,
 		on_change_chirho: vi.fn(),
 		now_chirho: () => nowChirho,
-		fetch_chirho: fetchChirho
+		fetch_chirho: fetchChirho,
+		stations_chirho: stationsChirho
 	});
 	playersChirho.push(playerChirho);
 	return {
@@ -118,6 +123,50 @@ afterEach(() => {
 });
 
 describe('Scripture playback', () => {
+	it('tunes to a loaded station, remembers it and restores it without losing the followed passage', async () => {
+		const loadedChirho = await loadLanguageStationsChirho('hi', async () =>
+			JSON.parse(readFileSync('static/catalogue-chirho/languages-chirho/h/hi.json', 'utf8'))
+		);
+		const fixtureChirho = setupChirho();
+		fixtureChirho.player_chirho.selectChapterChirho('JHN', 3);
+		fixtureChirho.player_chirho.playChirho();
+		fixtureChirho.audio_chirho.metadataChirho(100);
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.audio_chirho.positionChirho(40);
+		fixtureChirho.player_chirho.setStationsChirho(loadedChirho, 'hi');
+		fixtureChirho.player_chirho.selectStationChirho(loadedChirho[0].id_chirho);
+		fixtureChirho.audio_chirho.metadataChirho(200);
+		fixtureChirho.audio_chirho.playingChirho();
+		expect(fixtureChirho.audio_chirho.currentTime).toBe(80);
+		fixtureChirho.player_chirho.pauseChirho();
+		const rawChirho = fixtureChirho.saved_chirho.get(PREFERENCES_KEY_CHIRHO)!;
+		expect(
+			readPreferencesChirho({ getItem: () => rawChirho, setItem: () => undefined })
+				.preferences_chirho
+		).toMatchObject({
+			station_id_chirho: loadedChirho[0].id_chirho,
+			language_code_chirho: 'hi',
+			dial_language_chirho: 'hi',
+			book_id_chirho: 'JHN',
+			chapter_chirho: 3,
+			seconds_chirho: 80
+		});
+		const reopenedChirho = setupChirho(rawChirho, false, false, loadedChirho);
+		reopenedChirho.player_chirho.playChirho();
+		reopenedChirho.audio_chirho.metadataChirho(200);
+		expect(reopenedChirho.audio_chirho.currentTime).toBe(80);
+		reopenedChirho.player_chirho.setStationsChirho(STATIONS_CHIRHO);
+		reopenedChirho.player_chirho.selectStationChirho(STATIONS_CHIRHO[0].id_chirho);
+		reopenedChirho.audio_chirho.metadataChirho(100);
+		expect(reopenedChirho.audio_chirho.currentTime).toBe(40);
+		expect(reopenedChirho.player_chirho.snapshotChirho).toMatchObject({
+			book_id_chirho: 'JHN',
+			chapter_chirho: 3
+		});
+		// The previous language is no longer in the dial's registry.
+		reopenedChirho.player_chirho.selectStationChirho(loadedChirho[0].id_chirho);
+		expect(reopenedChirho.player_chirho.stationChirho.id_chirho).toBe(STATIONS_CHIRHO[0].id_chirho);
+	});
 	it.each([false, true])(
 		'preserves the followed passage across a partial-station detour (started: %s)',
 		(startedChirho) => {

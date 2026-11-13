@@ -1,0 +1,179 @@
+{
+	"measured_on_chirho": "2026-11-13T22:22:04.139Z",
+	"browser_chirho": "Chromium 158.0.8127.18",
+	"preview_chirho": "http://127.0.0.1:4173/",
+	"method_chirho": "Actual upstream streams, no media interception. Browser playing event; not an acoustic or physical-device latency measurement.",
+	"navigation_to_first_playing_ms_chirho": 338.4,
+	"progress_verified_chirho": [
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"seconds_chirho": 0
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0.149215
+		},
+		{
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"seconds_chirho": 0.406043
+		},
+		{
+			"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
+			"seconds_chirho": 0.653242
+		},
+		{
+			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+			"seconds_chirho": 0.566697
+		}
+	],
+	"measurements_chirho": [
+		{
+			"at_ms_chirho": 338.39999997615814,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 410.230567,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Play Scripture",
+			"gesture_to_playing_ms_chirho": 187.2
+		},
+		{
+			"at_ms_chirho": 669.1999999880791,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0.1417,
+			"duration_chirho": 364.508844,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Next station",
+			"gesture_to_playing_ms_chirho": 57.9
+		},
+		{
+			"at_ms_chirho": 1135.199999988079,
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"seconds_chirho": 0.406043,
+			"duration_chirho": 438.004521,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "हिन्दीHindi\n\t\t\t\t\t\t\t·Unlocked Literal Bible ULBBible in Every Language",
+			"gesture_to_playing_ms_chirho": 158.2
+		},
+		{
+			"at_ms_chirho": 1879.699999988079,
+			"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
+			"seconds_chirho": 0.653242,
+			"duration_chirho": 473.093378,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "हिन्दीHindi\n\t\t\t\t\t\t\t·Biblica® Open Hindi Contemporary Version HINBIBDavar Audio Bibles",
+			"gesture_to_playing_ms_chirho": 469.2
+		},
+		{
+			"at_ms_chirho": 3956.599999964237,
+			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+			"seconds_chirho": 0.566697,
+			"duration_chirho": 410.416281,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "EspañolSpanish\n\t\t\t\t\t\t\t·Reina-Valera Antigua RVALibriVox volunteers",
+			"gesture_to_playing_ms_chirho": 1795.8
+		}
+	],
+	"trace_chirho": {
+		"gestures_chirho": [
+			{
+				"at_ms_chirho": 151.19999998807907,
+				"control_chirho": "Play Scripture"
+			},
+			{
+				"at_ms_chirho": 611.2999999523163,
+				"control_chirho": "Next station"
+			},
+			{
+				"at_ms_chirho": 910.0999999642372,
+				"control_chirho": "Browse stations +"
+			},
+			{
+				"at_ms_chirho": 977,
+				"control_chirho": "हिन्दीHindi\n\t\t\t\t\t\t\t·Unlocked Literal Bible ULBBible in Every Language"
+			},
+			{
+				"at_ms_chirho": 1360.0999999642372,
+				"control_chirho": "हिन्दीHindi 4 stationsWhole Bible available"
+			},
+			{
+				"at_ms_chirho": 1410.5,
+				"control_chirho": "हिन्दीHindi\n\t\t\t\t\t\t\t·Biblica® Open Hindi Contemporary Version HINBIBDavar Audio Bibles"
+			},
+			{
+				"at_ms_chirho": 2126.599999964237,
+				"control_chirho": "All built-in stations"
+			},
+			{
+				"at_ms_chirho": 2160.7999999523163,
+				"control_chirho": "EspañolSpanish\n\t\t\t\t\t\t\t·Reina-Valera Antigua RVALibriVox volunteers"
+			},
+			{
+				"at_ms_chirho": 4193,
+				"control_chirho": "Browse stations −"
+			}
+		],
+		"playing_chirho": [
+			{
+				"at_ms_chirho": 338.39999997615814,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 410.230567,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 669.1999999880791,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0.1417,
+				"duration_chirho": 364.508844,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 1135.199999988079,
+				"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+				"seconds_chirho": 0.406043,
+				"duration_chirho": 438.004521,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 1879.699999988079,
+				"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
+				"seconds_chirho": 0.653242,
+				"duration_chirho": 473.093378,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 2144.899999976158,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+				"seconds_chirho": 0.566441,
+				"duration_chirho": 410.230567,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 3956.599999964237,
+				"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+				"seconds_chirho": 0.566697,
+				"duration_chirho": 410.416281,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			}
+		],
+		"element_count_chirho": 2,
+		"active_chirho": [
+			"https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3"
+		],
+		"viewport_fits_chirho": true
+	},
+	"errors_chirho": [],
+	"tested_worker_sha256_chirho": "d8f453042a60095c988d2d607aad5764cbff9ab4cfccaa0d4794df4d74eb0670",
+	"scope_note_chirho": "Live source playback observed before the final error-response body-cancellation cleanup. The complete final browser suite was then rerun successfully; the live successful path was unchanged."
+}

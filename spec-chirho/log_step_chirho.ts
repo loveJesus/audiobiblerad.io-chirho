@@ -16,9 +16,18 @@ databaseChirho.run(`CREATE TABLE IF NOT EXISTS steps_taken_chirho (
 
 const [modeChirho, ...argumentsChirho] = process.argv.slice(2);
 const nowChirho = (): string => new Date().toISOString();
+const timestampChirho = (reportedChirho: string | undefined): string => {
+	if (!reportedChirho) return nowChirho();
+	if (
+		!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/.test(reportedChirho) ||
+		!Number.isFinite(Date.parse(reportedChirho))
+	)
+		throw new Error('Reported timestamp must be an ISO UTC instant');
+	return new Date(reportedChirho).toISOString();
+};
 
 if (modeChirho === 'start') {
-	const [agentCodeChirho, actionTakenChirho] = argumentsChirho;
+	const [agentCodeChirho, actionTakenChirho, reportedStartChirho] = argumentsChirho;
 	if (!agentCodeChirho || !actionTakenChirho) {
 		throw new Error('usage: start <agent_code> "<action>"');
 	}
@@ -26,10 +35,12 @@ if (modeChirho === 'start') {
 		.query(
 			'INSERT INTO steps_taken_chirho (agent_code_chirho, timestamp_start_chirho, action_taken_chirho) VALUES (?, ?, ?) RETURNING id_chirho'
 		)
-		.get(agentCodeChirho, nowChirho(), actionTakenChirho) as { id_chirho: number };
+		.get(agentCodeChirho, timestampChirho(reportedStartChirho), actionTakenChirho) as {
+		id_chirho: number;
+	};
 	console.log(resultChirho.id_chirho);
 } else if (modeChirho === 'end') {
-	const [idChirho, resultChirho, overviewChirho] = argumentsChirho;
+	const [idChirho, resultChirho, overviewChirho, reportedEndChirho] = argumentsChirho;
 	if (!idChirho || !resultChirho) {
 		throw new Error('usage: end <id> "<result>" "<overview>"');
 	}
@@ -37,7 +48,7 @@ if (modeChirho === 'start') {
 		.query(
 			'UPDATE steps_taken_chirho SET timestamp_end_chirho = ?, result_of_action_chirho = ?, overview_of_result_chirho = ? WHERE id_chirho = ?'
 		)
-		.run(nowChirho(), resultChirho, overviewChirho ?? '', Number(idChirho));
+		.run(timestampChirho(reportedEndChirho), resultChirho, overviewChirho ?? '', Number(idChirho));
 	console.log('ok');
 } else {
 	throw new Error('mode must be start|end');

@@ -12,11 +12,11 @@ Home: [audiobiblerad.io](https://audiobiblerad.io)
 
 ## Status
 
-The local web radio plays verified recordings directly from their source hosts. It remembers a
+The local web radio offers 460 stations across 400 languages, streamed directly from their source hosts. The original 29 stations remain immediately available; language search loads additional recording data only when needed. It remembers a
 station and passage on the device, continues through chapters, shows recording credits, and has
 nine original, toggleable tuning sounds. Verse timings carry the place between timed recordings;
 other station changes use the fraction of the chapter. Partial recordings skip to their next
-verified chapter.
+available chapter.
 
 Native apps await the owner's packaging decision. Bible Brain integration awaits the owner's
 key and confirmation of the permitted server arrangement. The software licence and first public
@@ -53,8 +53,8 @@ four real chapters briefly from their publishers, against a running local previe
 5196; override `RADIO_PREVIEW_URL_CHIRHO`). It records browser event timings, not physical audio
 latency, in `spec-chirho/evidence-chirho/web-radio-chirho/` and saves no Scripture audio.
 
-Recording credits are at `/credits-chirho`. `/catalogue-chirho` serves the same JSON-safe, cleared
-catalogue used by the web player for future native clients. No provider key belongs in that data.
+Built-in recording credits are at `/credits-chirho`; each selected station also shows its complete credit below the radio. Davar chapter coverage follows its publisher file lists; the first file of every recording was opened, rather than every chapter. `/catalogue-chirho` serves the same JSON-safe, cleared
+built-in catalogue used by the web player. The language index and per-language files live under `/catalogue-chirho/` assets. Davar native-client access is unresolved. No provider key belongs in that data.
 
 ## For contributors and agents
 

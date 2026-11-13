@@ -6,7 +6,9 @@
 	import {
 		BOOKS_CHIRHO,
 		STATIONS_CHIRHO,
-		resolveChapterChirho
+		resolveChapterChirho,
+		findStationChirho,
+		type StationChirho
 	} from '$lib/catalogue-chirho/catalogue_chirho';
 	import {
 		SITE_DOMAIN_CHIRHO,
@@ -17,8 +19,15 @@
 	import { RadioPlayerChirho, type RadioStateChirho } from '$lib/player-chirho/radio_player_chirho';
 	import {
 		defaultPreferencesChirho,
+		readPreferencesChirho,
+		type PlayerPreferencesChirho,
 		type PreferenceStorageChirho
 	} from '$lib/player-chirho/player_preferences_chirho';
+	import LanguagePickerChirho from '$lib/language-chirho/LanguagePickerChirho.svelte';
+	import {
+		LanguageLibraryChirho,
+		stationsInLanguageChirho
+	} from '$lib/language-chirho/language_library_chirho';
 	import { createRadioSoundsChirho } from '$lib/sounds-chirho/radio_sounds_chirho';
 
 	let playerChirho = $state<RadioPlayerChirho | undefined>(undefined);
@@ -33,15 +42,35 @@
 		switch_ms_chirho: null,
 		position_mode_chirho: 'start'
 	});
-	let searchChirho = $state('');
+	let libraryChirho = $state<LanguageLibraryChirho | undefined>();
+	let dialStationsChirho = $state<readonly StationChirho[]>(STATIONS_CHIRHO);
+	let dialLanguageChirho = $state<string | undefined>();
+	let languageLoadingChirho = $state('');
+	let languageMessageChirho = $state('');
+	let restoringChirho = $state(false);
+	let restoreFailedChirho = $state(false);
+	let chooseLanguageChirho = $state<(codeChirho: string) => void>(() => undefined);
+	let chooseBuiltinsChirho = $state<() => void>(() => undefined);
+	let retryRestoreChirho = $state<() => void>(() => undefined);
+	let chooseStationChirho = $state<(idChirho: string) => void>(() => undefined);
 	let stationPickerOpenChirho = $state(false);
+	let browseButtonChirho = $state<HTMLButtonElement>();
 	let seekPreviewChirho = $state<number | null>(null);
 	const stationChirho = $derived(
-		STATIONS_CHIRHO.find(
-			(stationChirho) => stationChirho.id_chirho === stateChirho.station_id_chirho
-		) ?? STATIONS_CHIRHO[0]
+		dialStationsChirho.find(
+			(entryChirho) => entryChirho.id_chirho === stateChirho.station_id_chirho
+		) ??
+			playerChirho?.stationChirho ??
+			STATIONS_CHIRHO[0]
 	);
-	const stationIndexChirho = $derived(STATIONS_CHIRHO.indexOf(stationChirho));
+	const stationIndexChirho = $derived(
+		Math.max(
+			0,
+			dialStationsChirho.findIndex(
+				(entryChirho) => entryChirho.id_chirho === stationChirho.id_chirho
+			)
+		)
+	);
 	const bookChirho = $derived(
 		BOOKS_CHIRHO.find((bookChirho) => bookChirho.id_chirho === stateChirho.book_id_chirho) ??
 			BOOKS_CHIRHO[0]
@@ -67,16 +96,9 @@
 			resolveChapterChirho(stationChirho, bookChirho.id_chirho, chapterChirho)
 		)
 	);
-	const filteredStationsChirho = $derived(
-		STATIONS_CHIRHO.filter((stationChirho) =>
-			`${stationChirho.language_name_chirho} ${stationChirho.language_english_chirho} ${stationChirho.version_chirho} ${stationChirho.voice_chirho}`
-				.toLocaleLowerCase()
-				.includes(searchChirho.toLocaleLowerCase().trim())
-		)
+	const languageCountChirho = $derived(
+		new Set(dialStationsChirho.map((entryChirho) => entryChirho.language_code_chirho)).size
 	);
-	const languageCountChirho = new Set(
-		STATIONS_CHIRHO.map((stationChirho) => stationChirho.language_code_chirho)
-	).size;
 	const statusChirho = $derived(
 		stateChirho.phase_chirho === 'playing'
 			? 'ON AIR'
@@ -94,9 +116,10 @@
 		return `${Math.floor(safeChirho / 60)}:${String(safeChirho % 60).padStart(2, '0')}`;
 	}
 	function turnDialChirho(directionChirho: number): void {
-		playerChirho?.selectStationChirho(
-			STATIONS_CHIRHO[
-				(stationIndexChirho + directionChirho + STATIONS_CHIRHO.length) % STATIONS_CHIRHO.length
+		chooseStationChirho(
+			dialStationsChirho[
+				(stationIndexChirho + directionChirho + dialStationsChirho.length) %
+					dialStationsChirho.length
 			].id_chirho
 		);
 	}
@@ -121,40 +144,167 @@
 		} catch {
 			/* Listening works without device storage. */
 		}
-		playerChirho = new RadioPlayerChirho({
-			audio_chirho: new Audio(),
-			sounds_chirho: createRadioSoundsChirho(),
-			storage_chirho: storageChirho,
-			on_change_chirho(nextStateChirho) {
-				if (
-					nextStateChirho.station_id_chirho !== stateChirho.station_id_chirho ||
-					nextStateChirho.book_id_chirho !== stateChirho.book_id_chirho ||
-					nextStateChirho.chapter_chirho !== stateChirho.chapter_chirho
-				)
-					seekPreviewChirho = null;
-				stateChirho = nextStateChirho;
-				if ('mediaSession' in navigator && 'MediaMetadata' in window) {
-					const currentStationChirho =
-						STATIONS_CHIRHO.find(
-							(stationChirho) => stationChirho.id_chirho === nextStateChirho.station_id_chirho
-						) ?? STATIONS_CHIRHO[0];
-					const currentBookChirho = BOOKS_CHIRHO.find(
-						(bookChirho) => bookChirho.id_chirho === nextStateChirho.book_id_chirho
-					);
-					const nextMetadataKeyChirho = `${nextStateChirho.station_id_chirho}/${nextStateChirho.book_id_chirho}/${nextStateChirho.chapter_chirho}`;
-					if (nextMetadataKeyChirho !== metadataKeyChirho) {
-						metadataKeyChirho = nextMetadataKeyChirho;
-						navigator.mediaSession.metadata = new MediaMetadata({
-							title: `${currentBookChirho?.name_chirho} ${nextStateChirho.chapter_chirho}`,
-							artist: `${currentStationChirho.language_name_chirho} · ${currentStationChirho.version_chirho}`,
-							album: SITE_NAME_CHIRHO
-						});
+		libraryChirho = new LanguageLibraryChirho();
+		let selectionRequestChirho = 0;
+		let mountedChirho = true;
+		const rememberedChirho = readPreferencesChirho(storageChirho).preferences_chirho;
+		const initializeChirho = (
+			preferencesChirho: PlayerPreferencesChirho,
+			stationsChirho: readonly StationChirho[]
+		): void => {
+			dialStationsChirho = stationsChirho;
+			playerChirho = new RadioPlayerChirho({
+				stations_chirho: stationsChirho,
+				preferences_chirho: preferencesChirho,
+				audio_chirho: new Audio(),
+				sounds_chirho: createRadioSoundsChirho(),
+				storage_chirho: storageChirho,
+				on_change_chirho(nextStateChirho) {
+					if (
+						nextStateChirho.station_id_chirho !== stateChirho.station_id_chirho ||
+						nextStateChirho.book_id_chirho !== stateChirho.book_id_chirho ||
+						nextStateChirho.chapter_chirho !== stateChirho.chapter_chirho
+					)
+						seekPreviewChirho = null;
+					stateChirho = nextStateChirho;
+					if ('mediaSession' in navigator && 'MediaMetadata' in window) {
+						const currentStationChirho =
+							stationsChirho.find(
+								(entryChirho) => entryChirho.id_chirho === nextStateChirho.station_id_chirho
+							) ??
+							playerChirho?.stationChirho ??
+							STATIONS_CHIRHO[0];
+						const currentBookChirho = BOOKS_CHIRHO.find(
+							(bookChirho) => bookChirho.id_chirho === nextStateChirho.book_id_chirho
+						);
+						const nextMetadataKeyChirho = `${nextStateChirho.station_id_chirho}/${nextStateChirho.book_id_chirho}/${nextStateChirho.chapter_chirho}`;
+						if (nextMetadataKeyChirho !== metadataKeyChirho) {
+							metadataKeyChirho = nextMetadataKeyChirho;
+							navigator.mediaSession.metadata = new MediaMetadata({
+								title: `${currentBookChirho?.name_chirho} ${nextStateChirho.chapter_chirho}`,
+								artist: `${currentStationChirho.language_name_chirho} · ${currentStationChirho.version_chirho}`,
+								album: SITE_NAME_CHIRHO
+							});
+						}
+						navigator.mediaSession.playbackState =
+							nextStateChirho.phase_chirho === 'playing' ? 'playing' : 'paused';
 					}
-					navigator.mediaSession.playbackState =
-						nextStateChirho.phase_chirho === 'playing' ? 'playing' : 'paused';
 				}
+			});
+		};
+		const restoreChirho = async (): Promise<void> => {
+			const requestChirho = ++selectionRequestChirho;
+			restoringChirho = true;
+			restoreFailedChirho = false;
+			languageLoadingChirho = '';
+			languageMessageChirho = '';
+			try {
+				const codeChirho = rememberedChirho.language_code_chirho!;
+				const stationsChirho = await libraryChirho!.loadStationsChirho(codeChirho);
+				if (!mountedChirho || requestChirho !== selectionRequestChirho) return;
+				if (
+					!stationsChirho.some(
+						(entryChirho) => entryChirho.id_chirho === rememberedChirho.station_id_chirho
+					)
+				)
+					throw new Error('Remembered station unavailable');
+				dialLanguageChirho = codeChirho;
+				initializeChirho({ ...rememberedChirho, dial_language_chirho: codeChirho }, stationsChirho);
+			} catch {
+				if (mountedChirho && requestChirho === selectionRequestChirho) restoreFailedChirho = true;
+			} finally {
+				if (mountedChirho && requestChirho === selectionRequestChirho) restoringChirho = false;
 			}
-		});
+		};
+		chooseLanguageChirho = (codeChirho): void => {
+			const requestChirho = ++selectionRequestChirho;
+			languageLoadingChirho = codeChirho;
+			languageMessageChirho = '';
+			void libraryChirho!
+				.loadStationsChirho(codeChirho)
+				.then((stationsChirho) => {
+					if (!mountedChirho || requestChirho !== selectionRequestChirho) return;
+					dialStationsChirho = stationsChirho;
+					dialLanguageChirho = codeChirho;
+					if (!playerChirho)
+						initializeChirho(
+							{
+								...rememberedChirho,
+								station_id_chirho: stationsChirho[0].id_chirho,
+								language_code_chirho: codeChirho,
+								dial_language_chirho: codeChirho
+							},
+							stationsChirho
+						);
+					playerChirho!.setStationsChirho(stationsChirho, codeChirho);
+					if (
+						!stationsChirho.some(
+							(entryChirho) =>
+								entryChirho.id_chirho === playerChirho!.snapshotChirho.station_id_chirho
+						)
+					)
+						playerChirho!.selectStationChirho(stationsChirho[0].id_chirho);
+					restoreFailedChirho = false;
+					restoringChirho = false;
+				})
+				.catch(() => {
+					if (mountedChirho && requestChirho === selectionRequestChirho) {
+						languageMessageChirho =
+							'These stations could not load. Select the language to retry. Your place is kept.';
+						if (!playerChirho) {
+							restoringChirho = false;
+							restoreFailedChirho = true;
+						}
+					}
+				})
+				.finally(() => {
+					if (mountedChirho && requestChirho === selectionRequestChirho) languageLoadingChirho = '';
+				});
+		};
+		chooseBuiltinsChirho = (): void => {
+			selectionRequestChirho += 1;
+			libraryChirho!.cancelSelectionChirho();
+			restoringChirho = false;
+			restoreFailedChirho = false;
+			languageLoadingChirho = '';
+			languageMessageChirho = '';
+			dialStationsChirho = STATIONS_CHIRHO;
+			dialLanguageChirho = undefined;
+			if (!playerChirho)
+				initializeChirho(
+					{
+						...rememberedChirho,
+						station_id_chirho: STATIONS_CHIRHO[0].id_chirho,
+						language_code_chirho: STATIONS_CHIRHO[0].language_code_chirho,
+						dial_language_chirho: undefined
+					},
+					STATIONS_CHIRHO
+				);
+			playerChirho!.setStationsChirho(STATIONS_CHIRHO);
+			if (!findStationChirho(playerChirho!.snapshotChirho.station_id_chirho))
+				playerChirho!.selectStationChirho(STATIONS_CHIRHO[0].id_chirho);
+		};
+		retryRestoreChirho = () => {
+			void restoreChirho();
+		};
+		chooseStationChirho = (idChirho): void => {
+			selectionRequestChirho += 1;
+			libraryChirho!.cancelSelectionChirho();
+			languageLoadingChirho = '';
+			languageMessageChirho = '';
+			if (!playerChirho) chooseBuiltinsChirho();
+			playerChirho?.selectStationChirho(idChirho);
+		};
+		if (findStationChirho(rememberedChirho.station_id_chirho)) {
+			dialLanguageChirho = rememberedChirho.dial_language_chirho;
+			initializeChirho(
+				rememberedChirho,
+				dialLanguageChirho ? stationsInLanguageChirho(dialLanguageChirho, []) : STATIONS_CHIRHO
+			);
+			if (dialLanguageChirho) chooseLanguageChirho(dialLanguageChirho);
+		} else {
+			void restoreChirho();
+		}
 		const saveChirho = (): void => playerChirho?.saveChirho();
 		window.addEventListener('pagehide', saveChirho);
 		if ('mediaSession' in navigator) {
@@ -172,6 +322,9 @@
 			}
 		}
 		return () => {
+			mountedChirho = false;
+			selectionRequestChirho += 1;
+			libraryChirho?.disposeChirho();
 			window.removeEventListener('pagehide', saveChirho);
 			playerChirho?.disposeChirho();
 			if ('mediaSession' in navigator)
@@ -222,7 +375,12 @@
 						>{stationChirho.version_code_chirho} / {stationChirho.language_code_chirho.toUpperCase()}</span
 					>
 				</div>
-				<p class="station-language-chirho" lang={stationChirho.language_code_chirho}>
+				<p
+					class="station-language-chirho"
+					lang={stationChirho.language_name_chirho === stationChirho.language_english_chirho
+						? 'en'
+						: stationChirho.language_code_chirho}
+				>
 					{stationChirho.language_name_chirho}
 				</p>
 				<p class="station-version-chirho">{stationChirho.version_chirho}</p>
@@ -254,7 +412,9 @@
 			<div class="tuning-chirho">
 				<div class="tuning-caption-chirho">
 					<span>TURN THE DIAL</span><span
-						>{STATIONS_CHIRHO.length} STATIONS / {languageCountChirho} LANGUAGES</span
+						>{dialStationsChirho.length}
+						{dialStationsChirho.length === 1 ? 'STATION' : 'STATIONS'} / {languageCountChirho}
+						{languageCountChirho === 1 ? 'LANGUAGE' : 'LANGUAGES'}</span
 					>
 				</div>
 				<div class="tuning-controls-chirho">
@@ -271,14 +431,14 @@
 							disabled={!playerChirho}
 							type="range"
 							min="0"
-							max={STATIONS_CHIRHO.length - 1}
+							max={dialStationsChirho.length - 1}
 							step="1"
 							value={stationIndexChirho}
 							aria-label="Station dial"
 							aria-valuetext={`${stationChirho.language_english_chirho}, ${stationChirho.version_chirho}, ${stationChirho.voice_chirho}`}
 							oninput={(eventChirho) =>
-								playerChirho?.selectStationChirho(
-									STATIONS_CHIRHO[Number(eventChirho.currentTarget.value)].id_chirho
+								chooseStationChirho(
+									dialStationsChirho[Number(eventChirho.currentTarget.value)].id_chirho
 								)}
 						/>
 					</div>
@@ -344,7 +504,8 @@
 			<div class="radio-bottom-chirho">
 				<button
 					class="browse-button-chirho"
-					disabled={!playerChirho}
+					bind:this={browseButtonChirho}
+					disabled={!libraryChirho}
 					aria-expanded={stationPickerOpenChirho}
 					aria-controls="stations-chirho"
 					onclick={() => (stationPickerOpenChirho = !stationPickerOpenChirho)}
@@ -369,6 +530,19 @@
 						? 'Finding your signal…'
 						: '')}
 		</div>
+		{#if restoringChirho}<p class="restore-note-chirho" role="status">
+				Restoring your station… <button class="text-button-chirho" onclick={chooseBuiltinsChirho}
+					>Use built-in stations</button
+				>
+			</p>{/if}
+		{#if restoreFailedChirho}<div class="restore-note-chirho" role="status">
+				<p>Your saved station could not load. Your place is kept.</p>
+				<button class="text-button-chirho" onclick={retryRestoreChirho}>Retry saved station</button>
+				·
+				<button class="text-button-chirho" onclick={chooseBuiltinsChirho}
+					>Use built-in stations</button
+				>
+			</div>{/if}
 		<section class="passage-controls-chirho" aria-label="Choose a passage">
 			<label
 				>BOOK<select
@@ -399,40 +573,23 @@
 				<span aria-hidden="true">↻</span>Chapters keep playing.<br />Your place is remembered.
 			</div>
 		</section>
-		{#if stationPickerOpenChirho}<section
-				class="station-picker-chirho"
-				id="stations-chirho"
-				aria-label="All stations"
-			>
-				<label class="search-label-chirho" for="station-search-chirho"
-					>Find your language or version</label
-				><input
-					id="station-search-chirho"
-					class="station-search-chirho"
-					type="search"
-					placeholder="Language, version or voice"
-					bind:value={searchChirho}
-				/>
-				<div class="station-list-chirho">
-					{#each filteredStationsChirho as listedStationChirho (listedStationChirho.id_chirho)}<button
-							class="station-option-chirho"
-							class:selected-chirho={listedStationChirho.id_chirho === stationChirho.id_chirho}
-							aria-pressed={listedStationChirho.id_chirho === stationChirho.id_chirho}
-							onclick={() => playerChirho?.selectStationChirho(listedStationChirho.id_chirho)}
-							><span lang={listedStationChirho.language_code_chirho}
-								>{listedStationChirho.language_name_chirho}<small
-									>{listedStationChirho.language_english_chirho}</small
-								></span
-							><span
-								>{listedStationChirho.version_code_chirho}<small
-									>{listedStationChirho.voice_chirho}</small
-								></span
-							></button
-						>{:else}<p class="empty-chirho">
-							No matching stations. Try another language or version.
-						</p>{/each}
-				</div>
-			</section>{/if}
+		{#if stationPickerOpenChirho && libraryChirho}
+			<LanguagePickerChirho
+				library_chirho={libraryChirho}
+				stations_chirho={dialStationsChirho}
+				station_id_chirho={stateChirho.station_id_chirho}
+				language_code_chirho={dialLanguageChirho}
+				loading_chirho={languageLoadingChirho}
+				message_chirho={languageMessageChirho}
+				on_language_chirho={chooseLanguageChirho}
+				on_station_chirho={chooseStationChirho}
+				on_builtins_chirho={chooseBuiltinsChirho}
+				on_close_chirho={() => {
+					stationPickerOpenChirho = false;
+					browseButtonChirho?.focus();
+				}}
+			/>
+		{/if}
 		<div class="credit-chirho">
 			<p>{stationChirho.credit_chirho}</p>
 			<p>
@@ -445,8 +602,10 @@
 				>
 			</p>
 			<p class="coverage-chirho">
-				{stationChirho.chapter_count_chirho} verified chapters in this station. More languages as cleared
-				recordings become available.
+				{stationChirho.chapter_count_chirho}
+				{stationChirho.source_id_chirho === 'davar'
+					? 'chapters listed by the publisher. Availability can vary.'
+					: 'verified chapters in this station.'}
 			</p>
 		</div>
 		{#if !stateChirho.storage_available_chirho}<p class="storage-message-chirho" role="status">

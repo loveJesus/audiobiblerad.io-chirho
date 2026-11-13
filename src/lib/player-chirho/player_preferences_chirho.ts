@@ -17,12 +17,15 @@ export type PreferenceStorageChirho = Pick<Storage, 'getItem' | 'setItem'>;
  */
 export interface FollowedPlaceChirho extends PositionChirho {
 	station_id_chirho: string;
+	language_code_chirho?: string;
 	book_id_chirho: string;
 	chapter_chirho: number;
 }
 
 export interface PlayerPreferencesChirho {
 	station_id_chirho: string;
+	language_code_chirho?: string;
+	dial_language_chirho?: string;
 	book_id_chirho: string;
 	chapter_chirho: number;
 	seconds_chirho: number;
@@ -36,6 +39,40 @@ const MAX_SAVED_LENGTH_CHIRHO = 2048;
 const MAX_SECONDS_CHIRHO = 86_400;
 /** Far above the longest chapter's verse count, and a bound all the same. */
 const MAX_VERSE_CHIRHO = 1_000;
+
+export function savedLanguageCodeChirho(valueChirho: unknown): string | undefined {
+	return typeof valueChirho === 'string' &&
+		valueChirho.length <= 35 &&
+		/^[a-z]{2,3}(-[a-z0-9]+)*$/.test(valueChirho)
+		? valueChirho
+		: undefined;
+}
+
+function stationPreferenceChirho(valueChirho: Record<string, unknown>):
+	| {
+			station_id_chirho: string;
+			language_code_chirho?: string;
+	  }
+	| undefined {
+	const stationChirho = findStationChirho(valueChirho.station_id_chirho);
+	if (stationChirho)
+		return {
+			station_id_chirho: stationChirho.id_chirho,
+			...(valueChirho.language_code_chirho === stationChirho.language_code_chirho
+				? { language_code_chirho: stationChirho.language_code_chirho }
+				: {})
+		};
+	const languageChirho = savedLanguageCodeChirho(valueChirho.language_code_chirho);
+	const idChirho = valueChirho.station_id_chirho;
+	// This is only a local manifest lookup hint. The station must still exist in that manifest
+	// before it can play. Device storage never supplies a locator, URL, licence or station object.
+	return languageChirho &&
+		typeof idChirho === 'string' &&
+		idChirho.length <= 160 &&
+		/^[a-z0-9]+(-[a-z0-9]+)*$/.test(idChirho)
+		? { station_id_chirho: idChirho, language_code_chirho: languageChirho }
+		: undefined;
+}
 
 export function defaultPreferencesChirho(): PlayerPreferencesChirho {
 	return {
@@ -81,7 +118,7 @@ function isWholeNumberBetweenChirho(
  */
 function readFollowedPlaceChirho(valueChirho: unknown): FollowedPlaceChirho | undefined {
 	if (!isRecordChirho(valueChirho)) return undefined;
-	const stationChirho = findStationChirho(valueChirho.station_id_chirho);
+	const stationChirho = stationPreferenceChirho(valueChirho);
 	const bookChirho = findBookChirho(valueChirho.book_id_chirho);
 	if (!stationChirho || !bookChirho) return undefined;
 
@@ -101,7 +138,7 @@ function readFollowedPlaceChirho(valueChirho: unknown): FollowedPlaceChirho | un
 	if (!isNumberBetweenChirho(verseFractionChirho, 0, 1)) return undefined;
 
 	return {
-		station_id_chirho: stationChirho.id_chirho,
+		...stationChirho,
 		book_id_chirho: bookChirho.id_chirho,
 		chapter_chirho: chapterChirho,
 		seconds_chirho: secondsChirho,
@@ -133,7 +170,13 @@ export function readPreferencesChirho(storageChirho: PreferenceStorageChirho | n
 		if (!valueChirho || typeof valueChirho !== 'object')
 			return { preferences_chirho: fallbackChirho, available_chirho: true };
 		const candidateChirho = valueChirho as Record<string, unknown>;
-		const stationChirho = findStationChirho(candidateChirho.station_id_chirho);
+		const stationChirho = stationPreferenceChirho(candidateChirho);
+		const savedDialChirho = savedLanguageCodeChirho(candidateChirho.dial_language_chirho);
+		const stationLanguageChirho =
+			findStationChirho(stationChirho?.station_id_chirho)?.language_code_chirho ??
+			stationChirho?.language_code_chirho;
+		const dialLanguageChirho =
+			savedDialChirho === stationLanguageChirho ? savedDialChirho : undefined;
 		const bookChirho = findBookChirho(candidateChirho.book_id_chirho);
 		const chapterChirho = candidateChirho.chapter_chirho;
 		const secondsChirho = candidateChirho.seconds_chirho;
@@ -142,7 +185,8 @@ export function readPreferencesChirho(storageChirho: PreferenceStorageChirho | n
 		const followedPlaceChirho = readFollowedPlaceChirho(candidateChirho.followed_place_chirho);
 		return {
 			preferences_chirho: {
-				station_id_chirho: stationChirho?.id_chirho ?? fallbackChirho.station_id_chirho,
+				...(stationChirho ?? { station_id_chirho: fallbackChirho.station_id_chirho }),
+				...(dialLanguageChirho ? { dial_language_chirho: dialLanguageChirho } : {}),
 				book_id_chirho: bookChirho?.id_chirho ?? fallbackChirho.book_id_chirho,
 				chapter_chirho:
 					bookChirho && isWholeNumberBetweenChirho(chapterChirho, 1, bookChirho.chapters_chirho)

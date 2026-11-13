@@ -1,0 +1,8 @@
+{
+	"control_chirho": "Remove the stale-aborted-result guard while the stand-in fetcher ignores abort",
+	"expected_chirho": "The cancelled selection must reject before caching or reaching the screen",
+	"violation_detected_chirho": true,
+	"observed_failure_chirho": "Promise resolved instead of rejecting",
+	"restored_source_sha256_chirho": "81e79e599148b7f4c4d458b0fd54d037f5821115c152aa9a8adfa96f76c343ed",
+	"restored_focused_tests_pass_chirho": true
+}

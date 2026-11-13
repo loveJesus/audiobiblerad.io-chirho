@@ -177,6 +177,91 @@ h1::after {
 .station-picker-chirho {
 	margin-top: 20px;
 }
+.picker-heading-chirho {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 14px;
+}
+.picker-heading-chirho h2,
+.picker-heading-chirho h3 {
+	font-size: 17px;
+	margin: 0;
+	letter-spacing: -0.3px;
+}
+.picker-heading-chirho .text-button-chirho {
+	flex-shrink: 0;
+}
+.station-version-chirho,
+.station-language-chirho,
+.station-option-chirho,
+.language-option-chirho {
+	overflow-wrap: anywhere;
+}
+.picker-heading-chirho > span,
+.picker-note-chirho,
+.restore-note-chirho {
+	font-size: 11px;
+	color: #5e6a54;
+	line-height: 1.7;
+}
+.restore-note-chirho {
+	text-align: center;
+	padding: 8px 12px;
+	background: #e4e7d8;
+	border-radius: 5px;
+}
+.text-button-chirho {
+	border: 0;
+	background: transparent;
+	color: #3c532e;
+	text-decoration: underline;
+	text-underline-offset: 3px;
+	font-size: 11px;
+	padding: 8px 0;
+	min-height: 36px;
+}
+.language-list-chirho {
+	margin-top: 10px;
+	max-height: 240px;
+	overflow-y: auto;
+	border: 1px solid #bac4ae;
+	border-radius: 5px;
+	overscroll-behavior: contain;
+}
+.language-option-chirho {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	gap: 12px;
+	padding: 12px 15px;
+	border: 0;
+	border-bottom: 1px solid #c5cbbd;
+	background: #f4f3e9;
+	color: #33412c;
+	text-align: left;
+	font-size: 14px;
+}
+.language-option-chirho:hover,
+.language-option-chirho.selected-chirho {
+	background: #dce1cd;
+}
+.language-option-chirho small {
+	display: block;
+	font-size: 10px;
+	color: #65725b;
+	margin-top: 3px;
+}
+.language-count-chirho {
+	text-align: right;
+	font-size: 11px;
+	flex-shrink: 0;
+}
+.stations-heading-chirho {
+	margin: 22px 0 6px;
+}
 .search-label-chirho {
 	display: block;
 	font-size: 12px;

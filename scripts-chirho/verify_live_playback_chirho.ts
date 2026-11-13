@@ -9,8 +9,11 @@ import { format as formatChirho, resolveConfig as resolveConfigChirho } from 'pr
 const previewUrlChirho = new URL(process.env.RADIO_PREVIEW_URL_CHIRHO ?? 'http://127.0.0.1:5196/');
 if (!['127.0.0.1', 'localhost', '[::1]'].includes(previewUrlChirho.hostname))
 	throw new Error('This probe requires a local preview.');
+const languagesProbeChirho = process.argv.includes('--languages-chirho');
 const evidenceDirectoryChirho = new URL(
-	'../spec-chirho/evidence-chirho/web-radio-chirho/',
+	languagesProbeChirho
+		? '../spec-chirho/evidence-chirho/language-radio-chirho/'
+		: '../spec-chirho/evidence-chirho/web-radio-chirho/',
 	import.meta.url
 );
 mkdirSync(evidenceDirectoryChirho, { recursive: true });
@@ -159,7 +162,7 @@ try {
 	await verifyProgressChirho();
 	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
 	await pageChirho
-		.getByRole('region', { name: 'All stations', exact: true })
+		.getByRole('group', { name: 'Recordings', exact: true })
 		.getByRole('button')
 		.filter({ hasText: 'Hindi' })
 		.click();
@@ -178,25 +181,56 @@ try {
 		{ timeout: 20000 }
 	);
 	await verifyProgressChirho();
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	if (languagesProbeChirho) {
+		await pageChirho.getByRole('searchbox').fill('Hindi');
+		await pageChirho
+			.getByRole('group', { name: 'Languages', exact: true })
+			.getByRole('button')
+			.filter({ has: pageChirho.getByText('Hindi', { exact: true }) })
+			.click();
+		await pageChirho
+			.getByRole('group', { name: 'Recordings', exact: true })
+			.getByRole('button')
+			.filter({ hasText: 'Davar Audio Bibles' })
+			.first()
+			.click();
+		await pageChirho.waitForFunction(
+			() =>
+				(
+					window as unknown as {
+						liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
+					}
+				).liveRadioProbeChirho.playing_chirho.some((eventChirho) =>
+					eventChirho.url_chirho.startsWith('https://audio.dbs.org/')
+				),
+			null,
+			{ timeout: 20000 }
+		);
+		await verifyProgressChirho();
+		await pageChirho.getByRole('button', { name: 'All built-in stations', exact: true }).click();
+		await pageChirho.getByRole('searchbox').fill('Spanish');
+	} else {
+		await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+		await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	}
 	await pageChirho
-		.getByRole('region', { name: 'All stations', exact: true })
+		.getByRole('group', { name: 'Recordings', exact: true })
 		.getByRole('button')
 		.filter({ hasText: 'Spanish' })
 		.click();
 	await pageChirho.waitForFunction(
-		() => {
+		(expectedChirho) => {
 			const traceChirho = (
 				window as unknown as {
 					liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
 				}
 			).liveRadioProbeChirho;
 			return (
-				new Set(traceChirho.playing_chirho.map((eventChirho) => eventChirho.url_chirho)).size >= 4
+				new Set(traceChirho.playing_chirho.map((eventChirho) => eventChirho.url_chirho)).size >=
+				expectedChirho
 			);
 		},
-		null,
+		languagesProbeChirho ? 5 : 4,
 		{ timeout: 20000 }
 	);
 	await verifyProgressChirho();
@@ -261,16 +295,22 @@ try {
 	};
 	await writeEvidenceChirho('live_playback_chirho.json', resultChirho);
 	await pageChirho.screenshot({
-		path: new URL('pass_3_desktop_chirho.png', renderDirectoryChirho).pathname,
+		path: new URL(
+			languagesProbeChirho ? 'live_desktop_chirho.png' : 'pass_3_desktop_chirho.png',
+			renderDirectoryChirho
+		).pathname,
 		fullPage: true
 	});
 	await pageChirho.setViewportSize({ width: 390, height: 844 });
 	await pageChirho.screenshot({
-		path: new URL('pass_3_mobile_chirho.png', renderDirectoryChirho).pathname,
+		path: new URL(
+			languagesProbeChirho ? 'live_mobile_chirho.png' : 'pass_3_mobile_chirho.png',
+			renderDirectoryChirho
+		).pathname,
 		fullPage: true
 	});
 	if (
-		measurementsChirho.length !== 4 ||
+		measurementsChirho.length !== (languagesProbeChirho ? 5 : 4) ||
 		errorsChirho.length ||
 		traceChirho.element_count_chirho !== 2 ||
 		traceChirho.active_chirho.length !== 1 ||

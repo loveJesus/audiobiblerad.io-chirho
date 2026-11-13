@@ -46,6 +46,48 @@ function readChirho(savedChirho: unknown): PlayerPreferencesChirho {
 }
 
 describe('reading saved preferences', () => {
+	it('keeps bounded dynamic station hints without trusting a saved station object or address', () => {
+		const dynamicChirho = {
+			...SAVED_BEFORE_CHIRHO,
+			station_id_chirho: 'davar-test-station',
+			language_code_chirho: 'hi',
+			dial_language_chirho: 'hi',
+			followed_place_chirho: {
+				...FOLLOWED_CHIRHO,
+				station_id_chirho: 'davar-other-station',
+				language_code_chirho: 'sw'
+			}
+		};
+		expect(
+			readChirho({
+				...dynamicChirho,
+				url_chirho: 'https://untrusted.example/audio.mp3',
+				station_chirho: {}
+			})
+		).toEqual(dynamicChirho);
+		for (const languageChirho of [
+			'../hi',
+			'//evil.test',
+			'hi?file=1',
+			'h'.repeat(40),
+			'HI',
+			'',
+			null
+		]) {
+			expect(
+				readChirho({ ...dynamicChirho, language_code_chirho: languageChirho }).station_id_chirho
+			).toBe(firstStationChirho.id_chirho);
+		}
+		expect(
+			readChirho({ ...dynamicChirho, station_id_chirho: 'x'.repeat(161) }).station_id_chirho
+		).toBe(firstStationChirho.id_chirho);
+		expect(readChirho({ ...dynamicChirho, dial_language_chirho: 'ru' })).not.toHaveProperty(
+			'dial_language_chirho'
+		);
+		expect(readChirho({ ...SAVED_BEFORE_CHIRHO, dial_language_chirho: 'zz' })).not.toHaveProperty(
+			'dial_language_chirho'
+		);
+	});
 	it('starts from the defaults when nothing can be read, and says whether storage works', () => {
 		expect(readPreferencesChirho(null)).toEqual({
 			preferences_chirho: defaultPreferencesChirho(),

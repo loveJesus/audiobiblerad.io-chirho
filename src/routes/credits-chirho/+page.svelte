@@ -51,6 +51,13 @@
 			</section>
 		{/each}
 		<section>
+			<h2>More languages</h2>
+			<p>
+				Choose a language and recording on the radio to read its full credit and terms. The selected
+				recording's text and audio notices appear below the player.
+			</p>
+		</section>
+		<section>
 			<h2>Radio sounds</h2>
 			<p>
 				The nine short tuning sounds were synthesized for Audio Bible Radio. They contain no

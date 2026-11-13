@@ -42,6 +42,8 @@ export interface RadioOptionsChirho {
 	on_change_chirho(stateChirho: RadioStateChirho): void;
 	now_chirho?: () => number;
 	fetch_chirho?: typeof fetch;
+	stations_chirho?: readonly StationChirho[];
+	preferences_chirho?: PlayerPreferencesChirho;
 }
 
 const ZERO_POSITION_CHIRHO: PositionChirho = {
@@ -83,25 +85,37 @@ export class RadioPlayerChirho {
 	private hasPlayedChirho = false;
 	private followedPlaceChirho: FollowedPlaceChirho;
 	private recoveryOriginChirho: RecoveryOriginChirho | null = null;
+	private stationsChirho: readonly StationChirho[];
+	private stationsByIdChirho: Map<string, StationChirho>;
+	private selectedStationChirho: StationChirho;
 
 	constructor(optionsChirho: RadioOptionsChirho) {
 		this.optionsChirho = optionsChirho;
 		this.audioChirho = optionsChirho.audio_chirho;
 		this.nowChirho = optionsChirho.now_chirho ?? (() => performance.now());
 		const savedChirho = readPreferencesChirho(optionsChirho.storage_chirho);
+		if (optionsChirho.preferences_chirho)
+			savedChirho.preferences_chirho = { ...optionsChirho.preferences_chirho };
+		this.stationsChirho = optionsChirho.stations_chirho?.length
+			? optionsChirho.stations_chirho
+			: STATIONS_CHIRHO;
+		this.stationsByIdChirho = new Map(
+			this.stationsChirho.map((stationChirho) => [stationChirho.id_chirho, stationChirho])
+		);
+		this.selectedStationChirho =
+			this.stationsByIdChirho.get(savedChirho.preferences_chirho.station_id_chirho) ??
+			this.stationsChirho[0];
+		savedChirho.preferences_chirho.station_id_chirho = this.selectedStationChirho.id_chirho;
 		this.followedPlaceChirho = savedChirho.preferences_chirho.followed_place_chirho
 			? { ...savedChirho.preferences_chirho.followed_place_chirho }
 			: {
 					station_id_chirho: savedChirho.preferences_chirho.station_id_chirho,
+					language_code_chirho: this.selectedStationChirho.language_code_chirho,
 					book_id_chirho: savedChirho.preferences_chirho.book_id_chirho,
 					chapter_chirho: savedChirho.preferences_chirho.chapter_chirho,
 					...capturePositionChirho(savedChirho.preferences_chirho.seconds_chirho, 0, null)
 				};
-		const savedStationChirho =
-			STATIONS_CHIRHO.find(
-				(stationChirho) =>
-					stationChirho.id_chirho === savedChirho.preferences_chirho.station_id_chirho
-			) ?? STATIONS_CHIRHO[0];
+		const savedStationChirho = this.selectedStationChirho;
 		const landingChirho = chapterAtOrAfterChirho(
 			savedStationChirho,
 			savedChirho.preferences_chirho.book_id_chirho,
@@ -137,11 +151,18 @@ export class RadioPlayerChirho {
 		return { ...this.stateChirho, followed_place_chirho: { ...this.followedPlaceChirho } };
 	}
 	get stationChirho(): StationChirho {
-		return (
-			STATIONS_CHIRHO.find(
-				(stationChirho) => stationChirho.id_chirho === this.stateChirho.station_id_chirho
-			) ?? STATIONS_CHIRHO[0]
+		return this.selectedStationChirho;
+	}
+
+	/** Replace the active dial rather than accumulating every language ever visited. */
+	setStationsChirho(stationsChirho: readonly StationChirho[], languageCodeChirho?: string): void {
+		if (this.disposedChirho || stationsChirho.length === 0) return;
+		this.stationsChirho = stationsChirho;
+		this.stationsByIdChirho = new Map(
+			stationsChirho.map((stationChirho) => [stationChirho.id_chirho, stationChirho])
 		);
+		this.emitChirho({ dial_language_chirho: languageCodeChirho });
+		this.saveChirho();
 	}
 
 	private emitChirho(patchChirho: Partial<RadioStateChirho> = {}): void {
@@ -188,6 +209,7 @@ export class RadioPlayerChirho {
 			return;
 		this.followedPlaceChirho = {
 			station_id_chirho: this.stateChirho.station_id_chirho,
+			language_code_chirho: this.stationChirho.language_code_chirho,
 			book_id_chirho: this.stateChirho.book_id_chirho,
 			chapter_chirho: this.stateChirho.chapter_chirho,
 			...this.captureChirho()
@@ -374,6 +396,7 @@ export class RadioPlayerChirho {
 			) {
 				this.followedPlaceChirho = {
 					station_id_chirho: this.stateChirho.station_id_chirho,
+					language_code_chirho: this.stationChirho.language_code_chirho,
 					book_id_chirho: this.stateChirho.book_id_chirho,
 					chapter_chirho: this.stateChirho.chapter_chirho,
 					...this.captureChirho()
@@ -522,8 +545,9 @@ export class RadioPlayerChirho {
 	}
 
 	selectStationChirho(stationIdChirho: string): void {
+		const stationChirho = this.stationsByIdChirho.get(stationIdChirho);
 		if (
-			!STATIONS_CHIRHO.some((stationChirho) => stationChirho.id_chirho === stationIdChirho) ||
+			!stationChirho ||
 			stationIdChirho === this.stateChirho.station_id_chirho ||
 			this.disposedChirho
 		)
@@ -532,8 +556,10 @@ export class RadioPlayerChirho {
 		this.recoveryOriginChirho = null;
 		const positionChirho = { ...this.followedPlaceChirho };
 		const phaseChirho = this.stateChirho.phase_chirho;
+		this.selectedStationChirho = stationChirho;
 		this.emitChirho({
 			station_id_chirho: stationIdChirho,
+			language_code_chirho: stationChirho.language_code_chirho,
 			book_id_chirho: positionChirho.book_id_chirho,
 			chapter_chirho: positionChirho.chapter_chirho,
 			seconds_chirho: positionChirho.seconds_chirho
@@ -559,6 +585,7 @@ export class RadioPlayerChirho {
 		this.recoveryOriginChirho = null;
 		this.followedPlaceChirho = {
 			station_id_chirho: this.stateChirho.station_id_chirho,
+			language_code_chirho: this.stationChirho.language_code_chirho,
 			book_id_chirho: bookIdChirho,
 			chapter_chirho: chapterChirho,
 			...ZERO_POSITION_CHIRHO
@@ -623,6 +650,7 @@ export class RadioPlayerChirho {
 		if (this.isFollowedPassageChirho())
 			this.followedPlaceChirho = {
 				station_id_chirho: this.stateChirho.station_id_chirho,
+				language_code_chirho: this.stationChirho.language_code_chirho,
 				book_id_chirho: this.stateChirho.book_id_chirho,
 				chapter_chirho: this.stateChirho.chapter_chirho,
 				...capturePositionChirho(
@@ -657,7 +685,7 @@ export class RadioPlayerChirho {
 		const currentStationChirho = this.stationChirho;
 		const candidatesChirho = [
 			currentStationChirho,
-			...STATIONS_CHIRHO.filter(
+			...this.stationsChirho.filter(
 				(stationChirho) =>
 					stationChirho.id_chirho !== currentStationChirho.id_chirho &&
 					stationChirho.has_timings_chirho
@@ -716,6 +744,10 @@ export class RadioPlayerChirho {
 		const originChirho = this.recoveryOriginChirho;
 		const preferencesChirho: PlayerPreferencesChirho = {
 			station_id_chirho: this.stateChirho.station_id_chirho,
+			language_code_chirho: this.stationChirho.language_code_chirho,
+			...(this.stateChirho.dial_language_chirho
+				? { dial_language_chirho: this.stateChirho.dial_language_chirho }
+				: {}),
 			book_id_chirho: originChirho?.book_id_chirho ?? this.stateChirho.book_id_chirho,
 			chapter_chirho: originChirho?.chapter_chirho ?? this.stateChirho.chapter_chirho,
 			seconds_chirho:
