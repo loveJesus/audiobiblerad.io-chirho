@@ -10,7 +10,12 @@
 
 import { BOOKS_CHIRHO, findBookChirho, type BookChirho } from '../../books-chirho/books_chirho';
 import { BOOK_CODE_SCHEMES_CHIRHO } from '../../books-chirho/book_code_schemes_chirho';
-import type { PatternLocatorChirho, StationChirho } from '../../contract_chirho';
+import type {
+	CompositeChapterChirho,
+	PatternLocatorChirho,
+	StationChirho
+} from '../../contract_chirho';
+import { readCompositeChaptersChirho } from '../../locate-chirho/composite_chirho';
 import { expandTemplateChirho } from '../../locate-chirho/locate_chirho';
 import { chaptersToRangesChirho, countChaptersChirho } from '../coverage_chirho';
 import { DAVAR_HEBREW_JOEL_APPROVED_CHIRHO } from './davar_numbering_chirho';
@@ -59,6 +64,13 @@ export interface DavarNotesChirho {
 	readonly numbering_chirho: DavarNumberingChirho;
 	/** Files held back because they are part of a chapter and not the whole of it. */
 	readonly withheld_chirho: readonly string[];
+	/**
+	 * Chapters offered from several files, as `BOOK chapter`, once every part was measured.
+	 * Their files stay listed above as held back or unmatched: none is a chapter of its own.
+	 */
+	readonly composite_chirho: readonly string[];
+	/** Chapters split across files that are not offered, with the reason. */
+	readonly composite_refused_chirho: readonly string[];
 	/** Why no station was made, when none was. */
 	readonly refused_chirho?: string;
 }
@@ -148,6 +160,31 @@ function readDavarFileNameChirho(
 	return { book_chirho: bookChirho, chapter_chirho: chapterChirho };
 }
 
+/**
+ * The book, chapter and part a file name stands for when it holds one part of a chapter in
+ * the book-number form: `19_Psalms_009A.mp3` is the first part of Psalm 9. Nothing otherwise.
+ */
+function readDavarPartNameChirho(
+	nameChirho: unknown
+): { book_chirho: BookChirho; chapter_chirho: number; part_chirho: string } | null {
+	if (typeof nameChirho !== 'string') return null;
+	const matchChirho = /^(\d{2})_(.+)_(\d{1,4})([A-Z])\.mp3$/.exec(nameChirho);
+	if (!matchChirho) return null;
+	const wholeChirho = readDavarFileNameChirho(
+		`${matchChirho[1]}_${matchChirho[2]}_${matchChirho[3]}.mp3`
+	);
+	if (!wholeChirho || wholeChirho.chapter_chirho > wholeChirho.book_chirho.chapters_chirho) {
+		return null;
+	}
+	return { ...wholeChirho, part_chirho: matchChirho[4] };
+}
+
+/** Lengths measured for a recording's files, by file name as listed, and the day measured. */
+export interface DavarPartLengthsChirho {
+	readonly measured_on_chirho: string;
+	readonly seconds_chirho: ReadonlyMap<string, number>;
+}
+
 function addressOfChirho(recordingChirho: string, fileNameChirho: string): string {
 	return `${DAVAR_AUDIO_HOST_CHIRHO}${encodeURIComponent(recordingChirho)}/${encodeURIComponent(fileNameChirho)}`;
 }
@@ -172,7 +209,8 @@ export function buildDavarStationChirho(
 	fileNamesChirho: readonly unknown[],
 	languageChirho: DavarLanguageChirho,
 	readOnChirho: string,
-	hebrewJoelApprovedChirho: ReadonlySet<string> = DAVAR_HEBREW_JOEL_APPROVED_CHIRHO
+	hebrewJoelApprovedChirho: ReadonlySet<string> = DAVAR_HEBREW_JOEL_APPROVED_CHIRHO,
+	partLengthsChirho?: DavarPartLengthsChirho
 ): { station_chirho: StationChirho | null; notes_chirho: DavarNotesChirho } {
 	const recordChirho =
 		typeof entryChirho === 'object' && entryChirho !== null
@@ -275,6 +313,70 @@ export function buildDavarStationChirho(
 					: chapterCountChirho === 0
 						? 'its file list names no chapter of the 66 books'
 						: undefined;
+
+	// Chapters split across files, in the order their parts play. Joel 2 of a recording that
+	// counts Joel in four is its second file and then its third; a chapter whose files carry a
+	// letter (`009A`, `009B`) is those files in letter order, from A with none missing.
+	const splitChirho = new Map<string, string[]>();
+	if (numberingChirho === 'hebrew_inferred') {
+		const joelPartsChirho = [2, 3].map((numberChirho) =>
+			fileNamesChirho.find((nameChirho, indexChirho) => {
+				const readChirho = readNamesChirho[indexChirho];
+				return (
+					readChirho?.book_chirho.id_chirho === 'JOL' && readChirho.chapter_chirho === numberChirho
+				);
+			})
+		);
+		if (joelPartsChirho.every((nameChirho) => typeof nameChirho === 'string')) {
+			splitChirho.set('JOL 2', joelPartsChirho as string[]);
+		}
+	}
+	const lettersChirho = new Map<string, Map<string, string>>();
+	for (const nameChirho of fileNamesChirho) {
+		const partChirho = readDavarPartNameChirho(nameChirho);
+		if (!partChirho) continue;
+		const keyChirho = `${partChirho.book_chirho.id_chirho} ${partChirho.chapter_chirho}`;
+		if (!lettersChirho.has(keyChirho)) lettersChirho.set(keyChirho, new Map());
+		lettersChirho.get(keyChirho)!.set(partChirho.part_chirho, nameChirho as string);
+	}
+	for (const [keyChirho, byLetterChirho] of lettersChirho) {
+		const orderedChirho = [...byLetterChirho.keys()].sort();
+		const fromAChirho = orderedChirho.every(
+			(letterChirho, indexChirho) => letterChirho.charCodeAt(0) === 65 + indexChirho
+		);
+		if (fromAChirho)
+			splitChirho.set(
+				keyChirho,
+				orderedChirho.map((l) => byLetterChirho.get(l)!)
+			);
+	}
+
+	// A split chapter is offered only when every part was measured, and only if it keeps every
+	// rule a reader holds it to; otherwise it is left out and the station stays as it was.
+	const compositeChirho: Record<string, Record<string, CompositeChapterChirho>> = {};
+	const offeredChirho: string[] = [];
+	const notOfferedChirho: string[] = [];
+	if (partLengthsChirho !== undefined) {
+		for (const [keyChirho, namesChirho] of splitChirho) {
+			const [bookIdChirho, chapterTextChirho] = keyChirho.split(' ');
+			const secondsChirho = namesChirho.map((nameChirho) =>
+				partLengthsChirho.seconds_chirho.get(nameChirho)
+			);
+			if (secondsChirho.some((valueChirho) => valueChirho === undefined)) {
+				notOfferedChirho.push(`${keyChirho}: not every part was measured`);
+				continue;
+			}
+			(compositeChirho[bookIdChirho] ??= {})[chapterTextChirho] = {
+				parts_chirho: namesChirho.map((nameChirho, indexChirho) => ({
+					url_chirho: addressOfChirho(recordingChirho, nameChirho),
+					duration_seconds_chirho: secondsChirho[indexChirho]!
+				})),
+				measured_on_chirho: partLengthsChirho.measured_on_chirho
+			};
+			offeredChirho.push(keyChirho);
+		}
+	}
+
 	const notesChirho: DavarNotesChirho = {
 		recording_chirho: recordingChirho,
 		files_chirho: fileNamesChirho.length,
@@ -284,9 +386,16 @@ export function buildDavarStationChirho(
 		duplicates_chirho: duplicatesChirho,
 		numbering_chirho: numberingChirho,
 		withheld_chirho: withheldChirho,
+		composite_chirho: offeredChirho,
+		composite_refused_chirho: notOfferedChirho,
 		...(refusedChirho === undefined ? {} : { refused_chirho: refusedChirho })
 	};
-	if (refusedChirho !== undefined) return { station_chirho: null, notes_chirho: notesChirho };
+	if (refusedChirho !== undefined) {
+		return {
+			station_chirho: null,
+			notes_chirho: { ...notesChirho, composite_chirho: [], composite_refused_chirho: [] }
+		};
+	}
 
 	const locatorChirho: PatternLocatorChirho = {
 		kind_chirho: 'pattern',
@@ -294,33 +403,51 @@ export function buildDavarStationChirho(
 		book_codes_chirho: DAVAR_BOOK_CODES_CHIRHO,
 		...(chosenChirho.countChirho > 0 ? { overrides_chirho: chosenChirho.overridesChirho } : {})
 	};
+	const stationChirho: StationChirho = {
+		id_chirho: stationIdChirho(recordingChirho),
+		source_id_chirho: DAVAR_SOURCE_ID_CHIRHO,
+		language_code_chirho: languageChirho.code_chirho,
+		language_name_chirho: languageChirho.name_chirho,
+		language_english_chirho: languageChirho.english_chirho,
+		version_chirho: titleChirho,
+		version_code_chirho: textOfChirho(recordChirho.abbr) || recordingChirho,
+		// The library names no reader and does not say how its recordings are voiced.
+		voice_chirho: '',
+		voice_kind_chirho: 'unknown',
+		source_name_chirho: DAVAR_SOURCE_NAME_CHIRHO,
+		source_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
+		licence_id_chirho: 'davar-library-notice',
+		licence_name_chirho:
+			'Free to download and distribute, not for sale or commercial use, with the copyright notice shown',
+		licence_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
+		licence_evidence_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
+		licence_read_on_chirho: '2026-11-13',
+		credit_chirho: creditChirho,
+		locator_chirho: locatorChirho,
+		has_timings_chirho: false,
+		coverage_chirho: coverageChirho,
+		coverage_checked_on_chirho: readOnChirho,
+		chapter_count_chirho: chapterCountChirho
+	};
+	if (offeredChirho.length === 0)
+		return { notes_chirho: notesChirho, station_chirho: stationChirho };
+
+	const readChirho = readCompositeChaptersChirho(compositeChirho, stationChirho);
+	if (readChirho === null) {
+		return {
+			station_chirho: stationChirho,
+			notes_chirho: {
+				...notesChirho,
+				composite_chirho: [],
+				composite_refused_chirho: [
+					...notesChirho.composite_refused_chirho,
+					...offeredChirho.map((keyChirho) => `${keyChirho}: breaks a rule for split chapters`)
+				]
+			}
+		};
+	}
 	return {
 		notes_chirho: notesChirho,
-		station_chirho: {
-			id_chirho: stationIdChirho(recordingChirho),
-			source_id_chirho: DAVAR_SOURCE_ID_CHIRHO,
-			language_code_chirho: languageChirho.code_chirho,
-			language_name_chirho: languageChirho.name_chirho,
-			language_english_chirho: languageChirho.english_chirho,
-			version_chirho: titleChirho,
-			version_code_chirho: textOfChirho(recordChirho.abbr) || recordingChirho,
-			// The library names no reader and does not say how its recordings are voiced.
-			voice_chirho: '',
-			voice_kind_chirho: 'unknown',
-			source_name_chirho: DAVAR_SOURCE_NAME_CHIRHO,
-			source_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
-			licence_id_chirho: 'davar-library-notice',
-			licence_name_chirho:
-				'Free to download and distribute, not for sale or commercial use, with the copyright notice shown',
-			licence_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
-			licence_evidence_url_chirho: DAVAR_TERMS_ADDRESS_CHIRHO,
-			licence_read_on_chirho: '2026-11-13',
-			credit_chirho: creditChirho,
-			locator_chirho: locatorChirho,
-			has_timings_chirho: false,
-			coverage_chirho: coverageChirho,
-			coverage_checked_on_chirho: readOnChirho,
-			chapter_count_chirho: chapterCountChirho
-		}
+		station_chirho: { ...stationChirho, composite_chapters_chirho: readChirho }
 	};
 }

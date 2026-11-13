@@ -74,7 +74,24 @@
 				"ZEC": [[1, 14]],
 				"MAL": [[1, 3]]
 			},
-			"chapter_count_chirho": 927
+			"chapter_count_chirho": 927,
+			"composite_chapters_chirho": {
+				"JOL": {
+					"2": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/DTSABM_DAVR_OT_N/29_Joel_002.mp3",
+								"duration_seconds_chirho": 432.446878
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/DTSABM_DAVR_OT_N/29_Joel_003.mp3",
+								"duration_seconds_chirho": 81.047625
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				}
+			}
 		}
 	]
 }

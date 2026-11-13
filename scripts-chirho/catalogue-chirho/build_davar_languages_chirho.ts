@@ -131,9 +131,43 @@ function languageOfChirho(
 	};
 }
 
-const [readingPathChirho, firstFilesPathChirho] = process.argv.slice(2);
+const [readingPathChirho, firstFilesPathChirho, partLengthsPathChirho] = process.argv.slice(2);
 if (!readingPathChirho) {
-	failChirho('usage: build_davar_languages_chirho.ts <reading.json> [<first-files.json>]');
+	failChirho(
+		'usage: build_davar_languages_chirho.ts <reading.json> [<first-files.json> [<part-lengths.json>]]'
+	);
+}
+
+// The measured lengths of files that are parts of a chapter, keyed `recording/file name`.
+// Without them no split chapter is offered, and the stations are exactly as before.
+const partLengthsChirho = partLengthsPathChirho
+	? await readWithHashChirho(partLengthsPathChirho)
+	: null;
+const lengthsByRecordingChirho = new Map<string, Map<string, number>>();
+let measuredOnChirho = '';
+if (partLengthsChirho) {
+	const { measured_on_chirho: dayChirho, seconds_chirho: secondsChirho } = isRecordChirho(
+		partLengthsChirho.valueChirho
+	)
+		? partLengthsChirho.valueChirho
+		: {};
+	if (typeof dayChirho !== 'string' || !isRecordChirho(secondsChirho)) {
+		failChirho('the part lengths have no measuring day or no lengths');
+	}
+	measuredOnChirho = dayChirho;
+	for (const [keyChirho, valueChirho] of Object.entries(secondsChirho)) {
+		const slashChirho = keyChirho.indexOf('/');
+		if (slashChirho < 1 || typeof valueChirho !== 'number' || !Number.isFinite(valueChirho)) {
+			failChirho(`a part length is not readable: ${keyChirho}`);
+		}
+		const recordingChirho = keyChirho.slice(0, slashChirho);
+		if (!lengthsByRecordingChirho.has(recordingChirho)) {
+			lengthsByRecordingChirho.set(recordingChirho, new Map());
+		}
+		lengthsByRecordingChirho
+			.get(recordingChirho)!
+			.set(keyChirho.slice(slashChirho + 1), valueChirho);
+	}
 }
 const readingChirho = await readWithHashChirho(readingPathChirho);
 if (!isRecordChirho(readingChirho.valueChirho)) failChirho('the reading is not an object');
@@ -157,6 +191,7 @@ const stationsByLanguageChirho = new Map<
 >();
 const notesChirho: DavarNotesChirho[] = [];
 const refusedChirho: string[] = [];
+const usedLengthsChirho = new Set<string>();
 const seenIdsChirho = new Set<string>();
 let addressesCheckedChirho = 0;
 for (const entryChirho of indexChirho as unknown[]) {
@@ -174,7 +209,14 @@ for (const entryChirho of indexChirho as unknown[]) {
 		entryChirho,
 		namesChirho as unknown[],
 		languageChirho,
-		readOnChirho
+		readOnChirho,
+		DAVAR_HEBREW_JOEL_APPROVED_CHIRHO,
+		lengthsByRecordingChirho.has(recordingChirho)
+			? {
+					measured_on_chirho: measuredOnChirho,
+					seconds_chirho: lengthsByRecordingChirho.get(recordingChirho)!
+				}
+			: undefined
 	);
 	notesChirho.push(builtChirho.notes_chirho);
 	// Whatever is written must be exactly what the radio will accept when it reads it back.
@@ -210,6 +252,24 @@ for (const entryChirho of indexChirho as unknown[]) {
 			}
 		}
 	}
+	// The parts of a split chapter too, and each part must be a file that was measured.
+	const measuredHereChirho = lengthsByRecordingChirho.get(recordingChirho);
+	for (const [bookIdChirho, chaptersChirho] of Object.entries(
+		stationChirho.composite_chapters_chirho ?? {}
+	)) {
+		for (const [chapterTextChirho, compositeChirho] of Object.entries(chaptersChirho ?? {})) {
+			for (const partChirho of compositeChirho.parts_chirho) {
+				const nameChirho = decodeURIComponent(partChirho.url_chirho.split('/').pop() ?? '');
+				if (
+					!listedChirho.has(partChirho.url_chirho) ||
+					measuredHereChirho?.get(nameChirho) !== partChirho.duration_seconds_chirho
+				) {
+					strayChirho ||= `a part of ${bookIdChirho} ${chapterTextChirho}, ${partChirho.url_chirho}, is not a listed and measured file`;
+				}
+				usedLengthsChirho.add(`${recordingChirho}/${nameChirho}`);
+			}
+		}
+	}
 	if (strayChirho) {
 		refusedChirho.push(`${recordingChirho}: ${strayChirho}`);
 		continue;
@@ -240,6 +300,26 @@ function sameSetChirho(
 		actualChirho.length === expectedChirho.size &&
 		actualChirho.every((idChirho) => expectedChirho.has(idChirho))
 	);
+}
+// Every measured length must become a part of exactly one offered chapter, and no split
+// chapter may be turned away, or the lengths and the library no longer agree.
+if (partLengthsChirho) {
+	const measuredKeysChirho = [...lengthsByRecordingChirho].flatMap(
+		([recordingChirho, namesChirho]) =>
+			[...namesChirho.keys()].map((nameChirho) => `${recordingChirho}/${nameChirho}`)
+	);
+	const unusedChirho = measuredKeysChirho.filter((keyChirho) => !usedLengthsChirho.has(keyChirho));
+	if (unusedChirho.length > 0) {
+		failChirho(`measured files that no offered chapter uses: ${unusedChirho.join(', ')}`);
+	}
+	const turnedAwayChirho = notesChirho.flatMap((noteChirho) =>
+		noteChirho.composite_refused_chirho.map(
+			(whyChirho) => `${noteChirho.recording_chirho} ${whyChirho}`
+		)
+	);
+	if (turnedAwayChirho.length > 0) {
+		failChirho(`split chapters not offered: ${turnedAwayChirho.join('; ')}`);
+	}
 }
 const numberedChirho = (kindChirho: DavarNotesChirho['numbering_chirho']) =>
 	notesChirho
@@ -384,6 +464,30 @@ await writeJsonChirho(catalogueFileChirho('evidence', 'davar_snapshot_chirho.jso
 	),
 	recordings_refused_chirho: refusedChirho,
 	first_files_chirho: firstFilesChirho,
+	chapters_played_from_parts_chirho: {
+		what_chirho:
+			'Chapters a recording splits across files, offered as their files played in order: Joel 2 of the recordings that count Joel in four (their second file, then their third), and psalms split into lettered halves. They are kept apart from the coverage, so a player that does not know them never offers them.',
+		how_measured_chirho:
+			'Each part was loaded once in a browser as far as its metadata to learn its length; see davar_parts_batch_a_chirho.json and davar_parts_batch_b_chirho.json. A length shows the file could be read, not that the sound is complete or holds the verses its name suggests.',
+		part_lengths_chirho: partLengthsChirho
+			? {
+					file_bytes_chirho: partLengthsChirho.bytesChirho,
+					file_sha256_chirho: partLengthsChirho.sha256Chirho,
+					measured_on_chirho: measuredOnChirho
+				}
+			: null,
+		chapters_chirho: notesChirho.reduce(
+			(sumChirho, noteChirho) => sumChirho + noteChirho.composite_chirho.length,
+			0
+		),
+		files_chirho: usedLengthsChirho.size,
+		by_recording_chirho: notesChirho
+			.filter((noteChirho) => noteChirho.composite_chirho.length > 0)
+			.map((noteChirho) => ({
+				recording_chirho: noteChirho.recording_chirho,
+				chapters_chirho: noteChirho.composite_chirho
+			}))
+	},
 	joel_and_malachi_numbering_chirho: {
 		what_chirho:
 			'Hebrew Bibles, and translations that follow them, count Joel in four chapters and Malachi in three: Joel 2:28-32 is their chapter 3, Joel 3 is their chapter 4, and Malachi 4 is the end of their chapter 3.',
@@ -409,6 +513,7 @@ await writeJsonChirho(catalogueFileChirho('evidence', 'davar_snapshot_chirho.jso
 		duplicates_chirho: noteChirho.duplicates_chirho,
 		numbering_chirho: noteChirho.numbering_chirho,
 		withheld_chirho: noteChirho.withheld_chirho.length,
+		played_from_parts_chirho: noteChirho.composite_chirho,
 		unmatched_chirho: noteChirho.unmatched_chirho.length,
 		unmatched_examples_chirho: noteChirho.unmatched_chirho.slice(0, UNMATCHED_SHOWN_CHIRHO)
 	}))

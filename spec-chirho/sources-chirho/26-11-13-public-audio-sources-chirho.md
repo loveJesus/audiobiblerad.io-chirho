@@ -320,8 +320,9 @@ the listener picks it.
     no other recording is ever remapped, and a new reading that disagrees with that list stops
     the build.
   - **What they play:** Joel 3 is their fourth file. Their second and third files of Joel are
-    each a part of chapter 2, so Joel 2 is not offered on those stations until a chapter can
-    play from two files. Malachi 3 plays their third file, which is wider than Malachi 3
+    each a part of chapter 2: no player gets either one as a chapter. A player that can play a
+    chapter from several files is offered Joel 2 as the second file and then the third; one
+    that cannot does not see Joel 2 on those stations at all. Malachi 3 plays their third file, which is wider than Malachi 3
     elsewhere: it runs on through what other stations call Malachi 4. Malachi 4 is not offered
     separately.
   - **Two left as they are:** the Batak Toba and Fang Old Testaments list a Joel 4 but do not fit
@@ -330,6 +331,13 @@ the listener picks it.
 - **Left out, 8 files:** the two Joel 4 files above, two psalms split across two files each, and
   Daniel 13 and 14, which are not among the 66 books' chapters. 118 files of Joel are held back
   as parts of a chapter.
+- **Chapters played from several files, 61:** Joel 2 on the 59 recordings above, and Psalms 9
+  and 113 on the Mashi recording, whose halves are lettered A and B. Each of the 122 files was
+  loaded once in a browser as far as its length on 2026-11-13, and every one answered
+  (`davar_parts_batch_a_chirho.json`, `davar_parts_batch_b_chirho.json`). A length shows the
+  file could be read, not that the sound is complete or holds the verses its name suggests;
+  nobody has listened. These chapters are kept apart from the coverage and the chapter counts
+  above, so a player that does not know them never offers them.
 - **Voices:** the library names no reader and does not say how its recordings are voiced, so
   every station says "unknown".
 - **How it is kept current:** what the catalogue holds is a reading taken on a day, not a live
@@ -444,8 +452,8 @@ LibriVox's.
 In rough order of what each would add.
 
 1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue and the web
-   player can choose them. Still to do: playing a chapter from two files, which would bring back
-   Joel 2 on the 59 recordings that count Joel in four; opening every listed chapter, not only one per recording; and a word
+   player can choose them, and 61 chapters split across files are in the data. Still to do: the
+   web player playing those split chapters (the web seat's work); opening every listed chapter, not only one per recording; and a word
    with Davar before any native app relies on its host.
 2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.

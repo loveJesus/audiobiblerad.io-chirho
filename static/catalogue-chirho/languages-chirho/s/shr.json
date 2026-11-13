@@ -105,7 +105,52 @@
 				"JUD": [[1, 1]],
 				"REV": [[1, 22]]
 			},
-			"chapter_count_chirho": 1185
+			"chapter_count_chirho": 1185,
+			"composite_chapters_chirho": {
+				"JOL": {
+					"2": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/29_Joel_02.mp3",
+								"duration_seconds_chirho": 494.775
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/29_Joel_03.mp3",
+								"duration_seconds_chirho": 84.4175
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				},
+				"PSA": {
+					"9": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/19_Psalms_009A.mp3",
+								"duration_seconds_chirho": 259.960256
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/19_Psalms_009B.mp3",
+								"duration_seconds_chirho": 247.108
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					},
+					"113": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/19_Psalms_113A.mp3",
+								"duration_seconds_chirho": 86.820756
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/SHRBSDRC_DAVR_FB_N/19_Psalms_113B.mp3",
+								"duration_seconds_chirho": 167.460756
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				}
+			}
 		}
 	]
 }

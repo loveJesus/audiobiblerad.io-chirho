@@ -101,7 +101,24 @@
 				"JUD": [[1, 1]],
 				"REV": [[1, 22]]
 			},
-			"chapter_count_chirho": 1187
+			"chapter_count_chirho": 1187,
+			"composite_chapters_chirho": {
+				"JOL": {
+					"2": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/LDIBSCNG_DAVR_FB_N/29_Joel_02.mp3",
+								"duration_seconds_chirho": 568.884378
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/LDIBSCNG_DAVR_FB_N/29_Joel_03.mp3",
+								"duration_seconds_chirho": 100.117
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				}
+			}
 		}
 	]
 }

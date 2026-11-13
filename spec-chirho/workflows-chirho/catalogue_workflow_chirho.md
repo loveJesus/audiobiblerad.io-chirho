@@ -151,8 +151,8 @@ flowchart TD
 Some recordings split a chapter across files: a Hebrew-count Joel 2, a psalm in two halves. Such a
 chapter is carried apart from the coverage, so a player that does not know about it never offers it
 and can never play one part as the whole chapter. A player that does know uses the `offered`
-helpers and `resolveChapterPlaybackChirho`. No station carries one yet: the parts must first be
-measured.
+helpers and `resolveChapterPlaybackChirho`. The Davar build offers one only when every part was
+measured, and stops if a measured file is left unused or a split chapter is turned away.
 
 ```mermaid
 flowchart TD

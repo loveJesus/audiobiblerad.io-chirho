@@ -74,7 +74,10 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
 - [x] Piece 3: the other 116 files measured (34103): all loaded, one request each, answered
       206; all 61 chapters have two measured parts inside the bounds. Evidence in
       `davar_parts_batch_b_chirho.json`.
-- [ ] Piece 4, writing the data: held until the coordinator has reviewed the 122 files.
+- [x] Piece 4, writing the data (34106): the build reads the measured lengths and offers the 61
+      split chapters, each part a listed and measured file; it stops if a length is left unused
+      or a split chapter is turned away. Every legacy answer is unchanged on the 58 language
+      files touched.
 - [ ] Piece 5, the player: the coordinator's lane.
 
 ## Log

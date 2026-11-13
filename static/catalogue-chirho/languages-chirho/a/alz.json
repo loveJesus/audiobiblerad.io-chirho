@@ -408,7 +408,24 @@
 				"JUD": [[1, 1]],
 				"REV": [[1, 22]]
 			},
-			"chapter_count_chirho": 1187
+			"chapter_count_chirho": 1187,
+			"composite_chapters_chirho": {
+				"JOL": {
+					"2": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/29_Joel_02.mp3",
+								"duration_seconds_chirho": 473.1195
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/ALZCDUBS_DAVR_FB_N/29_Joel_03.mp3",
+								"duration_seconds_chirho": 81.073756
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				}
+			}
 		},
 		{
 			"id_chirho": "davar-alzugubs-davr-ot-n",

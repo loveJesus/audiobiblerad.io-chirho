@@ -5,7 +5,13 @@
 
 import { readFile, readdir } from 'node:fs/promises';
 import { describe, expect, it } from 'vitest';
-import { STATIONS_CHIRHO, resolveChapterChirho, type StationChirho } from '../catalogue_chirho';
+import {
+	STATIONS_CHIRHO,
+	offeredChapterCountChirho,
+	resolveChapterChirho,
+	resolveChapterPlaybackChirho,
+	type StationChirho
+} from '../catalogue_chirho';
 import { BOOKS_CHIRHO } from '../books-chirho/books_chirho';
 import { CATALOGUE_CONTRACT_VERSION_CHIRHO } from '../contract_chirho';
 import { makeStationFixtureChirho } from '../locate-chirho/station_fixture_chirho';
@@ -179,6 +185,58 @@ describe('the language files on disk', () => {
 			}
 		}
 		expect(seenChirho).toBe(59);
+	});
+
+	it('offer the 61 measured split chapters, and never one of their parts as a chapter', () => {
+		let splitChirho = 0;
+		const namesChirho: string[] = [];
+		for (const stationChirho of allStationsChirho) {
+			const partsChirho = new Set<string>();
+			for (const [bookIdChirho, chaptersChirho] of Object.entries(
+				stationChirho.composite_chapters_chirho ?? {}
+			)) {
+				for (const chapterTextChirho of Object.keys(chaptersChirho ?? {})) {
+					splitChirho += 1;
+					const playbackChirho = resolveChapterPlaybackChirho(
+						stationChirho,
+						bookIdChirho,
+						Number(chapterTextChirho)
+					);
+					expect(playbackChirho?.kind_chirho, stationChirho.id_chirho).toBe('composite');
+					if (playbackChirho?.kind_chirho !== 'composite') continue;
+					const filesChirho = playbackChirho.parts_chirho.map((partChirho) =>
+						decodeURIComponent(partChirho.url_chirho.split('/').pop()!)
+					);
+					namesChirho.push(`${bookIdChirho} ${chapterTextChirho}: ${filesChirho.join(' + ')}`);
+					for (const partChirho of playbackChirho.parts_chirho)
+						partsChirho.add(partChirho.url_chirho);
+				}
+			}
+			for (const bookChirho of BOOKS_CHIRHO) {
+				for (
+					let chapterChirho = 1;
+					chapterChirho <= bookChirho.chapters_chirho;
+					chapterChirho += 1
+				) {
+					const audioChirho = resolveChapterChirho(
+						stationChirho,
+						bookChirho.id_chirho,
+						chapterChirho
+					);
+					if (audioChirho) expect(partsChirho.has(audioChirho.url_chirho)).toBe(false);
+				}
+			}
+			expect(offeredChapterCountChirho(stationChirho)).toBe(
+				stationChirho.chapter_count_chirho + partsChirho.size / 2
+			);
+		}
+		expect(splitChirho).toBe(61);
+		// Joel 2 is the second file then the third; a lettered psalm is A then B.
+		for (const lineChirho of namesChirho) {
+			expect(lineChirho).toMatch(
+				/^(JOL 2: 29_Joel_0*2\.mp3 \+ 29_Joel_0*3\.mp3|PSA (9|113): 19_Psalms_0*\2A\.mp3 \+ 19_Psalms_0*\2B\.mp3)$/
+			);
+		}
 	});
 
 	it('are on record: the register lists exactly the stations served, each with its notices', async () => {

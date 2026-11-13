@@ -28,6 +28,81 @@
 		"file_bytes_chirho": 60961,
 		"file_sha256_chirho": "dbf025b79435131cb18f35b2457da1100710b277ee579a31e336484ab92afb5f"
 	},
+	"chapters_played_from_parts_chirho": {
+		"what_chirho": "Chapters a recording splits across files, offered as their files played in order: Joel 2 of the recordings that count Joel in four (their second file, then their third), and psalms split into lettered halves. They are kept apart from the coverage, so a player that does not know them never offers them.",
+		"how_measured_chirho": "Each part was loaded once in a browser as far as its metadata to learn its length; see davar_parts_batch_a_chirho.json and davar_parts_batch_b_chirho.json. A length shows the file could be read, not that the sound is complete or holds the verses its name suggests.",
+		"part_lengths_chirho": {
+			"file_bytes_chirho": 6360,
+			"file_sha256_chirho": "2a1bf2fab95cb8cf099ac41ef42b57f8bce590faf8a2c35fd41743b0f322e7ca",
+			"measured_on_chirho": "2026-11-13"
+		},
+		"chapters_chirho": 61,
+		"files_chirho": 122,
+		"by_recording_chirho": [
+			{ "recording_chirho": "ALZCDUBS_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BAXBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BBAABB_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BCIBSCTI_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BEQBSCNG_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BIBABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BMQABM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BUDBSTG_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BWQABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BXGBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "BYVBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "DGIABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "DOPABB_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "DTSABM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "DYIWBT_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "DYUABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "FLRWBT_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "FONABB_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "FRABSF_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "FUBBSCAM_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "FUESIM_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "GEJBSTG_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "GIDBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "GIZBSC_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "GUXABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "GYABSC_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "KINBSR_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "KNGBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "KNYBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "KTUBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "KVJBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LDIBSCNG_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LEDBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LEEABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LINBIB_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LINBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "LUBBSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "MCNBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "MOSABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "MWMBSC_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "NGABSDRC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "NNWANTBA_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "NZBBSGA_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "PLTMBS_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "POHBSGU_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "PUUBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "RMCWFW_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "SAGSBC_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "SBABSC_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "SBDABF_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "SEFACI_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{
+				"recording_chirho": "SHRBSDRC_DAVR_FB_N",
+				"chapters_chirho": ["JOL 2", "PSA 9", "PSA 113"]
+			},
+			{ "recording_chirho": "SUSPBT_DAVR_FB_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "TBZABB_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "TGWACI_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "TODPBT_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "TSVBSGA_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "TUIBSCAM_DAVR_OT_N", "chapters_chirho": ["JOL 2"] },
+			{ "recording_chirho": "YALPBT_DAVR_OT_N", "chapters_chirho": ["JOL 2"] }
+		]
+	},
 	"joel_and_malachi_numbering_chirho": {
 		"what_chirho": "Hebrew Bibles, and translations that follow them, count Joel in four chapters and Malachi in three: Joel 2:28-32 is their chapter 3, Joel 3 is their chapter 4, and Malachi 4 is the end of their chapter 3.",
 		"how_judged_chirho": "From file names alone: a recording that lists a Joel 4 and a Malachi 3 and no Malachi 4 is taken to number them so, and only when it is also on the list approved by name in src/lib/catalogue-chirho/stations-chirho/sources-chirho/davar_numbering_chirho.ts. Nobody has listened, and the maker has not confirmed it. The crosswalk is from the SBL Handbook of Style, appendix E, and SIL eng.vrs; they support the crosswalk, not the reading of any one recording.",
@@ -281,6 +356,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -292,6 +368,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -303,6 +380,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -314,6 +392,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "unresolved",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 1,
 			"unmatched_examples_chirho": ["29_Joel_04.mp3"]
 		},
@@ -325,6 +404,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -336,6 +416,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -347,6 +428,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -358,6 +440,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -369,6 +452,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -380,6 +464,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -391,6 +476,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -402,6 +488,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -413,6 +500,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -424,6 +512,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -435,6 +524,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -446,6 +536,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -457,6 +548,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -468,6 +560,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -479,6 +572,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -490,6 +584,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -501,6 +596,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -512,6 +608,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -523,6 +620,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -534,6 +632,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "unresolved",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 1,
 			"unmatched_examples_chirho": ["29_Joel_04.mp3"]
 		},
@@ -545,6 +644,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -556,6 +656,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -567,6 +668,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -578,6 +680,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -589,6 +692,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -600,6 +704,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -611,6 +716,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -622,6 +728,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -633,6 +740,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -644,6 +752,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -655,6 +764,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -666,6 +776,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -677,6 +788,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -688,6 +800,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -699,6 +812,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -710,6 +824,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -721,6 +836,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -732,6 +848,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -743,6 +860,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -754,6 +872,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -765,6 +884,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -776,6 +896,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -787,6 +908,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -798,6 +920,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -809,6 +932,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -820,6 +944,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -831,6 +956,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -842,6 +968,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -853,6 +980,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -864,6 +992,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -875,6 +1004,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -886,6 +1016,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -897,6 +1028,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -908,6 +1040,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -919,6 +1052,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -930,6 +1064,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -941,6 +1076,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 2,
 			"unmatched_examples_chirho": ["27_Daniel_13.mp3", "27_Daniel_14.mp3"]
 		},
@@ -952,6 +1088,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -963,6 +1100,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -974,6 +1112,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -985,6 +1124,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -996,6 +1136,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1007,6 +1148,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1018,6 +1160,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1029,6 +1172,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1040,6 +1184,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1051,6 +1196,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1062,6 +1208,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1073,6 +1220,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1084,6 +1232,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1095,6 +1244,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1106,6 +1256,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1117,6 +1268,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1128,6 +1280,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1139,6 +1292,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1150,6 +1304,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1161,6 +1316,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1172,6 +1328,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1183,6 +1340,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1194,6 +1352,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2", "PSA 9", "PSA 113"],
 			"unmatched_chirho": 4,
 			"unmatched_examples_chirho": [
 				"19_Psalms_009A.mp3",
@@ -1210,6 +1369,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1221,6 +1381,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1232,6 +1393,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1243,6 +1405,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1254,6 +1417,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1265,6 +1429,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1276,6 +1441,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1287,6 +1453,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1298,6 +1465,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1309,6 +1477,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1320,6 +1489,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1331,6 +1501,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1342,6 +1513,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1353,6 +1525,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "hebrew_inferred",
 			"withheld_chirho": 2,
+			"played_from_parts_chirho": ["JOL 2"],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1364,6 +1537,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		},
@@ -1375,6 +1549,7 @@
 			"duplicates_chirho": 0,
 			"numbering_chirho": "standard",
 			"withheld_chirho": 0,
+			"played_from_parts_chirho": [],
 			"unmatched_chirho": 0,
 			"unmatched_examples_chirho": []
 		}

@@ -1,7 +1,10 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 import { describe, expect, it } from 'vitest';
-import { resolveChapterChirho } from '../../locate-chirho/locate_chirho';
+import {
+	resolveChapterChirho,
+	resolveChapterPlaybackChirho
+} from '../../locate-chirho/locate_chirho';
 import { buildDavarStationChirho, parseDavarFileNameChirho } from './davar_stations_chirho';
 
 const LANGUAGE_CHIRHO = { code_chirho: 'aa', name_chirho: 'Afar', english_chirho: 'Afar' };
@@ -201,5 +204,121 @@ describe('a recording that counts Joel in four chapters', () => {
 		expect(standardChirho.notes_chirho.numbering_chirho).toBe('standard');
 		expect(fileChirho(standardChirho, 'JOL', 2)).toBe('29_Joel_02.mp3');
 		expect(fileChirho(standardChirho, 'JOL', 3)).toBe('29_Joel_03.mp3');
+	});
+});
+
+describe('offering a chapter split across files', () => {
+	const JOEL_CHIRHO = ['29_Joel_01.mp3', '29_Joel_02.mp3', '29_Joel_03.mp3', '29_Joel_04.mp3'];
+	const MALACHI_CHIRHO = ['39_Malachi_01.mp3', '39_Malachi_02.mp3', '39_Malachi_03.mp3'];
+	const PSALM_CHIRHO = ['19_Psalms_008.mp3', '19_Psalms_009A.mp3', '19_Psalms_009B.mp3'];
+	const APPROVED_CHIRHO = new Set([ENTRY_CHIRHO.id]);
+	const lengthsChirho = (entriesChirho: [string, number][]) => ({
+		measured_on_chirho: '2026-11-13',
+		seconds_chirho: new Map(entriesChirho)
+	});
+	const builtChirho = (namesChirho: string[], lengths?: ReturnType<typeof lengthsChirho>) =>
+		buildDavarStationChirho(
+			ENTRY_CHIRHO,
+			namesChirho,
+			LANGUAGE_CHIRHO,
+			'2026-11-13',
+			APPROVED_CHIRHO,
+			lengths
+		);
+	const ALL_MEASURED_CHIRHO = lengthsChirho([
+		['29_Joel_02.mp3', 400],
+		['29_Joel_03.mp3', 75],
+		['19_Psalms_009A.mp3', 260],
+		['19_Psalms_009B.mp3', 247]
+	]);
+
+	it('offers nothing new without measured lengths', () => {
+		const resultChirho = builtChirho([...JOEL_CHIRHO, ...MALACHI_CHIRHO, ...PSALM_CHIRHO]);
+		expect(resultChirho.station_chirho?.composite_chapters_chirho).toBeUndefined();
+		expect(resultChirho.notes_chirho.composite_chirho).toEqual([]);
+	});
+
+	it('offers Joel 2 as the second file then the third, and a split psalm as A then B', () => {
+		const resultChirho = builtChirho(
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO, ...PSALM_CHIRHO],
+			ALL_MEASURED_CHIRHO
+		);
+		const stationChirho = resultChirho.station_chirho!;
+		expect(resultChirho.notes_chirho.composite_chirho).toEqual(['JOL 2', 'PSA 9']);
+		expect(resultChirho.notes_chirho.composite_refused_chirho).toEqual([]);
+		expect(resolveChapterPlaybackChirho(stationChirho, 'JOL', 2)).toEqual({
+			kind_chirho: 'composite',
+			parts_chirho: [
+				{
+					url_chirho: 'https://audio.dbs.org/TEST_DAVR_NT_N/29_Joel_02.mp3',
+					duration_seconds_chirho: 400
+				},
+				{
+					url_chirho: 'https://audio.dbs.org/TEST_DAVR_NT_N/29_Joel_03.mp3',
+					duration_seconds_chirho: 75
+				}
+			],
+			total_seconds_chirho: 475
+		});
+		expect(
+			resolveChapterPlaybackChirho(stationChirho, 'PSA', 9)?.kind_chirho === 'composite' &&
+				resolveChapterPlaybackChirho(stationChirho, 'PSA', 9)
+		).toMatchObject({ total_seconds_chirho: 507 });
+		// Nothing a player already knew has moved.
+		expect(resolveChapterChirho(stationChirho, 'JOL', 2)).toBeNull();
+		expect(resolveChapterChirho(stationChirho, 'PSA', 9)).toBeNull();
+		expect(stationChirho.chapter_count_chirho).toBe(
+			builtChirho([...JOEL_CHIRHO, ...MALACHI_CHIRHO, ...PSALM_CHIRHO]).station_chirho!
+				.chapter_count_chirho
+		);
+	});
+
+	it('leaves a split chapter out when a part was not measured', () => {
+		const resultChirho = builtChirho(
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO],
+			lengthsChirho([['29_Joel_02.mp3', 400]])
+		);
+		expect(resultChirho.station_chirho?.composite_chapters_chirho).toBeUndefined();
+		expect(resultChirho.notes_chirho.composite_refused_chirho).toEqual([
+			'JOL 2: not every part was measured'
+		]);
+	});
+
+	it('keeps the station but offers no split chapter when one breaks a rule', () => {
+		const resultChirho = builtChirho(
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO],
+			lengthsChirho([
+				['29_Joel_02.mp3', 400],
+				['29_Joel_03.mp3', 0.2]
+			])
+		);
+		expect(resultChirho.station_chirho).not.toBeNull();
+		expect(resultChirho.station_chirho?.composite_chapters_chirho).toBeUndefined();
+		expect(resultChirho.notes_chirho.composite_refused_chirho).toEqual([
+			'JOL 2: breaks a rule for split chapters'
+		]);
+	});
+
+	it('does not offer Joel 2 from parts on a recording not approved for the Hebrew count', () => {
+		const resultChirho = buildDavarStationChirho(
+			ENTRY_CHIRHO,
+			[...JOEL_CHIRHO, ...MALACHI_CHIRHO],
+			LANGUAGE_CHIRHO,
+			'2026-11-13',
+			new Set(),
+			ALL_MEASURED_CHIRHO
+		);
+		expect(resultChirho.station_chirho?.composite_chapters_chirho).toBeUndefined();
+	});
+
+	it('does not offer lettered parts that do not start at A or skip a letter', () => {
+		const resultChirho = builtChirho(
+			['19_Psalms_008.mp3', '19_Psalms_009A.mp3', '19_Psalms_009C.mp3'],
+			lengthsChirho([
+				['19_Psalms_009A.mp3', 100],
+				['19_Psalms_009C.mp3', 100]
+			])
+		);
+		expect(resultChirho.station_chirho?.composite_chapters_chirho).toBeUndefined();
 	});
 });

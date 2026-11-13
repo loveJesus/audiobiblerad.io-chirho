@@ -105,7 +105,24 @@
 				"JUD": [[1, 1]],
 				"REV": [[1, 22]]
 			},
-			"chapter_count_chirho": 1187
+			"chapter_count_chirho": 1187,
+			"composite_chapters_chirho": {
+				"JOL": {
+					"2": {
+						"parts_chirho": [
+							{
+								"url_chirho": "https://audio.dbs.org/FUESIM_DAVR_FB_N/29_Joel_002.mp3",
+								"duration_seconds_chirho": 494.304756
+							},
+							{
+								"url_chirho": "https://audio.dbs.org/FUESIM_DAVR_FB_N/29_Joel_003.mp3",
+								"duration_seconds_chirho": 79.2975
+							}
+						],
+						"measured_on_chirho": "2026-11-13"
+					}
+				}
+			}
 		}
 	]
 }
