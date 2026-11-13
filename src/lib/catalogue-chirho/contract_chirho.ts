@@ -43,6 +43,13 @@ export interface PatternLocatorChirho {
 	readonly template_chirho: string;
 	/** Names a list in the catalogue's `book_code_schemes_chirho`, when the source has its own codes. */
 	readonly book_codes_chirho?: string;
+	/**
+	 * Chapters whose file is named out of pattern: by book, then by chapter number written as
+	 * text, the whole address. An override wins over the template.
+	 */
+	readonly overrides_chirho?: Readonly<
+		Partial<Record<BookIdChirho, Readonly<Record<string, string>>>>
+	>;
 }
 
 /**

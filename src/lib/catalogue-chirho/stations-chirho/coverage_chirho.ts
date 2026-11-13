@@ -47,22 +47,29 @@ export function readStationCoverageChirho(
 		available_chirho?: unknown;
 	};
 
-	const coverageChirho: Partial<Record<string, ChapterRangeChirho[]>> = {};
-	if (typeof availableChirho === 'object' && availableChirho !== null) {
-		const rawChirho = availableChirho as Record<string, unknown>;
-		for (const bookChirho of BOOKS_CHIRHO) {
-			const rawRangesChirho = rawChirho[bookChirho.id_chirho];
-			if (!Array.isArray(rawRangesChirho)) continue;
-			const rangesChirho = rawRangesChirho
-				.map((rangeChirho) => readRangeChirho(rangeChirho, bookChirho.chapters_chirho))
-				.filter((rangeChirho) => rangeChirho !== null);
-			if (rangesChirho.length > 0) coverageChirho[bookChirho.id_chirho] = rangesChirho;
-		}
-	}
 	return {
 		checked_on_chirho: typeof checkedOnChirho === 'string' ? checkedOnChirho : '',
-		coverage_chirho: coverageChirho
+		coverage_chirho: readCoverageChirho(availableChirho)
 	};
+}
+
+/**
+ * Read a coverage value from anywhere it may have been damaged: a file, the network. Anything
+ * that is not a real run of chapters inside a real book is dropped.
+ */
+export function readCoverageChirho(valueChirho: unknown): CoverageChirho {
+	const coverageChirho: Partial<Record<string, ChapterRangeChirho[]>> = {};
+	if (typeof valueChirho !== 'object' || valueChirho === null) return coverageChirho;
+	const rawChirho = valueChirho as Record<string, unknown>;
+	for (const bookChirho of BOOKS_CHIRHO) {
+		const rawRangesChirho = rawChirho[bookChirho.id_chirho];
+		if (!Array.isArray(rawRangesChirho)) continue;
+		const rangesChirho = rawRangesChirho
+			.map((rangeChirho) => readRangeChirho(rangeChirho, bookChirho.chapters_chirho))
+			.filter((rangeChirho) => rangeChirho !== null);
+		if (rangesChirho.length > 0) coverageChirho[bookChirho.id_chirho] = rangesChirho;
+	}
+	return coverageChirho;
 }
 
 export function countChaptersChirho(coverageChirho: CoverageChirho): number {

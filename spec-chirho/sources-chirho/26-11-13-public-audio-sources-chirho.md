@@ -27,9 +27,11 @@ The record is in three places:
   Slavonic, Portuguese and Maori. The station register beside this page lists every one.
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
   streaming only.
-- **Davar Audio Bibles serves 431 recordings in 389 languages, a file per chapter, from its own
-  host,** free for non-commercial use with its notices shown. It fits this project's rule and is
-  the next thing to build. It needs the catalogue to load by language first.
+- **In the catalogue, loaded by language on demand:** 431 stations in 389 languages from Davar
+  Audio Bibles, 349,722 chapters, served a file per chapter from its own host, free for
+  non-commercial use with its notices shown. The web player has no way to choose among them
+  yet; that is the next piece of work on the screen. Its register is
+  `davar_station_register_chirho.md`, beside this page.
 - **Open.Bible offers 157 languages under open licences with no key,** as downloads only. Playing
   them means keeping copies, which is the owner's decision.
 - **Not playing, for three different reasons.** Each source below says which applies.
@@ -255,13 +257,14 @@ nothing was measured:** most of it is text to speech, which waits for the owner'
   Matthew and Romans, a Greek 1 and 2 Peter and a Hebrew Exodus, all read several chapters to a
   section. Playing those needs a start time inside a file, which the contract does not have yet.
 
-## Clear terms and playable from the source, not yet built
+## Clear terms and playable from the source, loaded by language
 
 ### Davar Audio Bibles (davaraudiobibles.org)
 
 The largest source found that fits this project's rule as it stands: it serves a file per
-chapter from its own host. Read with a real browser on 2026-11-13. Nothing from it plays yet,
-because it is too large for the catalogue as it is built today.
+chapter from its own host. Read with a real browser on 2026-11-13. Its 431 recordings are in
+the catalogue as stations that load by language, on demand, so that the first sound costs what
+it did before. The web player cannot choose among them yet.
 
 - **How much:** its "Audio Bible Library" lists 431 recordings in 389 languages across 67
   countries: 132 whole Bibles, 172 Old Testaments, 125 New Testaments and 2 portions. 116
@@ -287,119 +290,45 @@ because it is too large for the catalogue as it is built today.
 - **Tested from another website, in a browser:** a chapter loaded in an audio element in 0.16
   seconds, and the index and a recording's file list could both be read. So a web page of ours
   can play it and can read what each recording has.
-- **Not tested:** whether the naming is the same for all 431, which chapters each really has, and
-  whether a phone app is served. The host answers 403 to a plain client that is not a browser,
-  so the availability check cannot measure it as written, and a native app may be refused.
-  Asking Davar would settle the second; that is the owner's to send.
-- **What it needs before it can play:** the catalogue loads every station at once today. 431
-  more would be far too much to send to every listener, so stations must load by language, on
-  demand. The check must run inside a browser. The player needs a way to choose among hundreds
-  of stations. None of that changes what plays now.
+- **Measured on 2026-11-13, in a browser:** the index and all 431 file lists, 349,789 file names.
+  A chapter is claimed only when the recording's own list names a file for it: 349,722 chapters,
+  and every address the catalogue gives was matched, letter for letter, against a listed name.
+  113 stations have every chapter. The first listed file of each of the 431 recordings was then
+  loaded in an audio element on another website, and all 431 answered. The numbers, and what
+  was left out, are in `spec-chirho/evidence-chirho/catalogue-chirho/davar_snapshot_chirho.json`.
+- **What that does and does not prove:** coverage here is what each recording's own list says
+  it has. Only 431 files, one per recording, were opened. The other chapters were not each
+  asked for, so a file that is listed but broken would be found only when played. The built-in
+  stations were measured chapter by chapter; these were not.
+- **Naming:** most recordings follow one of two patterns. 1,865 chapters are named otherwise (a
+  stray space, another width, a book code in place of a name) and are reached by an address
+  written out for that chapter.
+- **Left out, 67 files:** 61 recordings number Joel in four chapters, as Hebrew Bibles do, and
+  this catalogue counts three. Their fourth is not offered, and their first three are played
+  under the numbers the recording gives them. Also left out: two psalms split across two files,
+  and two chapters of Daniel that are not among the 66 books' chapters. Carrying a recording's
+  own chapter numbering is work not yet done.
+- **Voices:** the library names no reader and does not say how its recordings are voiced, so
+  every station says "unknown".
+- **How it is kept current:** what the catalogue holds is a reading taken on a day, not a live
+  view. `scripts-chirho/catalogue-chirho/build_davar_languages_chirho.ts` rebuilds the language
+  files, the evidence and the register from a new reading. The reading itself, about 10 MB, is
+  not kept in the repository; its size and hash are in the evidence.
+- **Not settled:** whether a phone app is served. The host answers 403 to a client that is not a
+  browser, so a native app may be refused, and the reading has to be made in a browser. This
+  project does not disguise a script as a browser to get round that. Asking Davar would settle
+  it; that is the owner's to send.
 
-## Openly licensed, but only as downloads
-
-### Open.Bible (managed by Biblica)
-
-The largest find without a key, and it cannot be played the way this project plays everything
-else. Read on 2026-11-13 through the site's own public catalogue at
-`https://open.bible/api/translations`. Nothing was downloaded and nothing from it plays.
-
-- **What it is:** "your online hub for free Bible texts, audio Bibles, and maps — all freely
-  released for use under Creative Commons licensing." Every entry comes from the Digital Bible
-  Library.
-- **How much audio:** 331 audio translations in 245 languages, 1,489 GB in all.
-- **Under licences that allow copying and re-use:** 227 of them, in 157 languages, 1,334 GB: 222
-  under CC BY-SA, 1 under CC BY and 4 in the public domain. Of these, 57 are whole Bibles and 143
-  are New Testaments. The other 104 carry a non-commercial or no-derivatives condition.
-- **Whole Bibles among the 227 include** Standard Arabic, Assamese, Bengali, Central Kurdish,
-  Chichewa, Ewe, Gujarati, Haitian Creole, Hindi, Igbo, Kannada, Kikuyu, Lingala, Luganda, Luo,
-  Malayalam, Marathi, Ndebele, Nepali, Odia, Punjabi, Shona, Swahili, Tamil, Telugu, Twi, Urdu,
-  Vietnamese and Yoruba.
-- **Who gives them:** Davar Audio Bibles (116), Hosanna/Faith Comes By Hearing (65), Biblica (14),
-  Spoken Worldwide (9), The Seed Company (8), Pioneer Bible Translators (6) and others.
-- **Verse timings:** 119 of the 227 come with a timings archive, so the dial could keep the verse.
-- **Licence, in the site's words:** "Bible translations available under CC BY and CC BY-SA may be
-  freely used subject to their license terms." Each entry names its own licence and credit, for
-  example "Adavi Kuruba New Testament Audio Bible, CC-BY-SA-4.0, Davar Partners International,
-  Bridge Connectivity Solutions, 2026."
-- **Why it does not play today:** each recording is offered as one zip archive, not as a file per
-  chapter that a radio can open. The middle one is 2.9 GB and the largest 219 GB. To play them,
-  the chapters would have to be unpacked and served from storage of our own. The licences allow
-  that. This project's rule so far is to stream from the source's host and copy nothing, so
-  whether to keep copies of openly licensed recordings is the owner's decision. It would also
-  cost storage every month, and it cannot be prepared on the build machine, whose disk is nearly
-  full.
-- **Why it matters:** it is 157 languages with no key and no agreement, against the 26 that play
-  today, and many of the same recordings Bible Brain would stream.
-
-## Tier 2: needs a key or an agreement in the owner's name
-
-### Bible Brain, the Digital Bible Platform (Faith Comes By Hearing)
-
-The largest catalogue of audio Bibles. The terms below are from the API licence at
-`https://www.faithcomesbyhearing.com/bible-brain/license`, marked "Last Modified: 4/15/21".
-
-- **A key is required**, granted to one named person: "you must (a) provide us with your name,
-  email, a description of your intended use and purpose for the API". They "may approve or deny
-  your API Key request at our sole discretion", and "You may not share your API Key with any other
-  person". There is no fee.
-- **Free to listeners:** "You enable your End Users to access DBP Content completely free of charge".
-- **Streaming only:** content is for use "solely through DBP (and not separately through offline
-  download) for your personal, non-commercial use". "No DBP Content may be downloaded or made
-  available for offline use ... except for DBP Content that is accessible via the /download endpoint".
-- **Credit must be easy to reach:** allowed "only if all copyright information from the
-  corresponding Content Licensors is readily accessible to them (for instance, via a clickable
-  'Copyrighted Material – LEARN MORE' button at the bottom of each chapter". Notices must be
-  "conspicuously" posted.
-- **Their terms go to every listener:** "Provide a copy of the DBP T&Cs to all End Users".
-- **No relaying to others:** "You do not create a proxy distribution network for DBP Content (for
-  instance, enabling other developers to use DBP Content or metadata via your servers or API
-  instead of ours)".
-- **Faith guidelines:** use must accord with their Statement of Faith and Mission Statement.
-- **On request,** they may ask for an account on our app that shows what listeners get.
-- **The API** is described at `https://4.dbt.io/open-api-4.json` (version 4.0.0-beta, 31 paths,
-  key scheme `dbp_key`). Useful paths: `/languages`, `/bibles`, `/bibles/{id}`,
-  `/bibles/filesets/{fileset_id}/{book}/{chapter}`, `/bibles/{bible_id}/copyright`,
-  `/timestamps/{fileset_id}/{book}/{chapter}`, `/download/list`. No call has been made because
-  there is no key.
-- **How audio arrives** (their core concepts page): files sit behind a delivery network and the API
-  returns signed addresses. Audio filesets come as 64 kbps MP3, as 16 kbps Opus, and for a few as
-  an HLS stream. Some have approximate verse start times. A version can have drama and non-drama
-  recordings.
-- **Question to settle with them when asking for the key:** this project's source is public, so the
-  key cannot live in the code or in a web page. The clean answer is our own server holding the key
-  and handing signed addresses to our own apps only. Their terms forbid relaying to other
-  developers, so ask them to confirm that this arrangement is acceptable.
-
-### Others, not read at their own pages
-
-The Free Use Bible API's documentation compares itself with two more services. These are its
-characterisations, not checked at the source: API.Bible needs an account and key, allows 5,000
-calls a month on its starter plan and needs a licence per translation for commercial use; the
-YouVersion Platform needs app registration, a key and an agreement with each publisher.
-
-## Tier 3: do not use without asking first
-
-- **Wordproject** (`https://www.wordproject.org/bibles/audio/`): many languages with direct files.
-  Its copyright page claims "the right of fair use for non-profit purposes" and says of the
-  narrations that "several have been done or sponsored by wordproject". That leaves the rest
-  unaccounted for. Write to them before using any of it.
-- **Faith Comes By Hearing MP3 downloads:** free personal downloads behind a form. It is not a
-  source for an app.
-
-## Not read yet
-
-API.Bible's own terms, the YouVersion Platform's own terms, Global Recordings Network, Talking
-Bibles, Scripture Earth, Door43, Audio Treasure, and collections on the Internet Archive beyond
 LibriVox's.
 
 ## Next for the catalogue
 
-In rough order of what each would add. None of it is started.
+In rough order of what each would add.
 
-1. **Davar Audio Bibles:** 389 languages, playable from its own host, terms already clear. Split
-   the catalogue by language so that stations load on demand, run the check in a browser, and
-   give the player a way to choose among hundreds of stations.
+1. **Davar Audio Bibles, the remaining parts:** the stations are in the catalogue. Still to do:
+   a way for the listener to choose among 389 languages, which belongs to the player; a
+   recording's own chapter numbering, for the 61 that count Joel in four; and a word with Davar
+   before any native app relies on its host.
 2. **Bible Brain**, once the owner has the key: a third locator kind, where our own server asks
    for a short-lived address. It streams, so it needs no storage of ours.
 3. **Open.Bible**, if the owner allows keeping copies of openly licensed recordings: 157

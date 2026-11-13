@@ -42,6 +42,15 @@ export {
 	stationHasChapterChirho
 } from './locate-chirho/locate_chirho';
 export { parseVerseTimingsChirho } from './locate-chirho/timings_chirho';
+export {
+	LANGUAGE_LIST_PATH_CHIRHO,
+	fetchingReaderChirho,
+	languageFilePathChirho,
+	loadLanguageListChirho,
+	loadLanguageStationsChirho,
+	type CatalogueReaderChirho,
+	type LanguageEntryChirho
+} from './languages-chirho/language_loader_chirho';
 
 /**
  * Every station cleared to play, in a stable order grouped by language.

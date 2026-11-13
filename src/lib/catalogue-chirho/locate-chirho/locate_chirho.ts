@@ -81,6 +81,9 @@ export function locateChapterChirho(
 ): string | null {
 	if (!isChapterNumberChirho(chapterChirho)) return null;
 	if (locatorChirho.kind_chirho === 'pattern') {
+		const overrideChirho =
+			locatorChirho.overrides_chirho?.[bookChirho.id_chirho]?.[String(chapterChirho)];
+		if (typeof overrideChirho === 'string') return overrideChirho;
 		return expandTemplateChirho(
 			locatorChirho.template_chirho,
 			bookChirho,

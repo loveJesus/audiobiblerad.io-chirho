@@ -57,6 +57,52 @@ flowchart TD
 - The ship tests are in `catalogue_chirho.spec.ts`. They name no station, so adding one needs no
   change to them.
 
+## A large source becomes stations that load by language
+
+Some sources are too large to send to every listener. Their stations are written as data, one
+small file per language, and are fetched only when a listener asks for that language. The rule
+is the same: notices on record, chapters measured.
+
+```mermaid
+flowchart TD
+    browser_chirho[Read the library's index and every recording's file list<br/>in a real browser, and save the reading outside the repository] --> script_chirho[build_davar_languages_chirho.ts]
+    script_chirho --> each_chirho[For each recording: buildDavarStationChirho]
+    each_chirho --> name_chirho{Does a listed file name a chapter of the 66 books?<br/>parseDavarFileNameChirho}
+    name_chirho -- no --> counted_chirho[Left out and counted in the evidence]
+    name_chirho -- yes --> fits_chirho{Does the name follow the recording's pattern?}
+    fits_chirho -- yes --> claimed_chirho[The chapter is claimed]
+    fits_chirho -- no --> override_chirho[The chapter is claimed with its address written out]
+    override_chirho --> claimed_chirho
+    claimed_chirho --> notice_chirho{An id, a title, a notice to show and at least one chapter?}
+    notice_chirho -- no --> refused_chirho[No station: listed in the evidence with the reason]
+    notice_chirho -- yes --> reread_chirho{Does readStationChirho accept it, and is every<br/>address it gives a name on the list?}
+    reread_chirho -- no --> refused_chirho
+    reread_chirho -- yes --> written_chirho[Written to static/catalogue-chirho/:<br/>the language list and one file per language]
+    written_chirho --> record_chirho[The register and the evidence are written]
+    record_chirho --> tests_chirho{language_files_chirho.spec.ts: every file read back,<br/>every address on the source's host, register matches?}
+    tests_chirho -- yes --> served_chirho([Served as static files])
+
+    listener_chirho[A listener looks for a language] --> list_chirho[loadLanguageListChirho]
+    list_chirho --> pick_chirho[loadLanguageStationsChirho code]
+    pick_chirho --> code_chirho{Is it a language code?<br/>languageFilePathChirho}
+    code_chirho -- no --> none_chirho([No stations, and nothing is fetched])
+    code_chirho -- yes --> fetched_chirho[The reader fetches that one file]
+    fetched_chirho --> known_chirho{Written under the contract this code knows?}
+    known_chirho -- no --> none_chirho
+    known_chirho -- yes --> whole_station_chirho{For each station: well formed in every part,<br/>and in the language asked for? readStationChirho}
+    whole_station_chirho -- no --> dropped_chirho[Dropped whole]
+    whole_station_chirho -- yes --> ordinary_chirho([An ordinary station: every function below works on it])
+```
+
+- The files are in `static/catalogue-chirho/`: `languages_chirho.json`, and
+  `languages-chirho/<first letter>/<code>.json`. The path is made from the code, never read
+  from data.
+- `spec-chirho/sources-chirho/davar_station_register_chirho.md` lists every such station with
+  its notices. The test fails when it differs from what is served.
+- A file that cannot be fetched makes the loader reject, so a player can tell "could not load"
+  from "has none".
+- The built-in stations do not pass through any of this and are not changed by it.
+
 ## A player finds a chapter
 
 Nothing here touches the network. A player can resolve an address and start playing inside the
@@ -70,7 +116,9 @@ flowchart TD
     covered_chirho -- no --> nothing_chirho
     covered_chirho -- yes --> kind_chirho{Which kind of locator?}
     kind_chirho -- one this code does not know --> nothing_chirho
-    kind_chirho -- pattern --> fill_chirho[expandTemplateChirho fills the address template]
+    kind_chirho -- pattern --> over_chirho{Is this chapter's address written out?}
+    over_chirho -- yes --> whole_chirho
+    over_chirho -- no --> fill_chirho[expandTemplateChirho fills the address template]
     kind_chirho -- index --> look_chirho[Read the chapter's address from the list]
     fill_chirho --> whole_chirho{Is there a complete address?}
     look_chirho --> whole_chirho

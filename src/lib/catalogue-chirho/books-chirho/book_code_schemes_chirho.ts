@@ -32,7 +32,25 @@ const EBIBLE_NUMBERED_BOOK_CODES_CHIRHO: readonly string[] = BOOKS_CHIRHO.map((b
 	return `${String(numberChirho).padStart(3, '0')}_${bookChirho.id_chirho}`;
 });
 
+/**
+ * The English book names in Davar Audio Bibles' file names, as `40_Matthew_01.mp3`. Read from
+ * the file lists of all 431 of its recordings on 2026-11-13. Note `Canticles`, and no space
+ * after a leading digit.
+ */
+const DAVAR_BOOK_NAMES_CHIRHO = [
+	...['Genesis', 'Exodus', 'Leviticus', 'Numbers', 'Deuteronomy', 'Joshua', 'Judges', 'Ruth'],
+	...['1Samuel', '2Samuel', '1Kings', '2Kings', '1Chronicles', '2Chronicles', 'Ezra', 'Nehemiah'],
+	...['Esther', 'Job', 'Psalms', 'Proverbs', 'Ecclesiastes', 'Canticles', 'Isaiah', 'Jeremiah'],
+	...['Lamentations', 'Ezekiel', 'Daniel', 'Hosea', 'Joel', 'Amos', 'Obadiah', 'Jonah', 'Micah'],
+	...['Nahum', 'Habakkuk', 'Zephaniah', 'Haggai', 'Zechariah', 'Malachi', 'Matthew', 'Mark'],
+	...['Luke', 'John', 'Acts', 'Romans', '1Corinthians', '2Corinthians', 'Galatians', 'Ephesians'],
+	...['Philippians', 'Colossians', '1Thessalonians', '2Thessalonians', '1Timothy', '2Timothy'],
+	...['Titus', 'Philemon', 'Hebrews', 'James', '1Peter', '2Peter', '1John', '2John', '3John'],
+	...['Jude', 'Revelation']
+] as const;
+
 export const BOOK_CODE_SCHEMES_CHIRHO: Readonly<Record<string, readonly string[]>> = {
 	openbible_chirho: OPENBIBLE_BOOK_CODES_CHIRHO,
-	ebible_numbered_chirho: EBIBLE_NUMBERED_BOOK_CODES_CHIRHO
+	ebible_numbered_chirho: EBIBLE_NUMBERED_BOOK_CODES_CHIRHO,
+	davar_chirho: DAVAR_BOOK_NAMES_CHIRHO
 };

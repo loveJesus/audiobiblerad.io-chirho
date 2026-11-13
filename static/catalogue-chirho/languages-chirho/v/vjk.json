@@ -1,0 +1,38 @@
+{
+	"contract_version_chirho": 1,
+	"language_chirho": {
+		"code_chirho": "vjk",
+		"name_chirho": "Bajjika",
+		"english_chirho": "Bajjika"
+	},
+	"stations_chirho": [
+		{
+			"id_chirho": "davar-vjkniea-davr-np-n",
+			"language_code_chirho": "vjk",
+			"voice_chirho": "",
+			"voice_kind_chirho": "unknown",
+			"source_id_chirho": "davar",
+			"language_name_chirho": "Bajjika",
+			"language_english_chirho": "Bajjika",
+			"version_chirho": "Bajjika - Gospel of Mark",
+			"version_code_chirho": "VJKNIEA",
+			"source_name_chirho": "Davar Audio Bibles",
+			"licence_id_chirho": "davar-library-notice",
+			"licence_name_chirho": "Free to download and distribute, not for sale or commercial use, with the copyright notice shown",
+			"credit_chirho": "Bajjika Bible Portions © 2023, New India Evangelistic Association. · Bajjika Audio Bible Portions © 2023, Davar Partners International.",
+			"source_url_chirho": "https://davaraudiobibles.org/audio-bible-library/",
+			"licence_url_chirho": "https://davaraudiobibles.org/audio-bible-library/",
+			"licence_evidence_url_chirho": "https://davaraudiobibles.org/audio-bible-library/",
+			"licence_read_on_chirho": "2026-11-13",
+			"coverage_checked_on_chirho": "2026-11-13",
+			"locator_chirho": {
+				"kind_chirho": "pattern",
+				"template_chirho": "https://audio.dbs.org/VJKNIEA_DAVR_NP_N/{book_order_pad2_chirho}_{book_code_chirho}_{chapter_pad_book_chirho}.mp3",
+				"book_codes_chirho": "davar_chirho"
+			},
+			"has_timings_chirho": false,
+			"coverage_chirho": { "MRK": [[1, 16]] },
+			"chapter_count_chirho": 16
+		}
+	]
+}
