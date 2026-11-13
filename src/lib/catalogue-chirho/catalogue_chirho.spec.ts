@@ -27,7 +27,11 @@ function isSecureAddressChirho(valueChirho: string): boolean {
 	return (
 		URL.canParse(valueChirho) &&
 		new URL(valueChirho).protocol === 'https:' &&
-		!/[{}\s]/.test(valueChirho)
+		!/[{}\s]/.test(valueChirho) &&
+		// A browser reports the parsed form of an address as an audio element's `currentSrc`, and
+		// the web player matches media events against the address it was given. An address that
+		// parsing would change (a space, an upper-case host) would play and never be heard from.
+		new URL(valueChirho).href === valueChirho
 	);
 }
 
@@ -104,8 +108,12 @@ describe('the shipped catalogue', () => {
 		}
 	});
 
-	it('resolves every measured chapter to a secure, complete address', () => {
-		for (const stationChirho of STATIONS_CHIRHO) {
+	it('resolves every measured chapter to a secure, complete address, held stations included', () => {
+		const measuredChirho = [
+			...STATIONS_CHIRHO,
+			...HELD_STATIONS_CHIRHO.map((heldChirho) => heldChirho.station_chirho)
+		];
+		for (const stationChirho of measuredChirho) {
 			const addressesChirho = new Set<string>();
 			for (const [bookChirho, chapterChirho] of everyChapterOfChirho(stationChirho)) {
 				const whereChirho = `${stationChirho.id_chirho} ${bookChirho} ${chapterChirho}`;
