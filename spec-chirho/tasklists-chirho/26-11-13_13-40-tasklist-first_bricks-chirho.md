@@ -18,35 +18,35 @@ Tick a box when the step is truly done and checked, not when it is started.
 
 ## Brick 1: the fleet takes over
 
-- [ ] Every seat reads `AGENTS.md`, the owner's words, the sources file and the design proposal.
-- [ ] Post once in the room: who you are and which brick you take.
-- [ ] Agree who owns which paths, so two seats never edit the same files.
-- [ ] The coordinator puts the open decisions to L.J. in one short message: licence, native or
+- [x] Every seat reads `AGENTS.md`, the owner's words, the sources file and the design proposal.
+- [x] Post once in the room: who you are and which brick you take.
+- [x] Agree who owns which paths, so two seats never edit the same files.
+- [x] The coordinator puts the open decisions to L.J. in one short message: licence, native or
       wrapped, app identifiers, the Bible Brain key request.
 
 ## Brick 2: the catalogue
 
-- [ ] Fix the station contract: language, version, voice, voice kind, source, licence, credit, and
+- [x] Fix the station contract: language, version, voice, voice kind, source, licence, credit, and
       how to find a chapter (pattern, index or resolver).
-- [ ] Build stations for the sources that need no key, each with its licence and credit.
-- [ ] Check chapter availability instead of assuming it, politely, and record what is missing.
-- [ ] Tests for address building against the addresses verified in the sources file.
+- [x] Build stations for the sources that need no key, each with its licence and credit.
+- [x] Check chapter availability instead of assuming it, politely, and record what is missing.
+- [x] Tests for address building against the addresses verified in the sources file.
 
 ## Brick 3: the web radio
 
-- [ ] One screen: tap once and Scripture plays.
-- [ ] The dial changes station and keeps the book and chapter.
-- [ ] Position carries over: same verse where timings exist, otherwise the same fraction.
-- [ ] Next chapter plays on its own; a missing chapter is skipped.
-- [ ] The last station and place are remembered on the device.
-- [ ] Each station shows its credit and licence.
-- [ ] Measure time to first sound and time to change station. Write the numbers down.
+- [x] One screen: tap once and Scripture plays.
+- [x] The dial changes station and keeps the book and chapter.
+- [x] Position carries over: same verse where timings exist, otherwise the same fraction.
+- [x] Next chapter plays on its own; a missing chapter is skipped.
+- [x] The last station and place are remembered on the device.
+- [x] Each station shows its credit and licence.
+- [x] Measure time to first sound and time to change station. Write the numbers down.
 
 ## Brick 4: the radio sounds
 
-- [ ] A deterministic script that synthesises nine short radio sounds. Nothing downloaded.
-- [ ] They play while the next station loads and stop when its audio starts.
-- [ ] One remembered switch turns them off.
+- [x] A deterministic script that synthesises nine short radio sounds. Nothing downloaded.
+- [x] They play while the next station loads and stop when its audio starts.
+- [x] One remembered switch turns them off.
 
 ## Brick 5: iOS and Apple Watch (after L.J. confirms native)
 
@@ -69,3 +69,7 @@ Tick a box when the step is truly done and checked, not when it is started.
 
 - [ ] A licence and credits page that lists every station's source.
 - [ ] Ask L.J. before any deploy, DNS change, store listing or first push.
+
+## Web landing evidence
+
+Bricks 1 through 4 are locally implemented and checked. See `spec-chirho/evidence-chirho/web-radio-chirho/verification_notes_chirho.md` for the exact scope, 29-station catalogue, browser timings, review repairs and remaining physical-device limits. Reserved owner decisions are pending; no first push or deployment has occurred.
