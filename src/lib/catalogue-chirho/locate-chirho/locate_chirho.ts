@@ -8,6 +8,7 @@ import { BOOKS_CHIRHO, findBookChirho, type BookChirho } from '../books-chirho/b
 import { BOOK_CODE_SCHEMES_CHIRHO } from '../books-chirho/book_code_schemes_chirho';
 import type {
 	ChapterAudioChirho,
+	ChapterPlaybackChirho,
 	ChapterRefChirho,
 	CoverageChirho,
 	LocatorChirho,
@@ -140,19 +141,28 @@ export function chapterAtOrAfterChirho(
 	bookIdChirho: string,
 	chapterChirho: number
 ): ChapterRefChirho | null {
+	return walkCanonChirho(bookIdChirho, chapterChirho, (bookChirho, fromChirho) =>
+		firstCoveredChapterChirho(stationChirho.coverage_chirho, bookChirho, fromChirho)
+	);
+}
+
+/**
+ * One full turn of the canon: from the starting book to the end, then from Genesis round to
+ * the starting book again, this time from its first chapter. `firstChirho` names the lowest
+ * chapter a book has at or after a number.
+ */
+function walkCanonChirho(
+	bookIdChirho: string,
+	chapterChirho: number,
+	firstChirho: (bookChirho: BookChirho, fromChirho: number) => number | null
+): ChapterRefChirho | null {
 	const startBookChirho = findBookChirho(bookIdChirho);
 	if (!startBookChirho || !isChapterNumberChirho(chapterChirho)) return null;
 
 	const startIndexChirho = startBookChirho.order_chirho - 1;
-	// One full turn of the canon: from the starting book to the end, then from Genesis round to
-	// the starting book again, this time from its first chapter.
 	for (let stepChirho = 0; stepChirho <= BOOKS_CHIRHO.length; stepChirho += 1) {
 		const bookChirho = BOOKS_CHIRHO[(startIndexChirho + stepChirho) % BOOKS_CHIRHO.length];
-		const foundChirho = firstCoveredChapterChirho(
-			stationChirho.coverage_chirho,
-			bookChirho,
-			stepChirho === 0 ? chapterChirho : 1
-		);
+		const foundChirho = firstChirho(bookChirho, stepChirho === 0 ? chapterChirho : 1);
 		if (foundChirho !== null) {
 			return { book_id_chirho: bookChirho.id_chirho, chapter_chirho: foundChirho };
 		}
@@ -204,4 +214,111 @@ export function resolveChapterChirho(
 	return timingsUrlChirho === null
 		? { url_chirho: urlChirho }
 		: { url_chirho: urlChirho, timings_url_chirho: timingsUrlChirho };
+}
+
+// What a station offers: the chapters it plays from one file, which every helper above knows,
+// and the chapters it plays from several, which only these helpers know. A player that plays
+// split chapters uses these; one that does not keeps to those above and never meets one.
+
+/** The lowest chapter of a book the station offers, either way, at or after `fromChirho`. */
+function firstOfferedChapterChirho(
+	stationChirho: StationChirho,
+	bookChirho: BookChirho,
+	fromChirho: number
+): number | null {
+	let foundChirho = firstCoveredChapterChirho(
+		stationChirho.coverage_chirho,
+		bookChirho,
+		fromChirho
+	);
+	for (const chapterTextChirho of Object.keys(
+		stationChirho.composite_chapters_chirho?.[bookChirho.id_chirho] ?? {}
+	)) {
+		const chapterChirho = Number(chapterTextChirho);
+		if (chapterChirho >= fromChirho && (foundChirho === null || chapterChirho < foundChirho)) {
+			foundChirho = chapterChirho;
+		}
+	}
+	return foundChirho;
+}
+
+function compositeChapterChirho(
+	stationChirho: StationChirho,
+	bookIdChirho: string,
+	chapterChirho: number
+) {
+	const bookChirho = findBookChirho(bookIdChirho);
+	if (!bookChirho || !isChapterNumberChirho(chapterChirho)) return undefined;
+	const chaptersChirho = stationChirho.composite_chapters_chirho?.[bookChirho.id_chirho];
+	return chaptersChirho !== undefined && Object.hasOwn(chaptersChirho, String(chapterChirho))
+		? chaptersChirho[String(chapterChirho)]
+		: undefined;
+}
+
+/** True when the station offers this chapter, from one file or from several. */
+export function offersChapterChirho(
+	stationChirho: StationChirho,
+	bookIdChirho: string,
+	chapterChirho: number
+): boolean {
+	return (
+		stationHasChapterChirho(stationChirho, bookIdChirho, chapterChirho) ||
+		compositeChapterChirho(stationChirho, bookIdChirho, chapterChirho) !== undefined
+	);
+}
+
+/** As `chapterAtOrAfterChirho`, over every chapter the station offers. */
+export function offeredChapterAtOrAfterChirho(
+	stationChirho: StationChirho,
+	bookIdChirho: string,
+	chapterChirho: number
+): ChapterRefChirho | null {
+	return walkCanonChirho(bookIdChirho, chapterChirho, (bookChirho, fromChirho) =>
+		firstOfferedChapterChirho(stationChirho, bookChirho, fromChirho)
+	);
+}
+
+/** As `nextChapterChirho`, over every chapter the station offers. */
+export function nextOfferedChapterChirho(
+	stationChirho: StationChirho,
+	bookIdChirho: string,
+	chapterChirho: number
+): ChapterRefChirho | null {
+	if (!isChapterNumberChirho(chapterChirho)) return null;
+	return offeredChapterAtOrAfterChirho(stationChirho, bookIdChirho, chapterChirho + 1);
+}
+
+/** How many chapters the station offers: its coverage and its split chapters. */
+export function offeredChapterCountChirho(stationChirho: StationChirho): number {
+	let countChirho = stationChirho.chapter_count_chirho;
+	for (const chaptersChirho of Object.values(stationChirho.composite_chapters_chirho ?? {})) {
+		countChirho += Object.keys(chaptersChirho ?? {}).length;
+	}
+	return countChirho;
+}
+
+/**
+ * How to play a chapter the station offers: one file, with its timings where it has them and
+ * no length yet, or several files in order with their measured lengths. Nothing for a chapter
+ * it does not offer.
+ */
+export function resolveChapterPlaybackChirho(
+	stationChirho: StationChirho,
+	bookIdChirho: string,
+	chapterChirho: number
+): ChapterPlaybackChirho | null {
+	const audioChirho = resolveChapterChirho(stationChirho, bookIdChirho, chapterChirho);
+	if (audioChirho !== null) {
+		return { kind_chirho: 'single', ...audioChirho, total_seconds_chirho: null };
+	}
+	const compositeChirho = compositeChapterChirho(stationChirho, bookIdChirho, chapterChirho);
+	if (compositeChirho === undefined) return null;
+	return {
+		kind_chirho: 'composite',
+		parts_chirho: compositeChirho.parts_chirho,
+		total_seconds_chirho: compositeChirho.parts_chirho.reduce(
+			(sumChirho, partChirho) => sumChirho + partChirho.duration_seconds_chirho,
+			0
+		)
+	};
 }

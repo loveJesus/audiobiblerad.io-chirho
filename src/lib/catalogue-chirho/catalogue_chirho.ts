@@ -25,8 +25,11 @@ export {
 	CATALOGUE_CONTRACT_VERSION_CHIRHO,
 	type CatalogueChirho,
 	type ChapterAudioChirho,
+	type ChapterPartChirho,
+	type ChapterPlaybackChirho,
 	type ChapterRangeChirho,
 	type ChapterRefChirho,
+	type CompositeChapterChirho,
 	type CoverageChirho,
 	type IndexLocatorChirho,
 	type LocatorChirho,
@@ -38,7 +41,12 @@ export {
 export {
 	chapterAtOrAfterChirho,
 	nextChapterChirho,
+	nextOfferedChapterChirho,
+	offeredChapterAtOrAfterChirho,
+	offeredChapterCountChirho,
+	offersChapterChirho,
 	resolveChapterChirho,
+	resolveChapterPlaybackChirho,
 	stationHasChapterChirho
 } from './locate-chirho/locate_chirho';
 export { parseVerseTimingsChirho } from './locate-chirho/timings_chirho';

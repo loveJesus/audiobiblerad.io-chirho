@@ -54,8 +54,23 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
       Malachi 3 holds Malachi 4 too.
 - [x] Sources file: put back the four sections (downloads only, Tier 2, Tier 3, not read yet)
       that the first Davar commit dropped by mistake.
-- [ ] Playing a chapter from two files, which would bring Joel 2 back: proposed in the room
-      before any work on it.
+- [x] Playing a chapter from two files, which would bring Joel 2 back: proposed in the room
+      (34091), terms agreed (34094 to 34096).
+
+## Chapters split across files (piece 1 of 5 approved: contract and code, no data)
+
+- [x] Contract: `composite_chapters_chirho` on a station, kept out of coverage, overrides and
+      the chapter count; `ChapterPlaybackChirho`, single or composite, with an unknown length as
+      null.
+- [x] One validator for the reader and the build: 2 to 4 parts, 1 to 3600 seconds each, 7200 in
+      all, canonical files in the recording's own folder, used once, never a covered chapter's
+      file; anything wrong drops the whole station.
+- [x] `resolveChapterPlaybackChirho` and the offered helpers; every existing helper unchanged.
+- [x] The reader as it was before, run on a station with a split chapter: it keeps the station,
+      never offers the split chapter, and skips to Joel 3. Evidence in
+      `composite_prior_reader_chirho.json`.
+- [ ] Piece 2: measure six files in a browser, once the coordinator acknowledges piece 1.
+- [ ] Pieces 3 to 5 (the other 116 files, writing the data, the player) are held.
 
 ## Log
 

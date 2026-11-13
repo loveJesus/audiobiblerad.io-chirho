@@ -145,3 +145,36 @@ flowchart TD
 - A timings file can be missing for a single chapter of a station that otherwise has them. The
   evidence file lists those chapters. The player falls back to the fraction.
 - A player that meets a locator or timings kind it does not know must skip that station.
+
+## A chapter split across several files
+
+Some recordings split a chapter across files: a Hebrew-count Joel 2, a psalm in two halves. Such a
+chapter is carried apart from the coverage, so a player that does not know about it never offers it
+and can never play one part as the whole chapter. A player that does know uses the `offered`
+helpers and `resolveChapterPlaybackChirho`. No station carries one yet: the parts must first be
+measured.
+
+```mermaid
+flowchart TD
+    read_chirho[readStationChirho reads a station that arrived at run time] --> has_chirho{Does it carry split chapters?}
+    has_chirho -- no --> station_chirho([The station, as before])
+    has_chirho -- yes --> rules_chirho[readCompositeChaptersChirho]
+    rules_chirho --> keep_chirho{"A real chapter outside coverage and overrides; 2 to 4 parts; each 1 to 3600 s, 7200 in all; each a canonical file in the recording's own folder, used once, never a covered chapter's file?"}
+    keep_chirho -- no --> drop_chirho([The whole station is dropped])
+    keep_chirho -- yes --> both_chirho([The station with its split chapters])
+
+    play_chirho[resolveChapterPlaybackChirho station, book, chapter] --> covered_chirho{Inside the coverage?}
+    covered_chirho -- yes --> single_chirho([Single: one address, timings where it has them, length null])
+    covered_chirho -- no --> split_chirho{A split chapter?}
+    split_chirho -- yes --> composite_chirho([Composite: the parts in order, with the sum of their measured lengths])
+    split_chirho -- no --> nothing_chirho([Nothing])
+
+    dial_chirho[The dial or the end of a chapter] --> offered_chirho[offeredChapterAtOrAfterChirho, nextOfferedChapterChirho]
+    offered_chirho --> any_chirho([The next chapter offered either way, wrapping to the first])
+```
+
+- The older helpers (`resolveChapterChirho`, `stationHasChapterChirho`, `chapterAtOrAfterChirho`,
+  `nextChapterChirho`) and `chapter_count_chirho` keep their meaning. They skip a split chapter
+  as a chapter the station lacks.
+- A measured length proves that the file's metadata could be read. It does not prove that the
+  sound is complete, or that it says what the chapter should.

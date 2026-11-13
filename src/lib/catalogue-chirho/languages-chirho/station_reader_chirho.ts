@@ -8,6 +8,7 @@
 import { BOOKS_CHIRHO, findBookChirho } from '../books-chirho/books_chirho';
 import { BOOK_CODE_SCHEMES_CHIRHO } from '../books-chirho/book_code_schemes_chirho';
 import type { PatternLocatorChirho, StationChirho, VoiceKindChirho } from '../contract_chirho';
+import { readCompositeChaptersChirho } from '../locate-chirho/composite_chirho';
 import { resolveChapterChirho } from '../locate-chirho/locate_chirho';
 import { countChaptersChirho, readCoverageChirho } from '../stations-chirho/coverage_chirho';
 
@@ -87,7 +88,9 @@ function readPatternLocatorChirho(valueChirho: unknown): PatternLocatorChirho | 
  * - its names, licence, credit and dates are present, and its addresses are secure;
  * - its locator is a pattern this code can fill, with every override a real chapter;
  * - its coverage holds at least one real chapter, and every chapter it holds resolves to a
- *   secure address in the form a browser reports.
+ *   secure address in the form a browser reports;
+ * - its chapters split across several files, if it has any, keep every rule in
+ *   `readCompositeChaptersChirho`.
  * The chapter count is counted here, not believed.
  */
 export function readStationChirho(valueChirho: unknown): StationChirho | null {
@@ -173,5 +176,11 @@ export function readStationChirho(valueChirho: unknown): StationChirho | null {
 			}
 		}
 	}
-	return stationChirho;
+	if (valueChirho.composite_chapters_chirho === undefined) return stationChirho;
+	const compositeChirho = readCompositeChaptersChirho(
+		valueChirho.composite_chapters_chirho,
+		stationChirho
+	);
+	if (compositeChirho === null) return null;
+	return { ...stationChirho, composite_chapters_chirho: compositeChirho };
 }

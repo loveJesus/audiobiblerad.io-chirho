@@ -1,0 +1,26 @@
+{
+	"what_chirho": "The catalogue reader and resolver as they were at commit 1948e93, before split chapters existed, run on a station carrying a split Joel 2 (two parts) beside a plain station in one language file.",
+	"how_chirho": "src/lib/catalogue-chirho at 1948e93 extracted with git archive outside the repository and imported directly; every chapter of the 66 books asked of its resolver; its dial and next-chapter helpers walked. The representative station is the one in src/lib/catalogue-chirho/locate-chirho/composite_chirho.spec.ts.",
+	"run_on_chirho": "2026-11-13",
+	"prior_commit_chirho": "1948e93f31d5ccd7a81d20e248aafa41c7a08993",
+	"results_chirho": {
+		"current reader accepts it, with the split chapter": true,
+		"current playback of Joel 2 is composite": true,
+		"prior loader keeps both stations of the file": ["davar-hebrew-davr-ot-n", "plain-fr"],
+		"prior station has no split-chapter field": true,
+		"prior coverage unchanged": {
+			"JOL": [
+				[1, 1],
+				[3, 3]
+			]
+		},
+		"prior chapter count unchanged": 2,
+		"prior resolver answers exactly the two covered chapters": 2,
+		"no part address under any chapter (all 1,189 tried)": [],
+		"prior Joel 2: no address, not had": [null, false],
+		"prior dial from Joel 2 lands on Joel 3": true,
+		"prior next-chapter walk never meets Joel 2": ["JOL 1", "JOL 3", "JOL 1", "JOL 3"],
+		"prior whole-station JSON holds no part address": true
+	},
+	"failures_chirho": []
+}

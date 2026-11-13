@@ -124,6 +124,38 @@ export interface StationChirho {
 	readonly coverage_checked_on_chirho: string;
 	/** How many chapters the coverage holds. */
 	readonly chapter_count_chirho: number;
+
+	/**
+	 * Chapters the recording splits across several files, by book, then by chapter number
+	 * written as text. Such a chapter is excluded from the resolved coverage that older
+	 * players use: it is never in `coverage_chirho` or in a locator override, and it is not
+	 * counted in `chapter_count_chirho`. The pattern template could still fill in an address
+	 * for it, but nothing resolves a chapter outside coverage, so a player that does not read
+	 * this field simply does not offer it and can never play one part as the whole chapter.
+	 * No part may be a file that a covered chapter plays. Only `resolveChapterPlaybackChirho`
+	 * and the `offered` helpers see these chapters.
+	 */
+	readonly composite_chapters_chirho?: Readonly<
+		Partial<Record<BookIdChirho, Readonly<Record<string, CompositeChapterChirho>>>>
+	>;
+}
+
+/** One file of a chapter that is split across several. */
+export interface ChapterPartChirho {
+	readonly url_chirho: string;
+	/**
+	 * The length the browser reported for this file when it was measured. It proves the file's
+	 * metadata could be read, not that the sound is complete or says what it should.
+	 */
+	readonly duration_seconds_chirho: number;
+}
+
+/** A chapter played from two to four files, in order. */
+export interface CompositeChapterChirho {
+	/** In playing order, the first part included. */
+	readonly parts_chirho: readonly ChapterPartChirho[];
+	/** The day the parts were measured, as YYYY-MM-DD. */
+	readonly measured_on_chirho: string;
 }
 
 /** A book and a chapter. */
@@ -138,6 +170,23 @@ export interface ChapterAudioChirho {
 	/** Present when the station has verse timings. The file may still be missing for a chapter. */
 	readonly timings_url_chirho?: string;
 }
+
+/** How to play a chapter: from one file, or from several in order. */
+export type ChapterPlaybackChirho =
+	| {
+			readonly kind_chirho: 'single';
+			readonly url_chirho: string;
+			/** As in `ChapterAudioChirho`. */
+			readonly timings_url_chirho?: string;
+			/** Not known for a single file until it is loaded. */
+			readonly total_seconds_chirho: null;
+	  }
+	| {
+			readonly kind_chirho: 'composite';
+			readonly parts_chirho: readonly ChapterPartChirho[];
+			/** The sum of the parts' measured lengths. */
+			readonly total_seconds_chirho: number;
+	  };
 
 /** The whole catalogue as one JSON-safe object, for players that do not run this module. */
 export interface CatalogueChirho {
