@@ -1,0 +1,55 @@
+{
+	"what_chirho": "Batch A of the split-chapter measurement: six files that are parts of a chapter in three Davar recordings, each loaded once in a browser as far as its metadata, to learn its length. Approved by the coordinator in room message 34101.",
+	"how_chirho": "One audio element at a time with preload set to metadata, on a blank page in Chrome 157 driven through the Playwright tool. No retries, a 15 second ceiling, and the element unloaded at once on metadata, error or timeout. Each address is exactly a name in that recording's own file list. Preload is a hint to the browser: this does not establish how much of each file was transferred.",
+	"read_on_chirho": "2026-11-13",
+	"started_chirho": "2026-11-13T23:26:30.161Z",
+	"finished_chirho": "2026-11-13T23:26:33.672Z",
+	"reading_chirho": {
+		"kept_chirho": "outside the repository",
+		"file_bytes_chirho": 2243,
+		"file_sha256_chirho": "61a447cdbb35a124b9924be5bc43024cde4199ac4ff95864d0dd9897b66b2fa9"
+	},
+	"attempts_chirho": 6,
+	"requests_seen_chirho": "six GET requests to audio.dbs.org, each answered 206",
+	"transferred_bytes_chirho": "unknown: the host sends no Timing-Allow-Origin, so the browser reports 0 for every size",
+	"results_chirho": [
+		{
+			"recording_chirho": "FRABSF_DAVR_FB_N",
+			"file_chirho": "29_Joel_02.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 407.343125
+		},
+		{
+			"recording_chirho": "FRABSF_DAVR_FB_N",
+			"file_chirho": "29_Joel_03.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 77.495
+		},
+		{
+			"recording_chirho": "LINBSDRC_DAVR_FB_N",
+			"file_chirho": "29_Joel_002.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 409.406878
+		},
+		{
+			"recording_chirho": "LINBSDRC_DAVR_FB_N",
+			"file_chirho": "29_Joel_003.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 72.192125
+		},
+		{
+			"recording_chirho": "SHRBSDRC_DAVR_FB_N",
+			"file_chirho": "19_Psalms_009A.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 259.960256
+		},
+		{
+			"recording_chirho": "SHRBSDRC_DAVR_FB_N",
+			"file_chirho": "19_Psalms_009B.mp3",
+			"outcome_chirho": "loaded",
+			"duration_seconds_chirho": 247.108
+		}
+	],
+	"what_it_establishes_chirho": "Each of the six files answered, and its metadata could be read with a finite length. It does not establish that the sound is complete, or that the files hold the verses their names suggest: nobody has listened. In both Joel recordings the second file runs about five and a half times as long as the third, which fits Joel 2:1-27 against Joel 2:28-32, but fitting is not confirming.",
+	"not_done_chirho": "No other file was asked for. No catalogue data was written from this reading."
+}

@@ -69,7 +69,8 @@ is fifteen times the catalogue we have, so it cannot be bundled the way the firs
 - [x] The reader as it was before, run on a station with a split chapter: it keeps the station,
       never offers the split chapter, and skips to Joel 3. Evidence in
       `composite_prior_reader_chirho.json`.
-- [ ] Piece 2: measure six files in a browser, once the coordinator acknowledges piece 1.
+- [x] Piece 2: six files measured in a browser (34101): all six loaded, one request each,
+      answered 206; transferred bytes unknown. Evidence in `davar_parts_batch_a_chirho.json`.
 - [ ] Pieces 3 to 5 (the other 116 files, writing the data, the player) are held.
 
 ## Log
