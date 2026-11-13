@@ -1,0 +1,51 @@
+# For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
+
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+# Playwright
+test-results
+
+# Cloudflare's local-secrets file. It holds real credentials the moment anyone runs
+# `wrangler dev` against live services, and none of the rules above cover it.
+.dev.vars
+.dev.vars.*
+playwright-report
+
+# Raw interviews, intake exports, credentials and other client PII are local fleet inputs. Keep
+# sanitized decisions in spec-chirho/; never let a broad git add publish the private source.
+workspace-chirho/private-chirho/
+
+# NOTE: worker-configuration.d.ts is deliberately NOT ignored. `check` and `build` both run
+# `wrangler types --check`, which errors with "Types file not found" rather than regenerating it —
+# so ignoring it breaks the first command anyone runs on a fresh clone.
+
+# Ephemeral main-less config used only by the bounded type-generation wrapper.
+.wrangler-typegen-config-chirho.json
+
+# Browser-tool snapshots and script caches. This repository is public: page captures and
+# caches must never ride along in a broad add.
+.playwright-mcp/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
