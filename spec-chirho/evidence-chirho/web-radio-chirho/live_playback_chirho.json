@@ -1,0 +1,122 @@
+{
+	"measured_on_chirho": "2026-11-13T20:44:30.365Z",
+	"browser_chirho": "Chromium 158.0.8127.18",
+	"preview_chirho": "http://127.0.0.1:4173/",
+	"method_chirho": "Actual upstream streams, no media interception. Browser playing event; not an acoustic or physical-device latency measurement.",
+	"navigation_to_first_playing_ms_chirho": 456.4,
+	"progress_verified_chirho": [
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"seconds_chirho": 0.001939
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0.003843
+		},
+		{
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"seconds_chirho": 0.244318
+		},
+		{
+			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+			"seconds_chirho": 0.411795
+		}
+	],
+	"measurements_chirho": [
+		{
+			"at_ms_chirho": 456.39999997615814,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 410.230567,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Play Scripture",
+			"gesture_to_playing_ms_chirho": 287.2
+		},
+		{
+			"at_ms_chirho": 727,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 364.508844,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Next station",
+			"gesture_to_playing_ms_chirho": 31.1
+		},
+		{
+			"at_ms_chirho": 1186.5999999940395,
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"seconds_chirho": 0.244318,
+			"duration_chirho": 438.004521,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "हिन्दीHindiULB",
+			"gesture_to_playing_ms_chirho": 141.4
+		},
+		{
+			"at_ms_chirho": 2892.5999999940395,
+			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+			"seconds_chirho": 0.411788,
+			"duration_chirho": 410.416281,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "EspañolSpanishRVALibriVox volunteers",
+			"gesture_to_playing_ms_chirho": 1414.7
+		}
+	],
+	"trace_chirho": {
+		"gestures_chirho": [
+			{ "at_ms_chirho": 169.19999998807907, "control_chirho": "Play Scripture" },
+			{ "at_ms_chirho": 695.8999999761581, "control_chirho": "Next station" },
+			{ "at_ms_chirho": 978.2999999821186, "control_chirho": "Browse stations +" },
+			{ "at_ms_chirho": 1045.199999988079, "control_chirho": "हिन्दीHindiULB" },
+			{ "at_ms_chirho": 1411.5, "control_chirho": "Browse stations −" },
+			{ "at_ms_chirho": 1444.5999999940395, "control_chirho": "Browse stations +" },
+			{
+				"at_ms_chirho": 1477.8999999761581,
+				"control_chirho": "EspañolSpanishRVALibriVox volunteers"
+			},
+			{ "at_ms_chirho": 3128.0999999940395, "control_chirho": "Browse stations −" }
+		],
+		"playing_chirho": [
+			{
+				"at_ms_chirho": 456.39999997615814,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 410.230567,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 727,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 364.508844,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 1186.5999999940395,
+				"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+				"seconds_chirho": 0.244318,
+				"duration_chirho": 438.004521,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 2892.5999999940395,
+				"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
+				"seconds_chirho": 0.411788,
+				"duration_chirho": 410.416281,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			}
+		],
+		"element_count_chirho": 2,
+		"active_chirho": [
+			"https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3"
+		],
+		"viewport_fits_chirho": true
+	},
+	"errors_chirho": []
+}

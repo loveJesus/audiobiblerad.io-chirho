@@ -1,0 +1,422 @@
+/* For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) */
+
+.radio-chirho {
+	color: #e5e4d5;
+	background: #292e2b;
+	border: 1px solid #353a34;
+	border-radius: 17px;
+	padding: 23px 30px 0;
+	box-shadow:
+		0 17px 30px -21px #20261e88,
+		inset 0 1px 0 #ffffff13;
+}
+.radio-top-chirho,
+.display-top-chirho,
+.tuning-caption-chirho,
+.radio-bottom-chirho {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+.radio-label-chirho {
+	color: #c1c6b6;
+	font-size: 9px;
+	font-weight: 650;
+	letter-spacing: 1.7px;
+}
+.radio-label-chirho span {
+	color: #939e8e;
+	margin-left: 8px;
+}
+.on-air-chirho {
+	display: flex;
+	align-items: center;
+	gap: 7px;
+	font-size: 8px;
+	font-weight: 650;
+	letter-spacing: 1px;
+	color: #b9bead;
+	white-space: nowrap;
+}
+.on-air-chirho > span {
+	width: 5px;
+	height: 5px;
+	background: #87917f;
+	border-radius: 50%;
+}
+.on-air-chirho.active-chirho {
+	color: #e3bd74;
+}
+.on-air-chirho.active-chirho > span {
+	background: #e3bd74;
+	box-shadow: 0 0 8px #e3bd7470;
+}
+.display-chirho {
+	margin-top: 19px;
+	padding: 17px 21px 15px;
+	border-radius: 6px;
+	border: 1px solid #111a18;
+	background: #18231f;
+	box-shadow: inset 0 2px 12px #0a120d60;
+	color: #d6dcc2;
+}
+.display-top-chirho {
+	font-family: 'Courier New', monospace;
+	font-size: 10px;
+	color: #a0b098;
+	letter-spacing: 1.5px;
+}
+.station-language-chirho {
+	font-family: 'Iowan Old Style', 'Palatino Linotype', Georgia, serif;
+	font-size: clamp(30px, 5vw, 43px);
+	font-weight: 400;
+	margin: 16px 0 2px;
+	line-height: 1.25;
+	color: #e4e8d4;
+}
+.station-version-chirho {
+	font-size: 12px;
+	margin: 0;
+	letter-spacing: 0.3px;
+}
+.voice-chirho {
+	color: #aab89e;
+	font-size: 10px;
+	margin: 7px 0 16px;
+	line-height: 1.5;
+}
+.voice-chirho > span {
+	color: #a0ac95;
+}
+.passage-display-chirho {
+	border-top: 1px solid #63745b4d;
+	padding-top: 13px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 16px;
+	letter-spacing: 0.5px;
+}
+.verse-chirho {
+	color: #aab89e;
+}
+.wave-chirho {
+	height: 19px;
+	display: flex;
+	gap: 3px;
+	align-items: center;
+}
+.wave-chirho i {
+	display: block;
+	width: 2px;
+	height: calc(4px + mod(var(--bar-chirho) * 7, 16) * 1px);
+	background: #becd9e;
+	opacity: 0.6;
+}
+.wave-chirho.animate-chirho i {
+	animation: wave-chirho 0.8s ease-in-out infinite alternate;
+	animation-delay: calc(var(--bar-chirho) * -0.11s);
+}
+@keyframes wave-chirho {
+	to {
+		transform: scaleY(0.3);
+		opacity: 1;
+	}
+}
+.tuning-chirho {
+	margin-top: 21px;
+}
+.tuning-caption-chirho {
+	font-size: 8px;
+	font-weight: 600;
+	letter-spacing: 1.4px;
+	color: #b5bbab;
+}
+.tuning-caption-chirho > span:last-child {
+	color: #a4ae9b;
+	font-size: 8px;
+	letter-spacing: 1px;
+}
+.tuning-controls-chirho {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+	padding-top: 10px;
+}
+.dial-arrow-chirho {
+	background: none;
+	border: 1px solid #69745e;
+	color: #d5d8c4;
+	width: 44px;
+	height: 44px;
+	border-radius: 50%;
+	font-size: 18px;
+	flex-shrink: 0;
+	transition: background 0.15s;
+}
+.dial-arrow-chirho:hover {
+	background: #45503c;
+}
+.dial-track-chirho {
+	position: relative;
+	width: 100%;
+	height: 39px;
+}
+.dial-ticks-chirho {
+	position: absolute;
+	inset: 5px 5px 10px;
+	background: repeating-linear-gradient(
+		90deg,
+		#839076 0,
+		#839076 1px,
+		transparent 1px,
+		transparent 11px
+	);
+	mask-image: linear-gradient(180deg, #000 45%, transparent 45%, transparent 56%, #000 56%);
+	opacity: 0.6;
+}
+input.dial-chirho {
+	appearance: none;
+	width: 100%;
+	height: 39px;
+	position: relative;
+	background: transparent;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	box-shadow: none;
+}
+input.dial-chirho::-webkit-slider-thumb {
+	appearance: none;
+	width: 5px;
+	height: 35px;
+	border-radius: 1px;
+	border: 0;
+	background: #e5b76a;
+	box-shadow: 0 0 8px #e5b76a30;
+}
+input.dial-chirho::-moz-range-thumb {
+	width: 5px;
+	height: 35px;
+	border: 0;
+	border-radius: 1px;
+	background: #e5b76a;
+}
+.playback-chirho {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 22px;
+	padding: 20px 0 13px;
+}
+.play-chirho {
+	min-width: 204px;
+	border: 1px solid #f0cd8c;
+	background: #e8bd75;
+	color: #2a3028;
+	font-size: 14px;
+	font-weight: 650;
+	border-radius: 28px;
+	padding: 15px 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 13px;
+	box-shadow: 0 3px 0 #a78148;
+	transition:
+		background 0.15s,
+		transform 0.15s;
+}
+.play-chirho:hover {
+	background: #f6cf8d;
+}
+.play-chirho:active {
+	transform: translateY(2px);
+	box-shadow: 0 1px 0 #a78148;
+}
+.play-symbol-chirho {
+	width: 12px;
+	height: 14px;
+	display: inline-block;
+	background: currentColor;
+	clip-path: polygon(0 0, 100% 50%, 0 100%);
+}
+.play-symbol-chirho.pause-symbol-chirho {
+	clip-path: polygon(0 0, 35% 0, 35% 100%, 0 100%, 0 0, 65% 0, 100% 0, 100% 100%, 65% 100%, 65% 0);
+}
+.chapter-arrow-chirho {
+	min-width: 42px;
+	min-height: 44px;
+	background: none;
+	border: 0;
+	font-size: 33px;
+	font-family: Georgia, serif;
+	color: #bdc4ae;
+}
+.chapter-arrow-chirho:hover {
+	color: #e8bd75;
+}
+.seek-row-chirho {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+	font-family: 'Courier New', monospace;
+	font-size: 9px;
+	color: #b2bba6;
+	margin: 3px 0 15px;
+}
+.seek-row-chirho > span {
+	min-width: 29px;
+}
+.seek-row-chirho > span:last-child {
+	text-align: right;
+}
+input.seek-chirho {
+	appearance: none;
+	height: 20px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	border: 0;
+	box-shadow: none;
+}
+input.seek-chirho::-webkit-slider-runnable-track {
+	height: 2px;
+	background: #6d785f;
+}
+input.seek-chirho::-webkit-slider-thumb {
+	appearance: none;
+	width: 9px;
+	height: 9px;
+	border: 0;
+	margin-top: -3.5px;
+	border-radius: 50%;
+	background: #d2d8be;
+}
+input.seek-chirho::-moz-range-track {
+	height: 2px;
+	background: #6d785f;
+}
+input.seek-chirho::-moz-range-thumb {
+	width: 9px;
+	height: 9px;
+	border: 0;
+	border-radius: 50%;
+	background: #d2d8be;
+}
+.radio-bottom-chirho {
+	border-top: 1px solid #73806444;
+	padding: 6px 0;
+}
+.browse-button-chirho {
+	border: 0;
+	padding: 0;
+	background: none;
+	color: #d3d8c2;
+	font-size: 11px;
+	min-height: 44px;
+}
+.browse-button-chirho > span {
+	color: #d8b77f;
+	margin-left: 9px;
+}
+.sound-control-chirho {
+	position: relative;
+	font-size: 11px;
+	min-height: 44px;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	color: #c7ceba;
+	cursor: pointer;
+}
+.sound-control-chirho input {
+	position: absolute;
+	opacity: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1;
+	top: 0;
+	left: 0;
+	margin: 0;
+}
+.sound-control-chirho input:focus-visible + .switch-chirho {
+	outline: 3px solid #e8bd75;
+	outline-offset: 4px;
+}
+.switch-chirho {
+	display: inline-block;
+	width: 25px;
+	height: 14px;
+	border-radius: 10px;
+	background: #68735f;
+	padding: 3px;
+	transition: background 0.15s;
+}
+.switch-chirho::after {
+	content: '';
+	display: block;
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: #e3e5d2;
+	transition: transform 0.15s;
+}
+.sound-control-chirho input:checked + .switch-chirho {
+	background: #b18f56;
+}
+.sound-control-chirho input:checked + .switch-chirho::after {
+	transform: translateX(11px);
+}
+@media (max-width: 600px) {
+	.radio-chirho {
+		padding: 20px 20px 0;
+		border-radius: 13px;
+	}
+	.radio-label-chirho {
+		font-size: 8px;
+		letter-spacing: 1px;
+	}
+	.radio-label-chirho span {
+		display: none;
+	}
+	.on-air-chirho {
+		font-size: 7px;
+		letter-spacing: 0.5px;
+	}
+	.display-chirho {
+		padding: 15px 17px;
+	}
+	.station-language-chirho {
+		margin-top: 18px;
+		font-size: 35px;
+	}
+	.voice-chirho {
+		font-size: 9px;
+	}
+	.tuning-caption-chirho {
+		font-size: 7px;
+		letter-spacing: 1px;
+	}
+	.tuning-caption-chirho > span:last-child {
+		font-size: 7px;
+		letter-spacing: 0.4px;
+	}
+	.tuning-controls-chirho {
+		gap: 10px;
+	}
+	.dial-arrow-chirho {
+		width: 44px;
+		height: 44px;
+	}
+	.playback-chirho {
+		gap: 6px;
+	}
+	.play-chirho {
+		min-width: 0;
+		flex: 1;
+		padding: 14px 12px;
+	}
+}

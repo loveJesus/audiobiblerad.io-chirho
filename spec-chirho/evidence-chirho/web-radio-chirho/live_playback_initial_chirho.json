@@ -1,0 +1,95 @@
+{
+	"measured_on_chirho": "2026-11-13T19:18:27.249Z",
+	"browser_chirho": "Chromium 158.0.8127.18",
+	"preview_chirho": "http://127.0.0.1:5196/",
+	"method_chirho": "Actual upstream streams, no media interception. Browser playing event; not an acoustic or physical-device latency measurement.",
+	"navigation_to_first_playing_ms_chirho": 365.2,
+	"measurements_chirho": [
+		{
+			"at_ms_chirho": 365.2000000178814,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 410.230567,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Play Scripture",
+			"gesture_to_playing_ms_chirho": 299.3
+		},
+		{
+			"at_ms_chirho": 627.1000000238419,
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 364.508844,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "Next station",
+			"gesture_to_playing_ms_chirho": 213.1
+		},
+		{
+			"at_ms_chirho": 823.3000000119209,
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"seconds_chirho": 0,
+			"duration_chirho": 438.004521,
+			"muted_chirho": false,
+			"volume_chirho": 1,
+			"control_chirho": "हिन्दीHindiULB",
+			"gesture_to_playing_ms_chirho": 126.1
+		}
+	],
+	"trace_chirho": {
+		"gestures_chirho": [
+			{
+				"at_ms_chirho": 65.90000000596046,
+				"control_chirho": "Play Scripture"
+			},
+			{
+				"at_ms_chirho": 414,
+				"control_chirho": "Next station"
+			},
+			{
+				"at_ms_chirho": 664.2000000178814,
+				"control_chirho": "Browse stations +"
+			},
+			{
+				"at_ms_chirho": 697.2000000178814,
+				"control_chirho": "हिन्दीHindiULB"
+			},
+			{
+				"at_ms_chirho": 863.6000000238419,
+				"control_chirho": "Browse stations −"
+			}
+		],
+		"playing_chirho": [
+			{
+				"at_ms_chirho": 365.2000000178814,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 410.230567,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 627.1000000238419,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 364.508844,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 823.3000000119209,
+				"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 438.004521,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			}
+		],
+		"element_count_chirho": 2,
+		"active_chirho": [
+			"https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3"
+		],
+		"viewport_fits_chirho": true
+	},
+	"errors_chirho": []
+}

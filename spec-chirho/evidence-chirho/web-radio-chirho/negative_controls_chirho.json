@@ -1,0 +1,36 @@
+{
+	"outcome_chirho": "PASS",
+	"restored_source_sha256_chirho": "e47824091ffd0d5d569bda576f4c5ab1cc30cec8f0f33c00ef51b0aaca7d5973",
+	"negative_controls_chirho": [
+		{
+			"mutation_chirho": "obsolete-track-rejection-chirho",
+			"target_test_chirho": "ignores an obsolete play rejection",
+			"exit_code_chirho": 1,
+			"observed_assertion_chirho": "expected 'error' to be 'playing'"
+		},
+		{
+			"mutation_chirho": "obsolete-play-attempt-chirho",
+			"target_test_chirho": "immediate pause and resume",
+			"exit_code_chirho": 1,
+			"observed_assertion_chirho": "expected 'error' to be 'playing'"
+		},
+		{
+			"mutation_chirho": "unbounded-recovery-chirho",
+			"target_test_chirho": "tries a missing media chapter",
+			"exit_code_chirho": 1,
+			"observed_assertion_chirho": "to be called 4 times"
+		},
+		{
+			"mutation_chirho": "detour-overwrites-followed-place-chirho",
+			"target_test_chirho": "followed passage across a partial-station detour",
+			"exit_code_chirho": 1,
+			"observed_assertion_chirho": "AssertionError"
+		},
+		{
+			"mutation_chirho": "discard-recovery-checkpoint-chirho",
+			"target_test_chirho": "saved place when all",
+			"exit_code_chirho": 1,
+			"observed_assertion_chirho": "AssertionError"
+		}
+	]
+}

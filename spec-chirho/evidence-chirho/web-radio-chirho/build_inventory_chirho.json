@@ -1,0 +1,165 @@
+{
+	"measured_on_chirho": "2026-11-13T20:49:39.257Z",
+	"outcome_chirho": "PASS",
+	"scope_chirho": "Prepared asset directory plus complete Wrangler dry-run bundle and local source map; nothing uploaded. Assets exclude _worker.js and _headers using generated .assetsignore.",
+	"asset_files_chirho": 27,
+	"prepared_asset_directory_bytes_chirho": 510453,
+	"compiled_worker_bytes_chirho": 572256,
+	"wrangler_reported_worker_gzip_kib_chirho": 107.06,
+	"credential_values_checked_chirho": 71,
+	"credential_matches_chirho": 0,
+	"original_sound_files_chirho": 9,
+	"scripture_audio_files_chirho": 0,
+	"inventory_chirho": [
+		{
+			"path_chirho": ".svelte-kit/cloudflare/.assetsignore",
+			"bytes_chirho": 44,
+			"sha256_chirho": "d6d003275aec5281ed84d3229ccd3342938f025965e2ed5f12a0239b36ea51ae"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/assets/0.CJLh6Rxc.css",
+			"bytes_chirho": 38051,
+			"sha256_chirho": "5e89973636a164a25f936d499584ff3770005a33cc6e80ef7403952295b9f6ae"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/assets/3.Cr0-z0QP.css",
+			"bytes_chirho": 353,
+			"sha256_chirho": "3e49ee8f99a7dd1e4791cb0bd293ec293ec2a2bba67d81b7315a671950d80395"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/chunks/BgT9pd11.js",
+			"bytes_chirho": 27387,
+			"sha256_chirho": "e1f7bcf6ca6132e6e4ade0bca30d759d1da4f812ce371c45ac4eacc8c1d7525a"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/chunks/Bjy-W4x2.js",
+			"bytes_chirho": 1365,
+			"sha256_chirho": "f07424758318dd6b5f32b0fe8de9d2ffb8d97a17c841758626d18ba0faa0456a"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/chunks/C6eADmDH.js",
+			"bytes_chirho": 147443,
+			"sha256_chirho": "68603aa6634622ef641c3e1297455d932418b6696fa5bdab56d85b6cfe16c4a8"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/chunks/gugO1tgu.js",
+			"bytes_chirho": 47426,
+			"sha256_chirho": "b2bded018d48d33ba964516c37d69f4fc26baa1e9d16721ade1df929fb280f56"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/chunks/xihTtKlq.js",
+			"bytes_chirho": 65,
+			"sha256_chirho": "0214edcff77242079f540507a53803aa22d857b6ad673e60e39748b6c7aa08c1"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/entry/app.w5lacmsT.js",
+			"bytes_chirho": 4584,
+			"sha256_chirho": "d57156bb09f1100641ffbb31c13ed3c04460258528d73f52654c4a7a36455924"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/entry/start.BH50cG0n.js",
+			"bytes_chirho": 60,
+			"sha256_chirho": "8268c24f066f414959c027c6899689c0053895f04f2caf2b90cfb0809e6a5b17"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/nodes/0.D9E2r7bg.js",
+			"bytes_chirho": 831,
+			"sha256_chirho": "d4b57f57d874d9649f7a7b6c97d25c90458e92926bd95ea13ae0b85f1856fe82"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/nodes/1.B2ucvSn6.js",
+			"bytes_chirho": 576,
+			"sha256_chirho": "c5b2b084d3111a8d652c969d37f5c6139424cab17b05ba65f4c4af7b5bc29826"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/nodes/2.pZeRqEjJ.js",
+			"bytes_chirho": 32316,
+			"sha256_chirho": "57d6ea96248a364e10b843d5cd7dd2fe52bf3f8972c4fcb9ca0ed9c5262b78a1"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/immutable/nodes/3.Bp14ZV3d.js",
+			"bytes_chirho": 2297,
+			"sha256_chirho": "aa402db6fd4821b49e9b6ce0fb89cc764df1e5e266634a299c9813f0452064dd"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_app/version.json",
+			"bytes_chirho": 27,
+			"sha256_chirho": "735c4cca18856f0c732b49d7275321ba78a2b79ac0dc5e65658a38a18cc06028"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_headers",
+			"bytes_chirho": 253,
+			"sha256_chirho": "40bd26548ed1a03747859c5e05b4e0a64b561239cffb85d8a259ff8a90b654ed"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/_worker.js",
+			"bytes_chirho": 4335,
+			"sha256_chirho": "cf4056f946ba2822fb93035da445ea2b74c918e9bbbb7d646dffcc8db657d484"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/robots.txt",
+			"bytes_chirho": 228,
+			"sha256_chirho": "fda03e48470f651cea1a98994c1974d35b4b894a2af71b126679a53080b6af82"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_01_chirho.wav",
+			"bytes_chirho": 18566,
+			"sha256_chirho": "9139639e0a0f4e9b7d70e21ec8e11df86dfe2d57f99f386aed8562060efd7798"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_02_chirho.wav",
+			"bytes_chirho": 22534,
+			"sha256_chirho": "a32c8a26ecdaacbdcc1cabb6eb9b182efc492f136fe76be49ee9db64e5391838"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_03_chirho.wav",
+			"bytes_chirho": 26504,
+			"sha256_chirho": "f436aa9da0649691f07fc7394b5d8d42bd5c2cd26d159a7f3741559016ee29dc"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_04_chirho.wav",
+			"bytes_chirho": 18566,
+			"sha256_chirho": "b26ea2e95cd7612f0c309bef09ae7b3de2a2157bdc3adf6aadcee41a3c0ba455"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_05_chirho.wav",
+			"bytes_chirho": 22534,
+			"sha256_chirho": "8101b68d0b2151c8d34a455dde4ab131d8b2161276f2ee6d9b8c409df0a56569"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_06_chirho.wav",
+			"bytes_chirho": 26504,
+			"sha256_chirho": "6300896bb39ba0e4dc870ad016f2406978e4d2304e588c8860f91be3b5c57128"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_07_chirho.wav",
+			"bytes_chirho": 18566,
+			"sha256_chirho": "4d2eaa7f01eb7f63157b7d92c4c5a5ae3414c689bc4a06ed66f0825eb97467a4"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_08_chirho.wav",
+			"bytes_chirho": 22534,
+			"sha256_chirho": "42146d741128875be94e31b4c1597b50aa59b8f03c2df62814c5e925b641970f"
+		},
+		{
+			"path_chirho": ".svelte-kit/cloudflare/sounds-chirho/radio_09_chirho.wav",
+			"bytes_chirho": 26504,
+			"sha256_chirho": "6b0aec386413a4061b2bb791187c746aaca50668515094e6b2703c4716e8f48e"
+		},
+		{
+			"path_chirho": ".wrangler/web-package-chirho/README.md",
+			"bytes_chirho": 124,
+			"sha256_chirho": "c482e443e8e13faab97fa7654b83630b8fbf597b20d064079d86b37ba7d79513"
+		},
+		{
+			"path_chirho": ".wrangler/web-package-chirho/_worker.js",
+			"bytes_chirho": 572256,
+			"sha256_chirho": "52d186315657ecda8f60e0ba534a3b48de812c2d2e65ad6da7c1771c45458569"
+		},
+		{
+			"path_chirho": ".wrangler/web-package-chirho/_worker.js.map",
+			"bytes_chirho": 965162,
+			"sha256_chirho": "2918fe9166698b5f08e5fdae8d5f6f57190137c4ad1281bb5e9dcdee5dcf05d0"
+		}
+	]
+}

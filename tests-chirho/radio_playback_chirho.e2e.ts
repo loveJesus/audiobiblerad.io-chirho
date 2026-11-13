@@ -1,0 +1,423 @@
+// For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
+
+import { expect, test, type Page } from '@playwright/test';
+
+// A tiny generated test tone exercises the real browser decoder without copying Scripture.
+function fixtureWaveChirho(): Buffer {
+	const sampleRateChirho = 8000;
+	const sampleCountChirho = sampleRateChirho * 15;
+	const bytesChirho = Buffer.alloc(44 + sampleCountChirho * 2);
+	bytesChirho.write('RIFF', 0);
+	bytesChirho.writeUInt32LE(bytesChirho.length - 8, 4);
+	bytesChirho.write('WAVEfmt ', 8);
+	bytesChirho.writeUInt32LE(16, 16);
+	bytesChirho.writeUInt16LE(1, 20);
+	bytesChirho.writeUInt16LE(1, 22);
+	bytesChirho.writeUInt32LE(sampleRateChirho, 24);
+	bytesChirho.writeUInt32LE(sampleRateChirho * 2, 28);
+	bytesChirho.writeUInt16LE(2, 32);
+	bytesChirho.writeUInt16LE(16, 34);
+	bytesChirho.write('data', 36);
+	bytesChirho.writeUInt32LE(sampleCountChirho * 2, 40);
+	for (let indexChirho = 0; indexChirho < sampleCountChirho; indexChirho += 1)
+		bytesChirho.writeInt16LE(
+			Math.round(Math.sin((indexChirho / sampleRateChirho) * Math.PI * 2 * 220) * 30),
+			44 + indexChirho * 2
+		);
+	return bytesChirho;
+}
+
+async function observeMediaChirho(pageChirho: Page): Promise<void> {
+	await pageChirho.addInitScript(() => {
+		const audioElementsChirho: HTMLAudioElement[] = [];
+		Object.assign(window, { audioElementsChirho });
+		window.Audio = new Proxy(window.Audio, {
+			construct(targetChirho, argumentsChirho) {
+				const audioChirho = Reflect.construct(targetChirho, argumentsChirho) as HTMLAudioElement;
+				audioElementsChirho.push(audioChirho);
+				return audioChirho;
+			}
+		});
+	});
+}
+
+async function mediaStateChirho(pageChirho: Page) {
+	return pageChirho.evaluate(() => {
+		const elementsChirho = (window as unknown as { audioElementsChirho: HTMLAudioElement[] })
+			.audioElementsChirho;
+		return elementsChirho.map((audioChirho) => ({
+			url_chirho: audioChirho.currentSrc,
+			paused_chirho: audioChirho.paused,
+			seconds_chirho: audioChirho.currentTime,
+			volume_chirho: audioChirho.volume,
+			muted_chirho: audioChirho.muted,
+			duration_chirho: audioChirho.duration
+		}));
+	});
+}
+
+test.beforeEach(async ({ page: pageChirho }) => {
+	await observeMediaChirho(pageChirho);
+	await pageChirho.route('https://**/*.audioTimings.json', (routeChirho) =>
+		routeChirho.fulfill({
+			json: { verses: [0, 3, 6, 9, 12] },
+			headers: { 'access-control-allow-origin': '*' }
+		})
+	);
+	const bytesChirho = fixtureWaveChirho();
+	await pageChirho.route('https://**/*.mp3', (routeChirho) =>
+		routeChirho.fulfill({
+			status: 200,
+			contentType: 'audio/wav',
+			body: bytesChirho,
+			headers: { 'accept-ranges': 'bytes' }
+		})
+	);
+});
+
+test('the built worker serves the shared catalogue and a credit for every cleared station', async ({
+	page: pageChirho
+}) => {
+	const responseChirho = await pageChirho.request.get('/catalogue-chirho');
+	expect(responseChirho.ok()).toBe(true);
+	expect(responseChirho.headers()['content-type']).toContain('application/json');
+	expect(responseChirho.headers()['access-control-allow-origin']).toBe('*');
+	const catalogueChirho = (await responseChirho.json()) as {
+		contract_version_chirho: number;
+		books_chirho: unknown[];
+		stations_chirho: Array<{ id_chirho: string; credit_chirho: string }>;
+	};
+	expect(catalogueChirho.contract_version_chirho).toBeGreaterThan(0);
+	expect(catalogueChirho.books_chirho.length).toBeGreaterThan(0);
+	expect(catalogueChirho.stations_chirho.length).toBeGreaterThan(0);
+	await pageChirho.goto('/credits-chirho');
+	for (const stationChirho of catalogueChirho.stations_chirho)
+		await expect(pageChirho.getByText(stationChirho.credit_chirho, { exact: true })).toBeVisible();
+});
+
+test('one tap decodes audio, tuning keeps the passage, effects stop, and preferences survive reopening', async ({
+	page: pageChirho
+}) => {
+	const requestedChirho: string[] = [];
+	pageChirho.on('request', (requestChirho) => {
+		if (requestChirho.url().endsWith('.mp3')) requestedChirho.push(requestChirho.url());
+	});
+	await pageChirho.goto('/');
+	expect(requestedChirho).toHaveLength(0);
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.startsWith('https://') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 0.1
+			)
+		)
+		.toBe(true);
+	await expect(pageChirho.getByText('Playback timing', { exact: true })).toBeVisible();
+	const playingChirho = (await mediaStateChirho(pageChirho)).filter(
+		(audioChirho) => !audioChirho.paused_chirho
+	);
+	expect(playingChirho).toHaveLength(1);
+	expect(playingChirho[0]).toMatchObject({ muted_chirho: false, volume_chirho: 1 });
+	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.startsWith('https://') &&
+					audioChirho.url_chirho !== playingChirho[0].url_chirho &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 0.1
+			)
+		)
+		.toBe(true);
+	const targetUrlChirho = (await mediaStateChirho(pageChirho)).find(
+		(audioChirho) => !audioChirho.paused_chirho && audioChirho.url_chirho.startsWith('https://')
+	)!.url_chirho;
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('JHN');
+	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('1');
+	await pageChirho.getByRole('checkbox', { name: 'Radio sounds', exact: true }).uncheck();
+	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	const requestsBeforeReloadChirho = requestedChirho.length;
+	await pageChirho.reload();
+	await expect(
+		pageChirho.getByRole('checkbox', { name: 'Radio sounds', exact: true })
+	).not.toBeChecked();
+	expect(requestedChirho.length).toBe(requestsBeforeReloadChirho);
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) => audioChirho.url_chirho === targetUrlChirho && !audioChirho.paused_chirho
+			)
+		)
+		.toBe(true);
+});
+
+test('the first play control waits for its handler when JavaScript arrives late', async ({
+	page: pageChirho
+}) => {
+	let releaseChirho: () => void = () => {
+		throw new Error('Missing asset gate');
+	};
+	const gateChirho = new Promise<void>((resolveChirho) => {
+		releaseChirho = resolveChirho;
+	});
+	await pageChirho.route('**/_app/**/*.js', async (routeChirho) => {
+		await gateChirho;
+		await routeChirho.continue();
+	});
+	try {
+		await pageChirho.goto('/', { waitUntil: 'domcontentloaded' });
+		const playChirho = pageChirho.getByRole('button', { name: 'Play Scripture', exact: true });
+		await expect(playChirho).toBeDisabled();
+		releaseChirho();
+		await playChirho.click();
+		await expect
+			.poll(async () =>
+				(await mediaStateChirho(pageChirho)).some(
+					(audioChirho) =>
+						audioChirho.url_chirho.startsWith('https://') &&
+						!audioChirho.paused_chirho &&
+						audioChirho.seconds_chirho > 0.1
+				)
+			)
+			.toBe(true);
+	} finally {
+		releaseChirho();
+	}
+});
+
+test('a station with partial coverage lands on an available book before the first tap', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('combobox', { name: 'Book', exact: true }).selectOption('GEN');
+	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	await pageChirho
+		.getByRole('region', { name: 'All stations', exact: true })
+		.getByRole('button')
+		.filter({ hasText: 'Nepali' })
+		.click();
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).not.toHaveValue(
+		'GEN'
+	);
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.includes('/ne/ulb/') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 0.1
+			)
+		)
+		.toBe(true);
+});
+
+test('a naturally ended chapter starts the next available chapter', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
+	await expect(seekChirho).toBeEnabled();
+	await seekChirho.press('End');
+	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue(
+		'2',
+		{
+			timeout: 10000
+		}
+	);
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) => !audioChirho.paused_chirho && audioChirho.url_chirho.includes('/JHN/2/')
+			)
+		)
+		.toBe(true);
+});
+
+test('turning through a partial station returns to the original passage and place', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
+	await expect(seekChirho).toBeEnabled();
+	await seekChirho.press('PageUp');
+	await pageChirho.getByRole('button', { name: 'Previous station', exact: true }).click();
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).not.toHaveValue(
+		'JHN'
+	);
+	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('JHN');
+	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.includes('/JHN/3/') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 1
+			)
+		)
+		.toBe(true);
+});
+
+test('network failure preserves a saved passage and an explicit retry resumes it after recovery', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
+	await expect(seekChirho).toBeEnabled();
+	await seekChirho.press('PageUp');
+	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	const beforeChirho = await pageChirho.evaluate(
+		() =>
+			JSON.parse(localStorage.getItem('audio-bible-radio-preferences-chirho')!) as {
+				chapter_chirho: number;
+				seconds_chirho: number;
+			}
+	);
+	let failuresChirho = 0;
+	const abortChirho = (routeChirho: import('@playwright/test').Route) => {
+		failuresChirho += 1;
+		return routeChirho.abort('connectionrefused');
+	};
+	await pageChirho.route('https://**/*.mp3', abortChirho);
+	await pageChirho.reload();
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect.poll(() => failuresChirho).toBe(4);
+	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');
+	const afterChirho = await pageChirho.evaluate(
+		() =>
+			JSON.parse(localStorage.getItem('audio-bible-radio-preferences-chirho')!) as {
+				chapter_chirho: number;
+				seconds_chirho: number;
+			}
+	);
+	expect(afterChirho).toMatchObject({
+		chapter_chirho: 3,
+		seconds_chirho: beforeChirho.seconds_chirho
+	});
+	await pageChirho.unroute('https://**/*.mp3', abortChirho);
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.includes('/JHN/3/') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho >= beforeChirho.seconds_chirho
+			)
+		)
+		.toBe(true);
+});
+
+test('dragging the seek thumb keeps its preview while the recording clock advances', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
+	await expect(seekChirho).toBeEnabled();
+	await seekChirho.scrollIntoViewIfNeeded();
+	const boxChirho = (await seekChirho.boundingBox())!;
+	await pageChirho.mouse.move(
+		boxChirho.x + boxChirho.width * 0.25,
+		boxChirho.y + boxChirho.height / 2
+	);
+	await pageChirho.mouse.down();
+	await pageChirho.mouse.move(
+		boxChirho.x + boxChirho.width * 0.75,
+		boxChirho.y + boxChirho.height / 2
+	);
+	const wantedChirho = await seekChirho.inputValue();
+	expect(Number(wantedChirho)).toBeGreaterThan(5);
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.startsWith('https://') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 0.5
+			)
+		)
+		.toBe(true);
+	await expect(seekChirho).toHaveValue(wantedChirho);
+	await pageChirho.mouse.up();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.startsWith('https://') &&
+					audioChirho.seconds_chirho >= Number(wantedChirho) - 0.1
+			)
+		)
+		.toBe(true);
+});
+
+test('media failures stop after three fallback chapters and allow an explicit retry', async ({
+	page: pageChirho
+}) => {
+	let requestsChirho = 0;
+	await pageChirho.route('https://**/*.mp3', (routeChirho) => {
+		requestsChirho += 1;
+		return routeChirho.fulfill({ status: 404, body: '' });
+	});
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect.poll(() => requestsChirho).toBe(4);
+	await expect(
+		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
+	).toBeVisible();
+	expect(
+		(await mediaStateChirho(pageChirho)).every((audioChirho) => audioChirho.paused_chirho)
+	).toBe(true);
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect.poll(() => requestsChirho).toBe(8);
+});
+
+test('listening works when the browser denies storage and mobile controls fit the viewport', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.setViewportSize({ width: 320, height: 740 });
+	await pageChirho.addInitScript(() => {
+		Object.defineProperty(window, 'localStorage', {
+			get() {
+				throw new DOMException('Storage denied', 'SecurityError');
+			}
+		});
+	});
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) =>
+					audioChirho.url_chirho.startsWith('https://') &&
+					!audioChirho.paused_chirho &&
+					audioChirho.seconds_chirho > 0.1
+			)
+		)
+		.toBe(true);
+	await expect(pageChirho.getByText(/cannot save your place/)).toBeVisible();
+	expect(
+		await pageChirho.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)
+	).toBe(true);
+	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	await expect(pageChirho.getByRole('searchbox')).toBeVisible();
+	await pageChirho.getByRole('searchbox').fill('no-such-language-chirho');
+	expect(
+		await pageChirho
+			.getByRole('region', { name: 'All stations', exact: true })
+			.getByRole('button')
+			.count()
+	).toBe(0);
+});

@@ -1,0 +1,40 @@
+{
+	"outcome_chirho": "FAIL",
+	"measured_on_chirho": "2026-11-13T19:56:38.480Z",
+	"error_chirho": "click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('region', { name: 'All stations', exact: true }).getByRole('button').filter({ hasText: 'Spanish' })\u001b[22m\n",
+	"network_chirho": [
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"status_chirho": 206
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"failure_chirho": "net::ERR_ABORTED"
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"status_chirho": 206
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"failure_chirho": "net::ERR_ABORTED"
+		},
+		{
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"status_chirho": 206
+		},
+		{
+			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
+			"failure_chirho": "net::ERR_ABORTED"
+		}
+	],
+	"errors_chirho": [],
+	"media_chirho": {
+		"playing_chirho": [],
+		"elements_chirho": [
+			{ "url_chirho": "", "ready_state_chirho": 0, "paused_chirho": true },
+			{ "url_chirho": "", "ready_state_chirho": 0, "paused_chirho": true }
+		],
+		"status_chirho": "One tap to hear Scripture. Your place stays on this device."
+	}
+}

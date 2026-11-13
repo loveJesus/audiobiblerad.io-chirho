@@ -5,7 +5,8 @@ import { parseConfigFileTextToJson } from 'typescript';
 
 const projectRootChirho = process.cwd();
 const sourceConfigNameChirho = 'wrangler.jsonc';
-const temporaryConfigNameChirho = '.wrangler-typegen-config-chirho.json';
+// Concurrent check/build processes must not unlink each other's scratch configuration.
+const temporaryConfigNameChirho = `.wrangler-typegen-config-${process.pid}-chirho.json`;
 const outputNameChirho = 'worker-configuration.d.ts';
 const bindingsNameChirho = 'wrangler-bindings-chirho.env';
 const argumentsChirho = process.argv.slice(2);

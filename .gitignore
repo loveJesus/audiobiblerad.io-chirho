@@ -42,6 +42,7 @@ workspace-chirho/private-chirho/
 
 # Ephemeral main-less config used only by the bounded type-generation wrapper.
 .wrangler-typegen-config-chirho.json
+.wrangler-typegen-config-*-chirho.json
 
 # Browser-tool snapshots and script caches. This repository is public: page captures and
 # caches must never ride along in a broad add.
