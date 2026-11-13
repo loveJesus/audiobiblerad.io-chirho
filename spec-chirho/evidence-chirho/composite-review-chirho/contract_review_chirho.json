@@ -1,0 +1,22 @@
+{
+	"reviewed_commit_chirho": "599fa1e",
+	"prior_commit_chirho": "1948e93",
+	"run_on_chirho": "2026-11-13T23:25:14.846Z",
+	"method_chirho": "Execute actual prior catalogue code extracted by git archive; compare both language loaders and every canonical legacy resolver, coverage and navigation result, plus the new opt-in result, using current local static files. No source media requests.",
+	"built_in_stations_chirho": 29,
+	"loaded_stations_chirho": 431,
+	"language_files_chirho": 389,
+	"canonical_positions_compared_chirho": 546940,
+	"playable_addresses_chirho": 368557,
+	"static_data_unchanged_chirho": true,
+	"prior_reader_keeps_both_fixture_stations_chirho": true,
+	"prior_reader_strips_composites_chirho": true,
+	"fixture_positions_without_part_leak_chirho": 1189,
+	"old_navigation_skips_joel_2_chirho": true,
+	"new_navigation_offers_joel_2_chirho": true,
+	"new_total_fixture_seconds_chirho": 240.75,
+	"synthetic_fixture_durations_only_chirho": true,
+	"invalid_duration_covered_address_other_recording_and_duplicate_rejected_chirho": true,
+	"elapsed_seconds_chirho": 1.93083725,
+	"failures_chirho": []
+}
