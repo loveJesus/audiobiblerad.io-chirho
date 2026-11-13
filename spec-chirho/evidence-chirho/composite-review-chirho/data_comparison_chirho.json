@@ -1,0 +1,18 @@
+{
+	"baseline_data_commit_chirho": "cd70c01",
+	"reviewed_data_commit_chirho": "96b87a1",
+	"legacy_reader_commit_chirho": "1948e93",
+	"canonical_positions_compared_chirho": 546940,
+	"stations_chirho": 460,
+	"legacy_addresses_unchanged_chirho": 368557,
+	"legacy_station_metadata_and_navigation_unchanged_chirho": true,
+	"language_index_unchanged_chirho": true,
+	"opt_in_additions_chirho": 61,
+	"measured_part_addresses_chirho": 122,
+	"every_emitted_duration_matches_reading_chirho": true,
+	"no_part_exposed_under_legacy_coverage_chirho": true,
+	"exceptions_unchanged_chirho": true,
+	"method_chirho": "Actual old and new loaders/resolvers executed over all existing stations and chapters using local files and pre-data Git objects; no media requests. Spoken content remains inferred from names and crosswalk.",
+	"elapsed_seconds_chirho": 5.367927667,
+	"failures_chirho": []
+}

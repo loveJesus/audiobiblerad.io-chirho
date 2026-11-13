@@ -3,9 +3,9 @@
 import type { Page } from '@playwright/test';
 
 // A tiny generated test tone exercises the real browser decoder without copying Scripture.
-export function fixtureWaveChirho(): Buffer {
+export function fixtureWaveChirho(durationChirho = 15): Buffer {
 	const sampleRateChirho = 8000;
-	const sampleCountChirho = sampleRateChirho * 15;
+	const sampleCountChirho = Math.round(sampleRateChirho * durationChirho);
 	const bytesChirho = Buffer.alloc(44 + sampleCountChirho * 2);
 	bytesChirho.write('RIFF', 0);
 	bytesChirho.writeUInt32LE(bytesChirho.length - 8, 4);

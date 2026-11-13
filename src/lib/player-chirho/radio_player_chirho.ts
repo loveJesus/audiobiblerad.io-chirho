@@ -3,10 +3,11 @@
 import {
 	BOOKS_CHIRHO,
 	STATIONS_CHIRHO,
-	chapterAtOrAfterChirho,
-	nextChapterChirho,
+	offeredChapterAtOrAfterChirho,
+	nextOfferedChapterChirho,
 	parseVerseTimingsChirho,
 	resolveChapterChirho,
+	resolveChapterPlaybackChirho,
 	type StationChirho
 } from '$lib/catalogue-chirho/catalogue_chirho';
 import type { RadioSoundsChirho } from '$lib/sounds-chirho/radio_sounds_chirho';
@@ -23,6 +24,7 @@ import {
 } from './player_preferences_chirho';
 import type { FollowedPlaceChirho } from './player_preferences_chirho';
 import { readBoundedTimingsChirho } from './verse_timings_chirho';
+import { ChapterTrackChirho } from './chapter_track_chirho';
 
 export interface RadioStateChirho extends PlayerPreferencesChirho {
 	phase_chirho: 'ready' | 'loading' | 'playing' | 'paused' | 'error';
@@ -88,6 +90,9 @@ export class RadioPlayerChirho {
 	private stationsChirho: readonly StationChirho[];
 	private stationsByIdChirho: Map<string, StationChirho>;
 	private selectedStationChirho: StationChirho;
+	private trackChirho: ChapterTrackChirho | null = null;
+	private partIndexChirho = 0;
+	private mediaDurationChirho = 0;
 
 	constructor(optionsChirho: RadioOptionsChirho) {
 		this.optionsChirho = optionsChirho;
@@ -116,7 +121,7 @@ export class RadioPlayerChirho {
 					...capturePositionChirho(savedChirho.preferences_chirho.seconds_chirho, 0, null)
 				};
 		const savedStationChirho = this.selectedStationChirho;
-		const landingChirho = chapterAtOrAfterChirho(
+		const landingChirho = offeredChapterAtOrAfterChirho(
 			savedStationChirho,
 			savedChirho.preferences_chirho.book_id_chirho,
 			savedChirho.preferences_chirho.chapter_chirho
@@ -217,7 +222,7 @@ export class RadioPlayerChirho {
 	}
 
 	private landReadyChirho(): void {
-		const landingChirho = chapterAtOrAfterChirho(
+		const landingChirho = offeredChapterAtOrAfterChirho(
 			this.stationChirho,
 			this.followedPlaceChirho.book_id_chirho,
 			this.followedPlaceChirho.chapter_chirho
@@ -261,12 +266,47 @@ export class RadioPlayerChirho {
 		this.optionsChirho.sounds_chirho.stopChirho();
 	}
 
+	private updateMediaPositionChirho(): void {
+		if (
+			!this.trackChirho ||
+			this.audioChirho.readyState < 1 ||
+			(!this.hasPlayedChirho && !this.seekFinishedChirho)
+		)
+			return;
+		const durationChirho = this.mediaDurationChirho || this.audioChirho.duration;
+		const positionChirho = capturePositionChirho(
+			this.trackChirho.chapterSecondsChirho(
+				this.audioChirho.currentTime,
+				this.partIndexChirho,
+				durationChirho
+			),
+			this.trackChirho.durationChirho(durationChirho),
+			this.currentTimingsChirho()
+		);
+		this.emitChirho({
+			seconds_chirho: positionChirho.seconds_chirho,
+			duration_chirho: positionChirho.duration_chirho,
+			verse_chirho: positionChirho.verse_chirho
+		});
+	}
+
 	private seekPendingChirho(): void {
-		if (this.seekFinishedChirho || this.audioChirho.readyState < 1) return;
-		const durationChirho = Number.isFinite(this.audioChirho.duration)
-			? this.audioChirho.duration
-			: 0;
-		if (durationChirho <= 0) return;
+		const trackChirho = this.trackChirho;
+		if (!trackChirho || this.audioChirho.readyState < 1) return;
+		const mediaDurationChirho = this.audioChirho.duration;
+		if (
+			this.mediaDurationChirho === 0 &&
+			!trackChirho.acceptsDurationChirho(this.partIndexChirho, mediaDurationChirho)
+		) {
+			if (trackChirho.compositeChirho)
+				this.failChirho('This chapter could not load correctly. Try another station.');
+			return;
+		}
+		if (!Number.isFinite(mediaDurationChirho) || mediaDurationChirho <= 0) return;
+		// Judge the first metadata only; later VBR refinements must not interrupt good audio.
+		this.mediaDurationChirho = mediaDurationChirho;
+		if (this.seekFinishedChirho) return;
+		const durationChirho = trackChirho.durationChirho(mediaDurationChirho);
 		const timingsChirho = this.currentTimingsChirho();
 		const mappedChirho = mapPositionChirho(
 			this.pendingPositionChirho,
@@ -278,7 +318,11 @@ export class RadioPlayerChirho {
 				? mappedChirho.seconds_chirho
 				: Math.min(this.pendingSecondsChirho, Math.max(0, durationChirho - 0.1));
 		try {
-			this.audioChirho.currentTime = secondsChirho;
+			this.audioChirho.currentTime = trackChirho.mediaSecondsChirho(
+				secondsChirho,
+				this.partIndexChirho,
+				mediaDurationChirho
+			);
 		} catch {
 			return;
 		}
@@ -290,8 +334,11 @@ export class RadioPlayerChirho {
 		this.emitChirho({
 			duration_chirho: durationChirho,
 			seconds_chirho: secondsChirho,
-			position_mode_chirho:
-				this.pendingSecondsChirho === null ? mappedChirho.mode_chirho : 'seconds'
+			position_mode_chirho: trackChirho.compositeChirho
+				? this.stateChirho.position_mode_chirho
+				: this.pendingSecondsChirho === null
+					? mappedChirho.mode_chirho
+					: 'seconds'
 		});
 	}
 
@@ -328,9 +375,7 @@ export class RadioPlayerChirho {
 		recoveryChirho = 0
 	): void {
 		if (this.disposedChirho) return;
-		this.requestChirho += 1;
-		this.clearTrackChirho();
-		const landingChirho = chapterAtOrAfterChirho(
+		const landingChirho = offeredChapterAtOrAfterChirho(
 			this.stationChirho,
 			this.stateChirho.book_id_chirho,
 			this.stateChirho.chapter_chirho
@@ -354,7 +399,7 @@ export class RadioPlayerChirho {
 					? 'The stream failed. Trying the next available chapter.'
 					: ''
 		});
-		const resolvedChirho = resolveChapterChirho(
+		const resolvedChirho = resolveChapterPlaybackChirho(
 			this.stationChirho,
 			landingChirho.book_id_chirho,
 			landingChirho.chapter_chirho
@@ -365,15 +410,51 @@ export class RadioPlayerChirho {
 		}
 		this.pendingPositionChirho = movedChirho ? ZERO_POSITION_CHIRHO : positionChirho;
 		this.pendingSecondsChirho = movedChirho ? 0 : secondsChirho;
+		this.trackChirho = new ChapterTrackChirho(resolvedChirho);
+		if (this.trackChirho.compositeChirho) {
+			const durationChirho = this.trackChirho.durationChirho(0);
+			const mappedChirho = mapPositionChirho(this.pendingPositionChirho, durationChirho, null);
+			this.pendingSecondsChirho = Math.max(
+				0,
+				Math.min(durationChirho - 0.1, this.pendingSecondsChirho ?? mappedChirho.seconds_chirho)
+			);
+			this.emitChirho({
+				duration_chirho: durationChirho,
+				seconds_chirho: this.pendingSecondsChirho,
+				position_mode_chirho: secondsChirho === null ? mappedChirho.mode_chirho : 'seconds'
+			});
+		}
+		this.loadPartChirho(
+			this.trackChirho.partAtChirho(this.pendingSecondsChirho ?? 0),
+			playChirho,
+			recoveryChirho,
+			true
+		);
+	}
+
+	private loadPartChirho(
+		indexChirho: number,
+		playChirho: boolean,
+		recoveryChirho = 0,
+		tuningChirho = false
+	): void {
+		if (!this.trackChirho || this.disposedChirho) return;
+		this.requestChirho += 1;
+		this.clearTrackChirho();
+		this.partIndexChirho = indexChirho;
+		this.mediaDurationChirho = 0;
 		this.seekFinishedChirho = false;
 		this.hasPlayedChirho = false;
-		this.expectedUrlChirho = resolvedChirho.url_chirho;
+		this.expectedUrlChirho = this.trackChirho.urlChirho(indexChirho);
 		this.requestedAtChirho = this.nowChirho();
+		this.emitChirho({ phase_chirho: playChirho ? 'loading' : 'paused' });
 		this.listenChirho('loadedmetadata', () => this.seekPendingChirho());
 		this.listenChirho('loadeddata', () => this.seekPendingChirho());
+		this.listenChirho('durationchange', () => this.seekPendingChirho());
 		this.listenChirho('playing', () => {
 			if (this.audioChirho.paused || this.audioChirho.readyState < 2) return;
 			this.seekPendingChirho();
+			if (this.audioChirho.paused || this.stateChirho.phase_chirho === 'error') return;
 			this.seekFinishedChirho = true;
 			clearTimeout(this.timeoutChirho);
 			this.optionsChirho.sounds_chirho.stopChirho();
@@ -387,6 +468,7 @@ export class RadioPlayerChirho {
 						: this.stateChirho.switch_ms_chirho
 			});
 			this.hasPlayedChirho = true;
+			this.switchingChirho = false;
 			const originChirho = this.recoveryOriginChirho;
 			this.recoveryOriginChirho = null;
 			if (
@@ -405,16 +487,7 @@ export class RadioPlayerChirho {
 			this.saveChirho();
 		});
 		this.listenChirho('timeupdate', () => {
-			const positionChirho = capturePositionChirho(
-				this.audioChirho.currentTime,
-				this.audioChirho.duration,
-				this.currentTimingsChirho()
-			);
-			this.emitChirho({
-				seconds_chirho: positionChirho.seconds_chirho,
-				duration_chirho: positionChirho.duration_chirho,
-				verse_chirho: positionChirho.verse_chirho
-			});
+			this.updateMediaPositionChirho();
 			if (this.nowChirho() - this.lastSaveChirho >= 5000) this.saveChirho();
 		});
 		this.listenChirho('waiting', () => {
@@ -423,7 +496,7 @@ export class RadioPlayerChirho {
 				this.armTimeoutChirho();
 			}
 		});
-		this.listenChirho('ended', () => this.nextChirho());
+		this.listenChirho('ended', () => this.finishPartChirho());
 		this.listenChirho('pause', () => {
 			if (
 				this.audioChirho.paused &&
@@ -433,7 +506,11 @@ export class RadioPlayerChirho {
 				this.pauseChirho();
 		});
 		this.listenChirho('error', () => {
-			if (this.audioChirho.error?.code === 4 && recoveryChirho < MAX_RECOVERY_CHIRHO) {
+			if (
+				!this.trackChirho?.compositeChirho &&
+				this.audioChirho.error?.code === 4 &&
+				recoveryChirho < MAX_RECOVERY_CHIRHO
+			) {
 				this.updateFollowedPositionChirho();
 				if (!this.recoveryOriginChirho)
 					this.recoveryOriginChirho = {
@@ -447,7 +524,7 @@ export class RadioPlayerChirho {
 				const shouldPlayChirho =
 					this.stateChirho.phase_chirho === 'playing' ||
 					this.stateChirho.phase_chirho === 'loading';
-				const nextChirho = nextChapterChirho(
+				const nextChirho = nextOfferedChapterChirho(
 					this.stationChirho,
 					this.stateChirho.book_id_chirho,
 					this.stateChirho.chapter_chirho
@@ -464,12 +541,32 @@ export class RadioPlayerChirho {
 		this.audioChirho.preload = playChirho ? 'auto' : 'metadata';
 		this.audioChirho.load();
 		if (playChirho) {
-			this.optionsChirho.sounds_chirho.startChirho();
+			if (tuningChirho) this.optionsChirho.sounds_chirho.startChirho();
 			this.armTimeoutChirho();
 			this.playAudioChirho();
 		}
 		this.prefetchTimingsChirho();
 		this.saveChirho();
+	}
+
+	private finishPartChirho(): void {
+		const nextIndexChirho = this.partIndexChirho + 1;
+		if (!this.trackChirho || nextIndexChirho >= this.trackChirho.partCountChirho) {
+			this.nextChirho();
+			return;
+		}
+		const shouldPlayChirho =
+			this.stateChirho.phase_chirho === 'playing' || this.stateChirho.phase_chirho === 'loading';
+		const secondsChirho = this.trackChirho.startChirho(nextIndexChirho);
+		this.emitChirho({ seconds_chirho: secondsChirho });
+		this.updateFollowedPositionChirho();
+		this.pendingPositionChirho = capturePositionChirho(
+			secondsChirho,
+			this.stateChirho.duration_chirho,
+			null
+		);
+		this.pendingSecondsChirho = secondsChirho;
+		this.loadPartChirho(nextIndexChirho, shouldPlayChirho);
 	}
 
 	private armTimeoutChirho(): void {
@@ -533,6 +630,7 @@ export class RadioPlayerChirho {
 		this.playAttemptChirho += 1;
 		clearTimeout(this.timeoutChirho);
 		this.audioChirho.pause();
+		this.updateMediaPositionChirho();
 		this.optionsChirho.sounds_chirho.stopChirho();
 		this.emitChirho({ phase_chirho: 'paused' });
 		this.saveChirho();
@@ -605,7 +703,7 @@ export class RadioPlayerChirho {
 	}
 
 	nextChirho(): void {
-		const nextChirho = nextChapterChirho(
+		const nextChirho = nextOfferedChapterChirho(
 			this.stationChirho,
 			this.stateChirho.book_id_chirho,
 			this.stateChirho.chapter_chirho
@@ -625,7 +723,11 @@ export class RadioPlayerChirho {
 				chapterChirho = BOOKS_CHIRHO[indexChirho].chapters_chirho;
 			}
 			if (
-				resolveChapterChirho(this.stationChirho, BOOKS_CHIRHO[indexChirho].id_chirho, chapterChirho)
+				resolveChapterPlaybackChirho(
+					this.stationChirho,
+					BOOKS_CHIRHO[indexChirho].id_chirho,
+					chapterChirho
+				)
 			) {
 				this.selectChapterChirho(BOOKS_CHIRHO[indexChirho].id_chirho, chapterChirho);
 				return;
@@ -634,18 +736,22 @@ export class RadioPlayerChirho {
 	}
 
 	seekChirho(secondsChirho: number): void {
+		const trackChirho = this.trackChirho;
 		if (
+			!trackChirho ||
 			!Number.isFinite(secondsChirho) ||
 			this.stateChirho.duration_chirho <= 0 ||
-			this.audioChirho.readyState < 1
+			(!trackChirho.compositeChirho && this.audioChirho.readyState < 1)
 		)
 			return;
-		this.seekFinishedChirho = true;
-		this.audioChirho.currentTime = Math.max(
+		const targetChirho = Math.max(
 			0,
 			Math.min(this.stateChirho.duration_chirho - 0.1, secondsChirho)
 		);
-		this.emitChirho({ seconds_chirho: this.audioChirho.currentTime });
+		const nextIndexChirho = trackChirho.partAtChirho(targetChirho);
+		const shouldPlayChirho =
+			this.stateChirho.phase_chirho === 'playing' || this.stateChirho.phase_chirho === 'loading';
+		this.emitChirho({ seconds_chirho: targetChirho, position_mode_chirho: 'seconds' });
 		this.recoveryOriginChirho = null;
 		if (this.isFollowedPassageChirho())
 			this.followedPlaceChirho = {
@@ -654,11 +760,23 @@ export class RadioPlayerChirho {
 				book_id_chirho: this.stateChirho.book_id_chirho,
 				chapter_chirho: this.stateChirho.chapter_chirho,
 				...capturePositionChirho(
-					this.audioChirho.currentTime,
+					targetChirho,
 					this.stateChirho.duration_chirho,
 					this.currentTimingsChirho()
 				)
 			};
+		this.pendingPositionChirho = capturePositionChirho(
+			targetChirho,
+			this.stateChirho.duration_chirho,
+			this.currentTimingsChirho()
+		);
+		this.pendingSecondsChirho = targetChirho;
+		if (nextIndexChirho !== this.partIndexChirho) {
+			this.loadPartChirho(nextIndexChirho, shouldPlayChirho);
+			return;
+		}
+		this.seekFinishedChirho = false;
+		this.seekPendingChirho();
 		this.saveChirho();
 	}
 

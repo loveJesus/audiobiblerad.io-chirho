@@ -1,0 +1,15 @@
+{
+	"reviewed_measurement_commits_chirho": ["f8954cf", "cd70c01"],
+	"raw_reading_sizes_and_hashes_match_chirho": true,
+	"approved_component_addresses_chirho": 122,
+	"distinct_successful_metadata_results_chirho": 122,
+	"batch_a_attempts_chirho": 6,
+	"batch_b_attempts_chirho": 116,
+	"chapter_pairs_chirho": 61,
+	"shortest_chapter_seconds_chirho": 254.28151200000002,
+	"longest_chapter_seconds_chirho": 818.604756,
+	"metadata_duration_and_timeout_bounds_pass_chirho": true,
+	"transferred_bytes_chirho": "unknown",
+	"limits_chirho": "Coordinator checked saved results, request-log inventory and integrity; did not repeat media loads. Expected names match the 59 approved recording templates plus four named Mashi psalm files. The builder must also match every name to the publisher list. Metadata is not spoken-content or full-audio validation.",
+	"failures_chirho": []
+}

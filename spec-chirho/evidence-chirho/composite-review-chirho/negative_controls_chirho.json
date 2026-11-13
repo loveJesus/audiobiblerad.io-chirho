@@ -1,0 +1,19 @@
+{
+	"controls_chirho": [
+		{
+			"name_chirho": "advance_chapter_at_first_part_end_chirho",
+			"expected_red_observed_chirho": true,
+			"exit_code_chirho": 1,
+			"tested_behavior_chirho": "continues once at a part boundary"
+		},
+		{
+			"name_chirho": "erase_boundary_position_chirho",
+			"expected_red_observed_chirho": true,
+			"exit_code_chirho": 1,
+			"tested_behavior_chirho": "keeps the chapter and boundary position"
+		}
+	],
+	"original_source_restored_sha256_chirho": "49556384ace1098f21ea50bcc0cc1df61264bc4cd19bc1666f37edd33d39918d",
+	"source_restored_exactly_chirho": true,
+	"no_source_media_requested_chirho": true
+}

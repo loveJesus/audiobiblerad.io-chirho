@@ -1,0 +1,76 @@
+{
+	"run_on_chirho": "2026-11-13T23:52:41.913Z",
+	"outcome_chirho": "PASS",
+	"browser_chirho": "158.0.8127.18",
+	"scope_chirho": "One French Joel 2, first-file playback and an explicit seek near its end to exercise automatic continuation into the second real file. Both clocks progressed; paused and closed immediately. No content listening or full-chapter validation.",
+	"tap_to_playing_ms_chirho": 388.69999998807907,
+	"first_file_end_to_second_playing_ms_chirho": 58.5,
+	"trace_chirho": {
+		"tap_chirho": 177.80000001192093,
+		"playing_chirho": [
+			{
+				"at_chirho": 566.5,
+				"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_02.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 407.343125,
+				"volume_chirho": 1,
+				"muted_chirho": false
+			},
+			{
+				"at_chirho": 785.9000000357628,
+				"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_02.mp3",
+				"seconds_chirho": 407.143125,
+				"duration_chirho": 407.343125,
+				"volume_chirho": 1,
+				"muted_chirho": false
+			},
+			{
+				"at_chirho": 1128.4000000357628,
+				"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_03.mp3",
+				"seconds_chirho": 0.000022,
+				"duration_chirho": 77.495,
+				"volume_chirho": 1,
+				"muted_chirho": false
+			}
+		],
+		"ended_chirho": [
+			{
+				"at_chirho": 1069.9000000357628,
+				"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_02.mp3"
+			}
+		],
+		"saved_chirho": {
+			"station_id_chirho": "davar-frabsf-davr-fb-n",
+			"language_code_chirho": "fr",
+			"dial_language_chirho": "fr",
+			"book_id_chirho": "JOL",
+			"chapter_chirho": 2,
+			"seconds_chirho": 407.484608,
+			"sounds_enabled_chirho": false,
+			"followed_place_chirho": {
+				"station_id_chirho": "davar-frabsf-davr-fb-n",
+				"language_code_chirho": "fr",
+				"book_id_chirho": "JOL",
+				"chapter_chirho": 2,
+				"seconds_chirho": 407.484608,
+				"duration_chirho": 484.838125,
+				"verse_chirho": null,
+				"verse_fraction_chirho": 0
+			}
+		}
+	},
+	"network_chirho": [
+		{
+			"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_02.mp3",
+			"status_chirho": 206
+		},
+		{
+			"url_chirho": "https://audio.dbs.org/FRABSF_DAVR_FB_N/29_Joel_03.mp3",
+			"status_chirho": 206
+		}
+	],
+	"transferred_bytes_chirho": "unknown",
+	"no_audio_saved_chirho": true,
+	"unexpected_addresses_chirho": [],
+	"page_errors_chirho": []
+}

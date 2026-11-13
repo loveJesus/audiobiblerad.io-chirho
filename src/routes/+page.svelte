@@ -6,7 +6,8 @@
 	import {
 		BOOKS_CHIRHO,
 		STATIONS_CHIRHO,
-		resolveChapterChirho,
+		resolveChapterPlaybackChirho,
+		offeredChapterCountChirho,
 		findStationChirho,
 		type StationChirho
 	} from '$lib/catalogue-chirho/catalogue_chirho';
@@ -84,7 +85,7 @@
 				{ length: bookChirho.chapters_chirho },
 				(_unusedChirho, indexChirho) => indexChirho + 1
 			).some((chapterChirho) =>
-				resolveChapterChirho(stationChirho, bookChirho.id_chirho, chapterChirho)
+				resolveChapterPlaybackChirho(stationChirho, bookChirho.id_chirho, chapterChirho)
 			)
 		)
 	);
@@ -93,7 +94,7 @@
 			{ length: bookChirho.chapters_chirho },
 			(_unusedChirho, indexChirho) => indexChirho + 1
 		).filter((chapterChirho) =>
-			resolveChapterChirho(stationChirho, bookChirho.id_chirho, chapterChirho)
+			resolveChapterPlaybackChirho(stationChirho, bookChirho.id_chirho, chapterChirho)
 		)
 	);
 	const languageCountChirho = $derived(
@@ -132,7 +133,9 @@
 			Array.from(
 				{ length: selectedBookChirho.chapters_chirho },
 				(_unusedChirho, indexChirho) => indexChirho + 1
-			).find((chapterChirho) => resolveChapterChirho(stationChirho, bookIdChirho, chapterChirho));
+			).find((chapterChirho) =>
+				resolveChapterPlaybackChirho(stationChirho, bookIdChirho, chapterChirho)
+			);
 		if (firstChapterChirho) playerChirho?.selectChapterChirho(bookIdChirho, firstChapterChirho);
 	}
 
@@ -602,7 +605,7 @@
 				>
 			</p>
 			<p class="coverage-chirho">
-				{stationChirho.chapter_count_chirho}
+				{offeredChapterCountChirho(stationChirho)}
 				{stationChirho.source_id_chirho === 'davar'
 					? 'chapters listed by the publisher. Availability can vary.'
 					: 'verified chapters in this station.'}

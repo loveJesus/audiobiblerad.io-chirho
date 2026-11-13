@@ -2,7 +2,7 @@
 
 # Web tune-in workflow
 
-Implemented by `RadioPlayerChirho` in `src/lib/player-chirho/radio_player_chirho.ts`. The screen in `src/routes/+page.svelte` enables the player controls once its handler is attached. Browsers require the first tap. One plain media element plays Scripture; a second plays optional effects. No Scripture passes through fetch or Web Audio.
+Implemented by `RadioPlayerChirho` in `src/lib/player-chirho/radio_player_chirho.ts`, with the bounded chapter timeline in `chapter_track_chirho.ts`. The screen in `src/routes/+page.svelte` enables the player controls once its handler is attached. Browsers require the first tap. One plain media element plays Scripture; a second plays optional effects. No Scripture passes through fetch or Web Audio.
 
 ```mermaid
 flowchart TD
@@ -10,8 +10,9 @@ flowchart TD
     memory_chirho --> place_chirho[Restore the followed passage and actual station place separately]
     place_chirho --> timings_chirho[Prefetch at most three small verse timing files]
     timings_chirho --> tap_chirho[Attach handlers and enable the one-tap play control]
-    tap_chirho --> locate_chirho[Resolve a catalogued chapter synchronously]
-    locate_chirho --> noise_chirho{Radio sounds enabled?}
+    tap_chirho --> locate_chirho[Resolve ordinary or composite chapter synchronously]
+    locate_chirho --> part_chirho[Map whole-chapter position directly to its file]
+    part_chirho --> noise_chirho{Radio sounds enabled?}
     noise_chirho -- yes --> effects_chirho[Start one original sound quietly]
     noise_chirho -- no --> play_chirho
     effects_chirho --> play_chirho[Set source and call play synchronously on the same media element]
@@ -22,21 +23,29 @@ flowchart TD
     turn_chirho --> cancel_chirho[Invalidate old request, pause and detach old handlers]
     cancel_chirho --> anchor_chirho[Resolve every dial turn from the followed place, preserving it through partial stations]
     anchor_chirho --> locate_chirho
-    playing_chirho --> ended_chirho[Chapter ends]
-    ended_chirho --> next_chirho[Choose next available chapter, wrapping at the end]
+    playing_chirho --> ended_chirho[Current file ends]
+    ended_chirho --> more_chirho{More parts in this chapter?}
+    more_chirho -- yes --> boundary_chirho[Save whole-chapter boundary and replace source on the same element]
+    boundary_chirho --> continuation_chirho[Keep pause intent; no tuning sound; fence old file events]
+    continuation_chirho --> metadata_chirho
+    more_chirho -- no --> next_chirho[Choose next offered chapter, wrapping at the end]
     next_chirho --> locate_chirho
     play_chirho --> error_chirho{Media error?}
-    error_chirho -- unavailable media --> recover_chirho[Keep a recovery checkpoint; try at most three following chapters]
+    error_chirho -- ordinary unavailable media --> recover_chirho[Keep a recovery checkpoint; try at most three following chapters]
     recover_chirho --> locate_chirho
-    error_chirho -- network, policy, limit --> stop_chirho[Roll back failed recovery, unload and show retry or tune action]
+    error_chirho -- composite, policy, limit --> stop_chirho[Preserve position, roll back failed recovery, unload and show retry or tune action]
     play_chirho --> timeout_chirho[Stop and unload a stream stalled for fifteen seconds]
     timeout_chirho --> stop_chirho
 ```
 
 Verse timing files are optional. When both recordings' timing data is ready before playback, tuning preserves the verse and fraction within it. Otherwise it maps the chapter fraction, then the start if duration is unknown. Timing response bodies are capped while reading at 64,000 bytes. Timing requests time out after 2.5 seconds; obsolete requests are aborted and at most six timing files are cached. They do not block the synchronous media play call. This also handles source chapters whose timing URL returns 404.
 
-When a station lacks the current book or chapter, its next catalogued passage is used, both before the first tap and while playing. Missing files that disappear after catalogue verification receive at most three recovery attempts. Network failures and stalls stop with an explicit retry. A paused radio stays paused while tuning. A browser/media-control pause also updates the screen.
+When a station lacks the current book or chapter, its next offered passage is used, both before the first tap and while playing. Ordinary files that disappear after catalogue verification receive at most three recovery attempts; their media error can also mean a network failure, so no failed recovery changes saved progress. A composite file failure stops in the same chapter and retains its whole-chapter position for retry. Stalls stop with an explicit retry. A paused radio stays paused while tuning. A browser/media-control pause also updates the screen. Pause samples the stopped media clock before saving, rather than waiting for a final queued timeupdate.
+
+A composite has two to four measured parts, at most two hours total. Only the active file loads; reopening or seeking into a later file does not fetch earlier parts. Measured lengths define fixed chapter boundaries. Within a file, media seconds and logical chapter seconds map proportionally, so small decoder estimates cannot shift a later part's start. The first metadata must be finite, positive and within the larger of one second or one percent of its recorded length; otherwise playback stops without skipping the chapter. Once accepted, later finite VBR refinements update the proportional mapping without interrupting audio. Transient non-finite estimates retain the last finite duration and defer pending seeks until metadata is finite again. These limits have generated decoder evidence in Chromium; equivalent first-duration behavior on physical Safari, Watch and Android remains unverified.
+
+Each file replacement increments the media request identity and removes old listeners. Parts continue once, on ended, with current pause intent and no tuning effect. Only the final part advances the Bible chapter. Whole-chapter seconds and duration feed the existing followed-place and fraction mapping. Preferences need no part identifier: the same saved chapter seconds select the right file directly. A later-part failure preserves its boundary or explicit seek target, including repeated retries.
 
 The language chooser and dynamic restore are documented in [the language workflow](language_workflow_chirho.md). The player holds an active set of complete ordinary stations and a separate current station; replacing the dial does not accumulate every visited language. Preferences contain the current station/place, optional language and dial codes, sound switch and a separate followed place with its source, duration and verse mapping, under one fixed device-local key capped at 2 KB. A detour station cannot overwrite the followed place; it changes only with an explicit passage choice or chapter progression. Seeking within a detour preserves the original followed passage. Failed recovery attempts do not replace persisted progress: a recovered chapter commits only once it plays, while exhausted attempts restore the checkpoint. Invalid or oversized values are discarded; denied or full storage cannot prevent listening. No preference is sent to our server. Page hide, pause and disposal save the last measured place. Disposal detaches handlers, aborts timing requests, stops both elements and unloads media.
 
-Tests: `radio_player_chirho.spec.ts` exercises the state transitions and failure boundaries. `tests-chirho/radio_playback_chirho.e2e.ts` uses the real browser decoder with a small synthesized fixture. The optional live probe records actual source playback separately. Its timings end at the browser playing event, not at measured speaker output. Physical iOS/Watch/Android background and headset behavior remain outside this web evidence.
+Tests: `radio_player_chirho.spec.ts` and `tests-chirho/composite_player_chirho.spec.ts` exercise state transitions and failure boundaries. `tests-chirho/radio_playback_chirho.e2e.ts` and `tests-chirho/composite_playback_chirho.e2e.ts` use the real browser decoder with small synthesized fixtures. The optional live probe records actual source playback separately. Its timings end at the browser playing event, not at measured speaker output. Physical iOS/Watch/Android background and headset behavior remain outside this web evidence.

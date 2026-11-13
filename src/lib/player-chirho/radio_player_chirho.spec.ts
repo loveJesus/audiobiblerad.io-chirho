@@ -5,124 +5,46 @@ import { readFileSync } from 'node:fs';
 import {
 	STATIONS_CHIRHO,
 	loadLanguageStationsChirho,
-	type StationChirho,
 	nextChapterChirho,
 	resolveChapterChirho
 } from '$lib/catalogue-chirho/catalogue_chirho';
-import { RadioPlayerChirho } from './radio_player_chirho';
+import { disposePlayersChirho, setupChirho } from './tests-chirho/player_fixture_chirho';
 import { capturePositionChirho, mapPositionChirho } from './playback_position_chirho';
 import { readBoundedTimingsChirho } from './verse_timings_chirho';
 import { PREFERENCES_KEY_CHIRHO, readPreferencesChirho } from './player_preferences_chirho';
 
-class FakeAudioChirho extends EventTarget {
-	src = '';
-	currentSrc = '';
-	preload = 'none';
-	currentTime = 0;
-	duration = NaN;
-	readyState = 0;
-	paused = true;
-	ended = false;
-	error: { code: number } | null = null;
-	play = vi.fn((): Promise<void> => {
-		this.paused = false;
-		return Promise.resolve();
-	});
-	pause = vi.fn((): void => {
-		this.paused = true;
-	});
-	load = vi.fn((): void => {
-		this.currentSrc = this.src;
-		this.currentTime = 0;
-		this.duration = NaN;
-		this.readyState = 0;
-		this.error = null;
-		this.ended = false;
-	});
-	removeAttribute(nameChirho: string): void {
-		if (nameChirho === 'src') this.src = '';
-	}
-	metadataChirho(durationChirho = 100): void {
-		this.duration = durationChirho;
-		this.readyState = 4;
-		this.dispatchEvent(new Event('loadedmetadata'));
-	}
-	playingChirho(): void {
-		this.paused = false;
-		this.dispatchEvent(new Event('playing'));
-	}
-	positionChirho(secondsChirho: number): void {
-		this.currentTime = secondsChirho;
-		this.dispatchEvent(new Event('timeupdate'));
-	}
-	failedChirho(codeChirho = 4): void {
-		this.error = { code: codeChirho };
-		this.dispatchEvent(new Event('error'));
-	}
-}
-
-const playersChirho: RadioPlayerChirho[] = [];
-function setupChirho(
-	rawChirho: string | null = null,
-	brokenStorageChirho = false,
-	timedChirho = false,
-	stationsChirho?: readonly StationChirho[]
-) {
-	const audioChirho = new FakeAudioChirho();
-	const soundsChirho = {
-		startChirho: vi.fn(),
-		stopChirho: vi.fn(),
-		setEnabledChirho: vi.fn(),
-		disposeChirho: vi.fn()
-	};
-	const savedChirho = new Map<string, string>(
-		rawChirho ? [[PREFERENCES_KEY_CHIRHO, rawChirho]] : []
-	);
-	const storageChirho = {
-		getItem(keyChirho: string) {
-			if (brokenStorageChirho) throw new Error('Storage denied');
-			return savedChirho.get(keyChirho) ?? null;
-		},
-		setItem(keyChirho: string, valueChirho: string) {
-			if (brokenStorageChirho) throw new Error('Storage denied');
-			savedChirho.set(keyChirho, valueChirho);
-		}
-	};
-	let nowChirho = 0;
-	const fetchChirho = vi.fn<typeof fetch>(
-		async () =>
-			new Response(timedChirho ? JSON.stringify({ verses: [10, 20, 40, 80] }) : '{}', {
-				status: timedChirho ? 200 : 404
-			})
-	);
-	const playerChirho = new RadioPlayerChirho({
-		audio_chirho: audioChirho as unknown as HTMLAudioElement,
-		sounds_chirho: soundsChirho,
-		storage_chirho: storageChirho,
-		on_change_chirho: vi.fn(),
-		now_chirho: () => nowChirho,
-		fetch_chirho: fetchChirho,
-		stations_chirho: stationsChirho
-	});
-	playersChirho.push(playerChirho);
-	return {
-		player_chirho: playerChirho,
-		audio_chirho: audioChirho,
-		sounds_chirho: soundsChirho,
-		saved_chirho: savedChirho,
-		fetch_chirho: fetchChirho,
-		clock_chirho(valueChirho: number) {
-			nowChirho = valueChirho;
-		}
-	};
-}
-
-afterEach(() => {
-	for (const playerChirho of playersChirho.splice(0)) playerChirho.disposeChirho();
-	vi.useRealTimers();
-});
+afterEach(disposePlayersChirho);
 
 describe('Scripture playback', () => {
+	it('saves the stopped media clock even when its last timeupdate has not arrived', () => {
+		const fixtureChirho = setupChirho();
+		fixtureChirho.player_chirho.playChirho();
+		fixtureChirho.audio_chirho.metadataChirho(100);
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.audio_chirho.positionChirho(20);
+		fixtureChirho.audio_chirho.currentTime = 20.25;
+		fixtureChirho.player_chirho.pauseChirho();
+		expect(fixtureChirho.player_chirho.snapshotChirho.seconds_chirho).toBe(20.25);
+		expect(JSON.parse(fixtureChirho.saved_chirho.get(PREFERENCES_KEY_CHIRHO)!).seconds_chirho).toBe(
+			20.25
+		);
+	});
+
+	it('retains a single file duration through a transient non-finite estimate', () => {
+		const fixtureChirho = setupChirho();
+		fixtureChirho.player_chirho.playChirho();
+		fixtureChirho.audio_chirho.metadataChirho(100);
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.audio_chirho.duration = Infinity;
+		fixtureChirho.audio_chirho.dispatchEvent(new Event('durationchange'));
+		fixtureChirho.audio_chirho.positionChirho(20);
+		expect(fixtureChirho.player_chirho.snapshotChirho).toMatchObject({
+			phase_chirho: 'playing',
+			seconds_chirho: 20,
+			duration_chirho: 100
+		});
+	});
+
 	it('tunes to a loaded station, remembers it and restores it without losing the followed passage', async () => {
 		const loadedChirho = await loadLanguageStationsChirho('hi', async () =>
 			JSON.parse(readFileSync('static/catalogue-chirho/languages-chirho/h/hi.json', 'utf8'))

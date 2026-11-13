@@ -1,0 +1,29 @@
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+
+# Composite chapter verification
+
+The web player opts into 61 measured composite chapters from 122 files, across 59 Davar recordings. Ordinary chapter coverage and every existing address remain unchanged. A composite uses one Scripture media element, fixed measured chapter boundaries, and proportional position within the active file. No part identifier or media address enters device preferences.
+
+## Evidence and its scope
+
+- `contract_review_chirho.json`: actual catalogue code at `1948e93` executed against code-only `599fa1e`; all 460 stations and 546,940 canonical positions preserve ordinary resolution, coverage and navigation. A composite fixture is retained safely by the old reader without exposing any part as a whole chapter.
+- `measurement_review_chirho.json`: saved results and network-log integrity checked, without repeating requests. A and B contain exactly the approved 122 distinct files, all with finite metadata lengths inside the limits. This checks the reading and its inventory, not spoken content or whole sound. Transferred bytes are unknown.
+- `data_comparison_chirho.json`: actual old/new loaders and resolvers executed against pre-data `cd70c01` and data landing `96b87a1`. Exactly 61 opt-in additions; all 368,557 ordinary addresses, metadata, old navigation, language flags and exceptions remain exact. Every emitted duration matches the saved reading.
+- `negative_controls_chirho.json`: deliberately advancing the chapter after part one makes the continuation test fail; deliberately zeroing the next-part boundary makes the saved-position test fail. Both expected reds were observed and the original source restored byte-for-byte before further edits and final gates. The restoration hash identifies that preimage, not the later pause-clock fix.
+- `live_playback_chirho.json`: one real French Joel 2 in Chromium 158, with a deliberate seek near the first file's end. Both real source clocks progressed. Tap to the first playing event was about 389 ms; first-file ended to second-file playing was 58.5 ms. Only the two approved source addresses responded, both 206. Pause saved Joel 2 at about 407.48 whole-chapter seconds. This is browser-event evidence, not acoustic measurement, complete-chapter playback or spoken-content review. No audio was saved.
+- `build_inventory_chirho.json`: 417 prepared files, 1,838,285 bytes, a 41,770-byte increase from the language landing. The 390 catalogue files total 1,302,734 bytes. The local dry-run worker is 595,047 bytes, reported as 109.57 KiB gzipped. All 62 configured credential values were compared against the complete prepared and dry-run output with zero matches. The only bundled audio is the nine generated sounds; no Scripture files. Gitleaks on the prepared output is clean. Nothing was uploaded.
+
+The generated browser fixtures prove natural continuation, final-file chapter advance, seeking in both directions, reopening directly in a later file, and boundary retention after a later-file network failure and retry. Controller tests also cover fraction carry, pause during transition, stale events, initial duration rejection, later VBR refinement, and transient non-finite metadata. The first metadata tolerance is the larger of one second or one percent. Later refinements do not interrupt audio or move another part's logical boundary.
+
+The catalogue seat independently ran 51 focused player tests and read the controller and timeline. That execution preceded the final single-file duration and pause-clock refinements. Its review did not cover the UI, browser fixtures, full browser suite, native devices or spoken contents. The coordinator executed the final whole-tree gates and browser tests separately.
+
+## Reds retained and resolved
+
+- The source data landing reported whole-tree formatting red in coordinator files while they were being edited. The coordinator formatted those owned paths; no source lane files were reset or reformatted by the coordinator.
+- A later lint run found the newly written negative-control JSON needed formatting. It was formatted and the final lint run repeated.
+- The first full browser run was 20/21. The offline-recovery assertion observed 2.011679 saved seconds instead of 2 because a final pause timeupdate arrived after the initial save. Pause now samples the stopped media clock before saving. A controller regression covers a pending final timeupdate, and the unchanged exact browser assertion passes. No tolerance or retry was added to hide it.
+- The independent reviewer identified that rechecking the initial duration tolerance on later VBR refinements could interrupt valid playback. Acceptance now happens once per part; subsequent finite durations update proportional mapping, while transient non-finite values retain the last finite duration. A regression covers both subsequent finite and infinite estimates.
+
+Final gates: check 0 errors and 0 warnings, whole-tree lint clean, 195 unit tests in 20 files, all 21 browser tests passing, local worker build and dry run clean. The pre-landing full history scan covered 23 commits and found no leaks; the final commit is scanned separately after landing. The local preview reuses the tested worker. The 424 KB extracted prior catalogue is retired after execution; its exact Git revision remains available for reconstruction.
+
+Physical iOS, Apple Watch and Android interruption/background behavior, non-Chromium first-duration estimates, complete chapters and spoken content remain unverified. Catalogue metadata measurement is not a substitute for those checks. The two unresolved numbering exceptions and wider Malachi content retain their existing labels. No push, deployment, DNS, provider signup/contact or audio mirroring occurred.
