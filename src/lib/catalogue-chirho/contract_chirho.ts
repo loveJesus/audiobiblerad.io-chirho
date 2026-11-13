@@ -4,7 +4,7 @@
 // Everything here is plain data that survives JSON, so the same catalogue can be handed to
 // Swift and Kotlin unchanged. Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
-import type { BookChirho, BookIdChirho } from './books_chirho';
+import type { BookChirho, BookIdChirho } from './books-chirho/books_chirho';
 
 /**
  * Raised when a field changes meaning or is removed. Adding a field does not raise it.
@@ -35,6 +35,8 @@ export type CoverageChirho = Readonly<Partial<Record<BookIdChirho, readonly Chap
  * - `{chapter_chirho}`          the chapter number: `3`
  * - `{chapter_pad2_chirho}`     the chapter number, two digits: `03`
  * - `{chapter_pad3_chirho}`     the chapter number, three digits: `003`
+ * - `{chapter_pad_book_chirho}` the chapter number, two digits or as many as the book's last
+ *                               chapter has: `03` in John, `003` in Psalms
  */
 export interface PatternLocatorChirho {
 	readonly kind_chirho: 'pattern';
@@ -43,8 +45,20 @@ export interface PatternLocatorChirho {
 	readonly book_codes_chirho?: string;
 }
 
-/** How a station finds the audio for a chapter. More kinds will follow: an index, a resolver. */
-export type LocatorChirho = PatternLocatorChirho;
+/**
+ * The address of every chapter is listed, for a source whose file names follow no rule.
+ */
+export interface IndexLocatorChirho {
+	readonly kind_chirho: 'index';
+	/**
+	 * By book, one address per chapter, chapter 1 first. A book that is absent has no files, and
+	 * `null` marks a chapter with none.
+	 */
+	readonly files_chirho: Readonly<Partial<Record<BookIdChirho, readonly (string | null)[]>>>;
+}
+
+/** How a station finds the audio for a chapter. One more kind will follow: a resolver. */
+export type LocatorChirho = PatternLocatorChirho | IndexLocatorChirho;
 
 /** Where a station's verse timings are, and which parser reads them. */
 export interface TimingsSourceChirho {

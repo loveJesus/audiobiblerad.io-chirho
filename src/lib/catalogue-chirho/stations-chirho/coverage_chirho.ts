@@ -4,7 +4,7 @@
 // one file per source, and the catalogue reads it back through here.
 // Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
-import { BOOKS_CHIRHO } from '../books_chirho';
+import { BOOKS_CHIRHO } from '../books-chirho/books_chirho';
 import type { ChapterRangeChirho, CoverageChirho } from '../contract_chirho';
 
 /** One source's coverage file, as `scripts-chirho/catalogue-chirho/` writes it. */

@@ -4,8 +4,8 @@
 // This file is the whole public surface. Players import from here and nowhere deeper.
 // Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
-import { BOOKS_CHIRHO } from './books_chirho';
-import { BOOK_CODE_SCHEMES_CHIRHO } from './book_code_schemes_chirho';
+import { BOOKS_CHIRHO } from './books-chirho/books_chirho';
+import { BOOK_CODE_SCHEMES_CHIRHO } from './books-chirho/book_code_schemes_chirho';
 import {
 	CATALOGUE_CONTRACT_VERSION_CHIRHO,
 	type CatalogueChirho,
@@ -20,7 +20,7 @@ export {
 	isBookIdChirho,
 	type BookChirho,
 	type BookIdChirho
-} from './books_chirho';
+} from './books-chirho/books_chirho';
 export {
 	CATALOGUE_CONTRACT_VERSION_CHIRHO,
 	type CatalogueChirho,
@@ -28,6 +28,7 @@ export {
 	type ChapterRangeChirho,
 	type ChapterRefChirho,
 	type CoverageChirho,
+	type IndexLocatorChirho,
 	type LocatorChirho,
 	type PatternLocatorChirho,
 	type StationChirho,
@@ -39,8 +40,8 @@ export {
 	nextChapterChirho,
 	resolveChapterChirho,
 	stationHasChapterChirho
-} from './locate_chirho';
-export { parseVerseTimingsChirho } from './timings_chirho';
+} from './locate-chirho/locate_chirho';
+export { parseVerseTimingsChirho } from './locate-chirho/timings_chirho';
 
 /**
  * Every station cleared to play, in a stable order grouped by language.

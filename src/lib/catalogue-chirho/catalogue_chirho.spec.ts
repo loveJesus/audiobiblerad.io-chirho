@@ -15,7 +15,11 @@ import {
 	type StationChirho
 } from './catalogue_chirho';
 import { countChaptersChirho } from './stations-chirho/coverage_chirho';
-import { STATION_SOURCES_CHIRHO } from './stations-chirho/station_sources_chirho';
+import { HELD_STATIONS_CHIRHO } from './stations-chirho/held_stations_chirho';
+import {
+	STATION_SOURCES_CHIRHO,
+	allDraftsOfChirho
+} from './stations-chirho/station_sources_chirho';
 
 const DAY_PATTERN_CHIRHO = /^\d{4}-\d{2}-\d{2}$/;
 
@@ -147,21 +151,38 @@ describe('the shipped catalogue', () => {
 			expect(sourceChirho.coverage_file_chirho.source_id_chirho).toBe(
 				sourceChirho.source_id_chirho
 			);
-			for (const draftChirho of sourceChirho.drafts_chirho) {
+			const draftsChirho = allDraftsOfChirho(sourceChirho);
+			for (const draftChirho of draftsChirho) {
 				expect(draftChirho.source_id_chirho, draftChirho.id_chirho).toBe(
 					sourceChirho.source_id_chirho
 				);
 			}
 			// No coverage is on file for a station that is not defined.
-			const draftIdsChirho = new Set(
-				sourceChirho.drafts_chirho.map((draftChirho) => draftChirho.id_chirho)
-			);
+			const draftIdsChirho = new Set(draftsChirho.map((draftChirho) => draftChirho.id_chirho));
 			for (const stationIdChirho of Object.keys(
 				sourceChirho.coverage_file_chirho.stations_chirho
 			)) {
 				expect(draftIdsChirho, sourceChirho.source_id_chirho).toContain(stationIdChirho);
 			}
 		}
+	});
+
+	it('gives no player a station that is held back, and says why each is held', () => {
+		const playingIdsChirho = new Set(
+			STATIONS_CHIRHO.map((stationChirho) => stationChirho.id_chirho)
+		);
+		const heldIdsChirho = HELD_STATIONS_CHIRHO.map(
+			(heldChirho) => heldChirho.station_chirho.id_chirho
+		);
+		expect(new Set(heldIdsChirho).size).toBe(heldIdsChirho.length);
+		for (const heldChirho of HELD_STATIONS_CHIRHO) {
+			const idChirho = heldChirho.station_chirho.id_chirho;
+			expect(playingIdsChirho, idChirho).not.toContain(idChirho);
+			expect(findStationChirho(idChirho), idChirho).toBeUndefined();
+			expect(heldChirho.reason_chirho.trim().length, idChirho).toBeGreaterThan(20);
+			expect(JSON.stringify(CATALOGUE_CHIRHO), idChirho).not.toContain(`"${idChirho}"`);
+		}
+		expect(STATIONS_CHIRHO.length).toBeGreaterThan(0);
 	});
 });
 
@@ -182,7 +203,9 @@ describe('the catalogue as plain data', () => {
 
 	it('names only book code lists that exist', () => {
 		for (const stationChirho of STATIONS_CHIRHO) {
-			const schemeChirho = stationChirho.locator_chirho.book_codes_chirho;
+			const locatorChirho = stationChirho.locator_chirho;
+			const schemeChirho =
+				locatorChirho.kind_chirho === 'pattern' ? locatorChirho.book_codes_chirho : undefined;
 			if (schemeChirho !== undefined) {
 				expect(Object.keys(CATALOGUE_CHIRHO.book_code_schemes_chirho)).toContain(schemeChirho);
 			}

@@ -3,8 +3,8 @@
 // A made-up station for tests, so that the behaviour of the catalogue can be proved without
 // depending on what any real source happens to have today. Nothing that ships imports this.
 
-import type { CoverageChirho, StationChirho } from './contract_chirho';
-import { countChaptersChirho } from './stations-chirho/coverage_chirho';
+import type { CoverageChirho, StationChirho } from '../contract_chirho';
+import { countChaptersChirho } from '../stations-chirho/coverage_chirho';
 
 export function makeStationFixtureChirho(
 	coverageChirho: CoverageChirho,

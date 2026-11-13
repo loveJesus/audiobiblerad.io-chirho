@@ -4,7 +4,7 @@
 // recorded, with the words that grant it, in
 // spec-chirho/sources-chirho/26-11-13-public-audio-sources-chirho.md.
 
-import type { StationDraftChirho } from './station_builder_chirho';
+import type { StationDraftChirho } from '../station_builder_chirho';
 
 type LanguageFactsChirho = Pick<
 	StationDraftChirho,

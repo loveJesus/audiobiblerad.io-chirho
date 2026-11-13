@@ -2,108 +2,235 @@
 
 # Public audio Bible sources
 
-Read on 2026-11-13. Every address below was opened that day, and the status codes and byte counts
-are from that day. Licences change, so re-read a source's own page before shipping a station from it.
+First read on 2026-11-13, when the project was set up. Read again and measured the same day, when
+the catalogue was built: every address pattern below was put through the availability check, and
+the counts are from that check. Licences change, so re-read a source's own page before shipping a
+new station from it.
 
 The rule this file serves: **"publicly available" is not the same as "free to redistribute".** A
 station ships only when its licence and the credit it requires are recorded here.
 
+The record is in three places:
+
+- **This page:** each source, the words that grant its licence, and what was held back and why.
+- **`station_register_chirho.md`, beside this page:** every station that ships, with its licence,
+  its credit and the page the licence was read on. It is written from the catalogue, and a test
+  fails when it differs from what ships.
+- **`spec-chirho/evidence-chirho/catalogue-chirho/`:** what the availability check measured.
+
 ## In short
 
-- **Playable today with no key and clear terms:** English in several voices and Mandarin from the
-  Free Use Bible API, 13 languages from Bible in Every Language, and English from eBible.org.
+- **Playing now with no key:** 22 stations in 19 languages. English in four voices; Gujarati,
+  Hindi, Kannada, Malayalam, Marathi, Nepali, Odia, Punjabi, Swahili, Tamil, Telugu, Vietnamese,
+  Tiriki and Olutsotso from Bible in Every Language; and Spanish, German, Portuguese and Hebrew
+  from LibriVox, a book or two each. The station register beside this page lists every one.
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
   streaming only. Reaching "any language" depends on it.
-- Two sites could not be read with a plain fetcher and one has unclear rights. They are at the end.
+- **Not playing, for three different reasons.** Each source below says which applies.
+  - **No licence on record:** the maker has not said who is speaking or under which terms. These
+    cannot ship until that is read.
+  - **Clear terms, our own caution:** a voice that may be text to speech, or a text its translators
+    call a draft. Nothing forbids these. They wait for the owner's preference.
+  - **Clear terms, work to do:** file names that follow no rule and need a chapter index.
 
-## Tier 1: playable today without a key
+## Tier 1: playing now without a key
 
 ### Free Use Bible API (bible.helloao.org)
 
+- **Stations:** `helloao-bsb-hays` and `helloao-bsb-souer`, the Berean Standard Bible read by
+  Barry Hays and by Bob Souer. Each has all 1,189 chapters.
 - **Audio it serves:** Berean Standard Bible (`BSB`) in three voices named `hays`, `souer` and
   `david`, and the Chinese Union Version (`cmn_cuv`) in one voice named `mandarin`. This list comes
   from the project's own source file `packages/helloao-tools/generation/audio.ts` in
   `github.com/HelloAOLab/bible-api`. Three more Chinese ids and `AAB` reuse the same recordings.
 - **Address pattern:** `https://audio.bible.helloao.org/api/{translation}/{BOOK}/{chapter}/audio/{voice}.mp3`
-  with the book as an upper-case three-letter code and the chapter without padding. Example:
-  `https://audio.bible.helloao.org/api/BSB/GEN/1/audio/david.mp3` returned 200, `audio/mpeg`,
-  7,033,707 bytes, and accepts range requests.
+  with the book as an upper-case three-letter code and the chapter without padding.
 - **Verse timings:** `https://bible.helloao.org/api/{translation}/{BOOK}/{chapter}.{voice}.audioTimings.json`
-  holds a `verses` list of start times in seconds. Present for both `BSB` and `cmn_cuv`. This is
-  what lets two stations stay on the same verse when the dial turns.
-- **Chapter lookup:** `https://bible.helloao.org/api/{translation}/{BOOK}/{chapter}.json` returns
-  `thisChapterAudioLinks` and the next and previous chapter links. `.../api/BSB/books.json` lists 66
-  books and 1,189 chapters with their codes and chapter counts.
+  holds a `verses` list of start times in seconds, verse 1 first. This is what lets two stations
+  stay on the same verse when the dial turns. Every file was fetched and read: 1,188 of 1,189 for
+  Hays and 1,187 for Souer. Leviticus 19 is missing for both and Psalm 150 for Souer; those answer 404. No file runs backwards. A chapter opens with a spoken heading, so verse 1 starts a few
+  seconds in.
 - **Text catalogue:** `https://bible.helloao.org/api/available_translations.json` lists 1,505 text
   translations in 1,168 languages with each language's own name. Audio exists only for the ids
-  above; the list is still useful for language names.
+  above.
 - **Terms:** its documentation says the API is MIT licensed, adds no restrictions of its own, and
   that responses may be cached, stored and downloaded without expiry. Each text keeps its own notice.
-- **Licence of the recordings:** the Berean audio page (`https://bereanbible.com/audio/`) says the
-  recordings narrated by Bob Souer, Barry Hays and Jordan Gilbert "have been dedicated to the public
-  domain (CC0 1.0)". The Berean text is public domain since 2023-04-30
-  (`https://berean.bible/licensing.htm`).
-- **Not established today:** who the `david` voice is, whether it is a person or a synthetic voice,
-  and the licence of the Mandarin recording. Find the maker's statement before shipping those two.
+- **Licence of the recordings:** the Berean audio page (`https://bereanbible.com/audio/`) says:
+  "The Holy Bible, Berean Standard Bible, BSB Audio narrated by Bob Souer, Barry Hays, and Jordan
+  Gilbert. These audio versions of God's Word have been dedicated to the public domain (CC0 1.0)".
+  The Berean text is public domain since 2023-04-30 (`https://berean.bible/licensing.htm`).
+- **Credit:** CC0 asks for none. The stations name the version and the narrator anyway.
+- **Held back:** the `david` voice and the Mandarin recording. Nothing read says who or what the
+  `david` voice is, or under which licence either recording is offered.
 
 ### openbible.com/audio
 
-- **What:** a plain file listing at `https://openbible.com/audio/`. Folders seen: `hays`, `souer`,
-  `gilbert`, `david`, `arabella`, `sophia`, `bsb_frederick_surrey`, `bsb_musical`, `gilbert_music`,
-  `kjv`, `kjv_sophia`, `kjv_musical`, `msb`, `msb_arabella`, `msb_sophia`, `msb_frederick_surrey`.
-  The `kjv`, `msb` and `david` folders each hold 1,189 chapter files plus one archive.
+- **Station:** `openbible-bsb-gilbert`, the Berean Standard Bible read by Jordan Scott Gilbert,
+  with all 1,189 chapters. It is one of the three narrations the Berean audio page dedicates to the
+  public domain, quoted above.
+- **What:** a plain file listing at `https://openbible.com/audio/`. Its downloads page
+  (`https://openbible.com/audio.htm`) names the folders: "BSB - Jordan Scott Gilbert" (`gilbert`),
+  "BSB - Barry Hays" (`hays`), "BSB - Bob Souer" (`souer`), "BSB - Gilbert + Music"
+  (`gilbert_music`), "BSB - David" (`david`), "KJV - David" (`kjv`) and "MSB - David" (`msb`).
+  Other folders seen in the listing and named nowhere: `arabella`, `sophia`, `bsb_frederick_surrey`,
+  `bsb_musical`, `kjv_sophia`, `kjv_musical`, `msb_arabella`, `msb_sophia`, `msb_frederick_surrey`.
 - **File names:** `{VERSION}_{book order, 2 digits}_{Book code}_{chapter, 3 digits}{suffix}.mp3`, for
-  example `KJV_43_Jhn_003.mp3` (200, `audio/mpeg`, 8,018,820 bytes, accepts range requests),
-  `BSB_01_Gen_001_D.mp3` and `MSB_01_Gen_001_D.mp3`. The book code is capitalised (`Gen`, `1Sa`,
-  `Jhn`) and Titus is written `Tts`. The suffix marks the voice: `_H` for Hays, none for Souer, `_D`
-  for David.
-- **Licence:** the named Berean narrators are CC0 as above. No page read today states who recorded
-  the `kjv` and `msb` folders or the other voices, or under what terms.
-- **Not established today:** several folder names look like synthetic voices. Nothing read today
-  confirms it. Listeners should be told when a voice is synthetic, so record the voice kind as
-  unknown until the maker says.
+  example `BSB_01_Gen_001_G.mp3`. The book codes were read from the listings themselves: the
+  letter after a leading digit is a capital (`1Sa`), and Titus is written `Tts`. The suffix marks
+  the voice: `_G` for Gilbert, `_H` for Hays, none for Souer, `_D` for David, `_Gm` for Gilbert
+  with music.
+- **Measured:** the `gilbert`, `hays`, `souer`, `david`, `kjv` and `msb` folders each list exactly
+  1,189 chapter files. `gilbert_music` lists 260, the New Testament.
+- **Held back:** every `david` folder, which includes the King James Version and the Majority
+  Standard Bible, and the editions with music. No page read says who or what the David voice is,
+  who made the music, or under which licence any of them is offered. Several folder names look
+  like synthetic voices; nothing read confirms it.
 
 ### Bible in Every Language audio (Wycliffe Associates)
 
-- **Licence:** the site's footer says "Unless otherwise mentioned, all work is licensed under a
-  Creative Commons Attribution-ShareAlike 4.0 International License." Credit is required.
-- **Address pattern, verified:**
-  `https://audio-content.bibleineverylanguage.org/content/{lang}/ulb/{book}/{chapter}/CONTENTS/mp3/hi/chapter/{lang}_ulb_{book}_c{chapter}.mp3`
+- **Stations:** fifteen, named `biel-ulb-` or `biel-reg-` and the language tag. English, Gujarati,
+  Hindi, Kannada, Malayalam, Marathi, Nepali, Odia, Punjabi, Swahili, Tamil, Telugu and Vietnamese
+  are the Unlocked Literal Bible. Tiriki and Olutsotso are each a community's own translation.
+- **Licence:** the footer of `https://bibleineverylanguage.org/` says: "This site is offered by
+  Wycliffe Associates and our partners to provide access to tools and resources needed to complete
+  the work of Bible translation for the local church. Unless otherwise mentioned, all work is
+  licensed under a Creative Commons Attribution-ShareAlike 4.0 International License."
+- **Credit:** required. Each station names the version, Bible in Every Language, Wycliffe
+  Associates and partners, and the licence, and says the recording is played unchanged.
+- **Address pattern:**
+  `https://audio-content.bibleineverylanguage.org/content/{lang}/{version}/{book}/{chapter}/CONTENTS/mp3/hi/chapter/{lang}_{version}_{book}_c{chapter}.mp3`
   with the book as a lower-case three-letter code and the chapter without padding. The `mp3/hi`
-  part means high quality, not Hindi. `ulb` is the version, the Unlocked Literal Bible.
-- **Verified with all 21 chapters of John:** `en`, `gu`, `hi`, `kn`, `ml`, `mr`, `ne`, `or`, `pa`,
-  `sw`, `ta`, `te`, `vi` (English, Gujarati, Hindi, Kannada, Malayalam, Marathi, Nepali, Odia,
-  Punjabi, Swahili, Tamil, Telugu, Vietnamese).
-- **Samples:** Hindi John 3 returned 200, `audio/mpeg`, 6,089,246 bytes; Swahili John 3 returned
-  200, 6,700,302 bytes. Both accept range requests. Padding check: `hi_ulb_psa_c23` 200,
-  `hi_ulb_psa_c023` 404, `hi_ulb_gen_c1` 200, `hi_ulb_gen_c01` 404.
-- **Gaps:** the site says "Some chapters may be missing", so availability has to be checked chapter
-  by chapter. Listed on the site with no John audio: `ilo`, `tl`, `ida-x-tiriki`, `lto`.
-- **More languages exist than were verified.** The language page also showed Amharic, Arabic,
-  Assamese, Bengali, Cebuano, Latin American Spanish, Persian, French, Hausa, Indonesian, Khmer, Lao
-  and Burmese. None of them answered at the `ulb` pattern, so they use another version code that
-  was not found today.
+  part means high quality, not Hindi.
+- **What the site offers,** read with a real browser on 2026-11-13: it lists 30 languages. For 13
+  of them the entry is greyed out and leads nowhere: Amharic, Arabic, Assamese, Bengali, Cebuano,
+  Latin American Spanish, Persian, French, Hausa, Indonesian, Khmer, Lao and Burmese have no audio
+  there. Of the 17 that open, Ilocano and Tagalog list no MP3 book. That leaves 15.
+- **The versions:** 13 languages are the Unlocked Literal Bible, `ulb` in the address. Tiriki and
+  Olutsotso are filed under `reg`. The publisher's own manifest for each
+  (`Tech_Advance/ida-x-tiriki_reg` and `Tech_Advance/lto_reg` on
+  `content.bibletranslationtools.org`) gives the title "Bible", the publisher Wycliffe Associates,
+  the creator "Bible translation community" and the rights "CC BY-SA 4.0"; the repositories are
+  described as "Tiriki Bible Kenya" and "Olutsotso Bible".
+- **Measured:** every chapter address of every station was asked for, 17,835 in all.
+  - Nine languages have all 1,189 chapters: English, Gujarati, Hindi, Kannada, Malayalam, Marathi,
+    Punjabi, Tamil and Telugu.
+  - Vietnamese has 1,180 and Odia 1,175. Each lacks a few scattered chapters.
+  - Swahili has 566: Genesis to 2 Kings with gaps, half of 2 Chronicles, Job, the four Gospels and
+    most of the letters. It has no Acts, Romans, Colossians or Revelation as MP3.
+  - Nepali has 259: the New Testament less one chapter of Matthew.
+  - Tiriki has 74 and Olutsotso 76: the shorter New Testament letters. Neither has a
+    Gospel.
+  - The evidence file lists what is missing, book by book.
+- **Voices:** the site names no reader. It offers the recordings as "source audio" for
+  translators. The voice kind is recorded as unknown.
+- **Not played:** where a chapter has no MP3 the site sometimes offers a WAV file instead, for
+  example the Swahili Revelation. Those are uncompressed and far too large to start quickly.
 - **Reading the site:** `https://audio.bibleineverylanguage.org/` refuses plain fetchers (403) and
   needs a real browser. The audio host itself serves plain requests.
 
-### eBible.org, World English Bible
+### eBible.org
 
-- `https://ebible.org/webaudio/`: recordings by Michael Paul Johnson "are in the Public Domain.
-  They are not copyrighted. Please feel free to download, copy, mirror, and share these files."
-- `https://ebible.org/eng-web/audio/`: a recording by Winfred W. Henson. "You may download, copy,
-  and listen to this recording of the Holy Bible freely."
-- **File names are irregular**, for example `43_John/0999 John-Chapter Three.mp3`. This source needs
-  a chapter index built by reading its 66 book pages; a pattern will not do.
+Nothing from this host plays yet. Each recording below waits for a different reason, marked in
+bold.
+
+- **World English Bible British Edition** (`ebible-webbe` in the register's held list): all 1,189
+  chapters at `https://ebible.org/eng-webbe/mp3/eng-webbe_{number}_{BOOK}_{chapter}.mp3`, for
+  example `eng-webbe_073_JHN_03.mp3`. The number is eBible's own: Genesis is 002 and Malachi 040,
+  Matthew is 070 and Revelation 096, with the numbers between kept for books outside the 66. The
+  chapter has two digits, three in Psalms.
+  - **Licence:** `https://ebible.org/webaudio/` says: "World English Bible British Edition audio is
+    free to download and use." The translation's details page offers "MP3 Audio" to "Stream or
+    download". Each file's own tag says: "Text by EBible.org", "Audio by
+    PublicDomainAudioBibles.com", "The text and audio are released to the public domain and can be
+    used without restriction".
+  - **Small files:** John 3 is 966,728 bytes, against 4,522,276 for the same chapter read by Barry
+    Hays. It would start quickly on a slow connection.
+  - **Our own caution, not a licence question:** its maker says its other recordings were made
+    "using a licensed high quality text to speech engine" (see the next source), and no page says
+    whether this one was. The project's rule is to record a voice as unknown until its maker says,
+    and nothing forbids a synthetic voice. The owner has not yet said whether he wants them, so
+    this one waits for his preference. Its chapters are measured and one line releases it.
+- **Santa Biblia libre para el mundo** (Spanish, every chapter, `https://ebible.org/spablm/mp3/`)
+  and **Sainte Bible libre pour le monde** (French, the New Testament,
+  `https://ebible.org/frasbl/mp3/`): public domain, under regular names. **Our own caution, not a
+  licence question:** each translation's own page says "This is a draft translation. It is being
+  proofread and edited." They wait for the owner's preference on playing a draft of Scripture.
+  Not yet measured. The Spanish folder writes four books its own way: `ECL`, `NAH`, `ZAC` and
+  `FLM`.
+- **Recordings by Michael Paul Johnson** (`https://ebible.org/webaudio/mp3.htm`): "in the Public
+  Domain. They are not copyrighted. Please feel free to download, copy, mirror, and share these
+  files." **Work to do:** the set is partial and its names are irregular: Psalms 1 and 2, Matthew,
+  Mark 1 to 7, John, Romans 1 to 5, Hebrews, and several short letters as one file each. It needs
+  a chapter index.
+- **A recording by Winfred W. Henson** (`https://ebible.org/eng-web/audio/`): "You may download,
+  copy, and listen to this recording of the Holy Bible freely." **Work to do:** complete, read by
+  a person, with irregular names such as `43_John/0999 John-Chapter Three.mp3`. It needs a chapter
+  index built from its 66 book pages, and is the next English station worth adding.
+- **The New Testament "recorded by FCBH"** (`https://ebible.org/eng-web/mp3/`): **no licence on
+  record.** No terms are stated beside it, and Faith Comes By Hearing's own terms are the ones
+  under Tier 2.
+- **Folders with only an archive:** `spabes`, `spaRV1909`, `spabll`, `porbrbsl`, `cmnswcb`,
+  `engBBE` and `eng-kjv2006` each hold a zip file and no chapter files, so there is nothing to
+  stream from this host. The same recordings are on the next source.
+
+### PublicDomainAudioBibles.com
+
+A private ministry that makes and gives away audio Bibles, and the maker of the eBible.org audio
+above. Read on 2026-11-13. Its terms are clear and allow this use. **Nothing from it plays yet and
+nothing was measured:** most of it is text to speech, which waits for the owner's preference.
+
+- **What it offers:** the Reina Valera 1909 in Spanish, La Biblia en Español Sencillo, the Biblia
+  Libre Latinoamericana, the Bíblia Portuguesa Mundial in Brazilian Portuguese, the World Chinese
+  Bible, the King James Version, the Bible in Basic English in four accents, the New Heart English
+  Bible, and the World English Bible read by David Williams and by Winfred Henson. These would be
+  the first complete Spanish, Portuguese and Chinese stations.
+- **Licence:** its home page says the Bibles "can be legally downloaded, copied, and used for any
+  purpose without major restrictions (some require attribution)", and its about page: "The Bible
+  Audio files offered on PublicDomainAudioBibles.com for streaming and download can be freely
+  copied and reused for your personal and ministry projects." Each Bible's page gives its own
+  statement, for example of the Reina Valera 1909: "released into the public domain in 2017. It
+  can be used for any ministry or commercial purpose without restriction."
+- **Voices, in its own words:** the Reina Valera 1909, the King James Version and the Bible in
+  Basic English were made "using a licensed high quality text to speech engine". The World English
+  Bible recordings are by named narrators; of Winfred Henson's it says the narrator placed it in
+  the public domain in 2017.
+- **What it waits for:** the owner's preference on synthetic voices, which is already on his
+  list. Nothing forbids them. The two World English Bible narrations are read by people and wait
+  only for their address pattern to be read and their chapters measured.
+- **To keep in mind, not a condition:** the site is paid for by donations, and says "There is a
+  cost to prepare and serve these files". Its terms invite streaming and reuse, so playing from
+  its host is permitted and is this project's design. A radio that grew large would spend their
+  bandwidth, so the traffic sent to this host is worth watching as use grows. A courtesy note to
+  them is drafted for the owner, should he wish to send one. Nobody has been contacted.
 
 ### LibriVox
 
-- Public-domain recordings by volunteers, published one book at a time. The API
-  (`https://librivox.org/api/feed/audiobooks?title=%5EBible&format=json&limit=50`) returned 50
-  entries, the limit asked for: 45 English (KJV, ASV, WEB, Douay-Rheims), 3 French (Louis Segond
-  1910), 1 Latin (Vulgate) and 1 Hebrew (Genesis, 50 sections). A search for `^Biblia` returned 4
-  Portuguese (Almeida) and `^Bibel` returned 3 German (Luther 1912).
-- **Limits:** coverage is partial in every language, and a section is not always one chapter (Luke
-  has 12 sections for 24 chapters). Each entry needs its own mapping.
+- **Stations:** `librivox-rv1909-es` (Spanish, John), `librivox-lb1912-de` (German, Matthew),
+  `librivox-almeida-pt` (Portuguese, Ruth and Ecclesiastes) and `librivox-hebrew-he` (Hebrew,
+  Genesis). Every listed address was asked for and answered with audio: 21, 28, 16 and 50
+  chapters, 115 in all.
+- **Licence:** `https://librivox.org/pages/public-domain/` says: "LibriVox records only texts that
+  are in the public domain (in the USA ...), and all our recordings are public domain (definitely
+  in the USA, and maybe in your country as well ...). This means anyone can use all our recordings
+  however they wish (even to sell them)." It adds that a recording is "public domain in the USA,
+  but not necessarily in other countries". The texts read here were published in 1909 (Reina-Valera),
+  1912 (Luther), 1860 and 1911 (Almeida), or are the Hebrew Bible itself.
+- **Credit:** none is asked for. The stations name the version and LibriVox.
+- **Voices:** human. LibriVox states its aim as "To make all books in the public domain available,
+  narrated by real people". Readers are volunteers; the stations credit "LibriVox volunteers".
+- **How a book qualifies:** LibriVox publishes one book at a time, and a recording's sections are
+  not always chapters (its French John has 5 sections for 21 chapters). A book is indexed only when
+  it has exactly one section per chapter, numbered and titled 1 to the last. The index is written
+  from LibriVox's catalogue (`https://librivox.org/api/feed/audiobooks`) by
+  `scripts-chirho/catalogue-chirho/build_librivox_index_chirho.ts`.
+- **Where the files are:** on the Internet Archive, under names that follow no rule. An address
+  redirects once to a storage host, which sends an open cross-origin header and accepts range
+  requests. LibriVox's catalogue gives addresses at `www.archive.org`, which only redirects to
+  `archive.org`; the index starts at the second, which saves a round trip. Measured first byte of
+  a ranged request: 0.9 seconds, against 1.2 through the extra hop.
+- **More to index:** the catalogue also holds many English books (King James, American Standard,
+  World English, Douay-Rheims), and a Portuguese Proverbs whose sections had no address yet on
+  2026-11-13. English is well served elsewhere, so only the other languages were indexed.
 
 ## Tier 2: needs a key or an agreement in the owner's name
 
@@ -133,7 +260,7 @@ The largest catalogue of audio Bibles. The terms below are from the API licence 
 - **The API** is described at `https://4.dbt.io/open-api-4.json` (version 4.0.0-beta, 31 paths,
   key scheme `dbp_key`). Useful paths: `/languages`, `/bibles`, `/bibles/{id}`,
   `/bibles/filesets/{fileset_id}/{book}/{chapter}`, `/bibles/{bible_id}/copyright`,
-  `/timestamps/{fileset_id}/{book}/{chapter}`, `/download/list`. No call was made today because
+  `/timestamps/{fileset_id}/{book}/{chapter}`, `/download/list`. No call has been made because
   there is no key.
 - **How audio arrives** (their core concepts page): files sit behind a delivery network and the API
   returns signed addresses. Audio filesets come as 64 kbps MP3, as 16 kbps Opus, and for a few as
@@ -144,7 +271,7 @@ The largest catalogue of audio Bibles. The terms below are from the API licence 
   and handing signed addresses to our own apps only. Their terms forbid relaying to other
   developers, so ask them to confirm that this arrangement is acceptable.
 
-### Others, not read at their own pages today
+### Others, not read at their own pages
 
 The Free Use Bible API's documentation compares itself with two more services. These are its
 characterisations, not checked at the source: API.Bible needs an account and key, allows 5,000
@@ -160,13 +287,20 @@ YouVersion Platform needs app registration, a key and an agreement with each pub
 - **Faith Comes By Hearing MP3 downloads:** free personal downloads behind a form. It is not a
   source for an app.
 
-## Not read today
+## Not read yet
 
 `https://open.bible/` (refuses plain fetchers), API.Bible's own terms, the YouVersion Platform's
 own terms, Global Recordings Network, Talking Bibles, Scripture Earth, Door43, Audio Treasure, and
-collections on the Internet Archive.
+collections on the Internet Archive beyond LibriVox's.
 
 ## What this means for speed
 
-Chapter files are 6 to 8 MB. Every host tested accepts range requests, so a player can start
-before the whole file arrives and can jump to a position without fetching what comes before it.
+- John 3 is between 4.5 and 7.4 MB at most sources and under 1 MB at eBible.org. Every host
+  accepts range requests, so a player can start before the whole file arrives and can jump to a
+  position without fetching what comes before it.
+- **The audio hosts of the Free Use Bible API, Bible in Every Language, openbible.com and
+  eBible.org send no cross-origin header.** A web page can play their files with a plain audio
+  element. It cannot read them with `fetch`, and routing them through Web Audio gives silence.
+- The verse timings files do send an open cross-origin header, so a web page can read them.
+- Nothing is copied. Where the sizes were measured on 2026-11-13, one station's whole Bible is
+  between 4 and 5.6 GB. It stays on the source's host.

@@ -1,0 +1,61 @@
+{
+	"source_id_chirho": "librivox",
+	"stations_chirho": {
+		"librivox-rv1909-es": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 21,
+			"chapters_found_chirho": 21,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1168,
+			"bytes_total_chirho": 64260956,
+			"bytes_smallest_chapter_chirho": 1813024,
+			"bytes_largest_chapter_chirho": 4854096
+		},
+		"librivox-lb1912-de": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 28,
+			"chapters_found_chirho": 28,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1161,
+			"bytes_total_chirho": 92373984,
+			"bytes_smallest_chapter_chirho": 1700802,
+			"bytes_largest_chapter_chirho": 6505870
+		},
+		"librivox-almeida-pt": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 16,
+			"chapters_found_chirho": 16,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1173,
+			"bytes_total_chirho": 27126777,
+			"bytes_smallest_chapter_chirho": 932997,
+			"bytes_largest_chapter_chirho": 2426185
+		},
+		"librivox-hebrew-he": {
+			"checked_on_chirho": "2026-11-13",
+			"method_chirho": "one HEAD request per chapter address",
+			"chapters_asked_chirho": 50,
+			"chapters_found_chirho": 50,
+			"chapters_absent_chirho": 0,
+			"absent_by_book_chirho": [],
+			"absent_answers_chirho": {},
+			"chapters_unverified_chirho": [],
+			"chapters_with_no_address_chirho": 1139,
+			"bytes_total_chirho": 108512320,
+			"bytes_smallest_chapter_chirho": 1316672,
+			"bytes_largest_chapter_chirho": 4494656
+		}
+	}
+}

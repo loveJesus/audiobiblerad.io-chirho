@@ -6,7 +6,7 @@
 // Not here yet, and why: the `david` folders (BSB, KJV and MSB) and the music editions have no
 // maker's statement of who is speaking or under which licence. See the sources file.
 
-import type { StationDraftChirho } from './station_builder_chirho';
+import type { StationDraftChirho } from '../station_builder_chirho';
 import {
 	BEREAN_NARRATION_CC0_CHIRHO,
 	BEREAN_VERSION_CHIRHO,

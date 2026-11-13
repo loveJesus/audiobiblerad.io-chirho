@@ -4,14 +4,15 @@
 // Nothing here touches the network, so a player can resolve an address and start playing
 // inside the same tap. Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
-import { BOOKS_CHIRHO, findBookChirho, type BookChirho } from './books_chirho';
-import { BOOK_CODE_SCHEMES_CHIRHO } from './book_code_schemes_chirho';
+import { BOOKS_CHIRHO, findBookChirho, type BookChirho } from '../books-chirho/books_chirho';
+import { BOOK_CODE_SCHEMES_CHIRHO } from '../books-chirho/book_code_schemes_chirho';
 import type {
 	ChapterAudioChirho,
 	ChapterRefChirho,
 	CoverageChirho,
+	LocatorChirho,
 	StationChirho
-} from './contract_chirho';
+} from '../contract_chirho';
 
 const PLACEHOLDER_PATTERN_CHIRHO = /\{([a-z0-9_]+)\}/g;
 
@@ -42,7 +43,11 @@ export function expandTemplateChirho(
 		['book_order_pad2_chirho', String(bookChirho.order_chirho).padStart(2, '0')],
 		['chapter_chirho', chapterTextChirho],
 		['chapter_pad2_chirho', chapterTextChirho.padStart(2, '0')],
-		['chapter_pad3_chirho', chapterTextChirho.padStart(3, '0')]
+		['chapter_pad3_chirho', chapterTextChirho.padStart(3, '0')],
+		[
+			'chapter_pad_book_chirho',
+			chapterTextChirho.padStart(Math.max(2, String(bookChirho.chapters_chirho).length), '0')
+		]
 	]);
 
 	let completeChirho = true;
@@ -58,6 +63,36 @@ export function expandTemplateChirho(
 		}
 	);
 	return completeChirho ? addressChirho : null;
+}
+
+function bookCodesOfChirho(locatorChirho: LocatorChirho): string | undefined {
+	return locatorChirho.kind_chirho === 'pattern' ? locatorChirho.book_codes_chirho : undefined;
+}
+
+/**
+ * The address a locator gives for a chapter, whether or not the chapter was verified to exist.
+ * The availability check asks the host about exactly this address; players use
+ * `resolveChapterChirho`, which answers only for verified chapters.
+ */
+export function locateChapterChirho(
+	locatorChirho: LocatorChirho,
+	bookChirho: BookChirho,
+	chapterChirho: number
+): string | null {
+	if (!isChapterNumberChirho(chapterChirho)) return null;
+	if (locatorChirho.kind_chirho === 'pattern') {
+		return expandTemplateChirho(
+			locatorChirho.template_chirho,
+			bookChirho,
+			chapterChirho,
+			locatorChirho.book_codes_chirho
+		);
+	}
+	if (locatorChirho.kind_chirho === 'index') {
+		return locatorChirho.files_chirho[bookChirho.id_chirho]?.[chapterChirho - 1] ?? null;
+	}
+	// A kind added after this code was written is skipped, never guessed at.
+	return null;
 }
 
 /** The lowest chapter of a book that the coverage holds, at or after `fromChapterChirho`. */
@@ -150,16 +185,7 @@ export function resolveChapterChirho(
 	const bookChirho = findBookChirho(bookIdChirho);
 	if (!bookChirho) return null;
 
-	const locatorChirho = stationChirho.locator_chirho;
-	// A locator kind this code does not know is skipped, never guessed at.
-	if (locatorChirho.kind_chirho !== 'pattern') return null;
-
-	const urlChirho = expandTemplateChirho(
-		locatorChirho.template_chirho,
-		bookChirho,
-		chapterChirho,
-		locatorChirho.book_codes_chirho
-	);
+	const urlChirho = locateChapterChirho(stationChirho.locator_chirho, bookChirho, chapterChirho);
 	if (urlChirho === null) return null;
 
 	const timingsChirho = stationChirho.timings_chirho;
@@ -168,7 +194,7 @@ export function resolveChapterChirho(
 				timingsChirho.template_chirho,
 				bookChirho,
 				chapterChirho,
-				locatorChirho.book_codes_chirho
+				bookCodesOfChirho(stationChirho.locator_chirho)
 			)
 		: null;
 

@@ -1,0 +1,21 @@
+{
+	"source_id_chirho": "librivox",
+	"stations_chirho": {
+		"librivox-rv1909-es": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "JHN": [[1, 21]] }
+		},
+		"librivox-lb1912-de": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "MAT": [[1, 28]] }
+		},
+		"librivox-almeida-pt": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "RUT": [[1, 4]], "ECC": [[1, 12]] }
+		},
+		"librivox-hebrew-he": {
+			"checked_on_chirho": "2026-11-13",
+			"available_chirho": { "GEN": [[1, 50]] }
+		}
+	}
+}

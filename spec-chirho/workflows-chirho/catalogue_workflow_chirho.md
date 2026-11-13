@@ -8,17 +8,24 @@ code proves it wrong.
 
 ## A recording becomes a station
 
-A station ships only when two things are true: its licence and credit are written down, and its
-chapters were measured at the source. A person supplies the first. A script supplies the second.
+A station ships only when two things are true: its licence and credit are on record, and its
+chapters were measured at the source. A person supplies the first. Scripts supply the second, and
+write the record.
 
 ```mermaid
 flowchart TD
     found_chirho[A public recording is found] --> terms_chirho{Do its own pages state the maker,<br/>the voice and the licence?}
     terms_chirho -- no --> held_chirho[Held: noted in the sources file with what is missing]
-    terms_chirho -- yes --> record_chirho[Record the licence, the credit and the page they were read on<br/>spec-chirho/sources-chirho/]
-    record_chirho --> draft_chirho[Write the station draft<br/>stations-chirho/*_stations_chirho.ts]
-    draft_chirho --> register_chirho[List its source<br/>station_sources_chirho.ts]
-    register_chirho --> check_chirho[Run the availability check<br/>check_availability_chirho.ts]
+    terms_chirho -- yes --> record_chirho[Quote the licence and where it was read<br/>spec-chirho/sources-chirho/]
+    record_chirho --> names_chirho{Do its file names follow a rule?}
+    names_chirho -- yes --> pattern_chirho[Write the station draft with an address pattern<br/>stations-chirho/sources-chirho/]
+    names_chirho -- no --> index_chirho[Build its chapter index from the source's own catalogue<br/>build_librivox_index_chirho.ts]
+    index_chirho --> sections_chirho{One file per chapter, numbered and titled in order?}
+    sections_chirho -- no --> held_chirho
+    sections_chirho -- yes --> listed_chirho[Write the station draft with the index<br/>stations-chirho/sources-chirho/]
+    pattern_chirho --> register_chirho
+    listed_chirho --> register_chirho
+    register_chirho[List its source<br/>station_sources_chirho.ts] --> check_chirho[Run the availability check<br/>check_availability_chirho.ts]
     check_chirho --> how_chirho{Does the host publish a folder listing?}
     how_chirho -- yes --> listing_chirho[Read the listing once, then ask for a few files directly]
     how_chirho -- no --> head_chirho[Ask for the headers of every chapter address, a few at a time]
@@ -27,18 +34,23 @@ flowchart TD
     verdict_chirho{Did every chapter get a clear answer?}
     verdict_chirho -- no --> keep_chirho[Keep the previous coverage and fail the run]
     verdict_chirho -- yes --> write_chirho[Write the coverage file and the evidence file]
-    write_chirho --> build_chirho[buildStationChirho joins the draft with its coverage]
-    build_chirho --> gate_chirho{At least one chapter, and the ship tests pass?}
+    write_chirho --> page_chirho[Write the station register<br/>write_station_register_chirho.ts]
+    page_chirho --> build_chirho[buildStationChirho joins the draft with its coverage]
+    build_chirho --> gate_chirho{At least one chapter, the ship tests pass,<br/>and the register matches?}
     gate_chirho -- no --> absent_chirho[Not in STATIONS_CHIRHO]
     gate_chirho -- yes --> shipped_chirho([In STATIONS_CHIRHO and CATALOGUE_CHIRHO])
 ```
 
-- The check walks the same drafts the catalogue ships, through the same address builder, so a
-  station cannot play from an address that was not the one checked.
+- The check asks each host about the address the catalogue's own resolver gives, so a station
+  cannot play from an address that was not the one checked.
 - "Absent" needs a clear 404 or 403, asked twice. Anything else is "unverified", and an
   unverified chapter stops the run instead of shrinking the station.
-- The coverage file is in `stations-chirho/coverage-chirho/`, one per source. The evidence file,
-  with counts, sizes and what was missing, is in `spec-chirho/evidence-chirho/catalogue-chirho/`.
+- The coverage files are in `stations-chirho/coverage-chirho/` and the index files in
+  `stations-chirho/index-chirho/`, one per source. The evidence files, with counts, sizes and
+  what was missing, are in `spec-chirho/evidence-chirho/catalogue-chirho/`.
+- The station register, `spec-chirho/sources-chirho/station_register_chirho.md`, lists every
+  shipped station's licence, credit and where the licence was read. `register_chirho.spec.ts`
+  fails when it differs from what ships.
 - The ship tests are in `catalogue_chirho.spec.ts`. They name no station, so adding one needs no
   change to them.
 
@@ -53,10 +65,12 @@ flowchart TD
     real_chirho -- no --> nothing_chirho([Nothing])
     real_chirho -- yes --> covered_chirho{Inside the station's measured coverage?}
     covered_chirho -- no --> nothing_chirho
-    covered_chirho -- yes --> kind_chirho{A locator kind this code knows?}
-    kind_chirho -- no --> nothing_chirho
+    covered_chirho -- yes --> kind_chirho{Which kind of locator?}
+    kind_chirho -- one this code does not know --> nothing_chirho
     kind_chirho -- pattern --> fill_chirho[expandTemplateChirho fills the address template]
-    fill_chirho --> whole_chirho{Every placeholder filled?}
+    kind_chirho -- index --> look_chirho[Read the chapter's address from the list]
+    fill_chirho --> whole_chirho{Is there a complete address?}
+    look_chirho --> whole_chirho
     whole_chirho -- no --> nothing_chirho
     whole_chirho -- yes --> timed_chirho{Does the station have verse timings?}
     timed_chirho -- yes --> both_chirho([The audio address and the timings address])

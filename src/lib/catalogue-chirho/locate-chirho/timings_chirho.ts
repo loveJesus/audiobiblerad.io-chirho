@@ -4,7 +4,7 @@
 // can be held on the same verse when the dial turns.
 // Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
-import type { StationChirho } from './contract_chirho';
+import type { StationChirho } from '../contract_chirho';
 
 function isRecordChirho(valueChirho: unknown): valueChirho is Record<string, unknown> {
 	return typeof valueChirho === 'object' && valueChirho !== null && !Array.isArray(valueChirho);

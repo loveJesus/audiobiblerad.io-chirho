@@ -4,6 +4,8 @@
 // order, as data, so that no player needs a rule such as "capitalise it, except Titus".
 // Part of spec-chirho/workflows-chirho/catalogue_workflow_chirho.md.
 
+import { BOOKS_CHIRHO } from './books_chirho';
+
 /**
  * The codes in the file names under https://openbible.com/audio/. Read from that host's own
  * folder listings on 2026-11-13; every chapter folder read that day used the same 66 codes.
@@ -18,6 +20,19 @@ const OPENBIBLE_BOOK_CODES_CHIRHO = [
 	'Rev'
 ] as const;
 
+/**
+ * The numbered codes in eBible.org's audio file names: its own book number, an underscore, and
+ * the USFM code. Genesis is 002 and Malachi 040; the numbers between belong to books outside
+ * the 66; Matthew is 070 and Revelation 096. Read from https://ebible.org/eng-webbe/mp3/ on
+ * 2026-11-13.
+ */
+const EBIBLE_NUMBERED_BOOK_CODES_CHIRHO: readonly string[] = BOOKS_CHIRHO.map((bookChirho) => {
+	const numberChirho =
+		bookChirho.order_chirho <= 39 ? bookChirho.order_chirho + 1 : bookChirho.order_chirho + 30;
+	return `${String(numberChirho).padStart(3, '0')}_${bookChirho.id_chirho}`;
+});
+
 export const BOOK_CODE_SCHEMES_CHIRHO: Readonly<Record<string, readonly string[]>> = {
-	openbible_chirho: OPENBIBLE_BOOK_CODES_CHIRHO
+	openbible_chirho: OPENBIBLE_BOOK_CODES_CHIRHO,
+	ebible_numbered_chirho: EBIBLE_NUMBERED_BOOK_CODES_CHIRHO
 };

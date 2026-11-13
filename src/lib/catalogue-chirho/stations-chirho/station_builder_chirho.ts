@@ -17,6 +17,13 @@ export type StationDraftChirho = Omit<
 	'has_timings_chirho' | 'coverage_chirho' | 'coverage_checked_on_chirho' | 'chapter_count_chirho'
 >;
 
+/** A station that is defined and measured but kept from playing, and why. */
+export interface HeldStationChirho {
+	readonly draft_chirho: StationDraftChirho;
+	/** What must happen before it may play, in a sentence a stranger can act on. */
+	readonly reason_chirho: string;
+}
+
 /** A complete station: the draft, plus the chapters the availability check found. */
 export function buildStationChirho(
 	draftChirho: StationDraftChirho,

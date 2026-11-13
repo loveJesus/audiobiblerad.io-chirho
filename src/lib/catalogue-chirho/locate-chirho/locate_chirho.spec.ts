@@ -1,7 +1,7 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 import { describe, expect, it } from 'vitest';
-import { findBookChirho } from './books_chirho';
+import { findBookChirho } from '../books-chirho/books_chirho';
 import {
 	chapterAtOrAfterChirho,
 	expandTemplateChirho,
@@ -24,6 +24,22 @@ describe('filling an address template', () => {
 		expect(
 			expandTemplateChirho('{book_order_pad2_chirho}/{chapter_pad2_chirho}', JOHN_CHIRHO, 21)
 		).toBe('43/21');
+	});
+
+	it('pads to the width of the book for sources that name files that way', () => {
+		const psalmsChirho = findBookChirho('PSA')!;
+		const obadiahChirho = findBookChirho('OBA')!;
+		const templateChirho = '{book_code_chirho}_{chapter_pad_book_chirho}';
+		expect(expandTemplateChirho(templateChirho, JOHN_CHIRHO, 3, 'ebible_numbered_chirho')).toBe(
+			'073_JHN_03'
+		);
+		expect(expandTemplateChirho(templateChirho, psalmsChirho, 23, 'ebible_numbered_chirho')).toBe(
+			'020_PSA_023'
+		);
+		// A one-chapter book still gets two digits.
+		expect(expandTemplateChirho(templateChirho, obadiahChirho, 1, 'ebible_numbered_chirho')).toBe(
+			'032_OBA_01'
+		);
 	});
 
 	it('does not pad a chapter number that is already long enough', () => {
@@ -110,6 +126,48 @@ describe('resolving a chapter', () => {
 			}
 		);
 		expect(resolveChapterChirho(brokenChirho, 'JHN', 3)).toBeNull();
+	});
+
+	it('reads the address from the list for a station whose files follow no rule', () => {
+		const listedChirho = makeStationFixtureChirho(
+			{ RUT: [[1, 2]], JUD: [[1, 1]] },
+			{
+				locator_chirho: {
+					kind_chirho: 'index',
+					files_chirho: {
+						RUT: ['https://audio.example/ruth-one.mp3', 'https://audio.example/ruth_2.mp3', null],
+						JUD: ['https://audio.example/jude.mp3'],
+						// Listed, but never verified: it must not resolve.
+						OBA: ['https://audio.example/obadiah.mp3']
+					}
+				}
+			}
+		);
+		expect(resolveChapterChirho(listedChirho, 'RUT', 1)).toEqual({
+			url_chirho: 'https://audio.example/ruth-one.mp3'
+		});
+		expect(resolveChapterChirho(listedChirho, 'RUT', 2)).toEqual({
+			url_chirho: 'https://audio.example/ruth_2.mp3'
+		});
+		expect(resolveChapterChirho(listedChirho, 'JUD', 1)).toEqual({
+			url_chirho: 'https://audio.example/jude.mp3'
+		});
+		expect(resolveChapterChirho(listedChirho, 'OBA', 1)).toBeNull();
+		expect(resolveChapterChirho(listedChirho, 'RUT', 3)).toBeNull();
+	});
+
+	it('gives nothing for a verified chapter whose address is missing from the list', () => {
+		const holedChirho = makeStationFixtureChirho(
+			{ RUT: [[1, 4]] },
+			{
+				locator_chirho: {
+					kind_chirho: 'index',
+					files_chirho: { RUT: ['https://audio.example/ruth-one.mp3', null] }
+				}
+			}
+		);
+		expect(resolveChapterChirho(holedChirho, 'RUT', 2)).toBeNull();
+		expect(resolveChapterChirho(holedChirho, 'RUT', 4)).toBeNull();
 	});
 
 	it('skips a locator kind it does not know instead of guessing', () => {

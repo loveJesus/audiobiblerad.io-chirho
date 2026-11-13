@@ -1,0 +1,76 @@
+{
+	"source_id_chirho": "librivox",
+	"built_on_chirho": "2026-11-13",
+	"recordings_chirho": [
+		{
+			"station_id_chirho": "librivox-rv1909-es",
+			"book_id_chirho": "JHN",
+			"librivox_id_chirho": 1795,
+			"title_chirho": "Bible (Reina Valera) NT 04: Evangelio según San Juan",
+			"language_chirho": "Spanish",
+			"page_chirho": "https://librivox.org/el-evangelio-segun-san-juan-version-reina-valera/",
+			"text_source_chirho": "https://www.gutenberg.org/etext/5881",
+			"text_year_chirho": "1909",
+			"sections_chirho": 21,
+			"seconds_chirho": 8022,
+			"readers_chirho": 1,
+			"checked_chirho": "one section per chapter, numbered and titled 1 to the last"
+		},
+		{
+			"station_id_chirho": "librivox-lb1912-de",
+			"book_id_chirho": "MAT",
+			"librivox_id_chirho": 2952,
+			"title_chirho": "Bibel (LB 1912) NT 01: Das Evangelium nach Matthäus",
+			"language_chirho": "German",
+			"page_chirho": "https://librivox.org/bible-lu1912-nt-01-matthaeus-0903/",
+			"text_source_chirho": "https://www.zeno.org/Literatur/M/Luther,+Martin/Luther-Bibel+1912/Das+Neue+Testament/Das+Matthäusevangelium",
+			"text_year_chirho": "1912",
+			"sections_chirho": 28,
+			"seconds_chirho": 11532,
+			"readers_chirho": 1,
+			"checked_chirho": "one section per chapter, numbered and titled 1 to the last"
+		},
+		{
+			"station_id_chirho": "librivox-almeida-pt",
+			"book_id_chirho": "RUT",
+			"librivox_id_chirho": 10668,
+			"title_chirho": "Bíblia (Almeida) 08: Ruth",
+			"language_chirho": "Portuguese",
+			"page_chirho": "https://librivox.org/o-livro-de-ruth-biblia-versao-almeida-by-joao-ferreira-de-almeida/",
+			"text_source_chirho": "https://books.google.com/books?id=YoZLAAAAIAAJ",
+			"text_year_chirho": "1860",
+			"sections_chirho": 4,
+			"seconds_chirho": 1010,
+			"readers_chirho": 2,
+			"checked_chirho": "one section per chapter, numbered and titled 1 to the last"
+		},
+		{
+			"station_id_chirho": "librivox-almeida-pt",
+			"book_id_chirho": "ECC",
+			"librivox_id_chirho": 17520,
+			"title_chirho": "Bíblia (Almeida) 21: Ecclesiastes",
+			"language_chirho": "Portuguese",
+			"page_chirho": "https://librivox.org/biblia-almeida-21-ecclesiastes",
+			"text_source_chirho": "https://www.gutenberg.org/ebooks/62383",
+			"text_year_chirho": "1911",
+			"sections_chirho": 12,
+			"seconds_chirho": 2371,
+			"readers_chirho": 1,
+			"checked_chirho": "one section per chapter, numbered and titled 1 to the last"
+		},
+		{
+			"station_id_chirho": "librivox-hebrew-he",
+			"book_id_chirho": "GEN",
+			"librivox_id_chirho": 519,
+			"title_chirho": "Bible (Hebrew) 01:  Genesis",
+			"language_chirho": "Hebrew",
+			"page_chirho": "https://librivox.org/the-bible-the-book-of-genesis/",
+			"text_source_chirho": "",
+			"text_year_chirho": "0",
+			"sections_chirho": 50,
+			"seconds_chirho": 13541,
+			"readers_chirho": 1,
+			"checked_chirho": "one section per chapter, numbered and titled 1 to the last"
+		}
+	]
+}
