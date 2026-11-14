@@ -31,8 +31,9 @@ Read these before planning anything, in this order:
 On 2026-11-13 L.J. directed that the project have its GitHub open-source remote ready to push to.
 `gh_chirho` points at `github.com/loveJesus/audiobiblerad.io-chirho`, a **public** repository.
 On 2026-11-14 L.J. instructed the coordinator to commit and push the prepared source and licence
-package. The licence is GPL-3.0-or-later with the section 7 app-store permission; the nine original
-radio sounds are CC0. Scripture recordings keep their publishers' terms.
+package, and the first source push completed that day. The default branch is `main_chirho`.
+The licence is GPL-3.0-or-later with the section 7 app-store permission; the nine original radio
+sounds are CC0. Scripture recordings keep their publishers' terms.
 
 - **Everything committed is published.** No credentials, no private notes, nobody's personal
   details, no facts about other projects or clients. Write commit messages, spec files and

@@ -14,7 +14,7 @@ Tick a box when the step is truly done and checked, not when it is started.
       `spec-chirho/client-chirho/26-11-13-owner-request-chirho.md`.
 - [x] Propose a design: `spec-chirho/design-chirho/26-11-13-proposed-design-chirho.md`.
 - [x] Confirm the domain record at the registrar, read-only.
-- [x] Create the public GitHub repository and wire it as `gh_chirho`. Nothing pushed.
+- [x] Create the public GitHub repository and wire it as `gh_chirho`. First push is recorded below.
 
 ## Brick 1: the fleet takes over
 
@@ -68,8 +68,9 @@ Tick a box when the step is truly done and checked, not when it is started.
 ## Brick 8: going live (L.J.'s gate)
 
 - [ ] A licence and credits page that lists every station's source.
-- [ ] Ask L.J. before any deploy, DNS change, store listing or first push.
+- [x] L.J. authorises the first source push on 2026-11-14; `main_chirho` is published and verified.
+- [ ] Deployment, DNS changes and store listings still require L.J.'s word.
 
 ## Web landing evidence
 
-Bricks 1 through 4 are locally implemented and checked. See `spec-chirho/evidence-chirho/web-radio-chirho/verification_notes_chirho.md` for the exact scope, 29-station catalogue, browser timings, review repairs and remaining physical-device limits. Reserved owner decisions are pending; no first push or deployment has occurred.
+Bricks 1 through 4 are locally implemented and checked. See `spec-chirho/evidence-chirho/web-radio-chirho/verification_notes_chirho.md` for the original 29-station scope and `spec-chirho/evidence-chirho/composite-review-chirho/verification_notes_chirho.md` for later language and complete-chapter playback. The catalogue now offers 460 stations across 400 language tags, with 61 composite chapters. The source was first pushed on 2026-11-14 under GPL-3.0-or-later with the app-store permission and CC0 radio sounds. Native packaging, app identifiers, provider/key arrangements and deployment remain separate owner decisions. Nothing is deployed.
