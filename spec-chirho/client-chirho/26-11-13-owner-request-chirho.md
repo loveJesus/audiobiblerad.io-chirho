@@ -31,11 +31,15 @@ it.
 
 If any of these readings is wrong, ask him. Do not build on a guess.
 
+## Decisions confirmed since setup
+
+- On 2026-11-14 L.J. approved publishing the source and licence. The source is public on GitHub under GPL-3.0-or-later with the section 7 app-store permission; the original radio sounds are CC0. Scripture recordings retain their publishers' terms.
+- On 2026-11-14, after pausing the earlier deployment request, L.J. said "i think publish it" in the discussion about putting the radio on `audiobiblerad.io`. This resumes web deployment and the domain connection. It does not settle native packaging, store identifiers, provider key requests or paid services.
+
 ## What he has not said
 
 Nobody should invent an answer to these. Ask once, through the coordinator.
 
-- Which licence the source is published under.
 - Whether the apps are free with no ads and no accounts. The largest audio source requires free
   access, so anything else would rule that source out.
 - Native apps or a wrapped web app. The setup recommends native; see the design proposal.
@@ -43,7 +47,6 @@ Nobody should invent an answer to these. Ask once, through the coordinator.
 - Whether the interface text and the store listing are translated, and into which languages first.
 - What plays first when someone opens it for the very first time.
 - Whether a synthetic voice is acceptable as a station, and how it should be labelled.
-- When the site goes live on the domain.
 
 ## What only he can do
 

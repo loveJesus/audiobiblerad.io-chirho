@@ -1,0 +1,69 @@
+{
+	"outcome_chirho": "FAIL",
+	"measured_on_chirho": "2026-11-14T20:54:57.698Z",
+	"error_chirho": "waitForFunction: Timeout 5000ms exceeded.",
+	"network_chirho": [
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"status_chirho": 206
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"failure_chirho": "net::ERR_ABORTED"
+		},
+		{
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"status_chirho": 206
+		}
+	],
+	"errors_chirho": [],
+	"media_chirho": {
+		"playing_chirho": [
+			{
+				"at_ms_chirho": 781.8000000119209,
+				"url_chirho": "https://audiobiblerad-io-chirho.lovejesus.workers.dev/sounds-chirho/radio_04_chirho.wav",
+				"seconds_chirho": 0,
+				"duration_chirho": 0.42,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 782.0999999642372,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+				"seconds_chirho": 0,
+				"duration_chirho": 410.230567,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 1119,
+				"url_chirho": "https://audiobiblerad-io-chirho.lovejesus.workers.dev/sounds-chirho/radio_06_chirho.wav",
+				"seconds_chirho": 0,
+				"duration_chirho": 0.6,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			},
+			{
+				"at_ms_chirho": 1175.5999999642372,
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0.13798,
+				"duration_chirho": 364.508844,
+				"muted_chirho": false,
+				"volume_chirho": 1
+			}
+		],
+		"elements_chirho": [
+			{
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"ready_state_chirho": 4,
+				"paused_chirho": false
+			},
+			{
+				"url_chirho": "https://audiobiblerad-io-chirho.lovejesus.workers.dev/sounds-chirho/radio_06_chirho.wav",
+				"ready_state_chirho": 0,
+				"paused_chirho": true
+			}
+		],
+		"status_chirho": ""
+	}
+}

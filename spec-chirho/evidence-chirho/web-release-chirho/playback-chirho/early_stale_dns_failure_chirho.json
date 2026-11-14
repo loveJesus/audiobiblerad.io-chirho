@@ -1,0 +1,8 @@
+{
+	"outcome_chirho": "FAIL",
+	"measured_on_chirho": "2026-11-14T21:14:15.007Z",
+	"error_chirho": "click: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Play Scripture', exact: true })\u001b[22m\n",
+	"network_chirho": [],
+	"errors_chirho": [],
+	"media_chirho": { "playing_chirho": [], "elements_chirho": [] }
+}

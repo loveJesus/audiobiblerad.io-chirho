@@ -55,10 +55,11 @@ sounds are CC0. Scripture recordings keep their publishers' terms.
 - **The name is "Audio Bible Radio". The domain is `audiobiblerad.io`:** the word "radio" is split
   across the dot. `audiobibleradio.io` and `audiobibleradio.com` are **not** ours. A test in
   `src/lib/site-chirho/` guards the spelling.
-- **The domain** was registered at Hostinger on 2026-11-13 and renews on 2027-11-13. It still
-  points at the registrar's parking page: nothing of ours is live. The registrar token is in the
-  private `.env` as `HOSTINGER_API_KEY_CHIRHO`. Reading the domain record is fine; changing
-  nameservers or DNS records waits for L.J.
+- **The domain** was registered at Hostinger on 2026-11-13 and renews on 2027-11-13. L.J.
+  authorised web publication and its domain connection on 2026-11-14. Its registrar nameservers
+  now point to the project's active Cloudflare Free zone; HTTPS and actual playback are verified.
+  The registrar token is in the private `.env` as `HOSTINGER_API_KEY_CHIRHO`. Preserve the private
+  release preimages and exact domain scope; unrelated DNS and registrar changes still need authority.
 - **"Publicly available" audio is not "free to redistribute".** A station ships only when its
   licence and required credit are recorded in the sources file. Stream from the source's own host.
   Do not mirror, bundle or re-host audio.
@@ -108,8 +109,13 @@ Never put private fixtures, credentials, Wrangler state or sole release/evidence
 The workflow and bounded verification scope are in
 `spec-chirho/workflows-chirho/build_cache_workflow_chirho.md`.
 
-The deployment requested on 2026-11-14 remains paused after the owner's "actually one second".
-Cache adaptation is local-only; it does not resume deployment, DNS or source publication.
+The owner's later "i think publish it" resumed the paused web publication on 2026-11-14.
+The project Worker is live, with both apex and www custom-domain bindings and an active certificate.
+Normal HTTPS playback and the complete public asset inventory were verified on the main domain.
+The previous registrar's A answers are aligned with Cloudflare for stale delegation caches; its
+temporary validation TXT additions were removed. Cloudflare-managed DNS is authoritative; never
+treat copied edge addresses as a permanent origin contract. Cache or source work by itself never
+authorises another deployment.
 
 ## Working as a fleet
 
@@ -135,4 +141,6 @@ tmux display-message -p '#{session_name}:#{window_index}'  # who am I
 - Sign up with any provider, accept terms, or request a key.
 - Spend money, or write to a rights holder.
 
-Nothing is deployed and no cloud resource exists.
+The project Worker `audiobiblerad-io-chirho` and this domain's Free zone now exist. The current
+release version, exact verification and bounded limits are recorded under
+`spec-chirho/evidence-chirho/web-release-chirho/`. No native/store resource was created.

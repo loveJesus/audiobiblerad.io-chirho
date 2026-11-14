@@ -1,0 +1,74 @@
+{
+	"outcome_chirho": "PASS",
+	"published_on_chirho": "2026-11-14",
+	"scope_chirho": "Web publication on audiobiblerad.io under the owner's resumed instruction, i think publish it. Native/store, key requests, signup, outreach and paid-plan changes were not part of this release.",
+	"release_input_commit_chirho": "96e232d",
+	"worker_chirho": "audiobiblerad-io-chirho",
+	"worker_version_chirho": "1535e80b-a253-463b-a24b-5a08041fd322",
+	"worker_deployed_on_chirho": "2026-11-14T20:46:09.04721Z",
+	"worker_upload_count_chirho": 1,
+	"primary_url_chirho": "https://audiobiblerad.io/",
+	"alias_url_chirho": "https://www.audiobiblerad.io/",
+	"temporary_url_chirho": "https://audiobiblerad-io-chirho.lovejesus.workers.dev/",
+	"routing_chirho": {
+		"zone_plan_chirho": "Free Website",
+		"zone_status_chirho": "active",
+		"nameservers_chirho": ["cleo.ns.cloudflare.com", "nola.ns.cloudflare.com"],
+		"apex_and_www_custom_domains_chirho": true,
+		"universal_certificate_chirho": "active, covers apex and wildcard",
+		"always_use_https_chirho": "on",
+		"http_to_https_status_chirho": 301,
+		"normal_apex_and_www_https_status_chirho": 200,
+		"normal_apex_and_www_html_sha256_chirho": "dc2d63ee515f38440397c5adb28a52897dea91ccecda00ea860e5d609003fb36",
+		"verification_did_not_override_dns_or_disable_tls_chirho": true,
+		"dns_transition_chirho": "The original registrar zone had only parking A and www CNAME records. Nine public ACME TXT values were temporarily mirrored to its two challenge names and subsequently removed with readback. Its former parking A answers now match the TLS-verified Cloudflare edges for stale delegation caches; www CNAME was preserved. Cloudflare-managed DNS remains canonical; copied edge addresses are not a permanent origin contract. No unrelated mail, TXT or CAA records were present or removed."
+	},
+	"gates_chirho": {
+		"svelte_errors_chirho": 0,
+		"svelte_warnings_chirho": 0,
+		"lint_chirho": "PASS",
+		"unit_and_component_tests_chirho": 195,
+		"browser_tests_chirho": 21,
+		"build_and_dry_run_chirho": "PASS",
+		"release_script_strict_type_check_chirho": "PASS",
+		"prepared_files_chirho": 417,
+		"prepared_bytes_chirho": 1838281,
+		"public_assets_chirho": 414,
+		"public_asset_bytes_chirho": 1833649,
+		"public_asset_mismatches_chirho": 0,
+		"credential_values_compared_chirho": 62,
+		"credential_matches_chirho": 0,
+		"package_gitleaks_chirho": "PASS",
+		"original_sound_files_chirho": 9,
+		"packaged_scripture_files_chirho": 0
+	},
+	"production_verification_chirho": {
+		"http_evidence_chirho": "http_production_chirho.json",
+		"http_verified_on_chirho": "2026-11-14T21:18:38.793Z",
+		"playback_evidence_chirho": "playback-chirho/live_playback_chirho.json",
+		"real_source_streams_with_progress_and_credits_chirho": 5,
+		"first_tap_to_scripture_playing_ms_chirho": 251.9,
+		"source_selection_to_playing_ms_chirho": [251.9, 29.3, 130.7, 152.4, 1283.6],
+		"page_errors_chirho": 0,
+		"method_chirho": "Normal production URL in a fresh Chromium context, actual upstream audio, original Audio element observed without media interception. Each clock advanced and each recording's credit and source/licence links were present. No Scripture media was saved.",
+		"catalogue_credits_and_private_path_negatives_chirho": "PASS"
+	},
+	"preserved_failures_chirho": [
+		{
+			"evidence_chirho": "playback-chirho/early_https_probe_failure_chirho.json",
+			"finding_chirho": "The local-only probe identified all HTTPS audio as Scripture, including same-origin tuning WAVs on a hosted page. The probe now excludes same-origin audio; hosted and production reruns passed. No player change was needed."
+		},
+		{
+			"evidence_chirho": "failures-chirho/early_stale_dns_http_chirho.json",
+			"companion_chirho": "playback-chirho/early_stale_dns_failure_chirho.json",
+			"finding_chirho": "An old delegation path still served the registrar parking page, including 200 parking responses at private-looking paths. This did not expose project files. The former provider's address answers were aligned with verified Cloudflare addresses; normal HTTPS reruns then passed. The HTTP verifier now stops on a wrong home identity before its asset sweep."
+		}
+	],
+	"retention_chirho": "Private registrar/account preimages, mutation readbacks and one previous verified prepared generation remain on the internal disk for this release's rollback and audit. Regenerable build cache used the external-first isolated adapter. No source audio, credentials, private records or sole release evidence went to external cache storage.",
+	"limits_chirho": [
+		"Browser event timing is not acoustic latency or a physical-device measurement.",
+		"This does not verify every upstream chapter, spoken content, real iOS/Watch/Android or background/headset behavior.",
+		"Some external DNS caches may take longer to converge. Both old and new nameserver paths now answer usable addresses for this domain.",
+		"The existing catalogue's listed-versus-opened availability distinction remains unchanged."
+	]
+}

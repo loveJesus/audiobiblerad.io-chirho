@@ -8,18 +8,24 @@ import { format as formatChirho, resolveConfig as resolveConfigChirho } from 'pr
 // A bounded opt-in probe against the real source hosts. No Scripture bytes are saved.
 const previewUrlChirho = new URL(process.env.RADIO_PREVIEW_URL_CHIRHO ?? 'http://127.0.0.1:5196/');
 const productionProbeChirho = process.argv.includes('--production-chirho');
+const workersDevProbeChirho = process.argv.includes('--workers-dev-chirho');
+if (productionProbeChirho && workersDevProbeChirho)
+	throw new Error('Select one hosted playback target');
 if (
 	productionProbeChirho
 		? previewUrlChirho.protocol !== 'https:' || previewUrlChirho.hostname !== 'audiobiblerad.io'
-		: !['127.0.0.1', 'localhost', '[::1]'].includes(previewUrlChirho.hostname)
+		: workersDevProbeChirho
+			? previewUrlChirho.protocol !== 'https:' ||
+				previewUrlChirho.hostname !== 'audiobiblerad-io-chirho.lovejesus.workers.dev'
+			: !['127.0.0.1', 'localhost', '[::1]'].includes(previewUrlChirho.hostname)
 )
 	throw new Error(
-		'Use a local preview, or explicitly select the production audiobiblerad.io probe.'
+		"Use a local preview, or explicitly select one of this project's hosted probe targets."
 	);
 const languagesProbeChirho = process.argv.includes('--languages-chirho');
 const evidenceDirectoryChirho = new URL(
-	productionProbeChirho
-		? '../spec-chirho/evidence-chirho/web-release-chirho/'
+	productionProbeChirho || workersDevProbeChirho
+		? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
 		: languagesProbeChirho
 			? '../spec-chirho/evidence-chirho/language-radio-chirho/'
 			: '../spec-chirho/evidence-chirho/web-radio-chirho/',
@@ -40,18 +46,35 @@ async function writeEvidenceChirho(filenameChirho: string, valueChirho: unknown)
 const browserChirho = await chromium.launch({ headless: true });
 const contextChirho = await browserChirho.newContext({ viewport: { width: 1280, height: 1000 } });
 const pageChirho = await contextChirho.newPage();
-const progressChirho: Array<{ url_chirho: string; seconds_chirho: number }> = [];
+const progressChirho: Array<{
+	url_chirho: string;
+	seconds_chirho: number;
+	credit_chirho: string;
+	notice_links_chirho: string[];
+}> = [];
 async function verifyProgressChirho(): Promise<void> {
 	const baselineChirho = await pageChirho.evaluate(() => {
 		const elementsChirho = (
 			window as unknown as { liveRadioProbeChirho: { elements_chirho: HTMLAudioElement[] } }
 		).liveRadioProbeChirho.elements_chirho;
 		const audioChirho = elementsChirho.find(
-			(audioChirho) => !audioChirho.paused && audioChirho.currentSrc.startsWith('https://')
+			(audioChirho) =>
+				!audioChirho.paused &&
+				audioChirho.currentSrc.startsWith('https://') &&
+				new URL(audioChirho.currentSrc).origin !== location.origin
 		);
 		if (!audioChirho) throw new Error('No active Scripture stream');
-		return { url_chirho: audioChirho.currentSrc, seconds_chirho: audioChirho.currentTime };
+		return {
+			url_chirho: audioChirho.currentSrc,
+			seconds_chirho: audioChirho.currentTime,
+			credit_chirho: document.querySelector('.credit-chirho > p')?.textContent?.trim() ?? '',
+			notice_links_chirho: Array.from(
+				document.querySelectorAll<HTMLAnchorElement>('.credit-chirho a')
+			).map((linkChirho) => linkChirho.href)
+		};
 	});
+	if (!baselineChirho.credit_chirho || baselineChirho.notice_links_chirho.length !== 2)
+		throw new Error('The playing recording is missing its visible credit or source/licence links');
 	await pageChirho.waitForFunction(
 		(baselineChirho) => {
 			const elementsChirho = (
@@ -129,7 +152,10 @@ try {
 				const audioChirho = Reflect.construct(targetChirho, argumentsChirho) as HTMLAudioElement;
 				elementsChirho.push(audioChirho);
 				audioChirho.addEventListener('playing', () => {
-					if (audioChirho.currentSrc.startsWith('https://'))
+					if (
+						audioChirho.currentSrc.startsWith('https://') &&
+						new URL(audioChirho.currentSrc).origin !== location.origin
+					)
 						playingChirho.push({
 							at_ms_chirho: performance.now(),
 							url_chirho: audioChirho.currentSrc,
@@ -302,10 +328,17 @@ try {
 		trace_chirho: traceChirho,
 		errors_chirho: errorsChirho
 	};
-	await writeEvidenceChirho('live_playback_chirho.json', resultChirho);
+	await writeEvidenceChirho(
+		workersDevProbeChirho ? 'workers_dev_live_playback_chirho.json' : 'live_playback_chirho.json',
+		resultChirho
+	);
 	await pageChirho.screenshot({
 		path: new URL(
-			languagesProbeChirho ? 'live_desktop_chirho.png' : 'pass_3_desktop_chirho.png',
+			workersDevProbeChirho
+				? 'workers_dev_desktop_chirho.png'
+				: languagesProbeChirho
+					? 'live_desktop_chirho.png'
+					: 'pass_3_desktop_chirho.png',
 			renderDirectoryChirho
 		).pathname,
 		fullPage: true
@@ -313,7 +346,11 @@ try {
 	await pageChirho.setViewportSize({ width: 390, height: 844 });
 	await pageChirho.screenshot({
 		path: new URL(
-			languagesProbeChirho ? 'live_mobile_chirho.png' : 'pass_3_mobile_chirho.png',
+			workersDevProbeChirho
+				? 'workers_dev_mobile_chirho.png'
+				: languagesProbeChirho
+					? 'live_mobile_chirho.png'
+					: 'pass_3_mobile_chirho.png',
 			renderDirectoryChirho
 		).pathname,
 		fullPage: true
@@ -367,7 +404,10 @@ try {
 			};
 		})
 	};
-	await writeEvidenceChirho('live_failure_chirho.json', failureChirho);
+	await writeEvidenceChirho(
+		workersDevProbeChirho ? 'workers_dev_live_failure_chirho.json' : 'live_failure_chirho.json',
+		failureChirho
+	);
 	console.log(JSON.stringify(failureChirho));
 	throw errorChirho;
 } finally {

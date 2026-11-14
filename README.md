@@ -12,15 +12,18 @@ Home: [audiobiblerad.io](https://audiobiblerad.io)
 
 ## Status
 
-The local web radio offers 460 stations across 400 languages, streamed directly from their source hosts. The original 29 stations remain immediately available; language search loads additional recording data only when needed. It remembers a
+The web radio offers 460 stations across 400 languages, streamed directly from their source hosts. The original 29 stations remain immediately available; language search loads additional recording data only when needed. It remembers a
 station and passage on the device, continues through chapters, shows recording credits, and has
 nine original, toggleable tuning sounds. Verse timings carry the place between timed recordings;
 other station changes use the fraction of the chapter. Partial recordings skip to their next
 available chapter.
 
 Native apps await the owner's packaging decision. Bible Brain integration awaits the owner's
-key and confirmation of the permitted server arrangement. Nothing is deployed and the registered
-domain remains parked.
+key and confirmation of the permitted server arrangement.
+
+The web radio went live on 2026-11-14 at [audiobiblerad.io](https://audiobiblerad.io), with HTTPS
+and real upstream playback verified. The `www` address also serves the radio. The release record
+is in [`spec-chirho/evidence-chirho/web-release-chirho/`](spec-chirho/evidence-chirho/web-release-chirho/deployment_chirho.json).
 
 ## Where the audio comes from
 
