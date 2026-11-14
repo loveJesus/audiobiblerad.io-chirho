@@ -28,7 +28,7 @@ The record is in three places:
 - **The largest catalogue, Bible Brain, needs a free API key in the owner's name** and allows
   streaming only.
 - **In the catalogue, loaded by language on demand:** 431 stations in 389 languages from Davar
-  Audio Bibles, 349,722 chapters, served a file per chapter from its own host, free for
+  Audio Bibles, 349,663 chapters and 61 more split across files, served a file per chapter from its own host, free for
   non-commercial use with its notices shown. The web player's language chooser offers them
   beside the built-in ones: 460 stations under 400 language codes in all, 15 codes having both
   kinds. Their coverage is what each recording's own list names, not chapters each opened. Its

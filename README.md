@@ -19,8 +19,8 @@ other station changes use the fraction of the chapter. Partial recordings skip t
 available chapter.
 
 Native apps await the owner's packaging decision. Bible Brain integration awaits the owner's
-key and confirmation of the permitted server arrangement. The software licence and first public
-push are also pending. Nothing is deployed and the registered domain remains parked.
+key and confirmation of the permitted server arrangement. Nothing is deployed and the registered
+domain remains parked.
 
 ## Where the audio comes from
 
@@ -55,6 +55,14 @@ latency, in `spec-chirho/evidence-chirho/web-radio-chirho/` and saves no Scriptu
 
 Built-in recording credits are at `/credits-chirho`; each selected station also shows its complete credit below the radio. Davar chapter coverage follows its publisher file lists; the first file of every recording was opened, rather than every chapter. `/catalogue-chirho` serves the same JSON-safe, cleared
 built-in catalogue used by the web player. The language index and per-language files live under `/catalogue-chirho/` assets. Davar native-client access is unresolved. No provider key belongs in that data.
+
+## License
+
+The code is free software under the GNU General Public License, version 3 or later, with an
+added permission for distribution through app stores. The radio's own tuning sounds are dedicated
+to the public domain under CC0 1.0. Scripture recordings are covered by neither: none is in this
+repository, and each stays under its publisher's own terms, some of which forbid commercial use.
+See [`LICENSE`](LICENSE) and [`LICENSES-chirho/README-chirho.md`](LICENSES-chirho/README-chirho.md).
 
 ## For contributors and agents
 
