@@ -30,7 +30,9 @@ Read these before planning anything, in this order:
 
 On 2026-11-13 L.J. directed that the project have its GitHub open-source remote ready to push to.
 `gh_chirho` points at `github.com/loveJesus/audiobiblerad.io-chirho`, a **public** repository.
-Nothing has been pushed yet.
+On 2026-11-14 L.J. instructed the coordinator to commit and push the prepared source and licence
+package. The licence is GPL-3.0-or-later with the section 7 app-store permission; the nine original
+radio sounds are CC0. Scripture recordings keep their publishers' terms.
 
 - **Everything committed is published.** No credentials, no private notes, nobody's personal
   details, no facts about other projects or clients. Write commit messages, spec files and
@@ -43,9 +45,9 @@ Nothing has been pushed yet.
 - **Before every push, scan the outgoing commits:**
   `gitleaks git --redact --log-opts="gh_chirho/main_chirho..HEAD"` once the remote has a branch, or
   `gitleaks git --redact` for the first push.
-- **The first push publishes the source, so it waits for L.J.:** he chooses the licence (the
-  sibling public project uses GPL-3.0) and says go. After that, ordinary pushes need only a clean
-  scan.
+- **The first source push was authorised by L.J. on 2026-11-14.** Ordinary source pushes need a
+  clean outgoing-history scan. A change to the chosen licence or repository visibility needs
+  his word.
 
 ## Facts that are easy to get wrong
 
@@ -113,7 +115,7 @@ tmux display-message -p '#{session_name}:#{window_index}'  # who am I
 
 ## Not the fleet's to do without L.J.'s word
 
-- Push for the first time, choose the licence, or change the repository's visibility.
+- Change the chosen licence or the repository's visibility.
 - Deploy, create any cloud resource, or change DNS or nameservers.
 - Create store listings, app records or developer-console entries.
 - Sign up with any provider, accept terms, or request a key.
