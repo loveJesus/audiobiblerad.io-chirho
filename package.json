@@ -5,8 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"env:local": "bun scripts-chirho/ensure_local_worker_bindings_chirho.ts",
-		"dev": "bun run env:local && vite dev",
-		"build": "bun run env:local && bun run gen:check && vite build",
+		"dev": "bun run env:local && bun scripts-chirho/build-cache-chirho/run_chirho.ts dev",
+		"build": "bun run env:local && bun run gen:check && bun scripts-chirho/build-cache-chirho/run_chirho.ts build",
 		"preview": "wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173 --env-file ./wrangler-bindings-chirho.env",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "bun run gen:check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -15,7 +15,7 @@
 		"gen:check": "bun scripts-chirho/generate_worker_types_chirho.ts --check",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
-		"test:unit": "vitest",
+		"test:unit": "bun scripts-chirho/build-cache-chirho/run_chirho.ts unit",
 		"test": "bun run test:unit -- --run && bun run test:e2e",
 		"test:e2e": "playwright install chromium && playwright test"
 	},

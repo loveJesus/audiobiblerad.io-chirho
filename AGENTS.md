@@ -98,6 +98,19 @@ bun run test:e2e
 bun run build
 ```
 
+## Build cache storage
+
+Normal `build`, `dev` and `test:unit` commands select an external-first isolated Vite cache and
+per-job compiler/test scratch through `scripts-chirho/build-cache-chirho/`. The shared selector
+validates OPENALEX; unavailable storage falls back locally, and clones without that helper use
+their worktree's ignored cache. Keep the 1 GiB internal and 512 MiB selected-cache floors.
+Never put private fixtures, credentials, Wrangler state or sole release/evidence copies there.
+The workflow and bounded verification scope are in
+`spec-chirho/workflows-chirho/build_cache_workflow_chirho.md`.
+
+The deployment requested on 2026-11-14 remains paused after the owner's "actually one second".
+Cache adaptation is local-only; it does not resume deployment, DNS or source publication.
+
 ## Working as a fleet
 
 - The room is `bibleradio-chirho`. The launcher registers each seat, but being registered is not

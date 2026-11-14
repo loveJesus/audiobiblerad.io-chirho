@@ -7,6 +7,7 @@ import adapterChirho from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
+	cacheDir: process.env.RADIO_VITE_CACHE_CHIRHO ?? 'node_modules/.vite',
 	plugins: [
 		tailwindcssChirho(),
 		sveltekit({
