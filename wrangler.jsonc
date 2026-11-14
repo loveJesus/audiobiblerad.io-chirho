@@ -11,5 +11,9 @@
 		"directory": ".svelte-kit/cloudflare"
 	},
 	"workers_dev": true,
-	"preview_urls": true
+	"preview_urls": true,
+	"routes": [
+		{ "pattern": "audiobiblerad.io", "custom_domain": true },
+		{ "pattern": "www.audiobiblerad.io", "custom_domain": true }
+	]
 }

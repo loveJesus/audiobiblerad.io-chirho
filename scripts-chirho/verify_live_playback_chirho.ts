@@ -7,13 +7,22 @@ import { format as formatChirho, resolveConfig as resolveConfigChirho } from 'pr
 // See spec-chirho/workflows-chirho/verification_workflow_chirho.md.
 // A bounded opt-in probe against the real source hosts. No Scripture bytes are saved.
 const previewUrlChirho = new URL(process.env.RADIO_PREVIEW_URL_CHIRHO ?? 'http://127.0.0.1:5196/');
-if (!['127.0.0.1', 'localhost', '[::1]'].includes(previewUrlChirho.hostname))
-	throw new Error('This probe requires a local preview.');
+const productionProbeChirho = process.argv.includes('--production-chirho');
+if (
+	productionProbeChirho
+		? previewUrlChirho.protocol !== 'https:' || previewUrlChirho.hostname !== 'audiobiblerad.io'
+		: !['127.0.0.1', 'localhost', '[::1]'].includes(previewUrlChirho.hostname)
+)
+	throw new Error(
+		'Use a local preview, or explicitly select the production audiobiblerad.io probe.'
+	);
 const languagesProbeChirho = process.argv.includes('--languages-chirho');
 const evidenceDirectoryChirho = new URL(
-	languagesProbeChirho
-		? '../spec-chirho/evidence-chirho/language-radio-chirho/'
-		: '../spec-chirho/evidence-chirho/web-radio-chirho/',
+	productionProbeChirho
+		? '../spec-chirho/evidence-chirho/web-release-chirho/'
+		: languagesProbeChirho
+			? '../spec-chirho/evidence-chirho/language-radio-chirho/'
+			: '../spec-chirho/evidence-chirho/web-radio-chirho/',
 	import.meta.url
 );
 mkdirSync(evidenceDirectoryChirho, { recursive: true });
