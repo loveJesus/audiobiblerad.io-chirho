@@ -1,0 +1,303 @@
+/* For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) */
+
+/*
+ * Radio skins.
+ *
+ * The page root carries data-radio-theme-chirho="<id>" (the ids are in themes_chirho.ts). Every
+ * skin sets the same colours as custom properties and the page's controls read them, so a control
+ * never needs to know which skin it is in.
+ *
+ *   --radio-page-chirho            behind everything, and shown until a setting picture arrives
+ *   --radio-page-ink-chirho        words straight on the page
+ *   --radio-panel-chirho           the chassis face
+ *   --radio-ink-chirho             words and marks on the chassis
+ *   --radio-accent-chirho          pointers, arcs and lamps on the chassis
+ *   --radio-screen-chirho          the window that holds live words
+ *   --radio-screen-ink-chirho      words in that window
+ *   --radio-screen-dim-chirho      quieter words in that window
+ *   --radio-screen-accent-chirho   the needle and other marks in that window
+ *   --radio-focus-chirho           the keyboard focus ring on the page
+ *   --radio-panel-focus-chirho     the keyboard focus ring on the chassis
+ *   --radio-button-cap-chirho      the colour of the power button's cap, measured on its picture
+ *   --radio-button-ink-chirho      the live label on that cap
+ *   --radio-button-glow-chirho     the light around the cap while the radio is on
+ *   --radio-rain-chirho            weather drawn behind the page
+ *
+ * themes_chirho.spec.ts holds these pairs to a contrast floor. Minimal is the page's own drawing:
+ * its values repeat what the page already uses, and no rule below restyles it.
+ *
+ * Inside the chassis, and again inside a screen, --radio-accent-chirho and --radio-focus-chirho
+ * are pointed at the colour that reads on that surface. A control that asks for the accent or
+ * the focus ring therefore gets the right one wherever the page puts it.
+ *
+ * Every skin but Minimal is artwork, hung on the page's own class names. Artwork never draws a
+ * working control or a letter.
+ *   - The chassis is a nine-slice frame behind .radio-chirho, so one picture fits any width and
+ *     height. The skin also sets that element's padding, because only the artwork knows where its
+ *     rails, corner hardware and grille are.
+ *   - The bezel is a nine-slice frame on .display-chirho and around .dial-track-chirho.
+ *   - The knob and button caps sit under the page's live pointer and label.
+ * A skin states its artwork as the properties below. Sizes are artwork pixels of the shipped
+ * file, measured on it; --radio-art-unit-chirho turns one artwork pixel into a length.
+ *
+ *   --radio-body-art-chirho                    the chassis picture
+ *   --radio-body-top/side/bottom-chirho        how far its hardware reaches in from each edge
+ *   --radio-body-corner-chirho                 a corner radius that hides the plain colour shown
+ *                                              until the picture arrives
+ *   --radio-body-pad-top/side/bottom-chirho    where live controls may begin
+ *   --radio-bezel-art-chirho                   the window frame picture
+ *   --radio-bezel-slice-chirho                 its frame plus the curve of its opening
+ *   --radio-bezel-scale-chirho                 how large to draw it against the chassis
+ *   --radio-bezel-edge-chirho                  a plain frame colour until it arrives
+ *   --radio-knob-art-chirho, --radio-button-art-chirho
+ *
+ * The page's components carry their own styles at two classes of weight. Rules here that a skin
+ * must own are written to outweigh them: the skin selector counts two, plus the chassis class.
+ */
+
+:root:has([data-radio-theme-chirho='minimal']),
+[data-radio-theme-chirho='minimal'] {
+	--radio-page-chirho: #eeece3;
+	--radio-page-ink-chirho: #292e2b;
+	--radio-panel-chirho: #29312a;
+	--radio-ink-chirho: #e7e5d3;
+	--radio-accent-chirho: #e7bd73;
+	--radio-screen-chirho: #18231f;
+	--radio-screen-ink-chirho: #e4e8d4;
+	--radio-screen-dim-chirho: #aab89e;
+	--radio-screen-accent-chirho: #e3bd74;
+	--radio-rain-chirho: #6f7a75;
+}
+
+/* 1980s Digital: a silver-faced portable. Dark printing on brushed aluminium, a grey-green LCD. */
+:root:has([data-radio-theme-chirho='digital']),
+[data-radio-theme-chirho='digital'] {
+	--radio-page-chirho: #1f262d;
+	--radio-page-ink-chirho: #e8edf0;
+	--radio-panel-chirho: #b5b4b5;
+	--radio-ink-chirho: #15171a;
+	--radio-accent-chirho: #9e1f12;
+	--radio-screen-chirho: #98a190;
+	--radio-screen-ink-chirho: #0b0f08;
+	--radio-screen-dim-chirho: #2b3326;
+	--radio-screen-accent-chirho: #7a1a12;
+	--radio-focus-chirho: #ffd24a;
+	--radio-panel-focus-chirho: #0f2a5c;
+	--radio-button-cap-chirho: #be361d;
+	--radio-button-ink-chirho: #fff4ec;
+	--radio-button-glow-chirho: #ff6a3c;
+	--radio-rain-chirho: #c9d6e2;
+}
+[data-radio-theme-chirho='digital'] {
+	--radio-body-art-chirho: url('/images-chirho/radios-chirho/digital-chirho/body_chirho.webp');
+	--radio-body-top-chirho: 120;
+	--radio-body-side-chirho: 120;
+	--radio-body-bottom-chirho: 280;
+	--radio-body-corner-chirho: 66;
+	--radio-body-pad-top-chirho: 124;
+	--radio-body-pad-side-chirho: 72;
+	--radio-body-pad-bottom-chirho: 294;
+	--radio-bezel-art-chirho: url('/images-chirho/radios-chirho/digital-chirho/bezel_chirho.webp');
+	--radio-bezel-slice-chirho: 100;
+	--radio-bezel-scale-chirho: 0.8;
+	--radio-bezel-edge-chirho: #1c1c1e;
+	--radio-knob-art-chirho: url('/images-chirho/radios-chirho/digital-chirho/knob_chirho.webp');
+	--radio-button-art-chirho: url('/images-chirho/radios-chirho/digital-chirho/button_chirho.webp');
+}
+
+/* Field Radio: olive crinkle-painted steel, riveted corner guards, amber light behind dark glass. */
+:root:has([data-radio-theme-chirho='field']),
+[data-radio-theme-chirho='field'] {
+	--radio-page-chirho: #1c2420;
+	--radio-page-ink-chirho: #eef0e6;
+	--radio-panel-chirho: #585939;
+	--radio-ink-chirho: #fbf7e6;
+	--radio-accent-chirho: #ffc35c;
+	--radio-screen-chirho: #1b1a19;
+	--radio-screen-ink-chirho: #f6e7b8;
+	--radio-screen-dim-chirho: #c2b48a;
+	--radio-screen-accent-chirho: #ff9d3c;
+	--radio-focus-chirho: #ffe066;
+	--radio-panel-focus-chirho: #ffe066;
+	--radio-button-cap-chirho: #57211c;
+	--radio-button-ink-chirho: #fff5dc;
+	--radio-button-glow-chirho: #ffb347;
+	--radio-rain-chirho: #dfe8e4;
+}
+[data-radio-theme-chirho='field'] {
+	--radio-body-art-chirho: url('/images-chirho/radios-chirho/field-chirho/body_chirho.webp');
+	--radio-body-top-chirho: 156;
+	--radio-body-side-chirho: 156;
+	--radio-body-bottom-chirho: 300;
+	--radio-body-corner-chirho: 44;
+	--radio-body-pad-top-chirho: 128;
+	--radio-body-pad-side-chirho: 72;
+	--radio-body-pad-bottom-chirho: 318;
+	--radio-bezel-art-chirho: url('/images-chirho/radios-chirho/field-chirho/bezel_chirho.webp');
+	--radio-bezel-slice-chirho: 110;
+	--radio-bezel-scale-chirho: 0.8;
+	--radio-bezel-edge-chirho: #2c2c2b;
+	--radio-knob-art-chirho: url('/images-chirho/radios-chirho/field-chirho/knob_chirho.webp');
+	--radio-button-art-chirho: url('/images-chirho/radios-chirho/field-chirho/button_chirho.webp');
+}
+
+/* Cyberpunk: black anodised metal with chamfered corners, edge-lit in cyan and magenta. */
+:root:has([data-radio-theme-chirho='cyberpunk']),
+[data-radio-theme-chirho='cyberpunk'] {
+	--radio-page-chirho: #0b0d17;
+	--radio-page-ink-chirho: #e9f4ff;
+	--radio-panel-chirho: #1f2020;
+	--radio-ink-chirho: #e6f1ff;
+	--radio-accent-chirho: #37f3ff;
+	--radio-screen-chirho: #0a0b0b;
+	--radio-screen-ink-chirho: #d9fbff;
+	--radio-screen-dim-chirho: #7fd6e6;
+	--radio-screen-accent-chirho: #ff3fb4;
+	--radio-focus-chirho: #fff23a;
+	--radio-panel-focus-chirho: #fff23a;
+	--radio-button-cap-chirho: #090c0d;
+	--radio-button-ink-chirho: #d9fbff;
+	--radio-button-glow-chirho: #37f3ff;
+	--radio-rain-chirho: #8fd0ff;
+}
+[data-radio-theme-chirho='cyberpunk'] {
+	--radio-body-art-chirho: url('/images-chirho/radios-chirho/cyberpunk-chirho/body_chirho.webp');
+	--radio-body-top-chirho: 126;
+	--radio-body-side-chirho: 136;
+	--radio-body-bottom-chirho: 172;
+	/* Large enough to tuck the plain colour under the chamfered corners. */
+	--radio-body-corner-chirho: 104;
+	--radio-body-pad-top-chirho: 110;
+	--radio-body-pad-side-chirho: 60;
+	--radio-body-pad-bottom-chirho: 184;
+	--radio-bezel-art-chirho: url('/images-chirho/radios-chirho/cyberpunk-chirho/bezel_chirho.webp');
+	--radio-bezel-slice-chirho: 80;
+	--radio-bezel-scale-chirho: 1;
+	--radio-bezel-edge-chirho: #1a1a1c;
+	--radio-knob-art-chirho: url('/images-chirho/radios-chirho/cyberpunk-chirho/knob_chirho.webp');
+	--radio-button-art-chirho: url('/images-chirho/radios-chirho/cyberpunk-chirho/button_chirho.webp');
+}
+
+/* The colour past the edges of the page, where a phone lets it be pulled into view. */
+:root:has([data-radio-theme-chirho]) {
+	background-color: var(--radio-page-chirho);
+}
+
+/* One artwork pixel as drawn on this screen, and the drawn width of a bezel. */
+[data-radio-theme-chirho] {
+	--radio-art-unit-chirho: clamp(0.2px, 0.0625vw, 0.36px);
+	--radio-bezel-width-chirho: calc(
+		var(--radio-bezel-slice-chirho) * var(--radio-bezel-scale-chirho) * var(--radio-art-unit-chirho)
+	);
+}
+
+/* The chassis: a plain colour at once, then the nine-slice picture over it. */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal']) .radio-chirho {
+	--radio-focus-chirho: var(--radio-panel-focus-chirho);
+	position: relative;
+	isolation: isolate;
+	border: 0;
+	border-radius: calc(var(--radio-body-corner-chirho) * var(--radio-art-unit-chirho));
+	padding: calc(var(--radio-body-pad-top-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-pad-side-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-pad-bottom-chirho) * var(--radio-art-unit-chirho));
+	color: var(--radio-ink-chirho);
+	background-color: var(--radio-panel-chirho);
+	box-shadow: 0 calc(60 * var(--radio-art-unit-chirho)) calc(110 * var(--radio-art-unit-chirho))
+		calc(-60 * var(--radio-art-unit-chirho)) #000c;
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal']) .radio-chirho::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-style: solid;
+	border-color: transparent;
+	border-width: calc(var(--radio-body-top-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-side-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-bottom-chirho) * var(--radio-art-unit-chirho));
+	border-image: var(--radio-body-art-chirho) var(--radio-body-top-chirho)
+		var(--radio-body-side-chirho) var(--radio-body-bottom-chirho) fill;
+	pointer-events: none;
+}
+/* The picture already has a speaker grille, so the page's drawn one steps aside. */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	.speaker-grille-chirho {
+	display: none;
+}
+
+/* Screens: the bezel picture around the words, and the colours that read on its glass. */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	:is(.display-chirho, .dial-track-chirho) {
+	--radio-accent-chirho: var(--radio-screen-accent-chirho);
+	--radio-focus-chirho: var(--radio-screen-ink-chirho);
+	color: var(--radio-screen-ink-chirho);
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal']) .radio-chirho .display-chirho,
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	.dial-track-chirho::before {
+	border-style: solid;
+	border-color: var(--radio-bezel-edge-chirho);
+	border-width: var(--radio-bezel-width-chirho);
+	border-image: var(--radio-bezel-art-chirho) var(--radio-bezel-slice-chirho) fill;
+	border-radius: 0;
+	background-color: var(--radio-screen-chirho);
+	background-clip: padding-box;
+	box-shadow: none;
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal']) .radio-chirho .display-chirho {
+	padding: calc(24 * var(--radio-art-unit-chirho)) calc(40 * var(--radio-art-unit-chirho));
+}
+/*
+ * The dial window keeps the size the page gave it. Its bezel is drawn around it, in a margin
+ * the skin adds, so the frame can never squeeze the dial itself.
+ */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	.dial-track-chirho {
+	margin: var(--radio-bezel-width-chirho);
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	.dial-track-chirho::before {
+	content: '';
+	position: absolute;
+	inset: calc(-1 * var(--radio-bezel-width-chirho));
+	z-index: -1;
+	pointer-events: none;
+}
+
+/* Caps. The page turns the pointer and writes the label; the picture is only the part beneath. */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.knob-control-chirho
+	.selector-knob-chirho {
+	border: 0;
+	background: var(--radio-knob-art-chirho) center / 100% 100% no-repeat;
+	box-shadow: none;
+	filter: drop-shadow(0 3px 5px #000a);
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal']) .radio-chirho .power-chirho {
+	border: 0;
+	color: var(--radio-button-ink-chirho);
+	background: var(--radio-button-art-chirho) center / contain no-repeat;
+	box-shadow: none;
+	filter: brightness(0.82) drop-shadow(0 3px 5px #000a);
+}
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho
+	.power-chirho.powered-chirho {
+	color: var(--radio-button-ink-chirho);
+	background: var(--radio-button-art-chirho) center / contain no-repeat;
+	box-shadow: 0 0 calc(70 * var(--radio-art-unit-chirho)) calc(6 * var(--radio-art-unit-chirho))
+		var(--radio-button-glow-chirho);
+	filter: brightness(1.12) drop-shadow(0 3px 5px #000a);
+}
+
+/* Focus rings follow the surface: page, chassis or screen, through the colour pointed at above. */
+[data-radio-theme-chirho]:not([data-radio-theme-chirho='minimal'])
+	:is(a, button, input, select, summary):focus-visible {
+	outline-color: var(--radio-focus-chirho);
+}
