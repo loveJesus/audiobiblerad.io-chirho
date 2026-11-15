@@ -177,33 +177,59 @@ describe('radio sounds', () => {
 		]);
 	});
 
-	it('lets a knob step sound once a click has ended, before the ended event arrives', () => {
-		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
-		soundsChirho.clickChirho?.();
-		waitChirho(300);
-		controlsChirho.reachEndChirho();
-		soundsChirho.knobChirho?.();
-		expect(controlsChirho.paused).toBe(false);
-		expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
-			OPEN_CLICK_CHIRHO,
-			OPEN_KNOB_CHIRHO
-		]);
-	});
+	it.each(['together', 'ended_first', 'interrupted by the browser'] as const)(
+		'lets a knob step sound once a click has stopped, before any ended event arrives (%s)',
+		(stopChirho) => {
+			const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+			soundsChirho.clickChirho?.();
+			waitChirho(300);
+			if (stopChirho === 'interrupted by the browser') controlsChirho.pause();
+			else controlsChirho.reachEndChirho(stopChirho);
+			soundsChirho.knobChirho?.();
+			expect(controlsChirho.paused).toBe(false);
+			expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
+				OPEN_CLICK_CHIRHO,
+				OPEN_KNOB_CHIRHO
+			]);
+		}
+	);
 
-	it('still keeps a click restarted in that gap from being cut, despite the late ended event', () => {
-		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+	it.each(['together', 'ended_first'] as const)(
+		'still keeps a click restarted in that gap from being cut, despite the late ended event (%s)',
+		(orderChirho) => {
+			const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+			soundsChirho.clickChirho?.();
+			waitChirho(300);
+			controlsChirho.reachEndChirho(orderChirho);
+			soundsChirho.clickChirho?.();
+			controlsChirho.deliverStaleEndedChirho();
+			waitChirho(60);
+			soundsChirho.knobChirho?.();
+			expect(controlsChirho.paused).toBe(false);
+			expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
+				OPEN_CLICK_CHIRHO,
+				OPEN_CLICK_CHIRHO
+			]);
+		}
+	);
+
+	it('gives up on a stalled tuning cue 1.5 s and a stalled click 2 s after the request', () => {
+		const { soundsChirho, tuningChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+		tuningChirho.next_play_chirho = 'hold';
+		controlsChirho.next_play_chirho = 'hold';
+		soundsChirho.startChirho();
 		soundsChirho.clickChirho?.();
-		waitChirho(300);
-		controlsChirho.reachEndChirho();
-		soundsChirho.clickChirho?.();
-		controlsChirho.deliverStaleEndedChirho();
-		waitChirho(60);
-		soundsChirho.knobChirho?.();
-		expect(controlsChirho.paused).toBe(false);
-		expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
-			OPEN_CLICK_CHIRHO,
-			OPEN_CLICK_CHIRHO
+		waitChirho(1499);
+		expect([tuningChirho.paused, tuningChirho.src]).toEqual([
+			false,
+			tuningChirho.plays_chirho[0].src_chirho
 		]);
+		waitChirho(1);
+		expect([tuningChirho.paused, tuningChirho.src]).toEqual([true, '']);
+		waitChirho(499);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([false, OPEN_CLICK_CHIRHO]);
+		waitChirho(1);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([true, '']);
 	});
 
 	it("switches to the site's profile once it arrives, asking only once", async () => {

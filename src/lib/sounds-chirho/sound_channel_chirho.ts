@@ -7,9 +7,11 @@
 // newer number and does nothing, and an ended event is believed only while the element itself
 // says it has ended. So nothing late can cut short, or keep alive, the sound that replaced it.
 //
-// The element is believed over its events in the other direction too. A browser pauses the
-// element at the end of a recording and delivers the ended event in a later task, so a key
-// press can arrive in between. A clip counts as sounding only while its element is playing it.
+// The element is believed over its events in the other direction too. At the end of a recording
+// a browser marks the element ended and paused (the WebKit runs measured marked it ended a few
+// tens of milliseconds first) and delivers the ended event in a later task, so a key press can
+// arrive in between. A clip counts as sounding only while its element is neither paused nor
+// ended. Restarting a loaded clip cleared both at once in every Chromium and WebKit run measured.
 
 import type { SoundClipChirho } from './sound_profile_chirho';
 
@@ -21,6 +23,8 @@ export interface SoundElementChirho {
 	volume: number;
 	readonly paused: boolean;
 	readonly ended: boolean;
+	/** Set when the element could not load or decode its source, as a real element's MediaError. */
+	readonly error?: { readonly code: number } | null;
 	play(): Promise<void>;
 	pause(): void;
 	load(): void;
@@ -30,14 +34,14 @@ export interface SoundElementChirho {
 }
 
 export interface SoundChannelOptionsChirho {
-	/** The longest any one sound may last, loaded or not. */
+	/** The longest any one sound may take, counted from the request and including its loading. */
 	ceiling_ms_chirho: number;
 	/** Keep the last clip loaded after it ends, so playing it again starts at once. */
 	keep_loaded_chirho: boolean;
 }
 
 export interface SoundChannelChirho {
-	/** The clip sounding now, or null once its element has paused, even before ended arrives. */
+	/** The clip sounding now; null once its element has paused or ended, before any ended event. */
 	readonly current_chirho: SoundClipChirho | null;
 	/** Plays a clip once, from its start, replacing whatever this channel was playing. */
 	playChirho(clipChirho: SoundClipChirho): void;
@@ -84,7 +88,7 @@ export function createSoundChannelChirho(
 
 	return {
 		get current_chirho() {
-			return elementChirho.paused ? null : currentChirho;
+			return elementChirho.paused || elementChirho.ended ? null : currentChirho;
 		},
 		playChirho(clipChirho) {
 			if (disposedChirho) return;
@@ -102,11 +106,20 @@ export function createSoundChannelChirho(
 			}
 			currentChirho = clipChirho;
 			timerChirho = setTimeout(() => {
-				if (mineChirho === tokenChirho) releaseChirho();
+				if (mineChirho !== tokenChirho) return;
+				// Finished, with only its ended event still on its way: a clip kept loaded stays loaded,
+				// as at a natural end. Anything still going at the ceiling has stalled and is let go.
+				if (optionsChirho.keep_loaded_chirho && elementChirho.ended) settleChirho();
+				else releaseChirho();
 			}, optionsChirho.ceiling_ms_chirho);
 			elementChirho.play().catch(() => {
 				// Optional effects must never block Scripture. A refused sound frees the channel.
-				if (mineChirho === tokenChirho) settleChirho();
+				if (mineChirho !== tokenChirho) return;
+				settleChirho();
+				// A recording the element could not load or decode is forgotten, so the next request
+				// loads it afresh; nothing retries by itself. A refusal by policy carries no error:
+				// the recording is fine and stays loaded.
+				if (elementChirho.error) loadedUrlChirho = '';
 			});
 		},
 		stopChirho: releaseChirho,

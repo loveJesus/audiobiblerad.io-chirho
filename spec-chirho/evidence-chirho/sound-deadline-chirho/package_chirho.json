@@ -1,0 +1,14 @@
+{
+	"measured_on_chirho": "2026-11-15T15:27:38.949184+00:00",
+	"outcome_chirho": "PREPARED_NOT_DEPLOYED",
+	"assets_chirho": 456,
+	"asset_bytes_chirho": 3846781,
+	"worker_bytes_chirho": 647023,
+	"worker_sha256_chirho": "106894003c4b7f66f269f8bc23f51b65717bec37d3737368e04decfc494c08ba",
+	"manifest_sha256_chirho": "aff3b3bfbdf6cf92d713b1e98777a309ff2ac05176ee6e86253658190ee8fbf2",
+	"licensed_files_chirho": 11,
+	"licensed_bytes_chirho": 414760,
+	"unchanged_media_catalogue_chirho": true,
+	"delta_bytes_chirho": 66,
+	"readback_chirho": "Every copied asset and worker byte hash verified; the prior live package remains retained."
+}

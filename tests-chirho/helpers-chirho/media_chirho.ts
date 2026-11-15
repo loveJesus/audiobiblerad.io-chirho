@@ -2,6 +2,22 @@
 
 import type { Page, Frame } from '@playwright/test';
 
+export interface MediaEventChirho {
+	sequence_chirho: number;
+	at_ms_chirho: number;
+	element_index_chirho: number;
+	kind_chirho: string;
+	url_chirho: string;
+	requested_url_chirho: string | null;
+	seconds_chirho: number;
+	duration_chirho: number | null;
+	paused_chirho: boolean;
+	ended_chirho: boolean;
+	has_source_chirho: boolean;
+	error_code_chirho: number | null;
+	rejection_name_chirho: string | null;
+}
+
 // A tiny generated test tone exercises the real browser decoder without copying Scripture.
 export function fixtureWaveChirho(durationChirho = 15): Buffer {
 	const sampleRateChirho = 8000;
@@ -39,25 +55,92 @@ export async function observeMediaChirho(
 		const audioElementsChirho: HTMLAudioElement[] = [];
 		const audioLoadCountsChirho = new WeakMap<HTMLAudioElement, number>();
 		const audioPlayCountsChirho = new WeakMap<HTMLAudioElement, number>();
-		Object.assign(window, { audioElementsChirho, audioLoadCountsChirho, audioPlayCountsChirho });
+		const audioEventsChirho: MediaEventChirho[] = [];
+		let sequenceChirho = 0;
+		Object.assign(window, {
+			audioElementsChirho,
+			audioLoadCountsChirho,
+			audioPlayCountsChirho,
+			audioEventsChirho
+		});
 		window.Audio = new Proxy(window.Audio, {
 			construct(targetChirho, argumentsChirho) {
 				const audioChirho = Reflect.construct(targetChirho, argumentsChirho) as HTMLAudioElement;
+				const elementIndexChirho = audioElementsChirho.length;
 				audioElementsChirho.push(audioChirho);
+				const recordChirho = (
+					kindChirho: string,
+					requestedUrlChirho: string | null = null,
+					rejectionNameChirho: string | null = null
+				): void => {
+					if (audioEventsChirho.length >= 256) audioEventsChirho.shift();
+					audioEventsChirho.push({
+						sequence_chirho: ++sequenceChirho,
+						at_ms_chirho: performance.now(),
+						element_index_chirho: elementIndexChirho,
+						kind_chirho: kindChirho,
+						url_chirho: audioChirho.currentSrc || audioChirho.src,
+						requested_url_chirho: requestedUrlChirho,
+						seconds_chirho: audioChirho.currentTime,
+						duration_chirho: Number.isFinite(audioChirho.duration) ? audioChirho.duration : null,
+						paused_chirho: audioChirho.paused,
+						ended_chirho: audioChirho.ended,
+						has_source_chirho: audioChirho.hasAttribute('src'),
+						error_code_chirho: audioChirho.error?.code ?? null,
+						rejection_name_chirho: rejectionNameChirho
+					});
+				};
+				for (const kindChirho of [
+					'play',
+					'playing',
+					'pause',
+					'ended',
+					'emptied',
+					'loadedmetadata',
+					'error'
+				])
+					audioChirho.addEventListener(kindChirho, () => recordChirho(kindChirho));
 				const loadChirho = audioChirho.load.bind(audioChirho);
 				const playChirho = audioChirho.play.bind(audioChirho);
+				const removeAttributeChirho = audioChirho.removeAttribute.bind(audioChirho);
+				audioChirho.removeAttribute = (nameChirho) => {
+					if (nameChirho === 'src') recordChirho('release_source_chirho');
+					removeAttributeChirho(nameChirho);
+				};
 				audioChirho.play = () => {
 					audioPlayCountsChirho.set(audioChirho, (audioPlayCountsChirho.get(audioChirho) ?? 0) + 1);
-					return playChirho();
+					const requestedUrlChirho = audioChirho.src;
+					recordChirho('play_call_chirho', requestedUrlChirho);
+					const resultChirho = playChirho();
+					void resultChirho.then(
+						() => recordChirho('play_resolved_chirho', requestedUrlChirho),
+						(errorChirho: unknown) =>
+							recordChirho(
+								'play_rejected_chirho',
+								requestedUrlChirho,
+								errorChirho instanceof DOMException ? errorChirho.name : 'Error'
+							)
+					);
+					return resultChirho;
 				};
 				audioChirho.load = () => {
 					audioLoadCountsChirho.set(audioChirho, (audioLoadCountsChirho.get(audioChirho) ?? 0) + 1);
+					recordChirho('load_call_chirho');
 					loadChirho();
 				};
 				return audioChirho;
 			}
 		});
 	}, policyChirho);
+}
+
+/** Event history survives short effects and source release; it is bounded to the latest 256 events. */
+export async function mediaEventsChirho(
+	pageChirho: Page | Frame
+): Promise<readonly MediaEventChirho[]> {
+	return pageChirho.evaluate(
+		() => (window as unknown as { audioEventsChirho: MediaEventChirho[] }).audioEventsChirho
+	);
 }
 
 export async function mediaStateChirho(pageChirho: Page | Frame) {

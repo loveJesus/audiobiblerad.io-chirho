@@ -1,0 +1,110 @@
+{
+	"measured_on_chirho": "2026-11-15T15:29:35.342585+00:00",
+	"outcome_chirho": "LOCAL_PASS_PUBLIC_PENDING",
+	"change_chirho": "Interface deadline 1200 to 2000 ms; tuning remains 1500 ms. Finished interface clips stay loaded despite late events. Ended-but-not-yet-paused clips free the knob channel. A deliberate request reloads a media-error clip but reuses one refused only by policy. No automatic retry.",
+	"ownership_chirho": "Claude implemented six sound-lane paths and supplied stand-alone engine traces; root reviewed, reproduced old failures, ran integrated gates and owns publication.",
+	"gates_chirho": {
+		"check_errors_chirho": 0,
+		"check_warnings_chirho": 0,
+		"lint_clean_chirho": true,
+		"unit_tests_chirho": 284,
+		"unit_files_chirho": 32,
+		"browser_tests_chirho": 45,
+		"focused_chromium_webkit_cases_chirho": 6,
+		"build_chirho": "PASS through the normal external-first cache entry; licensed effects required in release inspection"
+	},
+	"root_negative_chirho": {
+		"scope_chirho": "The new slow-start and HTTP 503 manual-retry cases fail against the prior compiled application. A 1300 ms held response reproduces a source release at the old 1200 ms deadline, AbortError and no MediaError. Original failed records are retained.",
+		"trace_sha256_chirho": "d53c06152f8a6e42ffea725d1b269367b3c6ecb9853a65e7e7c5883d8405cafd",
+		"click_events_chirho": [
+			{
+				"kind_chirho": "play_call_chirho",
+				"after_request_ms_chirho": 0.0,
+				"has_source_chirho": true,
+				"error_code_chirho": null,
+				"rejection_name_chirho": null
+			},
+			{
+				"kind_chirho": "play",
+				"after_request_ms_chirho": 39.3,
+				"has_source_chirho": true,
+				"error_code_chirho": null,
+				"rejection_name_chirho": null
+			},
+			{
+				"kind_chirho": "release_source_chirho",
+				"after_request_ms_chirho": 1200.4,
+				"has_source_chirho": true,
+				"error_code_chirho": null,
+				"rejection_name_chirho": null
+			},
+			{
+				"kind_chirho": "load_call_chirho",
+				"after_request_ms_chirho": 1200.4,
+				"has_source_chirho": false,
+				"error_code_chirho": null,
+				"rejection_name_chirho": null
+			},
+			{
+				"kind_chirho": "play_rejected_chirho",
+				"after_request_ms_chirho": 1200.5,
+				"has_source_chirho": false,
+				"error_code_chirho": null,
+				"rejection_name_chirho": "AbortError"
+			},
+			{
+				"kind_chirho": "emptied",
+				"after_request_ms_chirho": 1200.6,
+				"has_source_chirho": false,
+				"error_code_chirho": null,
+				"rejection_name_chirho": null
+			}
+		]
+	},
+	"peer_measured_chirho": {
+		"engines_chirho": ["WebKit 27.2", "Chromium 158"],
+		"method_chirho": "Stand-alone bundled sound runtime and real prepared cuts; native media events, source MutationObserver, play outcome and server request log. Peer-executed traces retained privately and read back by root.",
+		"slow_start_chirho": "Old 1.2 s deadline cuts the 1.0 s delayed response; fixed 2 s deadline reaches ended. A 2.6 s delay still releases at 2 s. Corrupt media reports error 4/NotSupportedError; policy refusal reports NotAllowedError without MediaError.",
+		"restart_chirho": "All measured same-loaded-clip restarts reset ended and paused synchronously. Late events cannot finish a newer click. A knob step in the ended-before-paused window is accepted.",
+		"recovery_chirho": "HTTP 503 followed by a healthy response plays after the next deliberate press in both engines; no automatic retry. Policy refusal keeps the loaded clip.",
+		"traces_chirho": [
+			{
+				"name_chirho": "ended_restart_trace_webkit_chirho.txt",
+				"bytes_chirho": 5515,
+				"sha256_chirho": "8098db9777b6d8494daa119dda0d4506f7440e44c6b2e63a400630ee05765041"
+			},
+			{
+				"name_chirho": "ended_restart_trace_chromium_chirho.txt",
+				"bytes_chirho": 5929,
+				"sha256_chirho": "cda1605a07a9703492275f51081231b4e1ae6b4026616644991894f2bb349ddb"
+			},
+			{
+				"name_chirho": "slow_start_trace_webkit_chirho.txt",
+				"bytes_chirho": 2958,
+				"sha256_chirho": "2b98d4d48a6b90b5bbc8cfa142d140b31152a662f9492e034e5619a8d4e85df9"
+			},
+			{
+				"name_chirho": "slow_start_trace_chromium_chirho.txt",
+				"bytes_chirho": 3002,
+				"sha256_chirho": "ff999fb2cad8ac5ebaf4bf0881a41dda56914e4504e32126631520d0a4614e5b"
+			},
+			{
+				"name_chirho": "error_recovery_trace_webkit_chirho.txt",
+				"bytes_chirho": 2120,
+				"sha256_chirho": "6e279cedbd7ff78569e82948465a0e5fb7b4547f238ee97ab8eec19878a08541"
+			},
+			{
+				"name_chirho": "error_recovery_trace_chromium_chirho.txt",
+				"bytes_chirho": 2177,
+				"sha256_chirho": "d6465720965b00034a1e1c0f3b84a5f727e221b8bee98ace27c2ba0ee7631854"
+			}
+		]
+	},
+	"integrated_chirho": "Six focused engine cases pass against the fixed compiled application, including real prepared effects, bounded delayed starts and a manual retry after HTTP 503. local_events_chirho.json separately records native On/3D/Off click completion with actual advancing publisher audio and the same media element.",
+	"limits_chirho": [
+		"The historical public failure is consistent with the deadline mechanism; its own network timing was not retained, so its exact cause remains an inference.",
+		"Chromium may retain corrupt same-URL bytes in its in-page media cache after source reassignment; the app cannot guarantee recovery of that cached corruption.",
+		"The local Chromium 3D-toggle ended event was delivered after about 4.35 s during scene startup; it retained its source and reached native completion. These event times do not measure acoustic output.",
+		"Keyboard-before-On feedback remains outside this correction. No physical phone, Safari installation, acoustic, lock-screen or native/store acceptance is claimed."
+	]
+}

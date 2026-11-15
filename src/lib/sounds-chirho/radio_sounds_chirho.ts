@@ -21,7 +21,12 @@ import {
 
 /** A stalled or long tuning cue stops here, even if its recording has not ended. */
 const TUNING_CEILING_MS_CHIRHO = 1500;
-const INTERFACE_CEILING_MS_CHIRHO = 1200;
+/**
+ * A click or tick not finished this long after the press has stalled and is let go. Some WebKit
+ * runs add startup and completion-event overhead to a clip's own length (measured, and variable),
+ * so this leaves room for a slow start.
+ */
+const INTERFACE_CEILING_MS_CHIRHO = 2000;
 /** Knob steps closer together than this share one tick, so a fast turn ratchets instead of buzzing. */
 const KNOB_SPACING_MS_CHIRHO = 60;
 

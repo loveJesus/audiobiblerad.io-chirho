@@ -4,6 +4,8 @@ import { test, expect, type Page as PageChirho } from '@playwright/test';
 import {
 	observeMediaChirho,
 	mediaStateChirho,
+	mediaEventsChirho,
+	type MediaEventChirho,
 	fixtureWaveChirho
 } from './helpers-chirho/media_chirho';
 
@@ -20,6 +22,15 @@ test.beforeEach(async ({ page: pageChirho }) => {
 	await pageChirho.route('https://**/*.audioTimings.json', (routeChirho) =>
 		routeChirho.fulfill({ status: 404, body: '' })
 	);
+});
+test.afterEach(async ({ page: pageChirho }, infoChirho) => {
+	if (infoChirho.status !== infoChirho.expectedStatus && !pageChirho.isClosed()) {
+		const eventsChirho = await mediaEventsChirho(pageChirho).catch(() => []);
+		await infoChirho.attach('media_events_chirho', {
+			body: JSON.stringify(eventsChirho, null, 2),
+			contentType: 'application/json'
+		});
+	}
 });
 async function openChirho(pageChirho: PageChirho, preferenceChirho = 'simple'): Promise<void> {
 	await pageChirho.addInitScript(
@@ -40,6 +51,26 @@ async function playingChirho(pageChirho: PageChirho): Promise<void> {
 			)
 		)
 		.toBe(true);
+}
+async function effectEventChirho(
+	pageChirho: PageChirho,
+	pathChirho: string,
+	kindChirho: 'playing' | 'ended',
+	afterChirho: number
+): Promise<MediaEventChirho> {
+	const matchesChirho = (eventChirho: MediaEventChirho): boolean =>
+		eventChirho.sequence_chirho > afterChirho &&
+		eventChirho.kind_chirho === kindChirho &&
+		eventChirho.url_chirho.split('#')[0].endsWith(pathChirho) &&
+		(kindChirho !== 'ended' || eventChirho.ended_chirho);
+	await expect
+		.poll(async () => (await mediaEventsChirho(pageChirho)).some(matchesChirho))
+		.toBe(true);
+	return (await mediaEventsChirho(pageChirho)).find(matchesChirho)!;
+}
+
+async function effectSequenceChirho(pageChirho: PageChirho): Promise<number> {
+	return (await mediaEventsChirho(pageChirho)).at(-1)?.sequence_chirho ?? 0;
 }
 async function rememberElementChirho(pageChirho: PageChirho): Promise<void> {
 	await pageChirho.evaluate(() => {
@@ -233,57 +264,31 @@ test('a touch-sized scene stays within the screen and keeps the On cue actionabl
 test('the prepared effects play for presses and knob turns, and disabling sound keeps later actions quiet', async ({
 	page: pageChirho
 }) => {
+	const responseChirho = pageChirho.waitForResponse('**/sounds-chirho/profile_chirho.json');
 	await openChirho(pageChirho);
-	const profileChirho = (await (
-		await pageChirho.request.get('/sounds-chirho/profile_chirho.json')
-	).json()) as {
+	const profileChirho = (await (await responseChirho).json()) as {
 		click_chirho: { url_chirho: string }[];
 		knob_chirho: { url_chirho: string; start_seconds_chirho?: number }[];
 	};
 	const clickPathChirho = profileChirho.click_chirho[0].url_chirho;
 	const knobClipChirho = profileChirho.knob_chirho[0];
+	const onSequenceChirho = await effectSequenceChirho(pageChirho);
 	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await playingChirho(pageChirho);
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) =>
-					audioChirho.url_chirho.endsWith(clickPathChirho) && audioChirho.seconds_chirho > 0
-			)
-		)
-		.toBe(true);
+	await effectEventChirho(pageChirho, clickPathChirho, 'playing', onSequenceChirho);
+	await effectEventChirho(pageChirho, clickPathChirho, 'ended', onSequenceChirho);
+	const offSequenceChirho = await effectSequenceChirho(pageChirho);
 	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	expect(
 		(await mediaStateChirho(pageChirho)).find((audioChirho) =>
 			audioChirho.url_chirho.startsWith('https://')
 		)?.paused_chirho
 	).toBe(true);
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) =>
-					audioChirho.url_chirho.endsWith(clickPathChirho) && audioChirho.seconds_chirho > 0
-			)
-		)
-		.toBe(true);
-	await expect
-		.poll(
-			async () =>
-				(await mediaStateChirho(pageChirho)).find((audioChirho) =>
-					audioChirho.url_chirho.endsWith(clickPathChirho)
-				)?.paused_chirho
-		)
-		.toBe(true);
+	await effectEventChirho(pageChirho, clickPathChirho, 'playing', offSequenceChirho);
+	await effectEventChirho(pageChirho, clickPathChirho, 'ended', offSequenceChirho);
+	const knobSequenceChirho = await effectSequenceChirho(pageChirho);
 	await pageChirho.getByRole('slider', { name: 'Chapter knob', exact: true }).press('ArrowUp');
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) =>
-					audioChirho.url_chirho.split('#')[0].endsWith(knobClipChirho.url_chirho) &&
-					audioChirho.seconds_chirho > (knobClipChirho.start_seconds_chirho ?? 0)
-			)
-		)
-		.toBe(true);
+	await effectEventChirho(pageChirho, knobClipChirho.url_chirho, 'playing', knobSequenceChirho);
 	await pageChirho.getByRole('checkbox', { name: 'Radio sounds', exact: true }).uncheck();
 	const countsChirho = await pageChirho.evaluate(() => {
 		const traceChirho = window as unknown as {
@@ -313,6 +318,120 @@ test('the prepared effects play for presses and knob turns, and disabling sound 
 			expect(afterChirho[indexChirho].count_chirho).toBe(countsChirho[indexChirho]);
 			expect(afterChirho[indexChirho].paused_chirho).toBe(true);
 		}
+});
+
+test('a bounded slow interface start reaches native completion without interrupting Scripture', async ({
+	page: pageChirho,
+	browserName: browserNameChirho
+}) => {
+	const responseChirho = pageChirho.waitForResponse('**/sounds-chirho/profile_chirho.json');
+	await openChirho(pageChirho);
+	const profileChirho = (await (await responseChirho).json()) as {
+		click_chirho: { url_chirho: string }[];
+	};
+	const pathChirho = profileChirho.click_chirho[0].url_chirho;
+	const delayChirho = browserNameChirho === 'webkit' ? 800 : 1300;
+	let heldChirho = false;
+	await pageChirho.route(
+		(urlChirho) => urlChirho.pathname === pathChirho,
+		async (routeChirho) => {
+			if (!heldChirho) {
+				heldChirho = true;
+				await new Promise<void>((resolveChirho) => setTimeout(resolveChirho, delayChirho));
+			}
+			await routeChirho.continue();
+		}
+	);
+	const beforeChirho = await effectSequenceChirho(pageChirho);
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+	await playingChirho(pageChirho);
+	await rememberElementChirho(pageChirho);
+	const playingEventChirho = await effectEventChirho(
+		pageChirho,
+		pathChirho,
+		'playing',
+		beforeChirho
+	);
+	const endedEventChirho = await effectEventChirho(pageChirho, pathChirho, 'ended', beforeChirho);
+	expect(heldChirho).toBe(true);
+	expect(endedEventChirho.sequence_chirho).toBeGreaterThan(playingEventChirho.sequence_chirho);
+	expect(endedEventChirho.has_source_chirho).toBe(true);
+	const eventsChirho = (await mediaEventsChirho(pageChirho)).filter(
+		(eventChirho) =>
+			eventChirho.sequence_chirho > beforeChirho &&
+			eventChirho.sequence_chirho <= endedEventChirho.sequence_chirho &&
+			eventChirho.url_chirho.split('#')[0].endsWith(pathChirho)
+	);
+	expect(
+		eventsChirho.some((eventChirho) =>
+			['release_source_chirho', 'error', 'play_rejected_chirho'].includes(eventChirho.kind_chirho)
+		)
+	).toBe(false);
+	await unchangedElementChirho(pageChirho);
+	await playingChirho(pageChirho);
+	await test.info().attach('delayed_effect_events_chirho', {
+		body: JSON.stringify(
+			{ delay_ms_chirho: delayChirho, events_chirho: await mediaEventsChirho(pageChirho) },
+			null,
+			2
+		),
+		contentType: 'application/json'
+	});
+});
+
+test('a later deliberate press retries a failed interface recording without an automatic retry loop', async ({
+	page: pageChirho
+}) => {
+	const responseChirho = pageChirho.waitForResponse('**/sounds-chirho/profile_chirho.json');
+	await openChirho(pageChirho);
+	const profileChirho = (await (await responseChirho).json()) as {
+		click_chirho: { url_chirho: string }[];
+	};
+	const pathChirho = profileChirho.click_chirho[0].url_chirho;
+	let requestsChirho = 0;
+	await pageChirho.route(
+		(urlChirho) => urlChirho.pathname === pathChirho,
+		async (routeChirho) => {
+			requestsChirho += 1;
+			if (requestsChirho === 1)
+				await routeChirho.fulfill({
+					status: 503,
+					contentType: 'audio/wav',
+					body: 'temporarily-unavailable-chirho'
+				});
+			else await routeChirho.continue();
+		}
+	);
+	const beforeChirho = await effectSequenceChirho(pageChirho);
+	const powerChirho = pageChirho.getByRole('button', { name: 'Radio power', exact: true });
+	await powerChirho.click();
+	await playingChirho(pageChirho);
+	await expect
+		.poll(async () =>
+			(await mediaEventsChirho(pageChirho)).some(
+				(eventChirho) =>
+					eventChirho.sequence_chirho > beforeChirho &&
+					eventChirho.kind_chirho === 'error' &&
+					eventChirho.error_code_chirho === 4 &&
+					eventChirho.url_chirho.endsWith(pathChirho)
+			)
+		)
+		.toBe(true);
+	expect(requestsChirho).toBe(1);
+	const retrySequenceChirho = await effectSequenceChirho(pageChirho);
+	await powerChirho.click();
+	await effectEventChirho(pageChirho, pathChirho, 'playing', retrySequenceChirho);
+	await effectEventChirho(pageChirho, pathChirho, 'ended', retrySequenceChirho);
+	expect(requestsChirho).toBeGreaterThan(1);
+	expect(
+		(await mediaStateChirho(pageChirho)).find((audioChirho) =>
+			audioChirho.url_chirho.startsWith('https://')
+		)?.paused_chirho
+	).toBe(true);
+	await test.info().attach('retried_effect_events_chirho', {
+		body: JSON.stringify(await mediaEventsChirho(pageChirho), null, 2),
+		contentType: 'application/json'
+	});
 });
 
 test('wheel scrolling over the active scene still moves the page', async ({ page: pageChirho }) => {

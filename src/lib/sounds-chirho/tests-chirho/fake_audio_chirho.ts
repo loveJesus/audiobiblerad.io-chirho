@@ -3,9 +3,10 @@
 import type { SoundElementChirho } from '../sound_channel_chirho';
 
 /**
- * A stand-in audio element that keeps the state a real one keeps: source, position, paused and
- * ended. Changing the source or pausing abandons a play the browser has not yet allowed, as a real
- * element does. The test decides when a sound ends and whether the browser lets it play.
+ * A stand-in audio element that keeps the state a real one keeps: source, position, paused, ended
+ * and error. Changing the source or pausing abandons a play the browser has not yet allowed, as a
+ * real element does, and loading a source clears its error. The test decides when a sound ends
+ * and whether the browser lets it play.
  */
 export class FakeAudioChirho implements SoundElementChirho {
 	currentTime = 0;
@@ -13,8 +14,12 @@ export class FakeAudioChirho implements SoundElementChirho {
 	volume = 0.4;
 	paused = true;
 	ended = false;
-	/** What the browser does with the next play(): allow it, refuse it, or keep it waiting. */
-	next_play_chirho: 'allow' | 'refuse' | 'hold' = 'allow';
+	error: { code: number } | null = null;
+	/**
+	 * What the browser does with the next play(): allow it, refuse it by policy, find the recording
+	 * broken, or keep it waiting.
+	 */
+	next_play_chirho: 'allow' | 'refuse' | 'broken' | 'hold' = 'allow';
 	readonly plays_chirho: { src_chirho: string; time_chirho: number }[] = [];
 	readonly #listenersChirho = new Set<() => void>();
 	#srcChirho = '';
@@ -29,15 +34,25 @@ export class FakeAudioChirho implements SoundElementChirho {
 		this.currentTime = 0;
 		this.paused = true;
 		this.ended = false;
+		this.error = null;
 	}
 	play(): Promise<void> {
 		this.plays_chirho.push({ src_chirho: this.#srcChirho, time_chirho: this.currentTime });
 		const modeChirho = this.next_play_chirho;
 		this.next_play_chirho = 'allow';
+		const brokenChirho = () =>
+			Promise.reject(new DOMException('The recording cannot be played', 'NotSupportedError'));
+		// A source that has failed stays failed until it is loaded again.
+		if (this.error) return brokenChirho();
 		if (modeChirho === 'refuse')
 			return Promise.reject(new DOMException('Playback needs a gesture', 'NotAllowedError'));
 		this.paused = false;
 		this.ended = false;
+		if (modeChirho === 'broken') {
+			// As in Chromium and WebKit: the element reports the error, stays unpaused and refuses.
+			this.error = { code: 4 };
+			return brokenChirho();
+		}
 		if (modeChirho === 'allow') return Promise.resolve();
 		return new Promise<void>((_resolveChirho, rejectChirho) => {
 			this.#pendingChirho = rejectChirho;
@@ -52,6 +67,7 @@ export class FakeAudioChirho implements SoundElementChirho {
 		this.currentTime = 0;
 		this.paused = true;
 		this.ended = false;
+		this.error = null;
 	}
 	removeAttribute(nameChirho: string): void {
 		if (nameChirho === 'src') this.#srcChirho = '';
@@ -66,12 +82,13 @@ export class FakeAudioChirho implements SoundElementChirho {
 		return this.#listenersChirho.size;
 	}
 	/**
-	 * The recording reaches its end: the element pauses and says it has ended, as a browser does
-	 * before it delivers the ended event in a later task. A key press can arrive in between.
+	 * The recording reaches its end, and the ended event is still on its way: a key press can
+	 * arrive in between. In the runs measured, Chromium marked the element ended and paused
+	 * together; WebKit marked it ended first and paused it with the event, tens of milliseconds on.
 	 */
-	reachEndChirho(): void {
+	reachEndChirho(orderChirho: 'together' | 'ended_first' = 'together'): void {
 		this.ended = true;
-		this.paused = true;
+		if (orderChirho === 'together') this.paused = true;
 	}
 	/** The recording reaches its end, and the element says so. */
 	finishChirho(): void {
