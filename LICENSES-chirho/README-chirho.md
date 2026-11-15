@@ -14,6 +14,10 @@ Additional permission under GNU GPL version 3 section 7: if you convey this prog
 
 To the extent possible under law, L.J. (Love Jesus) dedicates all copyright and related rights held by the project in the radio's sounds to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/. These are the nine tuning and dial sounds synthesised by `scripts-chirho/generate_radio_sounds_chirho.ts`, and the files it writes. You may copy, modify and redistribute them, including commercially, without permission or required attribution. The full legal text is in CC0-1.0-chirho.txt.
 
+## Radio artwork
+
+The pictures of the radio itself, under `static/images-chirho/radios-chirho/`, were made for this project on 2026-11-14 with AI image generation (OpenAI's GPT Image 2.6) from text descriptions alone: no reference image, no third-party picture and nothing downloaded. The project then cropped, adjusted and encoded them. They are machine-made pictures, not photographs of real objects or places. They are shared under the same GPL-3.0-or-later terms as the code, to the extent the project holds any rights in them. No exclusive copyright in AI-generated material is claimed.
+
 ## Scripture audio is not covered
 
 No Scripture audio is in this repository. The radio streams each recording from its publisher's own host, and each recording stays under its publisher's own terms. Neither the GPL above nor the CC0 dedication grants any right in it. Some of those terms forbid commercial use: Davar Audio Bibles' recordings "may not be sold or used for any commercial purpose", and their copyright notices must be shown when shared.
