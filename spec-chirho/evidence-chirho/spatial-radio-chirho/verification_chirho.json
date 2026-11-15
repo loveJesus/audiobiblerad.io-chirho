@@ -40,7 +40,7 @@
 		"Configurator previews have a fresh frame per URL and bounded temporary preferences; they never overwrite a saved real widget."
 	],
 	"upstream_chirho": {
-		"evidence_chirho": "live_playback_chirho.json",
+		"evidence_chirho": "local_playback_chirho.json",
 		"streams_chirho": 5,
 		"same_first_stream_progress_checked_after_3d_activation_chirho": true,
 		"first_gesture_to_playing_ms_chirho": 235.5,

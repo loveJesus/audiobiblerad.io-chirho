@@ -1,9 +1,9 @@
 {
-	"measured_on_chirho": "2026-11-15T05:23:38.510Z",
+	"measured_on_chirho": "2026-11-15T14:14:24.486Z",
 	"browser_chirho": "Chromium 158.0.8127.18",
-	"preview_chirho": "http://127.0.0.1:4186/",
+	"preview_chirho": "https://audiobiblerad.io/",
 	"method_chirho": "Actual upstream streams, no media interception. Policy detection is held disallowed so this probe measures explicit On and control changes. Browser playing event; not an acoustic or physical-device latency measurement.",
-	"navigation_to_first_playing_ms_chirho": 430.4,
+	"navigation_to_first_playing_ms_chirho": 658.2,
 	"progress_verified_chirho": [
 		{
 			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
@@ -16,7 +16,7 @@
 		},
 		{
 			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
-			"seconds_chirho": 3.680059,
+			"seconds_chirho": 5.044664,
 			"credit_chirho": "Berean Standard Bible, narrated by Bob Souer. Dedicated to the public domain (CC0 1.0).",
 			"notice_links_chirho": [
 				"https://bible.helloao.org/",
@@ -25,7 +25,7 @@
 		},
 		{
 			"url_chirho": "https://openbible.com/audio/gilbert/BSB_43_Jhn_001_G.mp3",
-			"seconds_chirho": 4.111746,
+			"seconds_chirho": 5.635978,
 			"credit_chirho": "Berean Standard Bible, narrated by Jordan Scott Gilbert. Dedicated to the public domain (CC0 1.0).",
 			"notice_links_chirho": [
 				"https://openbible.com/audiobibles.htm",
@@ -34,7 +34,7 @@
 		},
 		{
 			"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
-			"seconds_chirho": 4.774513,
+			"seconds_chirho": 6.742703,
 			"credit_chirho": "Biblica® Open Hindi Contemporary Version™ © 1978, 2009, 2016, 2019 by Biblica, Inc. Used with permission. All rights reserved worldwide. · Biblica® Open Hindi Contemporary Version™, Audio Version‪. Audio ‪Copyright ‪℗‪ 2022 by Biblica, Inc. and Davar Partners International",
 			"notice_links_chirho": [
 				"https://davaraudiobibles.org/audio-bible-library/",
@@ -43,7 +43,7 @@
 		},
 		{
 			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
-			"seconds_chirho": 4.425807,
+			"seconds_chirho": 6.392416,
 			"credit_chirho": "Unlocked Literal Bible in Hindi, from Bible in Every Language by Wycliffe Associates and partners. Licensed under CC BY-SA 4.0. Played unchanged.",
 			"notice_links_chirho": [
 				"https://audio.bibleineverylanguage.org/",
@@ -52,75 +52,75 @@
 		},
 		{
 			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
-			"seconds_chirho": 4.141968,
+			"seconds_chirho": 5.959797,
 			"credit_chirho": "Reina-Valera Antigua, read by LibriVox volunteers. A public domain recording from LibriVox.",
 			"notice_links_chirho": ["https://librivox.org/", "https://librivox.org/pages/public-domain/"]
 		}
 	],
 	"measurements_chirho": [
 		{
-			"at_ms_chirho": 430.39999997615814,
+			"at_ms_chirho": 658.1999999880791,
 			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
 			"seconds_chirho": 0,
 			"duration_chirho": 364.508844,
 			"muted_chirho": false,
 			"volume_chirho": 1,
 			"control_chirho": "Radio power",
-			"gesture_to_playing_ms_chirho": 235.5
+			"gesture_to_playing_ms_chirho": 271.7
 		},
 		{
-			"at_ms_chirho": 4686.599999964237,
+			"at_ms_chirho": 6560.300000011921,
 			"url_chirho": "https://openbible.com/audio/gilbert/BSB_43_Jhn_001_G.mp3",
-			"seconds_chirho": 4.111274,
+			"seconds_chirho": 5.635978,
 			"duration_chirho": 407.374833,
 			"muted_chirho": false,
 			"volume_chirho": 1,
 			"control_chirho": "Next station",
-			"gesture_to_playing_ms_chirho": 318.2
+			"gesture_to_playing_ms_chirho": 599.5
 		},
 		{
-			"at_ms_chirho": 5980,
+			"at_ms_chirho": 8136.5,
 			"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
-			"seconds_chirho": 4.774513,
+			"seconds_chirho": 6.742703,
 			"duration_chirho": 473.093378,
 			"muted_chirho": false,
 			"volume_chirho": 1,
 			"control_chirho": "Language",
-			"gesture_to_playing_ms_chirho": 1077.5
+			"gesture_to_playing_ms_chirho": 1357.2
 		},
 		{
-			"at_ms_chirho": 7286.399999976158,
+			"at_ms_chirho": 9744.099999964237,
 			"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
-			"seconds_chirho": 4.420392,
+			"seconds_chirho": 6.38293,
 			"duration_chirho": 438.004521,
 			"muted_chirho": false,
 			"volume_chirho": 1,
 			"control_chirho": "Narration",
-			"gesture_to_playing_ms_chirho": 1095.1
+			"gesture_to_playing_ms_chirho": 1340.8
 		},
 		{
-			"at_ms_chirho": 9390.199999988079,
+			"at_ms_chirho": 12051.5,
 			"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
-			"seconds_chirho": 4.141968,
+			"seconds_chirho": 5.959797,
 			"duration_chirho": 410.416281,
 			"muted_chirho": false,
 			"volume_chirho": 1,
 			"control_chirho": "Language",
-			"gesture_to_playing_ms_chirho": 1920.9
+			"gesture_to_playing_ms_chirho": 2089.7
 		}
 	],
 	"trace_chirho": {
 		"gestures_chirho": [
-			{ "at_ms_chirho": 194.89999997615814, "control_chirho": "Radio power" },
-			{ "at_ms_chirho": 4368.399999976158, "control_chirho": "Next station" },
-			{ "at_ms_chirho": 4902.5, "control_chirho": "Language" },
-			{ "at_ms_chirho": 6186.099999964237, "control_chirho": "Version" },
-			{ "at_ms_chirho": 6191.300000011921, "control_chirho": "Narration" },
-			{ "at_ms_chirho": 7469.300000011921, "control_chirho": "Language" }
+			{ "at_ms_chirho": 386.5, "control_chirho": "Radio power" },
+			{ "at_ms_chirho": 5960.800000011921, "control_chirho": "Next station" },
+			{ "at_ms_chirho": 6779.300000011921, "control_chirho": "Language" },
+			{ "at_ms_chirho": 8395.899999976158, "control_chirho": "Version" },
+			{ "at_ms_chirho": 8403.300000011921, "control_chirho": "Narration" },
+			{ "at_ms_chirho": 9961.800000011921, "control_chirho": "Language" }
 		],
 		"playing_chirho": [
 			{
-				"at_ms_chirho": 430.39999997615814,
+				"at_ms_chirho": 658.1999999880791,
 				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
 				"seconds_chirho": 0,
 				"duration_chirho": 364.508844,
@@ -128,33 +128,33 @@
 				"volume_chirho": 1
 			},
 			{
-				"at_ms_chirho": 4686.599999964237,
+				"at_ms_chirho": 6560.300000011921,
 				"url_chirho": "https://openbible.com/audio/gilbert/BSB_43_Jhn_001_G.mp3",
-				"seconds_chirho": 4.111274,
+				"seconds_chirho": 5.635978,
 				"duration_chirho": 407.374833,
 				"muted_chirho": false,
 				"volume_chirho": 1
 			},
 			{
-				"at_ms_chirho": 5980,
+				"at_ms_chirho": 8136.5,
 				"url_chirho": "https://audio.dbs.org/HINBIB_DAVR_FB_N/43_John_01.mp3",
-				"seconds_chirho": 4.774513,
+				"seconds_chirho": 6.742703,
 				"duration_chirho": 473.093378,
 				"muted_chirho": false,
 				"volume_chirho": 1
 			},
 			{
-				"at_ms_chirho": 7286.399999976158,
+				"at_ms_chirho": 9744.099999964237,
 				"url_chirho": "https://audio-content.bibleineverylanguage.org/content/hi/ulb/jhn/1/CONTENTS/mp3/hi/chapter/hi_ulb_jhn_c1.mp3",
-				"seconds_chirho": 4.420392,
+				"seconds_chirho": 6.38293,
 				"duration_chirho": 438.004521,
 				"muted_chirho": false,
 				"volume_chirho": 1
 			},
 			{
-				"at_ms_chirho": 9390.199999988079,
+				"at_ms_chirho": 12051.5,
 				"url_chirho": "https://archive.org/download/biblereinavalerant04juan_1708_librivox/juan_01_rva_64kb.mp3",
-				"seconds_chirho": 4.141968,
+				"seconds_chirho": 5.959797,
 				"duration_chirho": 410.416281,
 				"muted_chirho": false,
 				"volume_chirho": 1

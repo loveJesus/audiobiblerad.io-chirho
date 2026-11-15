@@ -1,0 +1,62 @@
+{
+	"measured_on_chirho": "2026-11-15T14:32:21.259013Z",
+	"outcome_chirho": "LIVE_3D_VERIFIED_OPTIONAL_WEBKIT_CLICK_LIMIT_RETAINED",
+	"worker_chirho": "audiobiblerad-io-chirho",
+	"version_chirho": "48b1773e-af78-4655-8ead-a4b207a72dd2",
+	"percentage_chirho": 100,
+	"source_commit_chirho": "b12f2398f88fd6671184e1b9cfb1ca8f6169584d",
+	"source_record_commit_chirho": "16a3a7216c5df73e45e2209f6fd75a2974ccd1ad",
+	"prior_version_chirho": "c1a2a7a3-e27a-4c65-9143-2bc5e14b8018",
+	"rollback_chirho": "Prior verified version and its asset/worker package remain retained; 441 copied rollback files were hash-checked before apply.",
+	"authority_chirho": "Carry the owner's publication instruction through to the actual radio after his report that he could not see the 3D upgrade. The earlier preview-only stop was corrected. Scope is the existing Worker and its apex/www bindings.",
+	"public_hosts_chirho": [
+		{
+			"origin_chirho": "https://audiobiblerad.io",
+			"status_chirho": 200,
+			"bytes_chirho": 19636,
+			"has_3d_switch_chirho": true,
+			"sha256_chirho": "9cdfab53278a82411e194f4e52edb45fc9b30454d1a6bac18b992a1a2b4e9760"
+		},
+		{
+			"origin_chirho": "https://www.audiobiblerad.io",
+			"status_chirho": 200,
+			"bytes_chirho": 19636,
+			"has_3d_switch_chirho": true,
+			"sha256_chirho": "9cdfab53278a82411e194f4e52edb45fc9b30454d1a6bac18b992a1a2b4e9760"
+		}
+	],
+	"assets_chirho": {
+		"count_chirho": 456,
+		"bytes_chirho": 3846715,
+		"mismatches_chirho": 0,
+		"licensed_clips_chirho": 11,
+		"licensed_bytes_chirho": 414760
+	},
+	"checks_chirho": {
+		"svelte_errors_chirho": 0,
+		"svelte_warnings_chirho": 0,
+		"lint_chirho": "PASS",
+		"unit_component_passed_chirho": 276,
+		"prior_same_input_chromium_passed_chirho": 43,
+		"prior_same_input_focused_webkit_passed_chirho": 6
+	},
+	"public_3d_chirho": {
+		"browsers_chirho": ["Chromium 158.0.8127.18", "WebKit 27.2"],
+		"actual_orbit_chirho": true,
+		"same_advancing_audio_after_simple_chirho": true,
+		"off_stopped_chirho": true,
+		"gesture_knob_decoded_chirho": true
+	},
+	"upstream_chirho": {
+		"main_progress_samples_chirho": 6,
+		"outside_widget_samples_chirho": 2,
+		"first_on_to_chromium_playing_ms_chirho": 271.7,
+		"interpretation_chirho": "Actual source-host decoder clocks, not acoustic/physical-device or full-library proof; Scripture was not saved."
+	},
+	"limits_chirho": [
+		"The added public click check passed in Chromium. One WebKit On-click attempt did not decode the optional effect while Scripture continued; the cause remains unconfirmed. The failing evidence is retained in effect_limits_chirho.json and this is follow-up work, not counted as a pass.",
+		"Initial keyboard-before-On optional-knob checks failed; a real pointer gesture decoded the purchased knob in both engines. These controls and browser gesture limits are not physical-device acceptance.",
+		"No physical iOS/Android/Watch or lock-screen acceptance; no native/store, new provider/signup, DNS change, spend or new recipient message."
+	],
+	"finding_the_view_chirho": "Reload audiobiblerad.io and use the 3D switch beside Sound near the bottom of the receiver. Drag around the receiver to pivot. Automatic selection waits for Scripture and idle controls, and may retain simple view on unsuitable devices."
+}

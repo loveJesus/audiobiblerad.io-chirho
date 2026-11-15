@@ -1,0 +1,43 @@
+{
+	"measured_on_chirho": "2026-11-15T14:28:37.761Z",
+	"origin_chirho": "https://audiobiblerad.io",
+	"method_chirho": "Real public assets, native controls, actual WebGL and publisher audio. Only policy detection/preferences and media observation are controlled. No media interception, saved Scripture, acoustic or physical-device claim.",
+	"samples_chirho": [
+		{
+			"browser_chirho": "Chromium 158.0.8127.18",
+			"viewport_width_chirho": 1280,
+			"real_webgl_orbit_chirho": true,
+			"on_radio_switch_chirho": true,
+			"purchased_profile_chirho": true,
+			"purchased_knob_decoded_chirho": true,
+			"purchased_on_off_click_decoded_chirho": true,
+			"off_stopped_chirho": true,
+			"actual_upstream_chirho": {
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/4/audio/souer.mp3",
+				"seconds_chirho": 0.213757,
+				"loads_chirho": 1
+			},
+			"same_advancing_audio_after_simple_chirho": true,
+			"credit_chirho": "Berean Standard Bible, narrated by Bob Souer. Dedicated to the public domain (CC0 1.0).\n\nFree Use Bible API ↗·CC0 1.0 Universal, a public domain dedication ↗\n\n1189 verified chapters.",
+			"errors_chirho": []
+		},
+		{
+			"browser_chirho": "WebKit 27.2",
+			"viewport_width_chirho": 390,
+			"real_webgl_orbit_chirho": true,
+			"on_radio_switch_chirho": true,
+			"purchased_profile_chirho": true,
+			"purchased_knob_decoded_chirho": true,
+			"purchased_on_off_click_decoded_chirho": null,
+			"off_stopped_chirho": true,
+			"actual_upstream_chirho": {
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/4/audio/souer.mp3",
+				"seconds_chirho": 0.21075954732190663,
+				"loads_chirho": 1
+			},
+			"same_advancing_audio_after_simple_chirho": true,
+			"credit_chirho": "Berean Standard Bible, narrated by Bob Souer. Dedicated to the public domain (CC0 1.0).\n\nFree Use Bible API ↗·CC0 1.0 Universal, a public domain dedication ↗\n\n1189 verified chapters.",
+			"errors_chirho": []
+		}
+	]
+}

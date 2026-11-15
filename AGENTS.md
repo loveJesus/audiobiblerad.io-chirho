@@ -148,7 +148,8 @@ tmux display-message -p '#{session_name}:#{window_index}'  # who am I
 - Spend money, or write to a rights holder.
 
 The project Worker `audiobiblerad-io-chirho` and this domain's Free zone now exist. The current
-radio/widget release version, exact verification and bounded limits are recorded under
+3D radio/widget release version, exact verification and bounded limits are recorded under
+`spec-chirho/evidence-chirho/spatial-radio-chirho/`; the earlier widget record remains under
 `spec-chirho/evidence-chirho/widget-release-chirho/`; the first release evidence remains under
 `spec-chirho/evidence-chirho/web-release-chirho/`. The dedicated `/embed-chirho` route explicitly
 permits outside framing, and `/llms.txt` provides public integration instructions. No native/store
