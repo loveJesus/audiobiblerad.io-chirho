@@ -20,6 +20,7 @@
 	);
 	let settledChirho = $state(false);
 	let canvasChirho = $state<HTMLCanvasElement>();
+	let pictureChirho = $state<HTMLImageElement>();
 
 	onMount(() => {
 		const timerChirho = window.setTimeout(() => (settledChirho = true), SETTLE_MS_CHIRHO);
@@ -29,7 +30,12 @@
 	$effect(() => {
 		// Reading the skin here restarts the rain, and with it the rain's colour, on a skin change.
 		if (!canvasChirho || themeChirho.weather_chirho !== 'rain') return;
-		return runRainChirho(canvasChirho);
+		return runRainChirho(
+			canvasChirho,
+			themeChirho.water_chirho && pictureChirho
+				? { box_chirho: themeChirho.water_chirho, picture_chirho: pictureChirho }
+				: null
+		);
 	});
 </script>
 
@@ -37,6 +43,7 @@
 	{#if settledChirho && themeChirho.background_image_chirho}
 		<img
 			class="theme-setting-chirho"
+			bind:this={pictureChirho}
 			src={assetPathChirho(themeChirho.background_image_chirho)}
 			alt=""
 			decoding="async"

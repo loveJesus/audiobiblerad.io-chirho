@@ -80,6 +80,23 @@ describe('radio skins', () => {
 		).toEqual([]);
 	});
 
+	it("keeps each setting's water inside its picture, and only where there is a picture", () => {
+		const wrongChirho = RADIO_THEMES_CHIRHO.filter(
+			({ water_chirho: waterChirho, background_image_chirho: pictureChirho }) =>
+				waterChirho !== null &&
+				!(
+					pictureChirho !== null &&
+					0 <= waterChirho.left_chirho &&
+					waterChirho.left_chirho < waterChirho.right_chirho &&
+					waterChirho.right_chirho <= 1 &&
+					0 <= waterChirho.top_chirho &&
+					waterChirho.top_chirho < waterChirho.bottom_chirho &&
+					waterChirho.bottom_chirho <= 1
+				)
+		).map((themeChirho) => themeChirho.id_chirho);
+		expect(wrongChirho).toEqual([]);
+	});
+
 	it('keeps every skin light enough to follow the first sound, never to delay it', () => {
 		const tooHeavyChirho: string[] = [];
 		for (const skinChirho of readdirSync(ART_DIR_CHIRHO, { withFileTypes: true })) {

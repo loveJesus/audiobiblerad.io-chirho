@@ -6,11 +6,22 @@
 // What the page and the skins agree on:
 //   - the page root carries data-radio-theme-chirho="<id>";
 //   - artwork never draws a working control or a letter: whatever moves or can be read is live;
-//   - an image field is null when that part is drawn in code, or its artwork has not landed yet.
+//   - an image field is null when that part is drawn in code.
 
 export type RadioThemeIdChirho = 'minimal' | 'digital' | 'field' | 'cyberpunk';
 
 export type RadioWeatherChirho = 'none' | 'rain';
+
+/**
+ * A part of a setting picture that is open water or wet ground, as fractions of the picture's
+ * width and height. Rain leaves rings there and nowhere else.
+ */
+export interface WaterBoxChirho {
+	readonly left_chirho: number;
+	readonly top_chirho: number;
+	readonly right_chirho: number;
+	readonly bottom_chirho: number;
+}
 
 export interface RadioThemeChirho {
 	readonly id_chirho: RadioThemeIdChirho;
@@ -26,6 +37,8 @@ export interface RadioThemeChirho {
 	/** Site path of the setting picture that ThemeSceneChirho shows behind the page. */
 	readonly background_image_chirho: string | null;
 	readonly weather_chirho: RadioWeatherChirho;
+	/** Where that picture's water is, measured on it by eye. Null when it has none. */
+	readonly water_chirho: WaterBoxChirho | null;
 }
 
 const ART_ROOT_CHIRHO = '/images-chirho/radios-chirho';
@@ -37,7 +50,8 @@ export const RADIO_THEMES_CHIRHO: readonly RadioThemeChirho[] = [
 		setting_chirho: null,
 		body_image_chirho: null,
 		background_image_chirho: null,
-		weather_chirho: 'none'
+		weather_chirho: 'none',
+		water_chirho: null
 	},
 	{
 		id_chirho: 'digital',
@@ -45,7 +59,9 @@ export const RADIO_THEMES_CHIRHO: readonly RadioThemeChirho[] = [
 		setting_chirho: 'Nordic fjord',
 		body_image_chirho: `${ART_ROOT_CHIRHO}/digital-chirho/body_chirho.webp`,
 		background_image_chirho: `${ART_ROOT_CHIRHO}/digital-chirho/setting_chirho.webp`,
-		weather_chirho: 'rain'
+		weather_chirho: 'rain',
+		// The fjord itself, clear of the shore rocks on the left and along the bottom.
+		water_chirho: { left_chirho: 0.32, top_chirho: 0.5, right_chirho: 1, bottom_chirho: 0.72 }
 	},
 	{
 		id_chirho: 'field',
@@ -53,7 +69,9 @@ export const RADIO_THEMES_CHIRHO: readonly RadioThemeChirho[] = [
 		setting_chirho: 'Pacific Northwest riverbed',
 		body_image_chirho: `${ART_ROOT_CHIRHO}/field-chirho/body_chirho.webp`,
 		background_image_chirho: `${ART_ROOT_CHIRHO}/field-chirho/setting_chirho.webp`,
-		weather_chirho: 'rain'
+		weather_chirho: 'rain',
+		// The open river, clear of the boulders on the left and the stones in mid-stream.
+		water_chirho: { left_chirho: 0.4, top_chirho: 0.53, right_chirho: 1, bottom_chirho: 0.64 }
 	},
 	{
 		id_chirho: 'cyberpunk',
@@ -61,6 +79,8 @@ export const RADIO_THEMES_CHIRHO: readonly RadioThemeChirho[] = [
 		setting_chirho: 'Tokyo night',
 		body_image_chirho: `${ART_ROOT_CHIRHO}/cyberpunk-chirho/body_chirho.webp`,
 		background_image_chirho: `${ART_ROOT_CHIRHO}/cyberpunk-chirho/setting_chirho.webp`,
-		weather_chirho: 'rain'
+		weather_chirho: 'rain',
+		// The wet street and pavement, below the planters and doorways.
+		water_chirho: { left_chirho: 0, top_chirho: 0.82, right_chirho: 1, bottom_chirho: 1 }
 	}
 ];
