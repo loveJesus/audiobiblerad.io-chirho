@@ -1,0 +1,65 @@
+{
+	"measured_on_chirho": "2026-11-15T15:33:35.220205+00:00",
+	"outcome_chirho": "LIVE_INTERFACE_SOUND_FOLLOWUP_VERIFIED",
+	"worker_chirho": "audiobiblerad-io-chirho",
+	"version_chirho": "8520e1bc-713a-4347-a337-52b121b333f5",
+	"percentage_chirho": 100,
+	"source_commit_chirho": "7c7081dbf152136e9808d0a10db7e5ea69fed751",
+	"prior_version_chirho": "48b1773e-af78-4655-8ead-a4b207a72dd2",
+	"authority_chirho": "Continue the owner-directed radio publication and purchased-effects update, confined to the existing Worker and apex/www bindings. No DNS, signup, key, spend, native/store or recipient-message action.",
+	"apply_chirho": "One guarded apply after current-version readback and complete prepared inventory/hash checks; no retry. Provider readback confirms the single new version at 100%.",
+	"rollback_chirho": "The prior 48b1773e version and exact 456-asset/worker package remain retained, read back by hash before this release. Earlier release packages and failed records are preserved.",
+	"public_hosts_chirho": [
+		{
+			"origin_chirho": "https://audiobiblerad.io",
+			"status_chirho": 200,
+			"bytes_chirho": 19637,
+			"has_3d_switch_chirho": true,
+			"sha256_chirho": "1a3c4cb3b95ce7b35bbd44dd89b1a767f96f8341c9a16fc241a620ef7f4daa36"
+		},
+		{
+			"origin_chirho": "https://www.audiobiblerad.io",
+			"status_chirho": 200,
+			"bytes_chirho": 19637,
+			"has_3d_switch_chirho": true,
+			"sha256_chirho": "1a3c4cb3b95ce7b35bbd44dd89b1a767f96f8341c9a16fc241a620ef7f4daa36"
+		}
+	],
+	"assets_chirho": {
+		"count_chirho": 456,
+		"bytes_chirho": 3846781,
+		"mismatches_chirho": 0,
+		"licensed_clips_chirho": 11,
+		"licensed_bytes_chirho": 414760,
+		"delta_bytes_chirho": 66,
+		"catalogue_art_and_effect_bytes_unchanged_chirho": true,
+		"worker_sha256_chirho": "106894003c4b7f66f269f8bc23f51b65717bec37d3737368e04decfc494c08ba",
+		"prepared_manifest_sha256_chirho": "aff3b3bfbdf6cf92d713b1e98777a309ff2ac05176ee6e86253658190ee8fbf2"
+	},
+	"gates_chirho": {
+		"check_errors_chirho": 0,
+		"check_warnings_chirho": 0,
+		"lint_clean_chirho": true,
+		"unit_tests_chirho": 284,
+		"unit_files_chirho": 32,
+		"browser_tests_chirho": 45,
+		"focused_chromium_webkit_cases_chirho": 6,
+		"build_chirho": "PASS through the normal external-first cache entry; licensed effects required in release inspection"
+	},
+	"public_events_chirho": {
+		"browsers_chirho": ["Chromium 158.0.8127.18", "WebKit 27.2"],
+		"on_3d_off_clicks_completed_chirho": true,
+		"same_advancing_publisher_audio_chirho": true,
+		"off_stopped_chirho": true,
+		"page_errors_chirho": 0,
+		"evidence_chirho": "public_events_chirho.json"
+	},
+	"source_privacy_chirho": "Purchased originals, processed effects and raw traces remain outside public Git; outgoing source scan clean. The public clone retains its original CC0 fallback. No Scripture was saved.",
+	"limits_chirho": [
+		"The historical public failure is consistent with the deadline mechanism; its own network timing was not retained, so its exact cause remains an inference.",
+		"Chromium may retain corrupt same-URL bytes in its in-page media cache after source reassignment; the app cannot guarantee recovery of that cached corruption.",
+		"The local Chromium 3D-toggle ended event was delivered after about 4.35 s during scene startup; it retained its source and reached native completion. These event times do not measure acoustic output.",
+		"Keyboard-before-On feedback remains outside this correction. No physical phone, Safari installation, acoustic, lock-screen or native/store acceptance is claimed.",
+		"The public Chromium 3D-toggle ended event arrived at 3814.8 ms during scene startup; it retained its source and completed. WebKit On/View/Off ended at 803/936/1030 ms in this sample. Timers and event delivery depend on the browser event loop; these are not acoustic-duration measurements."
+	]
+}

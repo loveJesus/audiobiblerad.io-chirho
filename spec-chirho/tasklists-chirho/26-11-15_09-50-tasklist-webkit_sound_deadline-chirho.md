@@ -7,6 +7,6 @@ The sound writer reports that WebKit decodes the purchased click and that the re
 - [x] Reproduce slow-start release and late ended/paused ordering by events; prove both engines reset ended on restart.
 - [x] Implement bounded interface timing and keep-loaded completion, preserving tuning release, cancellation and stale-event fences.
 - [x] Verify the real integrated interface with event traces, including controlled delay and refusal/stall distinctions; run appropriate gates and inspect the package.
-- [ ] Review and commit explicit paths, then publish the verified correction under the existing radio update scope with current-version/readback/rollback guards; retain failures and report measured limits.
+- [x] Review and commit explicit paths, then publish the verified correction under the existing radio update scope with current-version/readback/rollback guards; retain failures and report measured limits.
 
-The prior 3D release is Worker `48b1773e-af78-4655-8ead-a4b207a72dd2`; it remains live during implementation. No DNS, signup, provider/key, new spend, native/store or recipient-message action is included.
+Source `7c7081d` is published as Worker `8520e1bc-713a-4347-a337-52b121b333f5`, read back at 100%. Both public engines completed On/3D/Off click events with the same advancing publisher audio; all 456 assets match HTTPS. The prior 3D release, Worker `48b1773e-af78-4655-8ead-a4b207a72dd2`, and its exact package remain retained for rollback. No DNS, signup, provider/key, new spend, native/store or recipient-message action was included.

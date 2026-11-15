@@ -1,0 +1,67 @@
+{
+	"measured_on_chirho": "2026-11-15T15:31:43.264Z",
+	"origin_chirho": "https://audiobiblerad.io",
+	"method_chirho": "Native playing/ended and source/error events. Actual publisher audio, no media interception or saved Scripture. Policy detection held disallowed for explicit On. Desktop engines at a narrow viewport, not acoustic or physical-device proof.",
+	"samples_chirho": [
+		{
+			"browser_chirho": "Chromium 158.0.8127.18",
+			"on_click_chirho": {
+				"playing_ms_chirho": 270.5,
+				"ended_ms_chirho": 627.3,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"view_click_chirho": {
+				"playing_ms_chirho": 13.7,
+				"ended_ms_chirho": 3814.8,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"off_click_chirho": {
+				"playing_ms_chirho": 54,
+				"ended_ms_chirho": 340,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"real_3d_active_chirho": true,
+			"same_advancing_source_chirho": {
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0.420674,
+				"loads_chirho": 1
+			},
+			"off_stopped_chirho": true,
+			"trace_sha256_chirho": "1bf4b88ebd4f493d0409a16bf0183619cc32b46a535e97278a110b17ff6cf695",
+			"errors_chirho": []
+		},
+		{
+			"browser_chirho": "WebKit 27.2",
+			"on_click_chirho": {
+				"playing_ms_chirho": 139,
+				"ended_ms_chirho": 803,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"view_click_chirho": {
+				"playing_ms_chirho": 1,
+				"ended_ms_chirho": 936,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"off_click_chirho": {
+				"playing_ms_chirho": 3,
+				"ended_ms_chirho": 1030,
+				"kept_source_chirho": true,
+				"media_error_chirho": null
+			},
+			"real_3d_active_chirho": true,
+			"same_advancing_source_chirho": {
+				"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+				"seconds_chirho": 0.6167853829659955,
+				"loads_chirho": 1
+			},
+			"off_stopped_chirho": true,
+			"trace_sha256_chirho": "58c18ab217ab3c1dfe337fa5b9388d6128e3d8cd4ba5ce72740725b3f60dca5b",
+			"errors_chirho": []
+		}
+	]
+}

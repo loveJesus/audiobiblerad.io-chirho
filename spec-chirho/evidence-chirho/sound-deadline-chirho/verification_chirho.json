@@ -1,6 +1,6 @@
 {
 	"measured_on_chirho": "2026-11-15T15:29:35.342585+00:00",
-	"outcome_chirho": "LOCAL_PASS_PUBLIC_PENDING",
+	"outcome_chirho": "PASS_LOCAL_AND_PUBLIC",
 	"change_chirho": "Interface deadline 1200 to 2000 ms; tuning remains 1500 ms. Finished interface clips stay loaded despite late events. Ended-but-not-yet-paused clips free the knob channel. A deliberate request reloads a media-error clip but reuses one refused only by policy. No automatic retry.",
 	"ownership_chirho": "Claude implemented six sound-lane paths and supplied stand-alone engine traces; root reviewed, reproduced old failures, ran integrated gates and owns publication.",
 	"gates_chirho": {
@@ -106,5 +106,10 @@
 		"Chromium may retain corrupt same-URL bytes in its in-page media cache after source reassignment; the app cannot guarantee recovery of that cached corruption.",
 		"The local Chromium 3D-toggle ended event was delivered after about 4.35 s during scene startup; it retained its source and reached native completion. These event times do not measure acoustic output.",
 		"Keyboard-before-On feedback remains outside this correction. No physical phone, Safari installation, acoustic, lock-screen or native/store acceptance is claimed."
+	],
+	"public_evidence_chirho": [
+		"deployment_chirho.json",
+		"http_production_chirho.json",
+		"public_events_chirho.json"
 	]
 }
