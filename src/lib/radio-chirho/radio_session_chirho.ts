@@ -177,8 +177,14 @@ export class RadioSessionChirho {
 			} else await this.restoreChirho();
 		} else {
 			const requestChirho = ++this.selectionChirho;
-			let codeChirho = matchBrowserLanguageChirho(preferredLanguagesChirho.slice(0, 1), ['en']);
-			let stationsChirho: readonly StationChirho[] = stationsInLanguageChirho('en', []);
+			let codeChirho = matchBrowserLanguageChirho(
+				preferredLanguagesChirho.slice(0, 1),
+				STATIONS_CHIRHO.map((stationChirho) => stationChirho.language_code_chirho)
+			);
+			let stationsChirho: readonly StationChirho[] = stationsInLanguageChirho(
+				codeChirho ?? 'en',
+				[]
+			);
 			if (!codeChirho) {
 				let timerChirho: ReturnType<typeof setTimeout> | undefined;
 				let initialActiveChirho = true;
@@ -404,26 +410,30 @@ export class RadioSessionChirho {
 			chapterChirho
 		);
 	}
+	feedbackChirho(kindChirho: 'click' | 'knob'): void {
+		if (this.disposedChirho) return;
+		if (kindChirho === 'knob') this.optionsChirho.sounds_chirho.knobChirho?.();
+		else this.optionsChirho.sounds_chirho.clickChirho?.();
+	}
 	powerChirho(): void {
 		if (!this.playerChirho) return;
 		this.emitChirho({ needs_gesture_chirho: false });
 		if (['playing', 'loading'].includes(this.playerChirho.snapshotChirho.phase_chirho))
 			this.offChirho();
-		else {
-			this.rememberPowerChirho('on');
-			this.playerChirho.playChirho();
-		}
+		else this.onChirho();
 	}
 	offChirho(): void {
 		this.emitChirho({ needs_gesture_chirho: false });
 		this.playerChirho?.pauseChirho();
 		// pause samples the playing clock first; persist Off after those intermediate snapshots.
 		this.rememberPowerChirho('off');
+		this.feedbackChirho('click');
 	}
 	onChirho(): void {
 		this.rememberPowerChirho('on');
 		this.emitChirho({ needs_gesture_chirho: false });
 		this.playerChirho?.playChirho();
+		this.feedbackChirho('click');
 	}
 	seekChirho(secondsChirho: number): void {
 		this.playerChirho?.seekChirho(secondsChirho);
@@ -436,6 +446,7 @@ export class RadioSessionChirho {
 	}
 	setSoundsChirho(valueChirho: boolean): void {
 		this.playerChirho?.setSoundsChirho(valueChirho);
+		if (valueChirho) this.feedbackChirho('click');
 	}
 	saveChirho(): void {
 		this.playerChirho?.saveChirho();

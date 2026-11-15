@@ -13,20 +13,26 @@ import { CATALOGUE_CHIRHO } from '../../src/lib/catalogue-chirho/catalogue_chirh
 // See spec-chirho/workflows-chirho/release_workflow_chirho.md.
 // Only this project's own assets are fetched: four requests at a time, no source Scripture.
 const workersDevChirho = process.argv.includes('--workers-dev-chirho');
-const widgetReleaseChirho = process.argv.includes('--widget-chirho');
+const spatialReleaseChirho = process.argv.includes('--spatial-chirho');
+const widgetReleaseChirho = spatialReleaseChirho || process.argv.includes('--widget-chirho');
 if (
 	process.argv
 		.slice(2)
-		.some((argumentChirho) => !['--workers-dev-chirho', '--widget-chirho'].includes(argumentChirho))
+		.some(
+			(argumentChirho) =>
+				!['--workers-dev-chirho', '--widget-chirho', '--spatial-chirho'].includes(argumentChirho)
+		)
 )
 	throw new Error('Unknown hosted-verification argument');
 const originChirho = workersDevChirho
 	? 'https://audiobiblerad-io-chirho.lovejesus.workers.dev'
 	: 'https://audiobiblerad.io';
 const rootChirho = '.svelte-kit/cloudflare';
-const evidenceChirho = widgetReleaseChirho
-	? 'spec-chirho/evidence-chirho/widget-release-chirho'
-	: 'spec-chirho/evidence-chirho/web-release-chirho';
+const evidenceChirho = spatialReleaseChirho
+	? 'spec-chirho/evidence-chirho/spatial-radio-chirho'
+	: widgetReleaseChirho
+		? 'spec-chirho/evidence-chirho/widget-release-chirho'
+		: 'spec-chirho/evidence-chirho/web-release-chirho';
 async function saveEvidenceChirho(resultChirho: unknown): Promise<void> {
 	await mkdirChirho(evidenceChirho, { recursive: true });
 	await writeFileChirho(

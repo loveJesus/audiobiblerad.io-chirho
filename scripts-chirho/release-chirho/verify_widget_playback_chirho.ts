@@ -12,7 +12,9 @@ import {
 // A reserved HTTPS parent is supplied by the probe; the public iframe and media are never replaced.
 const originChirho = 'https://audiobiblerad.io';
 const parentChirho = 'https://embed-host-chirho.example/';
-const evidenceChirho = 'spec-chirho/evidence-chirho/widget-release-chirho';
+const evidenceChirho = process.argv.includes('--spatial-chirho')
+	? 'spec-chirho/evidence-chirho/spatial-radio-chirho'
+	: 'spec-chirho/evidence-chirho/widget-release-chirho';
 const browserChirho = await chromiumChirho.launch({ headless: true });
 const contextChirho = await browserChirho.newContext({
 	viewport: { width: 1100, height: 900 },

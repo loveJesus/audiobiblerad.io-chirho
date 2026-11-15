@@ -50,3 +50,7 @@ workspace-chirho/private-chirho/
 __pycache__/
 .pytest_cache/
 .ruff_cache/
+
+# Purchased effects are app assets, excluded from the public source.
+/static/sounds-chirho/licensed-chirho/
+/static/sounds-chirho/profile_chirho.json

@@ -219,13 +219,17 @@ test('a Spanish browser chooses Spanish first and direct language selection move
 		const languageChirho = pageChirho.getByRole('combobox', { name: 'Language', exact: true });
 		await expect(languageChirho).toHaveValue('es');
 		const dialChirho = pageChirho.getByRole('slider', { name: 'Station dial', exact: true });
+		await expect(languageChirho.locator('option[value="ru"]')).toHaveCount(1);
+		await expect(dialChirho).toHaveAttribute('aria-valuetext', /^Spanish,/);
 		const firstChirho = await dialChirho.inputValue();
 		await languageChirho.selectOption('en');
 		await expect(languageChirho).toHaveValue('en');
+		await expect(dialChirho).toHaveAttribute('aria-valuetext', /^English,/);
 		await expect(dialChirho).not.toHaveValue(firstChirho);
 		const englishChirho = await dialChirho.inputValue();
 		await languageChirho.selectOption('es');
 		await expect(languageChirho).toHaveValue('es');
+		await expect(dialChirho).toHaveAttribute('aria-valuetext', /^Spanish,/);
 		await dialChirho.fill(englishChirho);
 		await expect(languageChirho).toHaveValue('en');
 	} finally {

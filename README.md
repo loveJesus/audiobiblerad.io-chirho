@@ -13,7 +13,7 @@ Home: [audiobiblerad.io](https://audiobiblerad.io)
 
 The web radio offers 460 stations across 400 languages, streamed directly from their source hosts. The original 29 stations remain immediately available; language labels load additional recording data only when needed. It remembers a
 station and passage on the device, continues through chapters, shows recording credits, and has
-nine original, toggleable tuning sounds. Verse timings carry the place between timed recordings;
+toggleable tuning, click and knob sounds. Verse timings carry the place between timed recordings;
 other station changes use the fraction of the chapter. Partial recordings skip to their next
 available chapter.
 
@@ -28,9 +28,14 @@ is in [`spec-chirho/evidence-chirho/web-release-chirho/`](spec-chirho/evidence-c
 
 The web radio has book and chapter knobs, caption dropdowns, language/version/voice labels and an FM station dial. It has On/Off, a compact About dialog, browser-language selection for a first visit and four remembered models: Minimal, 1980s Digital by a fjord, Field Radio by a forest river and Cyberpunk in a rainy city. The three character radios use GPT Image 2.6 raster artwork. Rain and water rings respect reduced motion and pause in a hidden tab.
 
-Audible autoplay is attempted where the browser permits it. Otherwise PRESS HERE points to On. An explicit Off stays off when reopened. The original tuning cue plays once per deliberate tune, without repeating during recovery or between chapters. Supplied replacement WAVs and audition cuts remain private until their source licence is established.
+Audible autoplay is attempted where the browser permits it. Otherwise a prominent PRESS HERE button points to On. An explicit Off stays off when reopened. Tuning plays once per deliberate tune, without repeating during recovery or between chapters. Presses and knob steps have separate interface feedback; the sound switch silences both channels.
+
+An optional 3D switch on the radio keeps the same live controls and audio while adding a beveled case, raised rotating knobs, lighting and a camera that pivots by dragging. Vertical touch swipes and the mouse wheel still scroll the page. Automatic selection waits for Scripture to start and a quiet moment, then measures the actual scene; reduced motion, data saving, a small display or slow/unavailable graphics keep the lightweight view. Graphics failure returns to that view without replacing playback. Only the view choice is remembered. The graphics module loads on demand, and Watch retains the lightweight model.
+
+The owner's short, purchased Splice effects are prepared locally for app use and excluded from public Git. A clone uses eleven deterministic CC0 sounds: nine tuning cues plus click and knob feedback. No Splice sample or right to reuse one is supplied with this repository. See the separate sound notices below.
 
 The four-model interface and outside-site widget were published on 2026-11-14. The current release and its verification are recorded in [`spec-chirho/evidence-chirho/widget-release-chirho/`](spec-chirho/evidence-chirho/widget-release-chirho/deployment_chirho.json); the first release evidence above is retained.
+The optional 3D and purchased-effects upgrade is a source update awaiting its separate web release; that release record describes the currently hosted version.
 
 ## Embed the radio
 
@@ -60,6 +65,7 @@ bun run test:unit --run
 bun run test:e2e
 bun run build
 bun scripts-chirho/generate_radio_sounds_chirho.ts --check
+bun scripts-chirho/sounds-chirho/generate_interface_sounds_chirho.ts --check-chirho
 ```
 
 The unit tests exercise playback, cancellation, position, preference validation and bounded failure
@@ -75,8 +81,8 @@ built-in catalogue used by the web player. The language index and per-language f
 ## License
 
 The code is free software under the GNU General Public License, version 3 or later, with an
-added permission for distribution through app stores. The radio's own tuning sounds are dedicated
-to the public domain under CC0 1.0. Scripture recordings are covered by neither: none is in this
+added permission for distribution through app stores. The radio's eleven synthesised sounds are dedicated
+to the public domain under CC0 1.0; purchased Splice effects are excluded from this repository and dedication. Scripture recordings are covered by neither: none is in this
 repository, and each stays under its publisher's own terms, some of which forbid commercial use.
 See [`LICENSE`](LICENSE) and [`LICENSES-chirho/README-chirho.md`](LICENSES-chirho/README-chirho.md).
 

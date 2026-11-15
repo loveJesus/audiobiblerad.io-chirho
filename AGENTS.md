@@ -32,8 +32,8 @@ On 2026-11-13 L.J. directed that the project have its GitHub open-source remote 
 `gh_chirho` points at `github.com/loveJesus/audiobiblerad.io-chirho`, a **public** repository.
 On 2026-11-14 L.J. instructed the coordinator to commit and push the prepared source and licence
 package, and the first source push completed that day. The default branch is `main_chirho`.
-The licence is GPL-3.0-or-later with the section 7 app-store permission; the nine original radio
-sounds are CC0. Scripture recordings keep their publishers' terms.
+The licence is GPL-3.0-or-later with the section 7 app-store permission; the eleven original radio
+sounds are CC0. Scripture recordings and purchased app effects keep their separate terms.
 
 - **Everything committed is published.** No credentials, no private notes, nobody's personal
   details, no facts about other projects or clients. Write commit messages, spec files and
@@ -66,10 +66,12 @@ sounds are CC0. Scripture recordings keep their publishers' terms.
 - **Bible Brain needs a key in L.J.'s name.** Do not sign up for him, and do not use anyone else's
   key. Until the key exists, build that adapter against the documented API with fixtures. Its terms
   allow streaming only, require free access, and forbid relaying its content to other developers.
-- **The original nine radio sounds are ours**, synthesised with a deterministic script and shared
-  under CC0. On 2026-11-14 L.J. supplied six WAV recordings for short tuning and interface clips.
-  Their originals and audition cuts stay private pending accurate provenance and redistribution
-  terms. Do not apply the synthesised sounds' CC0 dedication to supplied recordings.
+- **The eleven original radio sounds are ours**, synthesised with deterministic scripts and shared
+  under CC0. On 2026-11-14 L.J. confirmed that the six supplied WAVs were purchased from Splice.
+  Short processed cuts may be used as effects within the app; originals and licensed clips stay
+  out of public Git and are not GPL or CC0. Normal builds prepare the local licensed set when
+  available, otherwise the original CC0 set. Owner releases that require purchased effects must
+  run the preparer and release preflight with `--require-licensed-chirho`.
 - **"Fast" means time to first sound.** Playback speed is a nice extra, not the point.
 - **Browsers may block sound before a tap.** L.J.'s current direction is audible autoplay where
   allowed, otherwise a PRESS HERE cue over On. Never substitute muted Scripture. Explicit Off is

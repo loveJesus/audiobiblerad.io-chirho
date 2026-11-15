@@ -1,0 +1,29 @@
+{
+	"outcome_chirho": "PREPARED_NOT_DEPLOYED",
+	"asset_count_chirho": 456,
+	"asset_bytes_chirho": 3846715,
+	"previous_asset_count_chirho": 437,
+	"previous_asset_bytes_chirho": 2820508,
+	"sound_profile_chirho": "licensed",
+	"licensed_cut_count_chirho": 11,
+	"licensed_cut_bytes_chirho": 414760,
+	"largest_chunks_chirho": [
+		{
+			"path_chirho": "/_app/immutable/chunks/XEbyi4wX.js",
+			"bytes_chirho": 352565,
+			"sha256_chirho": "294f16593f76158cbe96d269753458caf7908eb2628f603637e718ae2d13882e"
+		},
+		{
+			"path_chirho": "/_app/immutable/chunks/3rMdjHvN.js",
+			"bytes_chirho": 195683,
+			"sha256_chirho": "e72b1d902270f09d07f1fb12838bace37e0700c455989e1e2d7e750379b89ea4"
+		},
+		{
+			"path_chirho": "/_app/immutable/chunks/CCPh-sb3.js",
+			"bytes_chirho": 154597,
+			"sha256_chirho": "e616090fe081165dc2f5ef217fd9aeceba885a146944b6770c11a2cb5e9fec97"
+		}
+	],
+	"inventory_sha256_chirho": "68efa2ef1ea7f49dc56e4a886d1e2b692fc069131ab35c2281f8cccfc21317cd",
+	"inventory_retained_chirho": "The complete prepared inventory is retained locally with the release preparation records."
+}

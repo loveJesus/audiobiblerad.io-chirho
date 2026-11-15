@@ -72,6 +72,18 @@ afterEach(() => {
 });
 
 describe('radio startup and power', () => {
+	it('starts a bundled widget language without waiting for the remote language list', async () => {
+		vi.useFakeTimers();
+		const fixtureChirho = setupSessionChirho({
+			initial_language_chirho: 'es',
+			fetch_chirho: () => new Promise<Response>(() => {})
+		});
+		const startedChirho = fixtureChirho.session_chirho.startChirho();
+		await vi.advanceTimersByTimeAsync(0);
+		expect(fixtureChirho.session_chirho.snapshotChirho.ready_chirho).toBe(true);
+		expect(fixtureChirho.session_chirho.stationChirho.language_code_chirho).toBe('es');
+		await startedChirho;
+	});
 	it('a configured widget language overrides a remembered different language and can default quiet', async () => {
 		const fixtureChirho = setupSessionChirho({
 			initial_language_chirho: 'es',
@@ -189,7 +201,7 @@ describe('radio startup and power', () => {
 			releaseChirho = resolveChirho;
 		});
 		const fixtureChirho = setupSessionChirho({
-			languages_chirho: ['es'],
+			languages_chirho: ['ru'],
 			fetch_chirho: async (inputChirho) => {
 				if (String(inputChirho).endsWith('languages_chirho.json')) {
 					await heldChirho;

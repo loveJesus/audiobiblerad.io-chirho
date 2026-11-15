@@ -11,6 +11,7 @@ export interface WidgetOptionsChirho {
 	theme_chirho?: RadioThemeIdChirho;
 	language_chirho?: string;
 	autoplay_chirho: boolean;
+	preview_chirho?: boolean;
 }
 
 /** Query values select cleared catalogue data; no external media or callback URL is accepted. */
@@ -24,7 +25,8 @@ export function readWidgetOptionsChirho(parametersChirho: URLSearchParams): Widg
 		...(languageChirho && savedLanguageCodeChirho(languageChirho)
 			? { language_chirho: languageChirho }
 			: {}),
-		autoplay_chirho: parametersChirho.get('autoplay_chirho') === '1'
+		autoplay_chirho: parametersChirho.get('autoplay_chirho') === '1',
+		...(parametersChirho.get('preview_chirho') === '1' ? { preview_chirho: true } : {})
 	};
 }
 
@@ -39,6 +41,19 @@ export function widgetUrlChirho(optionsChirho: WidgetOptionsChirho): string {
 }
 
 export const WIDGET_HEIGHT_CHIRHO = 760;
+
+/** A configurator frame previews a fresh visitor without replacing saved widget preferences. */
+export function createPreviewStorageChirho(): PreferenceStorageChirho {
+	const valuesChirho = new Map<string, string>();
+	return {
+		getItem: (keyChirho) => valuesChirho.get(keyChirho) ?? null,
+		setItem: (keyChirho, valueChirho) => {
+			if (!valuesChirho.has(keyChirho) && valuesChirho.size >= 8)
+				valuesChirho.delete(valuesChirho.keys().next().value!);
+			valuesChirho.set(keyChirho, valueChirho);
+		}
+	};
+}
 
 export function widgetMarkupChirho(optionsChirho: WidgetOptionsChirho): string {
 	const urlChirho = widgetUrlChirho(optionsChirho).replaceAll('&', '&amp;');

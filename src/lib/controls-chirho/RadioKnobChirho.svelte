@@ -15,6 +15,8 @@
 		options_chirho: optionsChirho,
 		disabled_chirho: disabledChirho = false,
 		arc_chirho: arcChirho = 270,
+		vertical_drag_chirho: verticalDragChirho = false,
+		on_feedback_chirho: onFeedbackChirho,
 		on_change_chirho: onChangeChirho
 	}: {
 		label_chirho: string;
@@ -24,6 +26,8 @@
 		options_chirho: readonly DialOptionChirho[];
 		disabled_chirho?: boolean;
 		arc_chirho?: number;
+		vertical_drag_chirho?: boolean;
+		on_feedback_chirho?(kindChirho: 'click' | 'knob'): void;
 		on_change_chirho(valueChirho: number): void;
 	} = $props();
 	let previewChirho = $state<number | null>(null);
@@ -73,13 +77,15 @@
 			start_y_chirho: eventChirho.clientY,
 			start_value_chirho: valueChirho,
 			vertical_chirho:
+				verticalDragChirho ||
 				Math.hypot(
 					eventChirho.clientX - boxChirho.x - boxChirho.width / 2,
 					eventChirho.clientY - boxChirho.y - boxChirho.height / 2
 				) <
-				boxChirho.width * 0.25
+					boxChirho.width * 0.25
 		};
 		previewChirho = valueChirho;
+		onFeedbackChirho?.('knob');
 	}
 	function moveChirho(eventChirho: PointerEvent): void {
 		if (!dragChirho || dragChirho.pointer_id_chirho !== eventChirho.pointerId) return;
@@ -94,11 +100,13 @@
 			? dragChirho.start_value_chirho +
 				((dragChirho.start_y_chirho - eventChirho.clientY) / 140) * (maxChirho - minChirho)
 			: minChirho + (dragChirho.angle_chirho / arcChirho + 0.5) * (maxChirho - minChirho);
-		previewChirho = nearestDialOptionChirho(
+		const selectedChirho = nearestDialOptionChirho(
 			optionsChirho,
 			nextValueChirho,
 			nextValueChirho - shownChirho
 		);
+		if (selectedChirho !== shownChirho) onFeedbackChirho?.('knob');
+		previewChirho = selectedChirho;
 	}
 	function finishChirho(eventChirho: PointerEvent): void {
 		if (!dragChirho || dragChirho.pointer_id_chirho !== eventChirho.pointerId) return;
@@ -136,9 +144,12 @@
 						: null;
 		if (nextChirho === null) return;
 		eventChirho.preventDefault();
-		onChangeChirho(
-			optionsChirho[Math.max(0, Math.min(optionsChirho.length - 1, nextChirho))].value_chirho
-		);
+		const selectedChirho =
+			optionsChirho[Math.max(0, Math.min(optionsChirho.length - 1, nextChirho))].value_chirho;
+		if (selectedChirho !== valueChirho) {
+			onFeedbackChirho?.('knob');
+			onChangeChirho(selectedChirho);
+		}
 	}
 </script>
 
@@ -178,6 +189,7 @@
 		value={shownChirho}
 		onchange={(eventChirho) => {
 			previewChirho = null;
+			onFeedbackChirho?.('click');
 			onChangeChirho(Number(eventChirho.currentTarget.value));
 		}}
 	>

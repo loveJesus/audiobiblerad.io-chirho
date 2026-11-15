@@ -27,6 +27,8 @@ ${WIDGET_DEFAULT_MARKUP_CHIRHO}
 
 Keep the width fluid. Reserve at least 320 CSS pixels of width and 760 pixels of height; the iframe can scroll for longer source notices. Set a taller height if your chosen skin or recording needs it. Keep the player controls and its visible recording credits inside the iframe unobscured.
 
+The receiver includes an optional 3D view switch. Standard compact embeds start with the lightweight view. At 500px wide and 820px tall or larger, automatic selection can try the actual 3D scene after Scripture starts and controls are idle, keeping it only when it renders smoothly; listeners can also choose it explicitly. Use 860px or more height for a spacious 3D embed. The Simple view action restores ordinary scrolling and controls. Switching views keeps the same audio and listening position. Reduced motion, data saving, renderer failure and graphics context loss keep or return the radio to its lightweight form.
+
 ## URL options
 
 - theme_chirho=minimal|digital|field|cyberpunk. Invalid values use the default. The configured theme is applied on opening; listeners can change it.

@@ -18,13 +18,23 @@
 		session_chirho: sessionChirho,
 		theme_id_chirho: themeIdChirho,
 		on_theme_chirho: onThemeChirho,
-		on_about_chirho: onAboutChirho
+		on_about_chirho: onAboutChirho,
+		spatial_chirho: spatialChirho = false,
+		spatial_wanted_chirho: spatialWantedChirho = false,
+		spatial_busy_chirho: spatialBusyChirho = false,
+		spatial_message_chirho: spatialMessageChirho = '',
+		on_spatial_chirho: onSpatialChirho
 	}: {
 		view_chirho: RadioSessionViewChirho;
 		session_chirho?: RadioSessionChirho;
 		theme_id_chirho: RadioThemeIdChirho;
 		on_theme_chirho(valueChirho: RadioThemeIdChirho): void;
 		on_about_chirho(): void;
+		spatial_chirho?: boolean;
+		spatial_wanted_chirho?: boolean;
+		spatial_busy_chirho?: boolean;
+		spatial_message_chirho?: string;
+		on_spatial_chirho?(): void;
 	} = $props();
 	let dialPreviewChirho = $state<number | null>(null);
 	let seekPreviewChirho = $state<number | null>(null);
@@ -113,6 +123,7 @@
 		return `${Math.floor(valueChirho / 60)}:${String(valueChirho % 60).padStart(2, '0')}`;
 	}
 	function versionChirho(valueChirho: string): void {
+		sessionChirho?.feedbackChirho('click');
 		const selectedChirho = initialStationChirho(
 			languageStationsChirho.filter((entryChirho) => entryChirho.version_chirho === valueChirho),
 			stationChirho.language_code_chirho
@@ -120,11 +131,13 @@
 		if (selectedChirho) sessionChirho?.chooseStationChirho(selectedChirho.id_chirho);
 	}
 	function turnChirho(directionChirho: number): void {
+		sessionChirho?.feedbackChirho('knob');
 		const indexChirho =
 			(dialIndexChirho + directionChirho + dialChirho.totalChirho) % dialChirho.totalChirho;
 		sessionChirho?.chooseDialChirho(indexChirho);
 	}
 	async function languageChirho(eventChirho: Event): Promise<void> {
+		sessionChirho?.feedbackChirho('click');
 		const selectChirho = eventChirho.currentTarget as HTMLSelectElement;
 		await sessionChirho?.chooseLanguageChirho(selectChirho.value);
 		selectChirho.value = stationChirho.language_code_chirho;
@@ -193,8 +206,10 @@
 				aria-label="Narration"
 				value={stationChirho.id_chirho}
 				disabled={!viewChirho.ready_chirho}
-				onchange={(eventChirho) =>
-					sessionChirho?.chooseStationChirho(eventChirho.currentTarget.value)}
+				onchange={(eventChirho) => {
+					sessionChirho?.feedbackChirho('click');
+					sessionChirho?.chooseStationChirho(eventChirho.currentTarget.value);
+				}}
 				>{#each narrationsChirho as narrationChirho (narrationChirho.id_chirho)}<option
 						value={narrationChirho.id_chirho}
 						>{narrationChirho.voice_chirho || 'Reader not named'} · {narrationChirho.source_name_chirho}{narrationChirho.voice_chirho
@@ -244,6 +259,7 @@
 					aria-valuetext={`${stationChirho.language_english_chirho}, ${stationChirho.version_chirho}, ${stationChirho.voice_chirho}`}
 					oninput={(eventChirho) => (dialPreviewChirho = Number(eventChirho.currentTarget.value))}
 					onchange={(eventChirho) => {
+						sessionChirho?.feedbackChirho('knob');
 						sessionChirho?.chooseDialChirho(Number(eventChirho.currentTarget.value));
 						dialPreviewChirho = null;
 					}}
@@ -261,6 +277,8 @@
 	<div class="selector-row-chirho">
 		<RadioKnobChirho
 			label_chirho="Book"
+			on_feedback_chirho={(kindChirho) => sessionChirho?.feedbackChirho(kindChirho)}
+			vertical_drag_chirho={spatialChirho}
 			value_chirho={bookChirho.order_chirho}
 			min_chirho={1}
 			max_chirho={66}
@@ -273,11 +291,15 @@
 			}}
 		/>
 		<div class="power-well-chirho">
-			{#if viewChirho.needs_gesture_chirho}<span class="press-here-chirho" aria-hidden="true"
-					>PRESS HERE<span>↓</span></span
+			{#if viewChirho.needs_gesture_chirho}<button
+					class="press-here-chirho"
+					aria-label="Start listening"
+					onclick={() => sessionChirho?.onChirho()}
+					>PRESS HERE<span aria-hidden="true">↓</span></button
 				>{/if}<button
 				class="power-chirho"
 				class:powered-chirho={activeChirho}
+				class:needs-gesture-chirho={viewChirho.needs_gesture_chirho}
 				disabled={!viewChirho.ready_chirho}
 				aria-label="Radio power"
 				aria-pressed={activeChirho}
@@ -289,6 +311,8 @@
 		</div>
 		<RadioKnobChirho
 			label_chirho="Chapter"
+			on_feedback_chirho={(kindChirho) => sessionChirho?.feedbackChirho(kindChirho)}
+			vertical_drag_chirho={spatialChirho}
 			value_chirho={stateChirho.chapter_chirho}
 			min_chirho={1}
 			max_chirho={bookChirho.chapters_chirho}
@@ -303,7 +327,10 @@
 			class="chapter-arrow-chirho"
 			aria-label="Previous chapter"
 			disabled={!viewChirho.ready_chirho}
-			onclick={() => sessionChirho?.previousChirho()}>‹</button
+			onclick={() => {
+				sessionChirho?.previousChirho();
+				sessionChirho?.feedbackChirho('click');
+			}}>‹</button
 		>
 		<div class="seek-control-chirho">
 			<div class="seek-labels-chirho">
@@ -324,6 +351,7 @@
 					stateChirho.phase_chirho === 'error'}
 				oninput={(eventChirho) => (seekPreviewChirho = Number(eventChirho.currentTarget.value))}
 				onchange={(eventChirho) => {
+					sessionChirho?.feedbackChirho('knob');
 					sessionChirho?.seekChirho(Number(eventChirho.currentTarget.value));
 					seekPreviewChirho = null;
 				}}
@@ -335,7 +363,10 @@
 			class="chapter-arrow-chirho"
 			aria-label="Next chapter"
 			disabled={!viewChirho.ready_chirho}
-			onclick={() => sessionChirho?.nextChirho()}>›</button
+			onclick={() => {
+				sessionChirho?.nextChirho();
+				sessionChirho?.feedbackChirho('click');
+			}}>›</button
 		>
 	</div>
 	<div class="radio-bottom-chirho">
@@ -351,7 +382,15 @@
 						value={themeChirho.id_chirho}>{themeChirho.name_chirho}</option
 					>{/each}</select
 			></label
-		><label class="sound-control-chirho"
+		>{#if onSpatialChirho}<label class="sound-control-chirho spatial-control-chirho"
+				><input
+					type="checkbox"
+					aria-label="3D radio view"
+					checked={spatialWantedChirho}
+					aria-busy={spatialBusyChirho}
+					onchange={onSpatialChirho}
+				/><span class="switch-chirho" aria-hidden="true"></span><span>3D</span></label
+			>{/if}<label class="sound-control-chirho"
 			><input
 				type="checkbox"
 				aria-label="Radio sounds"
@@ -362,6 +401,9 @@
 			/><span class="switch-chirho" aria-hidden="true"></span><span>SOUND</span></label
 		>
 	</div>
+	{#if spatialMessageChirho}<p class="spatial-message-chirho" role="status">
+			{spatialMessageChirho}
+		</p>{/if}
 	<div class="status-message-chirho" role="status" aria-live="polite">
 		{viewChirho.language_message_chirho ||
 			(viewChirho.restoring_chirho ? 'Restoring your station…' : stateChirho.message_chirho)}
@@ -715,25 +757,42 @@
 	}
 	.press-here-chirho {
 		position: absolute;
-		bottom: calc(100% + 4px);
+		bottom: calc(100% + 28px);
+		z-index: 5;
+		border: 2px solid #161d17;
+		border-radius: 10px;
+		padding: 8px 12px 4px;
+		background: #ffe073;
+		box-shadow:
+			0 4px 0 #161d17,
+			0 7px 20px #0005;
 		font:
-			800 9px ui-monospace,
+			900 14px ui-monospace,
 			monospace;
 		letter-spacing: 0.1em;
 		text-align: center;
 		white-space: nowrap;
-		color: var(--radio-accent-chirho, #e7bd73);
-		animation: press-here-chirho 1.3s ease-in-out infinite alternate;
-		pointer-events: none;
+		color: #161d17;
+		cursor: pointer;
+	}
+	.power-chirho.needs-gesture-chirho {
+		outline: 4px solid #ffe073;
+		outline-offset: 5px;
+	}
+	.spatial-message-chirho {
+		font-size: 12px;
+		margin: 8px 0 0;
+		text-align: center;
 	}
 	.press-here-chirho span {
 		display: block;
-		font-size: 15px;
+		animation: press-here-chirho 1.3s ease-in-out infinite alternate;
+		font-size: 23px;
 		line-height: 1.2;
 	}
 	@keyframes press-here-chirho {
 		to {
-			transform: translateY(-6px);
+			transform: translateY(-3px);
 		}
 	}
 	.seek-row-chirho {
@@ -813,6 +872,7 @@
 		cursor: pointer;
 	}
 	.switch-chirho {
+		pointer-events: none;
 		display: block;
 		width: 25px;
 		height: 13px;

@@ -9,10 +9,12 @@
 	import { RADIO_THEMES_CHIRHO, type RadioThemeIdChirho } from '$lib/themes-chirho/themes_chirho';
 	import RadioReceiverChirho from './RadioReceiverChirho.svelte';
 	import RadioAboutChirho from './RadioAboutChirho.svelte';
+	import RadioSpatialViewChirho from '$lib/spatial-chirho/RadioSpatialViewChirho.svelte';
 	import { RadioSessionChirho, initialRadioViewChirho } from './radio_session_chirho';
 	import type { AutoplayPolicyChirho, RadioSessionViewChirho } from './radio_types_chirho';
 	import {
 		widgetStorageChirho,
+		createPreviewStorageChirho,
 		type WidgetOptionsChirho
 	} from '$lib/widget-chirho/widget_options_chirho';
 	let {
@@ -24,9 +26,17 @@
 	let viewChirho = $state(initialRadioViewChirho());
 	let themeIdChirho = $state<RadioThemeIdChirho>('minimal');
 	let aboutOpenChirho = $state(false);
+	let spatialChirho = $state<RadioSpatialViewChirho>();
+	let spatialStateChirho = $state({
+		active_chirho: false,
+		wanted_chirho: false,
+		busy_chirho: false,
+		message_chirho: ''
+	});
 	let storageChirho: PreferenceStorageChirho | null = null;
 	function chooseThemeChirho(valueChirho: RadioThemeIdChirho): void {
 		if (!RADIO_THEMES_CHIRHO.some((entryChirho) => entryChirho.id_chirho === valueChirho)) return;
+		sessionChirho?.feedbackChirho('click');
 		themeIdChirho = valueChirho;
 		try {
 			storageChirho?.setItem(THEME_KEY_CHIRHO, valueChirho);
@@ -36,8 +46,12 @@
 	}
 	onMount(() => {
 		try {
-			storageChirho = window.localStorage;
-			if (widgetChirho) storageChirho = widgetStorageChirho(storageChirho);
+			storageChirho =
+				widgetChirho && widgetOptionsChirho?.preview_chirho
+					? createPreviewStorageChirho()
+					: widgetChirho
+						? widgetStorageChirho(window.localStorage)
+						: window.localStorage;
 			const rememberedChirho = storageChirho?.getItem(THEME_KEY_CHIRHO);
 			if (RADIO_THEMES_CHIRHO.some((entryChirho) => entryChirho.id_chirho === rememberedChirho))
 				themeIdChirho = rememberedChirho as RadioThemeIdChirho;
@@ -132,16 +146,37 @@
 	class="radio-world-chirho"
 	data-radio-theme-chirho={themeIdChirho}
 	data-radio-widget-chirho={widgetChirho ? '' : undefined}
+	data-radio-spatial-chirho={spatialStateChirho.active_chirho}
 >
 	{#if !widgetChirho}<ThemeSceneChirho theme_id_chirho={themeIdChirho} />{/if}
 	<main>
-		<RadioReceiverChirho
-			view_chirho={viewChirho}
-			session_chirho={sessionChirho}
+		<RadioSpatialViewChirho
+			bind:this={spatialChirho}
 			theme_id_chirho={themeIdChirho}
-			on_theme_chirho={chooseThemeChirho}
-			on_about_chirho={() => (aboutOpenChirho = true)}
-		/>
+			widget_chirho={widgetChirho}
+			preview_chirho={widgetOptionsChirho?.preview_chirho ?? false}
+			audio_ready_chirho={viewChirho.state_chirho.phase_chirho === 'playing'}
+			on_change_chirho={(nextChirho) => (spatialStateChirho = nextChirho)}
+		>
+			<RadioReceiverChirho
+				view_chirho={viewChirho}
+				session_chirho={sessionChirho}
+				theme_id_chirho={themeIdChirho}
+				on_theme_chirho={chooseThemeChirho}
+				on_about_chirho={() => {
+					sessionChirho?.feedbackChirho('click');
+					aboutOpenChirho = true;
+				}}
+				spatial_chirho={spatialStateChirho.active_chirho}
+				spatial_wanted_chirho={spatialStateChirho.wanted_chirho}
+				spatial_busy_chirho={spatialStateChirho.busy_chirho}
+				spatial_message_chirho={spatialStateChirho.message_chirho}
+				on_spatial_chirho={() => {
+					spatialChirho?.toggleChirho();
+					sessionChirho?.feedbackChirho('click');
+				}}
+			/>
+		</RadioSpatialViewChirho>
 	</main>
 	{#if widgetChirho}<a
 			class="widget-home-chirho"
@@ -152,7 +187,10 @@
 	<RadioAboutChirho
 		open_chirho={aboutOpenChirho}
 		view_chirho={viewChirho}
-		on_close_chirho={() => (aboutOpenChirho = false)}
+		on_close_chirho={() => {
+			aboutOpenChirho = false;
+			sessionChirho?.feedbackChirho('click');
+		}}
 	/>
 </div>
 

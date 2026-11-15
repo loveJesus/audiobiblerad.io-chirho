@@ -5,10 +5,29 @@ import {
 	readWidgetOptionsChirho,
 	widgetMarkupChirho,
 	widgetStorageChirho,
+	createPreviewStorageChirho,
 	widgetUrlChirho
 } from './widget_options_chirho';
 
 describe('public widget boundary', () => {
+	it('isolates each configurator preview and never publishes the preview option in copied markup', () => {
+		const previewChirho = createPreviewStorageChirho();
+		previewChirho.setItem('preferences_chirho', 'preview');
+		expect(previewChirho.getItem('preferences_chirho')).toBe('preview');
+		expect(createPreviewStorageChirho().getItem('preferences_chirho')).toBeNull();
+		const optionsChirho = readWidgetOptionsChirho(
+			new URLSearchParams('preview_chirho=1&language_chirho=es')
+		);
+		expect(optionsChirho.preview_chirho).toBe(true);
+		expect(widgetMarkupChirho(optionsChirho)).not.toContain('preview_chirho');
+	});
+	it('bounds a preview storage lifetime even if an internal caller supplies growing keys', () => {
+		const previewChirho = createPreviewStorageChirho();
+		for (let indexChirho = 0; indexChirho < 1000; indexChirho++)
+			previewChirho.setItem(`key_${indexChirho}_chirho`, 'temporary');
+		expect(previewChirho.getItem('key_0_chirho')).toBeNull();
+		expect(previewChirho.getItem('key_999_chirho')).toBe('temporary');
+	});
 	it('accepts only supported presentation and language options', () => {
 		expect(
 			readWidgetOptionsChirho(

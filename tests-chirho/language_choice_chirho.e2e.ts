@@ -153,7 +153,9 @@ test('English starts while the language index is held; a later language preserve
 			)
 			.toBe(true);
 		expect(
-			(await mediaStateChirho(pageChirho)).filter((audioChirho) => !audioChirho.paused_chirho)
+			(await mediaStateChirho(pageChirho)).filter(
+				(audioChirho) => !audioChirho.paused_chirho && audioChirho.url_chirho.startsWith('https://')
+			)
 		).toHaveLength(1);
 	} finally {
 		releaseChirho();

@@ -2,12 +2,35 @@
 
 import { resolve as resolveChirho } from 'node:path';
 import { spawnSync as spawnSyncChirho } from 'node:child_process';
+import { readFileSync as readFileChirho, existsSync as existsChirho } from 'node:fs';
+import { parseSoundProfileChirho } from '../../src/lib/sounds-chirho/sound_profile_chirho';
 
 // See spec-chirho/workflows-chirho/release_workflow_chirho.md.
 // Default is a local package inspection. The owner-authorised publication uses --apply-chirho.
 const applyChirho = process.argv.includes('--apply-chirho');
-if (process.argv.slice(2).some((argumentChirho) => argumentChirho !== '--apply-chirho'))
+const requireLicensedChirho = process.argv.includes('--require-licensed-chirho');
+if (
+	process.argv
+		.slice(2)
+		.some(
+			(argumentChirho) => !['--apply-chirho', '--require-licensed-chirho'].includes(argumentChirho)
+		)
+)
 	throw new Error('Unknown release argument');
+if (requireLicensedChirho) {
+	const profileChirho = parseSoundProfileChirho(
+		JSON.parse(readFileChirho('.svelte-kit/cloudflare/sounds-chirho/profile_chirho.json', 'utf8'))
+	);
+	if (profileChirho?.source_chirho !== 'licensed')
+		throw new Error('This release requires the prepared licensed effects');
+	for (const clipChirho of [
+		...profileChirho.tuning_chirho,
+		...profileChirho.click_chirho,
+		...profileChirho.knob_chirho
+	])
+		if (!existsChirho('.svelte-kit/cloudflare' + clipChirho.url_chirho))
+			throw new Error('A licensed app effect is absent from the prepared release');
+}
 const environmentChirho: Record<string, string> = {};
 for (const keyChirho of ['PATH', 'HOME', 'TMPDIR', 'LANG', 'LC_ALL', 'TERM', 'CI']) {
 	const valueChirho = process.env[keyChirho];

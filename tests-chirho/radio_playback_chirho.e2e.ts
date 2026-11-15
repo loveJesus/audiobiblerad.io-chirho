@@ -70,7 +70,7 @@ test('one tap decodes audio, tuning keeps the passage, effects stop, and prefere
 	await expect(pageChirho.getByText('Playback timing', { exact: true })).toBeVisible();
 	await pageChirho.getByRole('button', { name: 'Close about', exact: true }).click();
 	const playingChirho = (await mediaStateChirho(pageChirho)).filter(
-		(audioChirho) => !audioChirho.paused_chirho
+		(audioChirho) => audioChirho.url_chirho.startsWith('https://') && !audioChirho.paused_chirho
 	);
 	expect(playingChirho).toHaveLength(1);
 	expect(playingChirho[0]).toMatchObject({ muted_chirho: false, volume_chirho: 1 });
@@ -332,8 +332,15 @@ test('media failures stop after three fallback chapters and allow an explicit re
 	await expect.poll(() => requestsChirho).toBe(4);
 	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeVisible();
 	expect(
-		(await mediaStateChirho(pageChirho)).every((audioChirho) => audioChirho.paused_chirho)
+		(await mediaStateChirho(pageChirho))
+			.filter((audioChirho) => audioChirho.url_chirho.startsWith('https://'))
+			.every((audioChirho) => audioChirho.paused_chirho)
 	).toBe(true);
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).every((audioChirho) => audioChirho.paused_chirho)
+		)
+		.toBe(true);
 	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect.poll(() => requestsChirho).toBe(8);
 });

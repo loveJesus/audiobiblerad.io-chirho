@@ -1,0 +1,122 @@
+{
+	"measured_on_chirho": "2026-11-15T05:25:05.703238Z",
+	"outcome_chirho": "PREPARED_AND_VERIFIED_NOT_DEPLOYED",
+	"base_commit_chirho": "f69c789",
+	"checkpoint_tag_chirho": "published-radio-widget-2026-11-14-chirho",
+	"gates_chirho": {
+		"svelte_check_errors_chirho": 0,
+		"svelte_check_warnings_chirho": 0,
+		"unit_chirho": {
+			"passed_chirho": 276,
+			"files_chirho": 32
+		},
+		"chromium_browser_chirho": {
+			"passed_chirho": 43,
+			"workers_chirho": 2,
+			"execution_chirho": "Final 43-test run reused the immutable output from the normal build entry; complete JSON result retained locally."
+		},
+		"webkit_browser_chirho": {
+			"passed_chirho": 6,
+			"workers_chirho": 1,
+			"scope_chirho": "Real 3D orbit/native controls, real context loss, unavailable renderer, narrow viewport On cue, prepared effects and wheel scrolling."
+		},
+		"build_chirho": "PASS; performed through the normal e2e build entry; lazy graphics chunks are below the default warning threshold.",
+		"licensed_preparation_chirho": "PASS; 11 cuts, 414760 bytes, source and copied hashes checked.",
+		"release_preflight_chirho": "PASS; require-licensed guard and Wrangler dry-run only; 631.86 KiB Worker, 120.41 KiB gzip.",
+		"lint_chirho": "PASS; whole-tree Prettier and ESLint.",
+		"preview_and_dial_repeat_chirho": {
+			"passed_chirho": 10,
+			"scope_chirho": "Five consecutive configurator cases and five locale/dial cases; actual frame URL, default-language reset and saved-widget preservation checked."
+		}
+	},
+	"behaviors_chirho": [
+		"Native book/chapter/language/version controls remain on the same mounted receiver in both views.",
+		"Changing views, orbiting and losing WebGL context preserve the media element, its load count and advancing playback.",
+		"Automatic view selection waits for Scripture and idle controls, then judges actual rendered frame intervals.",
+		"Explicit simple/3D preferences, reduced motion, renderer failure and denied storage have bounded fallback paths.",
+		"Wheel and Chromium native emulated vertical touch input scroll over the active scene.",
+		"Short tuning and interface channels never loop or stack; disabling sounds silences both. A click released before its queued ended event no longer blocks the next knob step.",
+		"Bundled initial languages start without waiting for the remote language index. The held-index regression failed before the fix and passed after.",
+		"Configurator previews have a fresh frame per URL and bounded temporary preferences; they never overwrite a saved real widget."
+	],
+	"upstream_chirho": {
+		"evidence_chirho": "live_playback_chirho.json",
+		"streams_chirho": 5,
+		"same_first_stream_progress_checked_after_3d_activation_chirho": true,
+		"first_gesture_to_playing_ms_chirho": 235.5,
+		"scripture_saved_chirho": false,
+		"interpretation_chirho": "Chromium media events and an advancing decoder clock. Not acoustic latency or physical-device proof."
+	},
+	"rendered_passes_chirho": [
+		{
+			"pass_chirho": 1,
+			"result_chirho": "Physical case/depth and projected control prototype; found washed metal and raised-control hit testing errors."
+		},
+		{
+			"pass_chirho": 2,
+			"result_chirho": "Refined olive metal, bakelite, rounded knobs, shadows and projection depth; inspected desktop and narrow phone renders."
+		},
+		{
+			"pass_chirho": 3,
+			"result_chirho": "Stable prominent start target, label spacing, first-sound priority and scene scrolling; inspected all four themes at 1280 and 390 pixels plus the physical rear. No horizontal overflow or page errors in these eight captures."
+		}
+	],
+	"review_chirho": {
+		"reviewer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+		"mode_chirho": "Read-only source review, not execution or device acceptance.",
+		"findings_chirho": [
+			{
+				"finding_chirho": "Scene intercepted vertical swipes and the wheel.",
+				"resolution_chirho": "Disabled wheel zoom, preserved pan-y and passed native Chromium touch-input and wheel behavior tests; wheel also passed WebKit."
+			},
+			{
+				"finding_chirho": "Hidden/offscreen warm-up timeout was labelled slow.",
+				"resolution_chirho": "Interrupted warm-up is labelled interrupted; an automatic attempt starts only while visible. No repeated automatic retry."
+			}
+		],
+		"checked_chirho": "One audio owner, deferred automatic selection, token fencing and graphics cleanup; geometry and projection numeric accuracy were outside the reviewer scope."
+	},
+	"earlier_failures_chirho": [
+		{
+			"attempt_chirho": "First full built suite",
+			"passed_chirho": 35,
+			"failed_chirho": 6,
+			"causes_chirho": [
+				"Short click counted as Scripture playback.",
+				"Automatic shader setup competed with first interactions and tuning timers.",
+				"Queued ended event hid a finished click from a new knob step.",
+				"Widget preview intermittently stayed on the previous document after two rapid lazy-iframe URL changes."
+			]
+		},
+		{
+			"attempt_chirho": "Second full built suite",
+			"passed_chirho": 40,
+			"failed_chirho": 1,
+			"cause_chirho": "Widget preview remained English. An initial bundled-language optimization improved startup but did not resolve the separate navigation race.",
+			"resolution_chirho": "A repeat check later found 2 failures / 5, so the first green suite was not treated as final proof. URL tracing showed src already selected Spanish while the actual iframe document still had the earlier URL. Each preview URL now owns its iframe."
+		},
+		{
+			"attempt_chirho": "Intermediate check/lint",
+			"causes_chirho": [
+				"Model resource disposal listener union type error; narrowed resource types.",
+				"Unused initial assignment in render loop; removed.",
+				"New inventory JSON formatting; formatted before final lint."
+			]
+		},
+		{
+			"attempt_chirho": "Later 43-test and focused repetition cuts",
+			"outcomes_chirho": [
+				"One 43-test run passed, but widget repetition then failed 2 of 5.",
+				"Two later broad runs passed 42 of 43 while the locale/dial check used a changing initial dial index and then an incorrect wait code."
+			],
+			"resolution_chirho": "The keyed frame plus temporary storage passes five consecutive preview runs. The locale test waits for the actual loaded index and selected station before reusing its dial value; its five repeats and final complete 43-test run pass."
+		}
+	],
+	"limits_chirho": [
+		"Desktop Chromium and WebKit; narrow viewports and Chromium emulated touch are not physical iOS/Android devices.",
+		"No native app, Watch binary, lock-screen, store, provider or DNS action.",
+		"No new web deployment or SMS. The published widget release remains unchanged.",
+		"Licensed originals and reusable cuts remain ignored and absent from public Git. Public clones use the eleven CC0 fallback sounds.",
+		"The six WebKit tests preceded the final preview-only storage/navigation correction; the complete Chromium run and repeated preview tests cover that correction."
+	]
+}

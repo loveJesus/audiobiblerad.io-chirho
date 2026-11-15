@@ -37,11 +37,23 @@ export async function observeMediaChirho(
 			value: () => policyChirho
 		});
 		const audioElementsChirho: HTMLAudioElement[] = [];
-		Object.assign(window, { audioElementsChirho });
+		const audioLoadCountsChirho = new WeakMap<HTMLAudioElement, number>();
+		const audioPlayCountsChirho = new WeakMap<HTMLAudioElement, number>();
+		Object.assign(window, { audioElementsChirho, audioLoadCountsChirho, audioPlayCountsChirho });
 		window.Audio = new Proxy(window.Audio, {
 			construct(targetChirho, argumentsChirho) {
 				const audioChirho = Reflect.construct(targetChirho, argumentsChirho) as HTMLAudioElement;
 				audioElementsChirho.push(audioChirho);
+				const loadChirho = audioChirho.load.bind(audioChirho);
+				const playChirho = audioChirho.play.bind(audioChirho);
+				audioChirho.play = () => {
+					audioPlayCountsChirho.set(audioChirho, (audioPlayCountsChirho.get(audioChirho) ?? 0) + 1);
+					return playChirho();
+				};
+				audioChirho.load = () => {
+					audioLoadCountsChirho.set(audioChirho, (audioLoadCountsChirho.get(audioChirho) ?? 0) + 1);
+					loadChirho();
+				};
 				return audioChirho;
 			}
 		});

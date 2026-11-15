@@ -32,7 +32,11 @@
 	});
 	const urlChirho = $derived(widgetUrlChirho(optionsChirho));
 	const markupChirho = $derived(widgetMarkupChirho(optionsChirho));
-	const previewUrlChirho = $derived(new URL(urlChirho).pathname + new URL(urlChirho).search);
+	const previewUrlChirho = $derived.by(() => {
+		const previewChirho = new URL(urlChirho);
+		previewChirho.searchParams.set('preview_chirho', '1');
+		return previewChirho.pathname + previewChirho.search;
+	});
 	onMount(() => {
 		readyChirho = true;
 		const libraryChirho = new LanguageLibraryChirho();
@@ -157,15 +161,15 @@
 					<h2 id="preview-title-chirho">Your radio</h2>
 					<a href={urlChirho} target="_blank" rel="external noreferrer">Open on its own ↗</a>
 				</div>
-				<iframe
-					title="Audio Bible Radio widget preview"
-					src={previewUrlChirho}
-					width="100%"
-					height={WIDGET_HEIGHT_CHIRHO}
-					allow="autoplay"
-					loading="lazy"
-					referrerpolicy="no-referrer"
-				></iframe>
+				{#key previewUrlChirho}<iframe
+						title="Audio Bible Radio widget preview"
+						src={previewUrlChirho}
+						width="100%"
+						height={WIDGET_HEIGHT_CHIRHO}
+						allow="autoplay"
+						loading="lazy"
+						referrerpolicy="no-referrer"
+					></iframe>{/key}
 			</section>
 		</div>
 		<section class="setup-notes-chirho">

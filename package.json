@@ -5,8 +5,8 @@
 	"type": "module",
 	"scripts": {
 		"env:local": "bun scripts-chirho/ensure_local_worker_bindings_chirho.ts",
-		"dev": "bun run env:local && bun scripts-chirho/build-cache-chirho/run_chirho.ts dev",
-		"build": "bun run env:local && bun run gen:check && bun scripts-chirho/build-cache-chirho/run_chirho.ts build",
+		"dev": "bun run env:local && bun run sounds:prepare-chirho && bun scripts-chirho/build-cache-chirho/run_chirho.ts dev",
+		"build": "bun run env:local && bun run gen:check && bun run sounds:prepare-chirho && bun scripts-chirho/build-cache-chirho/run_chirho.ts build",
 		"preview": "wrangler dev .svelte-kit/cloudflare/_worker.js --port 4173 --env-file ./wrangler-bindings-chirho.env",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "bun run gen:check && svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
@@ -17,7 +17,8 @@
 		"format": "prettier --write .",
 		"test:unit": "bun scripts-chirho/build-cache-chirho/run_chirho.ts unit",
 		"test": "bun run test:unit -- --run && bun run test:e2e",
-		"test:e2e": "playwright install chromium && playwright test"
+		"test:e2e": "playwright install chromium && playwright test",
+		"sounds:prepare-chirho": "bun scripts-chirho/sounds-chirho/prepare_sounds_chirho.ts"
 	},
 	"devDependencies": {
 		"@eslint/js": "10.0.1",
@@ -29,6 +30,7 @@
 		"@tailwindcss/typography": "0.5.20",
 		"@tailwindcss/vite": "4.3.5",
 		"@types/node": "24.19.2",
+		"@types/three": "0.187.0",
 		"@vitest/browser-playwright": "4.1.12",
 		"eslint": "10.14.0",
 		"eslint-config-prettier": "10.1.8",
@@ -47,5 +49,8 @@
 		"vitest": "4.1.12",
 		"vitest-browser-svelte": "2.2.1",
 		"wrangler": "4.162.0"
+	},
+	"dependencies": {
+		"three": "0.187.0"
 	}
 }

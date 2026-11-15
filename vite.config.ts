@@ -8,6 +8,22 @@ import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig({
 	cacheDir: process.env.RADIO_VITE_CACHE_CHIRHO ?? 'node_modules/.vite',
+	build: {
+		rolldownOptions: {
+			output: {
+				codeSplitting: {
+					groups: [
+						{
+							name: 'radio_graphics_chirho',
+							test: /node_modules[\\/]three[\\/]/,
+							maxSize: 250000,
+							priority: 10
+						}
+					]
+				}
+			}
+		}
+	},
 	plugins: [
 		tailwindcssChirho(),
 		sveltekit({

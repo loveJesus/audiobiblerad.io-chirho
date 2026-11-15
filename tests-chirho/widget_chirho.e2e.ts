@@ -195,6 +195,21 @@ test('the agent guide is publicly readable and the configurator produces the sam
 	expect(responseChirho.headers()['content-type']).toContain('text/plain');
 	expect(responseChirho.headers()['access-control-allow-origin']).toBe('*');
 	expect(await responseChirho.text()).toContain('https://audiobiblerad.io/embed-chirho');
+	const savedChirho = JSON.stringify({
+		station_id_chirho: 'librivox-rva-es',
+		book_id_chirho: 'JHN',
+		chapter_chirho: 3,
+		seconds_chirho: 12,
+		sounds_enabled_chirho: false
+	});
+	await pageChirho.addInitScript(
+		(savedChirho) =>
+			localStorage.setItem(
+				'audio-bible-radio-widget-chirho:audio-bible-radio-preferences-chirho',
+				savedChirho
+			),
+		savedChirho
+	);
 	await pageChirho.goto('/widget-chirho');
 	await pageChirho
 		.getByRole('combobox', { name: 'Radio model', exact: true })
@@ -205,7 +220,28 @@ test('the agent guide is publicly readable and the configurator produces the sam
 	await expect(pageChirho.getByRole('textbox', { name: 'Iframe code', exact: true })).toHaveValue(
 		new RegExp('theme_chirho=cyberpunk&amp;language_chirho=es')
 	);
+	await pageChirho.locator('iframe').scrollIntoViewIfNeeded();
+	await expect
+		.poll(() =>
+			pageChirho.frames().some((frameChirho) => {
+				const urlChirho = new URL(frameChirho.url());
+				return (
+					urlChirho.pathname === '/embed-chirho' &&
+					urlChirho.searchParams.get('language_chirho') === 'es'
+				);
+			})
+		)
+		.toBe(true);
 	await expect(
 		pageChirho.frameLocator('iframe').getByRole('combobox', { name: 'Language', exact: true })
 	).toHaveValue('es');
+	await pageChirho.getByRole('combobox', { name: /Starting language/ }).selectOption('');
+	await expect(
+		pageChirho.frameLocator('iframe').getByRole('combobox', { name: 'Language', exact: true })
+	).toHaveValue('en');
+	expect(
+		await pageChirho.evaluate(() =>
+			localStorage.getItem('audio-bible-radio-widget-chirho:audio-bible-radio-preferences-chirho')
+		)
+	).toBe(savedChirho);
 });

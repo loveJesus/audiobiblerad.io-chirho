@@ -12,7 +12,11 @@ Additional permission under GNU GPL version 3 section 7: if you convey this prog
 
 ## Radio sounds
 
-To the extent possible under law, L.J. (Love Jesus) dedicates all copyright and related rights held by the project in the radio's sounds to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/. These are the nine tuning and dial sounds synthesised by `scripts-chirho/generate_radio_sounds_chirho.ts`, and the files it writes. You may copy, modify and redistribute them, including commercially, without permission or required attribution. The full legal text is in CC0-1.0-chirho.txt.
+To the extent possible under law, L.J. (Love Jesus) dedicates all copyright and related rights held by the project in the radio's sounds to the public domain under CC0 1.0 Universal: https://creativecommons.org/publicdomain/zero/1.0/. These are the eleven original sounds the project synthesises from fixed numbers, with no recorded, supplied or downloaded audio: the nine tuning and dial sounds written by `scripts-chirho/generate_radio_sounds_chirho.ts`, and the click and knob sounds written by `scripts-chirho/sounds-chirho/generate_interface_sounds_chirho.ts` to `static/sounds-chirho/interface-chirho/`. You may copy, modify and redistribute them, including commercially, without permission or required attribution. The full legal text is in CC0-1.0-chirho.txt.
+
+## Licensed sound effects in the published radio
+
+The radio published at https://audiobiblerad.io may also play a few short tuning, click and knob effects cut from sound samples licensed to the project from Splice. Those effects and the samples they come from are not in this repository and are not covered by the GPL or the CC0 dedication above. They are used under Splice's licence as sound effects within this app. No right in them is granted to anyone else: they may not be extracted, reused or redistributed, on their own or as samples. A copy built from this repository plays the original CC0 sounds above in their place.
 
 ## Radio artwork
 

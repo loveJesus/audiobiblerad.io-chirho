@@ -25,16 +25,19 @@ if (
 const languagesProbeChirho = process.argv.includes('--languages-chirho');
 const experienceProbeChirho = process.argv.includes('--experience-chirho');
 const widgetProbeChirho = process.argv.includes('--widget-chirho');
+const spatialProbeChirho = process.argv.includes('--spatial-chirho');
 const evidenceDirectoryChirho = new URL(
-	widgetProbeChirho
-		? '../spec-chirho/evidence-chirho/widget-release-chirho/'
-		: productionProbeChirho || workersDevProbeChirho
-			? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
-			: experienceProbeChirho
-				? '../spec-chirho/evidence-chirho/radio-experience-chirho/'
-				: languagesProbeChirho
-					? '../spec-chirho/evidence-chirho/language-radio-chirho/'
-					: '../spec-chirho/evidence-chirho/web-radio-chirho/',
+	spatialProbeChirho
+		? '../spec-chirho/evidence-chirho/spatial-radio-chirho/'
+		: widgetProbeChirho
+			? '../spec-chirho/evidence-chirho/widget-release-chirho/'
+			: productionProbeChirho || workersDevProbeChirho
+				? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
+				: experienceProbeChirho
+					? '../spec-chirho/evidence-chirho/radio-experience-chirho/'
+					: languagesProbeChirho
+						? '../spec-chirho/evidence-chirho/language-radio-chirho/'
+						: '../spec-chirho/evidence-chirho/web-radio-chirho/',
 	import.meta.url
 );
 mkdirSync(evidenceDirectoryChirho, { recursive: true });
@@ -121,6 +124,10 @@ pageChirho.on('response', (responseChirho) => {
 });
 
 try {
+	if (spatialProbeChirho)
+		await pageChirho.addInitScript(() => {
+			localStorage.setItem('audio-bible-radio-view-chirho', 'simple');
+		});
 	await pageChirho.addInitScript(() => {
 		Object.defineProperty(navigator, 'getAutoplayPolicy', { value: () => 'disallowed' });
 		const elementsChirho: HTMLAudioElement[] = [];
@@ -209,6 +216,13 @@ try {
 		await verifyProgressChirho();
 	};
 	await waitForStreamsChirho(1);
+	if (spatialProbeChirho) {
+		await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).check();
+		await pageChirho
+			.locator('.spatial-view-chirho[data-spatial-active-chirho="true"]')
+			.waitFor({ timeout: 20000 });
+		await verifyProgressChirho();
+	}
 	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
 	await waitForStreamsChirho(2);
 	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('hi');
@@ -248,7 +262,11 @@ try {
 			active_chirho: traceChirho.elements_chirho
 				.filter((audioChirho) => !audioChirho.paused)
 				.map((audioChirho) => audioChirho.currentSrc),
-			viewport_fits_chirho: document.documentElement.scrollWidth <= window.innerWidth
+			viewport_fits_chirho: document.documentElement.scrollWidth <= window.innerWidth,
+			spatial_active_chirho:
+				document
+					.querySelector('.spatial-view-chirho')
+					?.getAttribute('data-spatial-active-chirho') === 'true'
 		};
 	});
 	const seenChirho = new Set<string>();
@@ -312,10 +330,11 @@ try {
 	if (
 		measurementsChirho.length !== (languagesProbeChirho ? 5 : 4) ||
 		errorsChirho.length ||
-		traceChirho.element_count_chirho !== 2 ||
+		traceChirho.element_count_chirho > 3 ||
 		traceChirho.active_chirho.length !== 1 ||
 		!traceChirho.active_chirho[0].startsWith('https://') ||
 		!traceChirho.viewport_fits_chirho ||
+		(spatialProbeChirho && !traceChirho.spatial_active_chirho) ||
 		measurementsChirho.some(
 			(eventChirho) =>
 				eventChirho.muted_chirho ||

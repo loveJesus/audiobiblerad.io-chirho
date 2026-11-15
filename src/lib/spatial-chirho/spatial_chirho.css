@@ -1,0 +1,133 @@
+/* For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) */
+
+.spatial-view-chirho {
+	position: relative;
+	isolation: isolate;
+	width: 100%;
+}
+.spatial-face-chirho {
+	width: min(100%, 568px);
+	margin: auto;
+	position: relative;
+}
+.radio-geometry-chirho {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	pointer-events: none;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] {
+	height: max(820px, 100svh);
+	overflow: hidden;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .radio-geometry-chirho {
+	opacity: 1;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .spatial-face-chirho {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform-origin: 0 0;
+	transform-style: preserve-3d;
+	width: min(568px, calc(100% - 28px));
+	margin: 0;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .radio-chirho {
+	background: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+	border-radius: 0;
+	isolation: auto;
+	overflow: visible;
+	padding: 24px !important;
+	transform-style: preserve-3d;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .radio-chirho::before,
+.spatial-view-chirho[data-spatial-active-chirho='true'] .dial-track-chirho::before {
+	display: none !important;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .display-chirho,
+.spatial-view-chirho[data-spatial-active-chirho='true'] .dial-track-chirho {
+	background: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .selector-knob-chirho,
+.spatial-view-chirho[data-spatial-active-chirho='true'] .power-chirho {
+	background: transparent !important;
+	border-color: transparent !important;
+	box-shadow: none !important;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .knob-pointer-chirho {
+	visibility: hidden;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true']
+	:is(.selector-row-chirho, .knob-control-chirho, .knob-dial-chirho, .power-well-chirho) {
+	transform-style: preserve-3d;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .selector-knob-chirho {
+	transform: translateZ(24px);
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .power-chirho {
+	transform: translateZ(8px);
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .speaker-grille-chirho {
+	display: block !important;
+	height: 32px;
+	background: transparent;
+	opacity: 1;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .credit-chirho {
+	font-size: 13px;
+}
+.camera-controls-chirho {
+	position: absolute;
+	bottom: 12px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 10px;
+	z-index: 2;
+	width: max-content;
+	max-width: 95%;
+	padding: 8px 14px;
+	border-radius: 12px;
+	color: var(--radio-page-ink-chirho);
+	background: var(--radio-page-chirho);
+	font:
+		11px/1.4 system-ui,
+		sans-serif;
+	box-shadow: 0 4px 20px #0002;
+}
+.camera-controls-chirho button {
+	padding: 9px 12px;
+	border: 1px solid currentColor;
+	border-radius: 7px;
+	cursor: pointer;
+}
+.camera-controls-chirho button:focus-visible {
+	outline: 3px solid var(--radio-focus-chirho);
+	outline-offset: 3px;
+}
+.radio-world-chirho[data-radio-spatial-chirho='true'] {
+	padding: 0 !important;
+	display: block;
+}
+.radio-world-chirho[data-radio-widget-chirho][data-radio-spatial-chirho='true']
+	.spatial-view-chirho {
+	height: 820px;
+}
+@media (max-width: 480px) {
+	.camera-controls-chirho span {
+		width: 100%;
+		text-align: center;
+	}
+	.spatial-view-chirho[data-spatial-active-chirho='true'] .radio-chirho {
+		padding: 18px !important;
+	}
+}
