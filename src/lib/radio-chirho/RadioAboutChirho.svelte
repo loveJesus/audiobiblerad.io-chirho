@@ -81,6 +81,7 @@
 		</details>
 	{/if}
 	<div class="about-links-chirho">
+		<a href={resolvePathChirho('/widget-chirho')}>Embed this radio</a>
 		<a href={resolvePathChirho('/credits-chirho')}>Recording credits</a><a
 			href="https://github.com/loveJesus/audiobiblerad.io-chirho"
 			target="_blank"

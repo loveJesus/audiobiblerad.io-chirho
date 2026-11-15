@@ -11,6 +11,14 @@
 	import RadioAboutChirho from './RadioAboutChirho.svelte';
 	import { RadioSessionChirho, initialRadioViewChirho } from './radio_session_chirho';
 	import type { AutoplayPolicyChirho, RadioSessionViewChirho } from './radio_types_chirho';
+	import {
+		widgetStorageChirho,
+		type WidgetOptionsChirho
+	} from '$lib/widget-chirho/widget_options_chirho';
+	let {
+		widget_chirho: widgetChirho = false,
+		widget_options_chirho: widgetOptionsChirho
+	}: { widget_chirho?: boolean; widget_options_chirho?: WidgetOptionsChirho } = $props();
 	const THEME_KEY_CHIRHO = 'audio-bible-radio-theme-chirho';
 	let sessionChirho = $state<RadioSessionChirho>();
 	let viewChirho = $state(initialRadioViewChirho());
@@ -29,12 +37,14 @@
 	onMount(() => {
 		try {
 			storageChirho = window.localStorage;
-			const rememberedChirho = storageChirho.getItem(THEME_KEY_CHIRHO);
+			if (widgetChirho) storageChirho = widgetStorageChirho(storageChirho);
+			const rememberedChirho = storageChirho?.getItem(THEME_KEY_CHIRHO);
 			if (RADIO_THEMES_CHIRHO.some((entryChirho) => entryChirho.id_chirho === rememberedChirho))
 				themeIdChirho = rememberedChirho as RadioThemeIdChirho;
 		} catch {
 			/* Listening works without storage. */
 		}
+		if (widgetOptionsChirho?.theme_chirho) themeIdChirho = widgetOptionsChirho.theme_chirho;
 		const audioChirho = new Audio();
 		let metadataKeyChirho = '';
 		const updateMediaChirho = (nextChirho: RadioSessionViewChirho): void => {
@@ -69,7 +79,10 @@
 			browser_languages_chirho: navigator.languages.length
 				? navigator.languages
 				: [navigator.language],
+			initial_language_chirho: widgetOptionsChirho?.language_chirho,
+			default_sounds_chirho: widgetChirho ? false : undefined,
 			autoplay_policy_chirho: () => {
+				if (widgetChirho && !widgetOptionsChirho?.autoplay_chirho) return 'disallowed';
 				const navigatorChirho = navigator as Navigator & {
 					getAutoplayPolicy?: (elementChirho: HTMLMediaElement) => AutoplayPolicyChirho;
 				};
@@ -115,8 +128,12 @@
 	});
 </script>
 
-<div class="radio-world-chirho" data-radio-theme-chirho={themeIdChirho}>
-	<ThemeSceneChirho theme_id_chirho={themeIdChirho} />
+<div
+	class="radio-world-chirho"
+	data-radio-theme-chirho={themeIdChirho}
+	data-radio-widget-chirho={widgetChirho ? '' : undefined}
+>
+	{#if !widgetChirho}<ThemeSceneChirho theme_id_chirho={themeIdChirho} />{/if}
 	<main>
 		<RadioReceiverChirho
 			view_chirho={viewChirho}
@@ -126,6 +143,12 @@
 			on_about_chirho={() => (aboutOpenChirho = true)}
 		/>
 	</main>
+	{#if widgetChirho}<a
+			class="widget-home-chirho"
+			href="https://audiobiblerad.io/"
+			target="_blank"
+			rel="noreferrer">Open Audio Bible Radio ↗</a
+		>{/if}
 	<RadioAboutChirho
 		open_chirho={aboutOpenChirho}
 		view_chirho={viewChirho}
@@ -146,6 +169,16 @@
 	main {
 		width: 100%;
 		margin: auto;
+	}
+	.widget-home-chirho {
+		color: var(--radio-page-ink-chirho, #292e2b);
+		font:
+			10px/1.5 system-ui,
+			sans-serif;
+		text-align: center;
+		margin: 10px auto 0;
+		text-decoration: underline;
+		text-underline-offset: 3px;
 	}
 	@media (max-width: 480px) {
 		.radio-world-chirho {

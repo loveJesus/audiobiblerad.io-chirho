@@ -24,14 +24,17 @@ if (
 	);
 const languagesProbeChirho = process.argv.includes('--languages-chirho');
 const experienceProbeChirho = process.argv.includes('--experience-chirho');
+const widgetProbeChirho = process.argv.includes('--widget-chirho');
 const evidenceDirectoryChirho = new URL(
-	productionProbeChirho || workersDevProbeChirho
-		? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
-		: experienceProbeChirho
-			? '../spec-chirho/evidence-chirho/radio-experience-chirho/'
-			: languagesProbeChirho
-				? '../spec-chirho/evidence-chirho/language-radio-chirho/'
-				: '../spec-chirho/evidence-chirho/web-radio-chirho/',
+	widgetProbeChirho
+		? '../spec-chirho/evidence-chirho/widget-release-chirho/'
+		: productionProbeChirho || workersDevProbeChirho
+			? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
+			: experienceProbeChirho
+				? '../spec-chirho/evidence-chirho/radio-experience-chirho/'
+				: languagesProbeChirho
+					? '../spec-chirho/evidence-chirho/language-radio-chirho/'
+					: '../spec-chirho/evidence-chirho/web-radio-chirho/',
 	import.meta.url
 );
 mkdirSync(evidenceDirectoryChirho, { recursive: true });

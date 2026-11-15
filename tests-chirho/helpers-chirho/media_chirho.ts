@@ -1,6 +1,6 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
-import type { Page } from '@playwright/test';
+import type { Page, Frame } from '@playwright/test';
 
 // A tiny generated test tone exercises the real browser decoder without copying Scripture.
 export function fixtureWaveChirho(durationChirho = 15): Buffer {
@@ -48,7 +48,7 @@ export async function observeMediaChirho(
 	}, policyChirho);
 }
 
-export async function mediaStateChirho(pageChirho: Page) {
+export async function mediaStateChirho(pageChirho: Page | Frame) {
 	return pageChirho.evaluate(() => {
 		const elementsChirho = (window as unknown as { audioElementsChirho: HTMLAudioElement[] })
 			.audioElementsChirho;

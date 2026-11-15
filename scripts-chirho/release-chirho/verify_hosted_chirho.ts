@@ -13,13 +13,20 @@ import { CATALOGUE_CHIRHO } from '../../src/lib/catalogue-chirho/catalogue_chirh
 // See spec-chirho/workflows-chirho/release_workflow_chirho.md.
 // Only this project's own assets are fetched: four requests at a time, no source Scripture.
 const workersDevChirho = process.argv.includes('--workers-dev-chirho');
-if (process.argv.slice(2).some((argumentChirho) => argumentChirho !== '--workers-dev-chirho'))
+const widgetReleaseChirho = process.argv.includes('--widget-chirho');
+if (
+	process.argv
+		.slice(2)
+		.some((argumentChirho) => !['--workers-dev-chirho', '--widget-chirho'].includes(argumentChirho))
+)
 	throw new Error('Unknown hosted-verification argument');
 const originChirho = workersDevChirho
 	? 'https://audiobiblerad-io-chirho.lovejesus.workers.dev'
 	: 'https://audiobiblerad.io';
 const rootChirho = '.svelte-kit/cloudflare';
-const evidenceChirho = 'spec-chirho/evidence-chirho/web-release-chirho';
+const evidenceChirho = widgetReleaseChirho
+	? 'spec-chirho/evidence-chirho/widget-release-chirho'
+	: 'spec-chirho/evidence-chirho/web-release-chirho';
 async function saveEvidenceChirho(resultChirho: unknown): Promise<void> {
 	await mkdirChirho(evidenceChirho, { recursive: true });
 	await writeFileChirho(
@@ -101,6 +108,7 @@ const routesChirho: Array<{ path_chirho: string; status_chirho: number; valid_ch
 for (const pathChirho of [
 	'/credits-chirho',
 	'/catalogue-chirho',
+	...(widgetReleaseChirho ? ['/embed-chirho', '/widget-chirho', '/llms.txt'] : []),
 	'/_worker.js',
 	'/.env',
 	'/workspace-chirho/private-chirho/26-11-13-owner-words-chirho.md'
@@ -110,7 +118,14 @@ for (const pathChirho of [
 		signal: AbortSignal.timeout(15000)
 	});
 	const textChirho = await responseChirho.text();
-	const publicRouteChirho = ['/', '/credits-chirho', '/catalogue-chirho'].includes(pathChirho);
+	const publicRouteChirho = [
+		'/',
+		'/credits-chirho',
+		'/catalogue-chirho',
+		'/embed-chirho',
+		'/widget-chirho',
+		'/llms.txt'
+	].includes(pathChirho);
 	let validChirho = responseChirho.status === (publicRouteChirho ? 200 : 404);
 	if (pathChirho === '/catalogue-chirho')
 		validChirho &&=
@@ -119,6 +134,19 @@ for (const pathChirho of [
 			responseChirho.headers.get('access-control-allow-origin') === '*';
 	if (pathChirho === '/credits-chirho')
 		validChirho &&= textChirho.includes('CC0') && textChirho.includes('Creative Commons');
+	if (pathChirho === '/embed-chirho')
+		validChirho &&=
+			responseChirho.headers.get('content-security-policy')?.includes('frame-ancestors *') ===
+				true &&
+			!responseChirho.headers.has('x-frame-options') &&
+			textChirho.includes('data-radio-widget-chirho');
+	if (pathChirho === '/llms.txt')
+		validChirho &&=
+			responseChirho.headers.get('content-type')?.includes('text/plain') === true &&
+			responseChirho.headers.get('access-control-allow-origin') === '*' &&
+			textChirho.includes('https://audiobiblerad.io/embed-chirho');
+	if (pathChirho === '/widget-chirho')
+		validChirho &&= textChirho.includes('https://audiobiblerad.io/llms.txt');
 	routesChirho.push({
 		path_chirho: pathChirho,
 		status_chirho: responseChirho.status,

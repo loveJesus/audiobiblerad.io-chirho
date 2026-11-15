@@ -61,6 +61,8 @@ interface SessionOptionsChirho {
 	audio_chirho: HTMLAudioElement;
 	sounds_chirho: RadioSoundsChirho;
 	browser_languages_chirho: readonly string[];
+	initial_language_chirho?: string;
+	default_sounds_chirho?: boolean;
 	autoplay_policy_chirho(): AutoplayPolicyChirho;
 	on_change_chirho(viewChirho: RadioSessionViewChirho): void;
 	fetch_chirho?: typeof fetch;
@@ -152,7 +154,17 @@ export class RadioSessionChirho {
 		}
 	}
 	async startChirho(): Promise<void> {
-		if (this.rememberedChirho.remembered_chirho) {
+		const preferredLanguagesChirho = this.optionsChirho.initial_language_chirho
+			? [this.optionsChirho.initial_language_chirho]
+			: this.optionsChirho.browser_languages_chirho;
+		const rememberedLanguageChirho =
+			findStationChirho(this.rememberedChirho.preferences_chirho.station_id_chirho)
+				?.language_code_chirho ?? this.rememberedChirho.preferences_chirho.language_code_chirho;
+		if (
+			this.rememberedChirho.remembered_chirho &&
+			(!this.optionsChirho.initial_language_chirho ||
+				this.optionsChirho.initial_language_chirho === rememberedLanguageChirho)
+		) {
 			const rememberedChirho = this.rememberedChirho.preferences_chirho;
 			if (findStationChirho(rememberedChirho.station_id_chirho)) {
 				const codeChirho = rememberedChirho.dial_language_chirho;
@@ -165,10 +177,7 @@ export class RadioSessionChirho {
 			} else await this.restoreChirho();
 		} else {
 			const requestChirho = ++this.selectionChirho;
-			let codeChirho = matchBrowserLanguageChirho(
-				this.optionsChirho.browser_languages_chirho.slice(0, 1),
-				['en']
-			);
+			let codeChirho = matchBrowserLanguageChirho(preferredLanguagesChirho.slice(0, 1), ['en']);
 			let stationsChirho: readonly StationChirho[] = stationsInLanguageChirho('en', []);
 			if (!codeChirho) {
 				let timerChirho: ReturnType<typeof setTimeout> | undefined;
@@ -185,7 +194,7 @@ export class RadioSessionChirho {
 								return;
 							this.emitChirho({ languages_chirho: languagesChirho });
 							const matchChirho = matchBrowserLanguageChirho(
-								this.optionsChirho.browser_languages_chirho,
+								preferredLanguagesChirho,
 								languagesChirho.map((languageChirho) => languageChirho.code_chirho)
 							);
 							if (!matchChirho) return;
@@ -210,7 +219,7 @@ export class RadioSessionChirho {
 					if (requestChirho === this.selectionChirho) this.libraryChirho.cancelSelectionChirho();
 					codeChirho =
 						matchBrowserLanguageChirho(
-							this.optionsChirho.browser_languages_chirho,
+							preferredLanguagesChirho,
 							this.viewChirho.languages_chirho
 								.filter(
 									(languageChirho) =>
@@ -231,6 +240,7 @@ export class RadioSessionChirho {
 			this.initializeChirho(
 				{
 					...defaultPreferencesChirho(),
+					sounds_enabled_chirho: this.optionsChirho.default_sounds_chirho ?? true,
 					station_id_chirho: initialChirho.id_chirho,
 					language_code_chirho: initialChirho.language_code_chirho,
 					dial_language_chirho: initialChirho.language_code_chirho

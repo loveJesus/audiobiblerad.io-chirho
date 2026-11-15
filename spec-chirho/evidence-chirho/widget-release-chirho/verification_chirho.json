@@ -1,0 +1,46 @@
+{
+	"measured_on_chirho": "2026-11-15T02:13:00.590940+00:00",
+	"scope_chirho": "Radio experience and outside-site widget, including the existing four receiver models. Publication and real-source outside-frame playback are recorded separately.",
+	"check_chirho": {
+		"errors_chirho": 0,
+		"warnings_chirho": 0
+	},
+	"lint_chirho": "PASS",
+	"unit_component_chirho": {
+		"files_chirho": 26,
+		"tests_chirho": 221,
+		"outcome_chirho": "PASS"
+	},
+	"browser_chirho": {
+		"tests_chirho": 34,
+		"outcome_chirho": "PASS",
+		"widget_tests_chirho": 5,
+		"scope_chirho": "Real separate-origin HTTP host and browser media decoder with deterministic tone fixtures; includes parent CSP denial, denied third-party storage, isolated preferences, visible credits and all four models at 320px."
+	},
+	"build_chirho": "PASS",
+	"dry_run_chirho": "PASS; existing Worker, ASSETS only, no provider mutation",
+	"rendered_refinement_chirho": {
+		"passes_chirho": 3,
+		"corrections_chirho": [
+			"Compact frame padding retains space above the artwork grille and visible credits.",
+			"Setup controls wait for hydration and align labels/help text; selected model/language agree with the preview.",
+			"Final built preview checked at desktop and mobile sizes. Long full-page iframe screenshot clipping was distinguished from the actual viewport, which renders the complete field receiver."
+		],
+		"private_render_retained_chirho": true
+	},
+	"initial_failures_chirho": [
+		{
+			"phase_chirho": "Browser fixture",
+			"result_chirho": "A route-intercepted fake parent could not access a loopback child under Chromium Local Network Access. Replaced with a real HTTP parent on a separate port; no browser security bypass."
+		},
+		{
+			"phase_chirho": "Rendered screenshot",
+			"result_chirho": "An early screenshot timed out during concurrent build/HMR. Final proof was captured from the completed built preview."
+		}
+	],
+	"limits_chirho": [
+		"Fixture playback does not prove source-host availability or physical speaker output. Separate production probes cover actual streams.",
+		"No physical iPhone, Android, watch, acoustic output, full-library or every-source acceptance.",
+		"Supplied WAVs stay private pending provenance; this release uses the original synthesized sound effects."
+	]
+}

@@ -15,6 +15,8 @@ function setupSessionChirho(
 	optionsChirho: {
 		languages_chirho?: string[];
 		policy_chirho?: AutoplayPolicyChirho;
+		initial_language_chirho?: string;
+		default_sounds_chirho?: boolean;
 		saved_chirho?: Map<string, string>;
 		fetch_chirho?: typeof fetch;
 	} = {}
@@ -49,6 +51,8 @@ function setupSessionChirho(
 			}
 		},
 		browser_languages_chirho: optionsChirho.languages_chirho ?? ['en-US'],
+		initial_language_chirho: optionsChirho.initial_language_chirho,
+		default_sounds_chirho: optionsChirho.default_sounds_chirho,
 		autoplay_policy_chirho: () => optionsChirho.policy_chirho ?? 'disallowed',
 		fetch_chirho: fetchChirho,
 		on_change_chirho: vi.fn()
@@ -68,6 +72,18 @@ afterEach(() => {
 });
 
 describe('radio startup and power', () => {
+	it('a configured widget language overrides a remembered different language and can default quiet', async () => {
+		const fixtureChirho = setupSessionChirho({
+			initial_language_chirho: 'es',
+			default_sounds_chirho: false,
+			saved_chirho: new Map([[PREFERENCES_KEY_CHIRHO, JSON.stringify(defaultPreferencesChirho())]])
+		});
+		await fixtureChirho.session_chirho.startChirho();
+		expect(fixtureChirho.session_chirho.stationChirho.language_code_chirho).toBe('es');
+		expect(fixtureChirho.session_chirho.snapshotChirho.state_chirho.sounds_enabled_chirho).toBe(
+			false
+		);
+	});
 	it('respects the first browser preference ahead of English and keeps all narrations', async () => {
 		const fixtureChirho = setupSessionChirho({ languages_chirho: ['es-MX', 'en-US'] });
 		await fixtureChirho.session_chirho.startChirho();

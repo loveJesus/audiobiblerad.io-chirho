@@ -1,0 +1,124 @@
+/* For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) */
+
+/* A compact presentation of the same controls and controller, isolated in its own origin's iframe. */
+[data-radio-widget-chirho].radio-world-chirho {
+	--radio-art-unit-chirho: 0.2px;
+	min-height: 0;
+	padding: 8px;
+	display: block;
+}
+[data-radio-widget-chirho].radio-world-chirho .radio-chirho {
+	max-width: 544px;
+}
+[data-radio-widget-chirho].radio-world-chirho[data-radio-theme-chirho='minimal'] .radio-chirho {
+	padding: 18px 20px 16px;
+}
+[data-radio-widget-chirho].radio-world-chirho:not([data-radio-theme-chirho='minimal'])
+	.radio-chirho {
+	padding: calc(var(--radio-body-pad-top-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-pad-side-chirho) * var(--radio-art-unit-chirho))
+		calc(var(--radio-body-pad-bottom-chirho) * var(--radio-art-unit-chirho));
+}
+[data-radio-widget-chirho].radio-world-chirho .radio-top-chirho {
+	margin-bottom: 12px;
+	gap: 8px;
+}
+[data-radio-widget-chirho].radio-world-chirho .radio-brand-chirho h1 {
+	font-size: 10px;
+	letter-spacing: 0.12em;
+}
+[data-radio-widget-chirho].radio-world-chirho .radio-model-chirho {
+	font-size: 8px;
+}
+[data-radio-widget-chirho].radio-world-chirho .display-chirho {
+	padding: 10px 14px;
+}
+[data-radio-widget-chirho].radio-world-chirho .display-top-chirho {
+	margin-bottom: 6px;
+	font-size: 7px;
+}
+[data-radio-widget-chirho].radio-world-chirho .station-language-chirho {
+	font-size: 28px;
+}
+[data-radio-widget-chirho].radio-world-chirho .voice-label-chirho {
+	margin: 3px 0 8px;
+}
+[data-radio-widget-chirho].radio-world-chirho .passage-display-chirho {
+	padding-top: 8px;
+	font-size: 14px;
+}
+[data-radio-widget-chirho].radio-world-chirho .tuning-chirho {
+	margin-top: 14px;
+}
+[data-radio-widget-chirho].radio-world-chirho .tuning-caption-chirho {
+	font-size: 7px;
+}
+[data-radio-widget-chirho].radio-world-chirho .tuning-controls-chirho {
+	padding-top: 8px;
+	gap: 10px;
+}
+[data-radio-widget-chirho].radio-world-chirho .selector-row-chirho {
+	padding: 0;
+	margin: 18px 0 10px;
+	gap: 10px;
+}
+[data-radio-widget-chirho].radio-world-chirho .knob-title-chirho {
+	font-size: 9px;
+}
+[data-radio-widget-chirho].radio-world-chirho .knob-dial-chirho {
+	width: 88px;
+	height: 88px;
+}
+[data-radio-widget-chirho].radio-world-chirho .selector-knob-chirho {
+	width: 62px;
+	height: 62px;
+}
+[data-radio-widget-chirho].radio-world-chirho .knob-endpoints-chirho {
+	font-size: 7px;
+}
+[data-radio-widget-chirho].radio-world-chirho .knob-control-chirho .label-select-chirho {
+	font-size: 11px;
+}
+[data-radio-widget-chirho].radio-world-chirho .power-chirho {
+	width: 72px;
+	height: 72px;
+}
+[data-radio-widget-chirho].radio-world-chirho .power-symbol-chirho {
+	font-size: 24px;
+}
+[data-radio-widget-chirho].radio-world-chirho .radio-bottom-chirho {
+	margin-top: 10px;
+	padding-top: 6px;
+}
+[data-radio-widget-chirho].radio-world-chirho .speaker-grille-chirho {
+	margin-top: 8px;
+	height: 12px;
+}
+[data-radio-widget-chirho].radio-world-chirho .credit-chirho {
+	font-size: 10px;
+	margin-top: 8px;
+	overflow-wrap: anywhere;
+}
+[data-radio-widget-chirho].radio-world-chirho .coverage-chirho {
+	font-size: 9px;
+}
+[data-radio-widget-chirho].radio-world-chirho .status-message-chirho:empty {
+	display: none;
+}
+@media (max-width: 359px) {
+	[data-radio-widget-chirho].radio-world-chirho .radio-chirho {
+		padding-left: 12px;
+		padding-right: 12px;
+	}
+	[data-radio-widget-chirho].radio-world-chirho .selector-row-chirho {
+		gap: 4px;
+	}
+	[data-radio-widget-chirho].radio-world-chirho .knob-dial-chirho {
+		width: 78px;
+		height: 78px;
+	}
+	[data-radio-widget-chirho].radio-world-chirho .power-chirho {
+		width: 64px;
+		height: 64px;
+	}
+}
