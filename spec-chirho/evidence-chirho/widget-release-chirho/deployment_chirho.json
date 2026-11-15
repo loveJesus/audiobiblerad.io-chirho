@@ -1,0 +1,36 @@
+{
+	"measured_on_chirho": "2026-11-15T02:15:21.325Z",
+	"worker_chirho": "audiobiblerad-io-chirho",
+	"source_commit_chirho": "418b5f9",
+	"version_chirho": "c1a2a7a3-e27a-4c65-9143-2bc5e14b8018",
+	"percentage_chirho": 100,
+	"prior_version_chirho": "1535e80b-a253-463b-a24b-5a08041fd322",
+	"prior_package_verified_and_retained_chirho": true,
+	"prepared_package_verified_and_retained_chirho": true,
+	"command_exit_chirho": 0,
+	"deployment_readback_chirho": "PASS",
+	"public_verification_chirho": "PASS",
+	"dns_changed_chirho": false,
+	"provider_created_chirho": false,
+	"public_hosts_chirho": [
+		{
+			"origin_chirho": "https://audiobiblerad.io",
+			"status_chirho": 200,
+			"home_bytes_chirho": 19072,
+			"home_sha256_chirho": "39ec54dd294a12d0d53626605c3e6176bc336566962aa3804e95508ecbd2806b"
+		},
+		{
+			"origin_chirho": "https://www.audiobiblerad.io",
+			"status_chirho": 200,
+			"home_bytes_chirho": 19072,
+			"home_sha256_chirho": "39ec54dd294a12d0d53626605c3e6176bc336566962aa3804e95508ecbd2806b"
+		}
+	],
+	"asset_count_chirho": 437,
+	"asset_bytes_chirho": 2820508,
+	"main_real_stream_count_chirho": 5,
+	"outside_frame_real_stream_count_chirho": 2,
+	"source_media_saved_chirho": false,
+	"instruction_delivery_chirho": "Owner-authorized send completed once through the existing messaging app; exact recipient, body, timestamps and readback are private. No read or recipient action is claimed.",
+	"limits_chirho": "Controlled browser/HTTP proof, not acoustic, physical-device, full-library or native/store acceptance."
+}

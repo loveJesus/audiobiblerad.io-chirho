@@ -26,11 +26,17 @@ is in [`spec-chirho/evidence-chirho/web-release-chirho/`](spec-chirho/evidence-c
 
 ## Radio controls and skins
 
-The current source adds book and chapter knobs, caption dropdowns, language/version/voice labels and an FM station dial. It has On/Off, a compact About dialog, browser-language selection for a first visit and four remembered models: Minimal, 1980s Digital by a fjord, Field Radio by a forest river and Cyberpunk in a rainy city. The three character radios use GPT Image 2.6 raster artwork. Rain and water rings respect reduced motion and pause in a hidden tab.
+The web radio has book and chapter knobs, caption dropdowns, language/version/voice labels and an FM station dial. It has On/Off, a compact About dialog, browser-language selection for a first visit and four remembered models: Minimal, 1980s Digital by a fjord, Field Radio by a forest river and Cyberpunk in a rainy city. The three character radios use GPT Image 2.6 raster artwork. Rain and water rings respect reduced motion and pause in a hidden tab.
 
 Audible autoplay is attempted where the browser permits it. Otherwise PRESS HERE points to On. An explicit Off stays off when reopened. The original tuning cue plays once per deliberate tune, without repeating during recovery or between chapters. Supplied replacement WAVs and audition cuts remain private until their source licence is established.
 
-These interface changes are prepared for the next deployment; the live release record above remains the authority for what has been published.
+The four-model interface and outside-site widget were published on 2026-11-14. The current release and its verification are recorded in [`spec-chirho/evidence-chirho/widget-release-chirho/`](spec-chirho/evidence-chirho/widget-release-chirho/deployment_chirho.json); the first release evidence above is retained.
+
+## Embed the radio
+
+Choose a model and starting language, preview it and copy the iframe at [the widget setup page](https://audiobiblerad.io/widget-chirho). The compact player is at [the embed endpoint](https://audiobiblerad.io/embed-chirho). It explicitly permits outside framing and retains the selected recording's visible copyright and licence notices.
+
+Give an embedding AI agent [the plain integration guide](https://audiobiblerad.io/llms.txt). It includes the exact snippet, URL options, parent-site CSP and autoplay settings, storage behavior, verification steps and recording terms. Access must stay free; Davar recordings are non-commercial only.
 
 ## Where the audio comes from
 
@@ -61,7 +67,7 @@ recovery. Browser tests use a generated WAV fixture through the real media decod
 download Scripture. The optional `bun scripts-chirho/verify_live_playback_chirho.ts` probe streams
 four real chapters briefly (five with `--languages-chirho`) from their publishers, against a running local preview (default port
 5196; override `RADIO_PREVIEW_URL_CHIRHO`). It records browser event timings, not physical audio
-latency, in `spec-chirho/evidence-chirho/web-radio-chirho/` and saves no Scripture audio. Use `--experience-chirho` to keep the new-interface probe evidence separate from the earlier release. Browser tests use their own preview port, 4186 by default (`PLAYWRIGHT_PORT_CHIRHO` can override it).
+latency, in `spec-chirho/evidence-chirho/web-radio-chirho/` and saves no Scripture audio. Use `--experience-chirho` for local new-interface evidence or `--production-chirho --widget-chirho` for the current published release without overwriting the first release's evidence. `bun scripts-chirho/release-chirho/verify_widget_playback_chirho.ts` checks actual source playback inside a controlled second-origin HTTPS parent. Browser tests use their own preview port, 4186 by default (`PLAYWRIGHT_PORT_CHIRHO` can override it).
 
 Built-in recording credits are at `/credits-chirho`; each selected station also shows its complete credit inside the radio. Davar chapter coverage follows its publisher file lists; the first file of every recording was opened, rather than every chapter. `/catalogue-chirho` serves the same JSON-safe, cleared
 built-in catalogue used by the web player. The language index and per-language files live under `/catalogue-chirho/` assets. Davar native-client access is unresolved. No provider key belongs in that data.
