@@ -1,0 +1,177 @@
+{
+	"recorded_on_chirho": "2026-11-15T00:30:51.046264+00:00",
+	"scope_chirho": "Prepared source and local browser verification; no new public web deployment.",
+	"art_commits_chirho": ["c29a1e1", "10eb650"],
+	"art_licence_commit_chirho": "6bb517e",
+	"art_generation_chirho": {
+		"model_chirho": "openai:gpt-image@2.6-flare",
+		"quality_chirho": "medium",
+		"method_chirho": "Text descriptions only; no reference or third-party images. The project cropped control furniture, adjusted alpha and encoded WebP. Private masters and provider records retained separately."
+	},
+	"models_chirho": ["minimal", "digital", "field", "cyberpunk"],
+	"gates_chirho": {
+		"check_errors_chirho": 0,
+		"check_warnings_chirho": 0,
+		"lint_chirho": "PASS",
+		"unit_component_tests_chirho": 217,
+		"unit_component_files_chirho": 25,
+		"browser_tests_chirho": 29,
+		"built_worker_chirho": "PASS",
+		"sound_generator_chirho": "9 original WAVs unchanged, 202812 bytes"
+	},
+	"regressions_chirho": [
+		{
+			"finding_chirho": "Looping tuning cue and four cue starts through one recovery chain",
+			"before_chirho": "Focused controller and real decoder tests failed",
+			"repair_chirho": "One-shot effects, natural-end unload, 1.5-second ceiling and quiet automatic recovery."
+		},
+		{
+			"finding_chirho": "Seek preview overwritten by playback time updates",
+			"before_chirho": "Browser drag regression failed: preview 11 became the advancing clock",
+			"repair_chirho": "Reset previews only when the stable station/book/chapter key changes."
+		},
+		{
+			"finding_chirho": "Off overwritten by the final playing-clock snapshot",
+			"before_chirho": "One focused unit test expected off but stored on; browser resumed after reload",
+			"repair_chirho": "Persist explicit Off after pause samples and saves the final position."
+		},
+		{
+			"finding_chirho": "Autoplay decoder fixture lacked the range capability used by source hosts",
+			"before_chirho": "Saved seek was discarded in that fixture",
+			"repair_chirho": "Fixture now advertises byte ranges, matching verified source behavior. No new media-seek branch was retained."
+		},
+		{
+			"finding_chirho": "An API-policy stub alone did not enable actual browser autoplay",
+			"before_chirho": "Browser correctly rejected playback",
+			"repair_chirho": "Allowed-path test launches a browser with autoplay actually permitted; rejected path is injected separately."
+		},
+		{
+			"finding_chirho": "Old pause/play-specific test synchronization no longer proved an error state",
+			"before_chirho": "Later-file test sampled 2.85 seconds before continuation",
+			"repair_chirho": "Wait for the power state to be off before checking the saved boundary; the expected three-second boundary is unchanged."
+		}
+	],
+	"rendered_refinement_chirho": [
+		{
+			"pass_chirho": 1,
+			"changes_chirho": "Shared integrated receiver, synchronized label/knob controls, responsive radio-only layout; found skin padding and bezel specificity conflicts."
+		},
+		{
+			"pass_chirho": 2,
+			"changes_chirho": "All three raster skins applied to real controls; corrected padding, credit clearance and opaque screen bezels; checked desktop and phone renders."
+		},
+		{
+			"pass_chirho": 3,
+			"changes_chirho": "Current-color borders and select chevrons, separate light/dark focus rings, larger recording credits, distinctive digital/cyber typography; keyboard, one-commit drag, Off and motion lifecycle verification."
+		}
+	],
+	"layout_chirho": {
+		"narrowest_browser_test_width_chirho": 320,
+		"rendered_mobile_width_chirho": 390,
+		"all_models_no_horizontal_overflow_chirho": true,
+		"power_in_first_844px_mobile_screen_chirho": true,
+		"private_render_proofs_chirho": "Retained locally with the three refinement passes; public live-source desktop/mobile captures are beside this record."
+	},
+	"live_source_proof_chirho": "live_playback_chirho.json",
+	"source_hashes_chirho": {
+		"src/lib/radio-chirho/radio_session_chirho.ts": "6d9484c5b1e201fc6f905e31c94782889138f84534ba121e57280d2e4efa2330",
+		"src/lib/radio-chirho/RadioReceiverChirho.svelte": "991375b3f1738aae8b0476d48827cf544f4f37a4d7a00486ac6eb8387f1cb16e",
+		"src/lib/radio-chirho/RadioExperienceChirho.svelte": "71d1e189a472ee30ec8c0027793ed19e1bc1c10584fb9f5155101b7febf128d4",
+		"src/lib/controls-chirho/RadioKnobChirho.svelte": "d693e240ac1cc6e26a574e2448fc04ebfbae680fb9c0d4e8a70389f566584f99",
+		"src/lib/player-chirho/radio_player_chirho.ts": "2757768a385f249099702a0db698fd68f5d8b343de573ebaa32b80294c70d731",
+		"src/lib/sounds-chirho/radio_sounds_chirho.ts": "62ae635512e87470a70366326462ba31f45289e46d25d19ce04c4e1d62fe5f94",
+		"src/routes/layout.css": "f6feb3d36ff5e78290b46bc4770ab64e5f901574b3a634f3b407803dcb1a97f0"
+	},
+	"art_assets_chirho": [
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/cyberpunk-chirho/bezel_chirho.webp",
+			"bytes_chirho": 7206,
+			"sha256_chirho": "b09c5f4dcef8095607c2876845847142cc337ffed3c336cf5fdb35110b60f717"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/cyberpunk-chirho/body_chirho.webp",
+			"bytes_chirho": 28180,
+			"sha256_chirho": "6ac1eabefa0c2d8b6e96e38bb508c835051a401a623411618b696319b36517d2"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/cyberpunk-chirho/button_chirho.webp",
+			"bytes_chirho": 8902,
+			"sha256_chirho": "597a33edf701c28514ca2df42b105eaea906c83454bed29fbbeb39236b6396d0"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/cyberpunk-chirho/knob_chirho.webp",
+			"bytes_chirho": 13076,
+			"sha256_chirho": "45765c25df8c4cecd570e94b7d774a525fb75eedddc281b3fef0283f48b544ba"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/cyberpunk-chirho/setting_chirho.webp",
+			"bytes_chirho": 198350,
+			"sha256_chirho": "57ea7fefabaa65a239ff5cb86ebcf784b24e2ff2eeccc874d2aab80692325729"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/digital-chirho/bezel_chirho.webp",
+			"bytes_chirho": 9694,
+			"sha256_chirho": "2e20a669271cedc87d9cc575e7fb9b514e8b3a162e75260ea92fbb6820ab9943"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/digital-chirho/body_chirho.webp",
+			"bytes_chirho": 110456,
+			"sha256_chirho": "c7f8ddccd97e32a51a21674f8daade5eb04ff6843a0ab965244e1c62944aa557"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/digital-chirho/button_chirho.webp",
+			"bytes_chirho": 10188,
+			"sha256_chirho": "25766c963becb6664efded96b37ab916f03316178429f8f92158cfb55a5099fc"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/digital-chirho/knob_chirho.webp",
+			"bytes_chirho": 12794,
+			"sha256_chirho": "c4e058935606e0d5a31d3c052832dae477f2995e002bfe37a364dc73f0cf6d63"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/digital-chirho/setting_chirho.webp",
+			"bytes_chirho": 122310,
+			"sha256_chirho": "7b4938a9da5cda23d7296ce8ae43d0b11514d16e2e2d681803f465fca7475d52"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/field-chirho/bezel_chirho.webp",
+			"bytes_chirho": 41004,
+			"sha256_chirho": "96ef4547e20a59e22eb058e0915ee721141445efe09ebed9ef35a596984ec913"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/field-chirho/body_chirho.webp",
+			"bytes_chirho": 162332,
+			"sha256_chirho": "2a5c0e31415366cd1439110e3ee8941cb1096ae8d0c19cb5e7d5737cc40aadf3"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/field-chirho/button_chirho.webp",
+			"bytes_chirho": 13566,
+			"sha256_chirho": "476a29c4e19bfce3564cce9091524f748e54eee4a965f5e6d80329cf881ec1e6"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/field-chirho/knob_chirho.webp",
+			"bytes_chirho": 17112,
+			"sha256_chirho": "511292eb4c1b8a2327eb400b5930a8c5958a460b8787e9b584967f4fbe4fc68a"
+		},
+		{
+			"path_chirho": "static/images-chirho/radios-chirho/field-chirho/setting_chirho.webp",
+			"bytes_chirho": 173724,
+			"sha256_chirho": "501c09275c27b2ed56db17f7d9b98859dd9f8b1398181e5de3396ed4097907ad"
+		}
+	],
+	"supplied_audio_chirho": {
+		"original_files_imported_chirho": 6,
+		"original_bytes_chirho": 9723332,
+		"private_tuning_cuts_chirho": 9,
+		"private_interface_cuts_chirho": 2,
+		"private_clip_bytes_chirho": 414760,
+		"publicly_shipped_chirho": false,
+		"remaining_dependency_chirho": "Source licence/provenance for the supplied recordings; the original synthesised CC0 effects remain in the public package."
+	},
+	"limits_chirho": [
+		"Generated decoder and desktop Chromium evidence does not establish acoustic output, spoken-content accuracy, physical iOS/Watch/Android behavior or full-library availability.",
+		"Autoplay depends on browser settings; a muted-only permission is treated as needing On.",
+		"Visibility teardown is exercised using a deterministic hidden-document transition; reduced-motion uses the real browser media preference.",
+		"The prior live release remains unchanged; this source does not authorize deployment."
+	]
+}

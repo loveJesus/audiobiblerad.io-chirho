@@ -107,7 +107,7 @@ test('the real decoder continues parts within one chapter, then advances only af
 	await pageChirho.goto('/');
 	const chapterChirho = pageChirho.getByRole('combobox', { name: 'Chapter', exact: true });
 	await expect(chapterChirho).toHaveValue('2');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await waitForPartChirho(pageChirho, PART_ONE_CHIRHO, true);
 	expect(requestedChirho).not.toContain(PART_TWO_CHIRHO);
 	await expect(
@@ -129,9 +129,9 @@ test('whole-chapter seeking crosses both ways and reopening starts directly in t
 	page: pageChirho
 }) => {
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await waitForPartChirho(pageChirho, PART_ONE_CHIRHO, true);
-	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await seekChapterChirho(pageChirho, 5);
 	await waitForPartChirho(pageChirho, PART_TWO_CHIRHO, false);
 	expect(
@@ -140,17 +140,15 @@ test('whole-chapter seeking crosses both ways and reopening starts directly in t
 		)!.seconds_chirho
 	).toBeCloseTo(2, 0);
 	await pageChirho.reload();
-	await expect(
-		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
-	).toBeEnabled();
+	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeEnabled();
 	const requestedChirho: string[] = [];
 	pageChirho.on('request', (requestChirho) => {
 		if (requestChirho.url().endsWith('.mp3')) requestedChirho.push(requestChirho.url());
 	});
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await waitForPartChirho(pageChirho, PART_TWO_CHIRHO, true);
 	expect(requestedChirho).not.toContain(PART_ONE_CHIRHO);
-	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await seekChapterChirho(pageChirho, 1);
 	await waitForPartChirho(pageChirho, PART_ONE_CHIRHO, false);
 	expect(
@@ -165,12 +163,12 @@ test('a later-file network failure preserves the chapter and boundary for retry'
 }) => {
 	await pageChirho.route(PART_TWO_CHIRHO, (routeChirho) => routeChirho.abort('failed'));
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await waitForPartChirho(pageChirho, PART_ONE_CHIRHO, true);
 	await endActivePartChirho(pageChirho);
 	await expect(
-		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
-	).toBeEnabled();
+		pageChirho.getByRole('button', { name: 'Radio power', exact: true })
+	).toHaveAttribute('aria-pressed', 'false');
 	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('2');
 	const savedChirho = await pageChirho.evaluate(
 		(keyChirho) => JSON.parse(localStorage.getItem(keyChirho)!),
@@ -181,10 +179,10 @@ test('a later-file network failure preserves the chapter and boundary for retry'
 		seconds_chirho: 3,
 		followed_place_chirho: { chapter_chirho: 2, seconds_chirho: 3 }
 	});
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect(
-		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
-	).toBeEnabled();
+		pageChirho.getByRole('button', { name: 'Radio power', exact: true })
+	).toHaveAttribute('aria-pressed', 'false');
 	expect(
 		await pageChirho.evaluate(
 			(keyChirho) => JSON.parse(localStorage.getItem(keyChirho)!).seconds_chirho,

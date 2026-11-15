@@ -91,7 +91,8 @@ describe('reading saved preferences', () => {
 	it('starts from the defaults when nothing can be read, and says whether storage works', () => {
 		expect(readPreferencesChirho(null)).toEqual({
 			preferences_chirho: defaultPreferencesChirho(),
-			available_chirho: false
+			available_chirho: false,
+			remembered_chirho: false
 		});
 		const deniedChirho: PreferenceStorageChirho = {
 			getItem: () => {
@@ -101,12 +102,14 @@ describe('reading saved preferences', () => {
 		};
 		expect(readPreferencesChirho(deniedChirho)).toEqual({
 			preferences_chirho: defaultPreferencesChirho(),
-			available_chirho: false
+			available_chirho: false,
+			remembered_chirho: false
 		});
 		const emptyChirho: PreferenceStorageChirho = { getItem: () => null, setItem: () => undefined };
 		expect(readPreferencesChirho(emptyChirho)).toEqual({
 			preferences_chirho: defaultPreferencesChirho(),
-			available_chirho: true
+			available_chirho: true,
+			remembered_chirho: false
 		});
 	});
 
@@ -114,6 +117,9 @@ describe('reading saved preferences', () => {
 		const readBackChirho = readChirho(SAVED_BEFORE_CHIRHO);
 		expect(readBackChirho).toEqual(SAVED_BEFORE_CHIRHO);
 		expect(readBackChirho).not.toHaveProperty('followed_place_chirho');
+		expect(readPreferencesChirho(storageHoldingChirho(SAVED_BEFORE_CHIRHO)).remembered_chirho).toBe(
+			true
+		);
 	});
 
 	it('falls back to the defaults for what is not JSON, not an object, or too long', () => {

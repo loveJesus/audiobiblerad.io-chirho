@@ -153,22 +153,45 @@ function readFollowedPlaceChirho(valueChirho: unknown): FollowedPlaceChirho | un
 export function readPreferencesChirho(storageChirho: PreferenceStorageChirho | null): {
 	preferences_chirho: PlayerPreferencesChirho;
 	available_chirho: boolean;
+	remembered_chirho: boolean;
 } {
 	const fallbackChirho = defaultPreferencesChirho();
-	if (!storageChirho) return { preferences_chirho: fallbackChirho, available_chirho: false };
+	if (!storageChirho)
+		return {
+			preferences_chirho: fallbackChirho,
+			available_chirho: false,
+			remembered_chirho: false
+		};
 	let rawChirho: string | null;
 	try {
 		rawChirho = storageChirho.getItem(PREFERENCES_KEY_CHIRHO);
 	} catch {
-		return { preferences_chirho: fallbackChirho, available_chirho: false };
+		return {
+			preferences_chirho: fallbackChirho,
+			available_chirho: false,
+			remembered_chirho: false
+		};
 	}
 	try {
-		if (!rawChirho) return { preferences_chirho: fallbackChirho, available_chirho: true };
+		if (!rawChirho)
+			return {
+				preferences_chirho: fallbackChirho,
+				available_chirho: true,
+				remembered_chirho: false
+			};
 		if (rawChirho.length > MAX_SAVED_LENGTH_CHIRHO)
-			return { preferences_chirho: fallbackChirho, available_chirho: true };
+			return {
+				preferences_chirho: fallbackChirho,
+				available_chirho: true,
+				remembered_chirho: false
+			};
 		const valueChirho: unknown = JSON.parse(rawChirho);
 		if (!valueChirho || typeof valueChirho !== 'object')
-			return { preferences_chirho: fallbackChirho, available_chirho: true };
+			return {
+				preferences_chirho: fallbackChirho,
+				available_chirho: true,
+				remembered_chirho: false
+			};
 		const candidateChirho = valueChirho as Record<string, unknown>;
 		const stationChirho = stationPreferenceChirho(candidateChirho);
 		const savedDialChirho = savedLanguageCodeChirho(candidateChirho.dial_language_chirho);
@@ -201,9 +224,10 @@ export function readPreferencesChirho(storageChirho: PreferenceStorageChirho | n
 						: true,
 				...(followedPlaceChirho ? { followed_place_chirho: followedPlaceChirho } : {})
 			},
-			available_chirho: true
+			available_chirho: true,
+			remembered_chirho: Boolean(stationChirho)
 		};
 	} catch {
-		return { preferences_chirho: fallbackChirho, available_chirho: true };
+		return { preferences_chirho: fallbackChirho, available_chirho: true, remembered_chirho: false };
 	}
 }

@@ -7,7 +7,6 @@ import {
 	mediaStateChirho,
 	observeMediaChirho
 } from './helpers-chirho/media_chirho';
-
 const PREFERENCES_KEY_CHIRHO = 'audio-bible-radio-preferences-chirho';
 const hindiFileChirho = JSON.parse(
 	readFileSync('static/catalogue-chirho/languages-chirho/h/hi.json', 'utf8')
@@ -17,218 +16,25 @@ const hindiStationChirho = hindiFileChirho.stations_chirho[0] as {
 	credit_chirho: string;
 	version_chirho: string;
 };
-
-test('a built-in recording can be chosen directly when a saved dynamic station cannot restore', async ({
-	page: pageChirho
-}) => {
-	await pageChirho.addInitScript(
-		(keyChirho) =>
-			localStorage.setItem(
-				keyChirho,
-				JSON.stringify({
-					station_id_chirho: 'davar-missing-station',
-					language_code_chirho: 'hi',
-					book_id_chirho: 'JHN',
-					chapter_chirho: 3,
-					seconds_chirho: 5,
-					sounds_enabled_chirho: false
-				})
-			),
-		PREFERENCES_KEY_CHIRHO
-	);
-	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
-		routeChirho.fulfill({ status: 503, body: 'Unavailable' })
-	);
-	await pageChirho.goto('/');
-	await expect(
-		pageChirho.getByRole('button', { name: 'Retry saved station', exact: true })
-	).toBeVisible();
-	await browseChirho(pageChirho, 'Hays');
+async function chooseLanguageChirho(pageChirho: Page, codeChirho: string): Promise<void> {
 	await pageChirho
-		.getByRole('group', { name: 'Recordings', exact: true })
-		.getByRole('button')
-		.filter({ hasText: 'Hays' })
-		.click();
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
-	expect(
-		(await mediaStateChirho(pageChirho)).some(
-			(audioChirho) => audioChirho.url_chirho.includes('/hays.mp3') && !audioChirho.paused_chirho
-		)
-	).toBe(true);
-});
-
-async function browseChirho(pageChirho: Page, searchChirho: string): Promise<void> {
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-	await pageChirho.getByRole('searchbox').fill(searchChirho);
+		.getByRole('combobox', { name: 'Language', exact: true })
+		.selectOption(codeChirho);
 }
-
-async function chooseLanguageChirho(pageChirho: Page, nameChirho: string): Promise<void> {
+async function chooseHindiRecordingChirho(pageChirho: Page): Promise<void> {
+	await chooseLanguageChirho(pageChirho, 'hi');
+	await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toHaveValue(
+		'hi'
+	);
 	await pageChirho
-		.getByRole('group', { name: 'Languages', exact: true })
-		.getByRole('button')
-		.filter({ has: pageChirho.getByText(nameChirho, { exact: true }) })
-		.click();
+		.getByRole('combobox', { name: 'Version', exact: true })
+		.selectOption({ label: hindiStationChirho.version_chirho });
+	await pageChirho
+		.getByRole('combobox', { name: 'Narration', exact: true })
+		.selectOption(hindiStationChirho.id_chirho);
 }
-
-test.beforeEach(async ({ page: pageChirho }) => {
-	await observeMediaChirho(pageChirho);
-	await pageChirho.route('https://**/*.audioTimings.json', (routeChirho) =>
-		routeChirho.fulfill({
-			json: { verses: [0, 3, 6, 9, 12] },
-			headers: { 'access-control-allow-origin': '*' }
-		})
-	);
-	const bytesChirho = fixtureWaveChirho();
-	await pageChirho.route('https://**/*.mp3', (routeChirho) =>
-		routeChirho.fulfill({
-			status: 200,
-			contentType: 'audio/wav',
-			body: bytesChirho,
-			headers: { 'accept-ranges': 'bytes' }
-		})
-	);
-});
-
-test('the language picker supports keyboard return and fits a narrow screen with a loaded recording', async ({
-	page: pageChirho
-}) => {
-	await pageChirho.setViewportSize({ width: 320, height: 844 });
-	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-	await expect(pageChirho.getByRole('searchbox')).toBeFocused();
-	await pageChirho.getByRole('searchbox').fill('Hindi');
-	await chooseLanguageChirho(pageChirho, 'Hindi');
-	await pageChirho
-		.getByRole('group', { name: 'Recordings', exact: true })
-		.getByRole('button')
-		.filter({ hasText: hindiStationChirho.version_chirho })
-		.click();
-	expect(await pageChirho.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
-		true
-	);
-	await pageChirho.getByRole('button', { name: 'Back to radio ↑', exact: true }).click();
-	await expect(pageChirho.getByRole('button', { name: /Browse stations/ })).toBeFocused();
-	await expect(pageChirho.getByRole('region', { name: 'All stations', exact: true })).toHaveCount(
-		0
-	);
-	await expect(
-		pageChirho.getByText(hindiStationChirho.credit_chirho, { exact: true })
-	).toBeVisible();
-});
-
-test('first sound needs no language data; an explicit language merges stations, preserves position and reopens', async ({
-	page: pageChirho
-}) => {
-	const catalogueRequestsChirho: string[] = [];
-	pageChirho.on('request', (requestChirho) => {
-		if (requestChirho.url().includes('/catalogue-chirho/'))
-			catalogueRequestsChirho.push(requestChirho.url());
-	});
-	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
-	await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) => !audioChirho.paused_chirho && audioChirho.seconds_chirho > 0.1
-			)
-		)
-		.toBe(true);
-	expect(catalogueRequestsChirho).toEqual([]);
-	await pageChirho.getByRole('slider', { name: 'Chapter position', exact: true }).fill('6');
-	await browseChirho(pageChirho, 'हिन्दी');
-	await chooseLanguageChirho(pageChirho, 'हिन्दी');
-	const recordingsChirho = pageChirho.getByRole('group', { name: 'Recordings', exact: true });
-	await expect(recordingsChirho.getByRole('button')).toHaveCount(
-		hindiFileChirho.stations_chirho.length + 1
-	);
-	await recordingsChirho
-		.getByRole('button')
-		.filter({ hasText: hindiStationChirho.version_chirho })
-		.click();
-	await expect(
-		pageChirho.getByText(hindiStationChirho.credit_chirho, { exact: true })
-	).toBeVisible();
-	await expect(pageChirho.getByText(/chapters listed by the publisher/)).toBeVisible();
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) =>
-					audioChirho.url_chirho.startsWith('https://audio.dbs.org/') &&
-					!audioChirho.paused_chirho &&
-					audioChirho.seconds_chirho >= 5
-			)
-		)
-		.toBe(true);
-	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');
-	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
-	const savedChirho = await pageChirho.evaluate(
-		(keyChirho) => JSON.parse(localStorage.getItem(keyChirho)!),
-		PREFERENCES_KEY_CHIRHO
-	);
-	expect(savedChirho).toMatchObject({
-		station_id_chirho: hindiStationChirho.id_chirho,
-		language_code_chirho: 'hi',
-		dial_language_chirho: 'hi',
-		chapter_chirho: 3
-	});
-	await pageChirho.reload();
-	await expect(
-		pageChirho.getByText(hindiStationChirho.credit_chirho, { exact: true })
-	).toBeVisible();
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await expect
-		.poll(async () =>
-			(await mediaStateChirho(pageChirho)).some(
-				(audioChirho) =>
-					audioChirho.url_chirho.startsWith('https://audio.dbs.org/') &&
-					!audioChirho.paused_chirho &&
-					audioChirho.seconds_chirho >= savedChirho.seconds_chirho - 0.5
-			)
-		)
-		.toBe(true);
-	expect(
-		catalogueRequestsChirho.every(
-			(urlChirho) =>
-				urlChirho.endsWith('/languages_chirho.json') || urlChirho.endsWith('/h/hi.json')
-		)
-	).toBe(true);
-	expect(
-		(await mediaStateChirho(pageChirho)).filter((audioChirho) => !audioChirho.paused_chirho)
-	).toHaveLength(1);
-});
-
-test('a failed language load leaves current playback and saved place intact, then retries', async ({
-	page: pageChirho
-}) => {
-	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
-		routeChirho.abort('internetdisconnected')
-	);
-	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
-	await browseChirho(pageChirho, 'Hindi');
-	await chooseLanguageChirho(pageChirho, 'Hindi');
-	await expect(pageChirho.getByText(/These stations could not load/)).toBeVisible();
-	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
-	expect(
-		(await mediaStateChirho(pageChirho)).some(
-			(audioChirho) => audioChirho.url_chirho.includes('/hays.mp3') && !audioChirho.paused_chirho
-		)
-	).toBe(true);
-	await pageChirho.unroute('**/catalogue-chirho/languages-chirho/h/hi.json');
-	await chooseLanguageChirho(pageChirho, 'Hindi');
-	await expect(
-		pageChirho.getByRole('group', { name: 'Recordings', exact: true }).getByRole('button')
-	).toHaveCount(4);
-});
-
-test('a failed restore never overwrites the remembered recording, and retry restores its seconds', async ({
-	page: pageChirho
-}) => {
-	const savedChirho = {
+function savedHindiChirho() {
+	return {
 		station_id_chirho: hindiStationChirho.id_chirho,
 		language_code_chirho: 'hi',
 		dial_language_chirho: 'hi',
@@ -237,21 +43,163 @@ test('a failed restore never overwrites the remembered recording, and retry rest
 		seconds_chirho: 7,
 		sounds_enabled_chirho: false
 	};
+}
+async function seedChirho(
+	pageChirho: Page,
+	valueChirho: ReturnType<typeof savedHindiChirho>
+): Promise<void> {
 	await pageChirho.addInitScript(
 		({ key_chirho: keyChirho, value_chirho: valueChirho }) =>
 			localStorage.setItem(keyChirho, JSON.stringify(valueChirho)),
-		{ key_chirho: PREFERENCES_KEY_CHIRHO, value_chirho: savedChirho }
+		{ key_chirho: PREFERENCES_KEY_CHIRHO, value_chirho: valueChirho }
 	);
+}
+test.beforeEach(async ({ page: pageChirho }) => {
+	await observeMediaChirho(pageChirho);
+	await pageChirho.route('https://**/*.audioTimings.json', (routeChirho) =>
+		routeChirho.fulfill({
+			json: { verses: [0, 3, 6, 9, 12] },
+			headers: { 'access-control-allow-origin': '*' }
+		})
+	);
+	await pageChirho.route('https://**/*.mp3', (routeChirho) =>
+		routeChirho.fulfill({
+			status: 200,
+			contentType: 'audio/wav',
+			body: fixtureWaveChirho(),
+			headers: { 'accept-ranges': 'bytes' }
+		})
+	);
+});
+
+test('integrated language, version and narration labels fit a narrow screen and show the loaded credit', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.setViewportSize({ width: 320, height: 844 });
+	await pageChirho.goto('/');
+	await chooseHindiRecordingChirho(pageChirho);
+	await expect(
+		pageChirho
+			.locator('.credit-chirho')
+			.getByText(hindiStationChirho.credit_chirho, { exact: true })
+	).toBeVisible();
+	expect(await pageChirho.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+		true
+	);
+	await pageChirho.getByRole('button', { name: 'About and settings', exact: true }).click();
+	await pageChirho.keyboard.press('Escape');
+	await expect(
+		pageChirho.getByRole('button', { name: 'About and settings', exact: true })
+	).toBeFocused();
+});
+
+test('English starts while the language index is held; a later language preserves position and reopens', async ({
+	page: pageChirho
+}) => {
+	let releaseChirho!: () => void;
+	const heldChirho = new Promise<void>((resolveChirho) => {
+		releaseChirho = resolveChirho;
+	});
+	await pageChirho.route('**/catalogue-chirho/languages_chirho.json', async (routeChirho) => {
+		await heldChirho;
+		await routeChirho.continue();
+	});
+	try {
+		await pageChirho.goto('/');
+		await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+		await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
+		await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
+		const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
+		await expect(seekChirho).toBeEnabled();
+		await seekChirho.fill('6');
+		releaseChirho();
+		await chooseHindiRecordingChirho(pageChirho);
+		await expect
+			.poll(async () =>
+				(await mediaStateChirho(pageChirho)).some(
+					(audioChirho) =>
+						audioChirho.url_chirho.startsWith('https://audio.dbs.org/') &&
+						!audioChirho.paused_chirho &&
+						audioChirho.seconds_chirho >= 5
+				)
+			)
+			.toBe(true);
+		await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue(
+			'3'
+		);
+		await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+		const savedChirho = await pageChirho.evaluate(
+			(keyChirho) => JSON.parse(localStorage.getItem(keyChirho)!),
+			PREFERENCES_KEY_CHIRHO
+		);
+		expect(savedChirho).toMatchObject({
+			station_id_chirho: hindiStationChirho.id_chirho,
+			language_code_chirho: 'hi',
+			chapter_chirho: 3
+		});
+		await pageChirho.reload();
+		await expect(pageChirho.getByRole('combobox', { name: 'Narration', exact: true })).toHaveValue(
+			hindiStationChirho.id_chirho
+		);
+		await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+		await expect
+			.poll(async () =>
+				(await mediaStateChirho(pageChirho)).some(
+					(audioChirho) =>
+						audioChirho.url_chirho.startsWith('https://audio.dbs.org/') &&
+						!audioChirho.paused_chirho &&
+						audioChirho.seconds_chirho >= savedChirho.seconds_chirho - 0.5
+				)
+			)
+			.toBe(true);
+		expect(
+			(await mediaStateChirho(pageChirho)).filter((audioChirho) => !audioChirho.paused_chirho)
+		).toHaveLength(1);
+	} finally {
+		releaseChirho();
+	}
+});
+
+test('a failed language selection leaves playback intact and can be chosen again to retry', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
+		routeChirho.abort('internetdisconnected')
+	);
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
+	await chooseLanguageChirho(pageChirho, 'hi');
+	await expect(pageChirho.getByText(/These stations could not load/)).toBeVisible();
+	await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toHaveValue(
+		'en'
+	);
+	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
+	expect(
+		(await mediaStateChirho(pageChirho)).some(
+			(audioChirho) => audioChirho.url_chirho.startsWith('https://') && !audioChirho.paused_chirho
+		)
+	).toBe(true);
+	await pageChirho.unroute('**/catalogue-chirho/languages-chirho/h/hi.json');
+	await chooseHindiRecordingChirho(pageChirho);
+	await expect(pageChirho.getByRole('combobox', { name: 'Narration', exact: true })).toHaveValue(
+		hindiStationChirho.id_chirho
+	);
+});
+
+test('a failed restore never overwrites the remembered recording and retries at its saved seconds', async ({
+	page: pageChirho
+}) => {
+	const savedChirho = savedHindiChirho();
+	await seedChirho(pageChirho, savedChirho);
 	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
 		routeChirho.fulfill({ status: 503, body: 'Unavailable' })
 	);
 	await pageChirho.goto('/');
 	await expect(
-		pageChirho.getByText('Your saved station could not load. Your place is kept.')
+		pageChirho.getByRole('button', { name: 'Retry saved station', exact: true })
 	).toBeVisible();
-	await expect(
-		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
-	).toBeDisabled();
+	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeDisabled();
 	expect(
 		await pageChirho.evaluate(
 			(keyChirho) => JSON.parse(localStorage.getItem(keyChirho)!),
@@ -270,10 +218,10 @@ test('a failed restore never overwrites the remembered recording, and retry rest
 	).toEqual(savedChirho);
 	await pageChirho.unroute('**/catalogue-chirho/languages-chirho/h/hi.json');
 	await pageChirho.getByRole('button', { name: 'Retry saved station', exact: true }).click();
-	await expect(
-		pageChirho.getByText(hindiStationChirho.credit_chirho, { exact: true })
-	).toBeVisible();
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await expect(pageChirho.getByRole('combobox', { name: 'Narration', exact: true })).toHaveValue(
+		hindiStationChirho.id_chirho
+	);
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -281,6 +229,31 @@ test('a failed restore never overwrites the remembered recording, and retry rest
 					audioChirho.url_chirho.startsWith('https://audio.dbs.org/') &&
 					!audioChirho.paused_chirho &&
 					audioChirho.seconds_chirho >= 7
+			)
+		)
+		.toBe(true);
+});
+
+test('a built-in recording remains reachable when a saved dynamic station cannot restore', async ({
+	page: pageChirho
+}) => {
+	await seedChirho(pageChirho, {
+		...savedHindiChirho(),
+		station_id_chirho: 'davar-missing-station'
+	});
+	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
+		routeChirho.fulfill({ status: 503, body: 'Unavailable' })
+	);
+	await pageChirho.goto('/');
+	await pageChirho.getByRole('button', { name: 'Use built-in stations', exact: true }).click();
+	await pageChirho
+		.getByRole('combobox', { name: 'Narration', exact: true })
+		.selectOption('helloao-bsb-hays');
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+	await expect
+		.poll(async () =>
+			(await mediaStateChirho(pageChirho)).some(
+				(audioChirho) => audioChirho.url_chirho.includes('/hays.mp3') && !audioChirho.paused_chirho
 			)
 		)
 		.toBe(true);
@@ -295,41 +268,29 @@ test('a late language response cannot change a newer selection', async ({ page: 
 		await heldChirho;
 		await routeChirho.fulfill({ json: hindiFileChirho });
 	});
-	await pageChirho.goto('/');
-	await browseChirho(pageChirho, 'Hindi');
-	await chooseLanguageChirho(pageChirho, 'Hindi');
-	await pageChirho.getByRole('searchbox').fill('Swahili');
-	await chooseLanguageChirho(pageChirho, 'Swahili');
-	await expect(
-		pageChirho.getByRole('group', { name: 'Recordings', exact: true }).getByRole('button').first()
-	).toContainText('Swahili');
-	releaseChirho();
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
-	await expect(pageChirho.locator('.station-language-chirho')).toHaveAttribute('lang', 'sw');
-	await pageChirho.getByRole('button', { name: 'All built-in stations', exact: true }).click();
-	await expect(
-		pageChirho.getByRole('slider', { name: 'Station dial', exact: true })
-	).toHaveAttribute('max', '28');
+	try {
+		await pageChirho.goto('/');
+		await chooseLanguageChirho(pageChirho, 'hi');
+		await chooseLanguageChirho(pageChirho, 'sw');
+		await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toHaveValue(
+			'sw'
+		);
+		releaseChirho();
+		await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+		await expect(pageChirho.getByText('ON AIR', { exact: true })).toBeVisible();
+		await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toHaveValue(
+			'sw'
+		);
+	} finally {
+		releaseChirho();
+	}
 });
 
 test('a failed selection during restoration exposes retry and preserves the saved station', async ({
 	page: pageChirho
 }) => {
-	const savedChirho = {
-		station_id_chirho: hindiStationChirho.id_chirho,
-		language_code_chirho: 'hi',
-		dial_language_chirho: 'hi',
-		book_id_chirho: 'JHN',
-		chapter_chirho: 3,
-		seconds_chirho: 7,
-		sounds_enabled_chirho: false
-	};
-	await pageChirho.addInitScript(
-		({ key_chirho: keyChirho, value_chirho: valueChirho }) =>
-			localStorage.setItem(keyChirho, JSON.stringify(valueChirho)),
-		{ key_chirho: PREFERENCES_KEY_CHIRHO, value_chirho: savedChirho }
-	);
+	const savedChirho = savedHindiChirho();
+	await seedChirho(pageChirho, savedChirho);
 	let releaseChirho!: () => void;
 	const heldChirho = new Promise<void>((resolveChirho) => {
 		releaseChirho = resolveChirho;
@@ -344,8 +305,7 @@ test('a failed selection during restoration exposes retry and preserves the save
 	try {
 		await pageChirho.goto('/');
 		await expect(pageChirho.getByText('Restoring your station…', { exact: false })).toBeVisible();
-		await browseChirho(pageChirho, 'Swahili');
-		await chooseLanguageChirho(pageChirho, 'Swahili');
+		await chooseLanguageChirho(pageChirho, 'sw');
 		await expect(
 			pageChirho.getByRole('button', { name: 'Retry saved station', exact: true })
 		).toBeVisible();
@@ -358,9 +318,9 @@ test('a failed selection during restoration exposes retry and preserves the save
 		).toEqual(savedChirho);
 		await pageChirho.unroute('**/catalogue-chirho/languages-chirho/h/hi.json');
 		await pageChirho.getByRole('button', { name: 'Retry saved station', exact: true }).click();
-		await expect(
-			pageChirho.getByText(hindiStationChirho.credit_chirho, { exact: true })
-		).toBeVisible();
+		await expect(pageChirho.getByRole('combobox', { name: 'Narration', exact: true })).toHaveValue(
+			hindiStationChirho.id_chirho
+		);
 	} finally {
 		releaseChirho();
 	}

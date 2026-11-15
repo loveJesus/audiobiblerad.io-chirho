@@ -27,8 +27,15 @@ export function fixtureWaveChirho(durationChirho = 15): Buffer {
 	return bytesChirho;
 }
 
-export async function observeMediaChirho(pageChirho: Page): Promise<void> {
-	await pageChirho.addInitScript(() => {
+export async function observeMediaChirho(
+	pageChirho: Page,
+	policyChirho = 'disallowed'
+): Promise<void> {
+	await pageChirho.addInitScript((policyChirho) => {
+		Object.defineProperty(navigator, 'getAutoplayPolicy', {
+			configurable: true,
+			value: () => policyChirho
+		});
 		const audioElementsChirho: HTMLAudioElement[] = [];
 		Object.assign(window, { audioElementsChirho });
 		window.Audio = new Proxy(window.Audio, {
@@ -38,7 +45,7 @@ export async function observeMediaChirho(pageChirho: Page): Promise<void> {
 				return audioChirho;
 			}
 		});
-	});
+	}, policyChirho);
 }
 
 export async function mediaStateChirho(pageChirho: Page) {

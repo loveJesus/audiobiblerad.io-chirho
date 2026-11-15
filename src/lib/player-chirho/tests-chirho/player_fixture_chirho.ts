@@ -5,7 +5,7 @@ import type { StationChirho } from '$lib/catalogue-chirho/catalogue_chirho';
 import { RadioPlayerChirho } from '../radio_player_chirho';
 import { PREFERENCES_KEY_CHIRHO } from '../player_preferences_chirho';
 
-class FakeAudioChirho extends EventTarget {
+export class FakeAudioChirho extends EventTarget {
 	src = '';
 	currentSrc = '';
 	preload = 'none';
@@ -17,6 +17,7 @@ class FakeAudioChirho extends EventTarget {
 	error: { code: number } | null = null;
 	play = vi.fn((): Promise<void> => {
 		this.paused = false;
+		this.currentSrc = this.src;
 		return Promise.resolve();
 	});
 	pause = vi.fn((): void => {

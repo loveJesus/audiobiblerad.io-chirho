@@ -55,7 +55,7 @@ test('one tap decodes audio, tuning keeps the passage, effects stop, and prefere
 	});
 	await pageChirho.goto('/');
 	expect(requestedChirho).toHaveLength(0);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -66,7 +66,9 @@ test('one tap decodes audio, tuning keeps the passage, effects stop, and prefere
 			)
 		)
 		.toBe(true);
+	await pageChirho.getByRole('button', { name: 'About and settings', exact: true }).click();
 	await expect(pageChirho.getByText('Playback timing', { exact: true })).toBeVisible();
+	await pageChirho.getByRole('button', { name: 'Close about', exact: true }).click();
 	const playingChirho = (await mediaStateChirho(pageChirho)).filter(
 		(audioChirho) => !audioChirho.paused_chirho
 	);
@@ -87,17 +89,17 @@ test('one tap decodes audio, tuning keeps the passage, effects stop, and prefere
 	const targetUrlChirho = (await mediaStateChirho(pageChirho)).find(
 		(audioChirho) => !audioChirho.paused_chirho && audioChirho.url_chirho.startsWith('https://')
 	)!.url_chirho;
-	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('JHN');
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('43');
 	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('1');
 	await pageChirho.getByRole('checkbox', { name: 'Radio sounds', exact: true }).uncheck();
-	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const requestsBeforeReloadChirho = requestedChirho.length;
 	await pageChirho.reload();
 	await expect(
 		pageChirho.getByRole('checkbox', { name: 'Radio sounds', exact: true })
 	).not.toBeChecked();
 	expect(requestedChirho.length).toBe(requestsBeforeReloadChirho);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -122,7 +124,7 @@ test('the first play control waits for its handler when JavaScript arrives late'
 	});
 	try {
 		await pageChirho.goto('/', { waitUntil: 'domcontentloaded' });
-		const playChirho = pageChirho.getByRole('button', { name: 'Play Scripture', exact: true });
+		const playChirho = pageChirho.getByRole('button', { name: 'Radio power', exact: true });
 		await expect(playChirho).toBeDisabled();
 		releaseChirho();
 		await playChirho.click();
@@ -145,17 +147,20 @@ test('a station with partial coverage lands on an available book before the firs
 	page: pageChirho
 }) => {
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('combobox', { name: 'Book', exact: true }).selectOption('GEN');
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
 	await pageChirho
-		.getByRole('group', { name: 'Recordings', exact: true })
-		.getByRole('button')
-		.filter({ hasText: 'Nepali' })
-		.click();
-	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).not.toHaveValue(
-		'GEN'
+		.getByRole('combobox', { name: 'Book', exact: true })
+		.selectOption({ label: 'Genesis' });
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('ne');
+	await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toHaveValue(
+		'ne'
 	);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho
+		.getByRole('combobox', { name: 'Version', exact: true })
+		.selectOption({ label: 'Unlocked Literal Bible' });
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).not.toHaveValue(
+		'1'
+	);
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -172,7 +177,7 @@ test('a naturally ended chapter starts the next available chapter', async ({
 	page: pageChirho
 }) => {
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
 	await expect(seekChirho).toBeEnabled();
 	await seekChirho.press('End');
@@ -196,16 +201,16 @@ test('turning through a partial station returns to the original passage and plac
 }) => {
 	await pageChirho.goto('/');
 	await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
 	await expect(seekChirho).toBeEnabled();
 	await seekChirho.press('PageUp');
-	await pageChirho.getByRole('button', { name: 'Previous station', exact: true }).click();
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('mi');
 	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).not.toHaveValue(
-		'JHN'
+		'43'
 	);
-	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
-	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('JHN');
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('en');
+	await expect(pageChirho.getByRole('combobox', { name: 'Book', exact: true })).toHaveValue('43');
 	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');
 	await expect
 		.poll(async () =>
@@ -224,11 +229,11 @@ test('network failure preserves a saved passage and an explicit retry resumes it
 }) => {
 	await pageChirho.goto('/');
 	await pageChirho.getByRole('combobox', { name: 'Chapter', exact: true }).selectOption('3');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
 	await expect(seekChirho).toBeEnabled();
 	await seekChirho.press('PageUp');
-	await pageChirho.getByRole('button', { name: 'Pause Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const beforeChirho = await pageChirho.evaluate(
 		() =>
 			JSON.parse(localStorage.getItem('audio-bible-radio-preferences-chirho')!) as {
@@ -243,7 +248,7 @@ test('network failure preserves a saved passage and an explicit retry resumes it
 	};
 	await pageChirho.route('https://**/*.mp3', abortChirho);
 	await pageChirho.reload();
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect.poll(() => failuresChirho).toBe(4);
 	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');
 	const afterChirho = await pageChirho.evaluate(
@@ -258,7 +263,7 @@ test('network failure preserves a saved passage and an explicit retry resumes it
 		seconds_chirho: beforeChirho.seconds_chirho
 	});
 	await pageChirho.unroute('https://**/*.mp3', abortChirho);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -275,7 +280,7 @@ test('dragging the seek thumb keeps its preview while the recording clock advanc
 	page: pageChirho
 }) => {
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	const seekChirho = pageChirho.getByRole('slider', { name: 'Chapter position', exact: true });
 	await expect(seekChirho).toBeEnabled();
 	await seekChirho.scrollIntoViewIfNeeded();
@@ -323,15 +328,13 @@ test('media failures stop after three fallback chapters and allow an explicit re
 		return routeChirho.fulfill({ status: 404, body: '' });
 	});
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect.poll(() => requestsChirho).toBe(4);
-	await expect(
-		pageChirho.getByRole('button', { name: 'Play Scripture', exact: true })
-	).toBeVisible();
+	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeVisible();
 	expect(
 		(await mediaStateChirho(pageChirho)).every((audioChirho) => audioChirho.paused_chirho)
 	).toBe(true);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect.poll(() => requestsChirho).toBe(8);
 });
 
@@ -347,7 +350,7 @@ test('listening works when the browser denies storage and mobile controls fit th
 		});
 	});
 	await pageChirho.goto('/');
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect
 		.poll(async () =>
 			(await mediaStateChirho(pageChirho)).some(
@@ -362,13 +365,11 @@ test('listening works when the browser denies storage and mobile controls fit th
 	expect(
 		await pageChirho.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)
 	).toBe(true);
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-	await expect(pageChirho.getByRole('searchbox')).toBeVisible();
-	await pageChirho.getByRole('searchbox').fill('no-such-language-chirho');
-	expect(
-		await pageChirho
-			.getByRole('group', { name: 'Recordings', exact: true })
-			.getByRole('button')
-			.count()
-	).toBe(0);
+	await expect(pageChirho.getByRole('combobox', { name: 'Language', exact: true })).toBeEnabled();
+	await pageChirho.getByRole('button', { name: 'About and settings', exact: true }).click();
+	await expect(pageChirho.getByRole('dialog')).toBeVisible();
+	await pageChirho.keyboard.press('Escape');
+	await expect(
+		pageChirho.getByRole('button', { name: 'About and settings', exact: true })
+	).toBeFocused();
 });

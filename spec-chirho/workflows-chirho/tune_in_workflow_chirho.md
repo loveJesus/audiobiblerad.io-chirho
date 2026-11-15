@@ -2,17 +2,20 @@
 
 # Web tune-in workflow
 
-Implemented by `RadioPlayerChirho` in `src/lib/player-chirho/radio_player_chirho.ts`, with the bounded chapter timeline in `chapter_track_chirho.ts`. The screen in `src/routes/+page.svelte` enables the player controls once its handler is attached. Browsers require the first tap. One plain media element plays Scripture; a second plays optional effects. No Scripture passes through fetch or Web Audio.
+Implemented by `RadioPlayerChirho` in `src/lib/player-chirho/radio_player_chirho.ts`, with the bounded chapter timeline in `chapter_track_chirho.ts`. The route hosts `RadioExperienceChirho`, whose receiver enables On once the controller is attached. Audible autoplay is attempted where allowed; a blocked attempt produces a PRESS HERE cue at On. An explicit saved Off suppresses reopening autoplay. One plain media element plays Scripture; a second plays optional effects. No Scripture passes through fetch or Web Audio.
 
 ```mermaid
 flowchart TD
     open_chirho[Open the web radio] --> memory_chirho[Validate optional device preferences]
     memory_chirho --> place_chirho[Restore the followed passage and actual station place separately]
     place_chirho --> timings_chirho[Prefetch at most three small verse timing files]
-    timings_chirho --> tap_chirho[Attach handlers and enable the one-tap play control]
-    tap_chirho --> locate_chirho[Resolve ordinary or composite chapter synchronously]
+    timings_chirho --> tap_chirho[Attach On/Off handlers; honor saved Off and inspect optional autoplay policy]
+    tap_chirho --> policy_chirho{Audible autoplay allowed or unknown?}
+    policy_chirho -- yes --> locate_chirho
+    policy_chirho -- blocked or muted only --> gesture_chirho[Show PRESS HERE over On; do not start muted Scripture]
+    gesture_chirho --> locate_chirho[Resolve ordinary or composite chapter synchronously]
     locate_chirho --> part_chirho[Map whole-chapter position directly to its file]
-    part_chirho --> noise_chirho{Radio sounds enabled?}
+    part_chirho --> noise_chirho{Manual tune and radio sounds enabled?}
     noise_chirho -- yes --> effects_chirho[Start one original sound quietly]
     noise_chirho -- no --> play_chirho
     effects_chirho --> play_chirho[Set source and call play synchronously on the same media element]
@@ -28,12 +31,13 @@ flowchart TD
     more_chirho -- yes --> boundary_chirho[Save whole-chapter boundary and replace source on the same element]
     boundary_chirho --> continuation_chirho[Keep pause intent; no tuning sound; fence old file events]
     continuation_chirho --> metadata_chirho
-    more_chirho -- no --> next_chirho[Choose next offered chapter, wrapping at the end]
+    more_chirho -- no --> next_chirho[Choose next offered chapter quietly, wrapping at the end]
     next_chirho --> locate_chirho
     play_chirho --> error_chirho{Media error?}
     error_chirho -- ordinary unavailable media --> recover_chirho[Keep a recovery checkpoint; try at most three following chapters]
     recover_chirho --> locate_chirho
-    error_chirho -- composite, policy, limit --> stop_chirho[Preserve position, roll back failed recovery, unload and show retry or tune action]
+    error_chirho -- composite or limit --> stop_chirho[Preserve position, roll back failed recovery, unload and show retry or tune action]
+    play_chirho -- autoplay NotAllowedError --> gesture_chirho
     play_chirho --> timeout_chirho[Stop and unload a stream stalled for fifteen seconds]
     timeout_chirho --> stop_chirho
 ```
@@ -49,3 +53,9 @@ Each file replacement increments the media request identity and removes old list
 The language chooser and dynamic restore are documented in [the language workflow](language_workflow_chirho.md). The player holds an active set of complete ordinary stations and a separate current station; replacing the dial does not accumulate every visited language. Preferences contain the current station/place, optional language and dial codes, sound switch and a separate followed place with its source, duration and verse mapping, under one fixed device-local key capped at 2 KB. A detour station cannot overwrite the followed place; it changes only with an explicit passage choice or chapter progression. Seeking within a detour preserves the original followed passage. Failed recovery attempts do not replace persisted progress: a recovered chapter commits only once it plays, while exhausted attempts restore the checkpoint. Invalid or oversized values are discarded; denied or full storage cannot prevent listening. No preference is sent to our server. Page hide, pause and disposal save the last measured place. Disposal detaches handlers, aborts timing requests, stops both elements and unloads media.
 
 Tests: `radio_player_chirho.spec.ts` and `tests-chirho/composite_player_chirho.spec.ts` exercise state transitions and failure boundaries. `tests-chirho/radio_playback_chirho.e2e.ts` and `tests-chirho/composite_playback_chirho.e2e.ts` use the real browser decoder with small synthesized fixtures. The optional live probe records actual source playback separately. Its timings end at the browser playing event, not at measured speaker output. Physical iOS/Watch/Android background and headset behavior remain outside this web evidence.
+
+## Power and browser policy
+
+The optional getAutoplayPolicy API is feature-detected; allowed-muted is treated as a need for a tap because this is an audio radio. Where detection is absent, the controller calls play once and handles NotAllowedError as a policy pause, without chapter recovery or a lost saved place. Autoplay never plays a tuning cue. On calls play synchronously from the tap; Off pauses both audio roles and persists separately from passage memory. Browser Media Session play/pause/stop actions use the same On/Off operations. A natural chapter transition and each automatic recovery remain quiet; a new explicit tuning attempt may play one short cue.
+
+The MDN primary references are https://developer.mozilla.org/en-US/docs/Web/API/Navigator/getAutoplayPolicy and https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Autoplay. Browser support and policy vary, so actual playback and rejection paths are exercised separately. The reported autoplay proof uses a generated media fixture, not a claim that all visitors' browser settings permit automatic sound.

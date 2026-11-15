@@ -1,0 +1,46 @@
+{
+	"measured_on_chirho": "2026-11-15T00:30:51.220Z",
+	"file_count_chirho": 433,
+	"total_bytes_chirho": 2801180,
+	"radio_art_files_chirho": 15,
+	"audio_files_chirho": [
+		{
+			"path_chirho": "sounds-chirho/radio_01_chirho.wav",
+			"bytes_chirho": 18566
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_02_chirho.wav",
+			"bytes_chirho": 22534
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_03_chirho.wav",
+			"bytes_chirho": 26504
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_04_chirho.wav",
+			"bytes_chirho": 18566
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_05_chirho.wav",
+			"bytes_chirho": 22534
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_06_chirho.wav",
+			"bytes_chirho": 26504
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_07_chirho.wav",
+			"bytes_chirho": 18566
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_08_chirho.wav",
+			"bytes_chirho": 22534
+		},
+		{
+			"path_chirho": "sounds-chirho/radio_09_chirho.wav",
+			"bytes_chirho": 26504
+		}
+	],
+	"configured_credential_matches_chirho": [],
+	"supplied_audio_public_chirho": false
+}

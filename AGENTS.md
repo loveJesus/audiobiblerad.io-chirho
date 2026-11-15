@@ -66,10 +66,14 @@ sounds are CC0. Scripture recordings keep their publishers' terms.
 - **Bible Brain needs a key in L.J.'s name.** Do not sign up for him, and do not use anyone else's
   key. Until the key exists, build that adapter against the documented API with fixtures. Its terms
   allow streaming only, require free access, and forbid relaying its content to other developers.
-- **The radio sounds must be ours.** Synthesise them with a deterministic script. Never download
-  sound effects from the web. Nine of them, with one switch to turn them off.
+- **The original nine radio sounds are ours**, synthesised with a deterministic script and shared
+  under CC0. On 2026-11-14 L.J. supplied six WAV recordings for short tuning and interface clips.
+  Their originals and audition cuts stay private pending accurate provenance and redistribution
+  terms. Do not apply the synthesised sounds' CC0 dedication to supplied recordings.
 - **"Fast" means time to first sound.** Playback speed is a nice extra, not the point.
-- **Browsers block sound before a tap.** The web player needs one tap to start, by design.
+- **Browsers may block sound before a tap.** L.J.'s current direction is audible autoplay where
+  allowed, otherwise a PRESS HERE cue over On. Never substitute muted Scripture. Explicit Off is
+  remembered and takes priority over reopening autoplay.
 - **Voices:** some recordings may be synthetic. Record the voice kind for every station, and say
   "unknown" until the maker confirms it.
 - **The build machine's disk was 99% full on 2026-11-13.** Check free space before native builds,

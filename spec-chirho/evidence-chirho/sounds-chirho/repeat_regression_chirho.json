@@ -1,0 +1,20 @@
+{
+	"measured_on_chirho": "2026-11-14",
+	"prior_release_chirho": "db4a87e",
+	"scope_chirho": "Local one-shot tuning repair. Current synthetic assets remain unchanged; owner-supplied clips are privately prepared, not yet redistributed or labelled CC0.",
+	"before_chirho": {
+		"controller_case_chirho": "keeps automatic recovery quiet and starts a new cue only for a new listener attempt",
+		"observed_recovery_cue_count_chirho": 4,
+		"expected_cue_count_chirho": 1,
+		"browser_case_chirho": "a delayed chapter gets one brief cue, not a looping effect while it loads",
+		"observed_chirho": "Real tuning audio remained active after the 2.2 second assertion window while the Scripture response was held. The old controller looped it until Scripture or its eight-second ceiling."
+	},
+	"after_chirho": {
+		"focused_unit_tests_chirho": 33,
+		"focused_unit_test_result_chirho": "PASS",
+		"real_decoder_browser_tests_chirho": 1,
+		"real_decoder_result_chirho": "PASS",
+		"cue_chirho": "Ends naturally after one file, with a 1.5-second optional-load ceiling. Stops on cancellation and unloads; disposal removes its listener. Automatic recovery does not start another cue; a listener retry does."
+	},
+	"limits_chirho": "This is local behavioral proof, not a new live release, physical-device or acoustic measurement. Short supplied-file audition spans remain private pending correct provenance/rights attribution."
+}

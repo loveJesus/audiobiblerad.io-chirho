@@ -12,12 +12,16 @@ flowchart TD
     request_chirho --> enabled_chirho{Remembered sound switch on?}
     enabled_chirho -- yes --> choose_chirho[Choose a sound different from the last]
     enabled_chirho -- no --> silent_chirho[Load Scripture silently]
-    choose_chirho --> loop_chirho[Loop quietly during initial loading, at most eight seconds]
-    loop_chirho --> stop_chirho[Stop on Scripture playing, pause, failure, new request, switch off or disposal]
+    choose_chirho --> cue_chirho[Play one brief cue; never loop]
+    cue_chirho --> stop_chirho[Stop on natural end, Scripture playing, pause, failure, new request, switch off or disposal]
+    cue_chirho --> ceiling_chirho[Stop a stalled optional cue after 1.5 seconds]
+    ceiling_chirho --> stop_chirho
     silent_chirho --> scripture_chirho[Plain media element streams Scripture from its source]
     stop_chirho --> scripture_chirho
 ```
 
 `createRadioSoundsChirho` handles effects only. Scripture never enters an AudioContext; cross-origin source audio has no CORS header and would become silent if routed through Web Audio. A rejected optional sound play promise cannot stop Scripture.
+
+Automatic chapter-recovery attempts do not start additional cues. A new listener retry can start a new cue. The regression checks reproduce the previous four-trigger recovery chain and a real-decoder cue looping while the chapter request is held; both pass after the repair. The original generator and its nine CC0 files remain unchanged while owner-supplied replacement clips are prepared privately with their own source/licence record.
 
 The intended gain (0.18) is encoded into the WAV samples. Every file is verified below 0.16 full-scale peak, independent of element volume. This follows [Apple's documented iOS volume behavior](https://developer.apple.com/library/archive/documentation/AudioVideo/Conceptual/Using_HTML5_Audio_Video/Device-SpecificConsiderations/Device-SpecificConsiderations.html); physical device levels are still to be checked.

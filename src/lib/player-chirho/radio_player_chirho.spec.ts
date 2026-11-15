@@ -363,6 +363,17 @@ describe('Scripture playback', () => {
 		expect(fixtureChirho.player_chirho.snapshotChirho.phase_chirho).toBe('loading');
 	});
 
+	it('keeps automatic recovery quiet and starts a new cue only for a new listener attempt', () => {
+		const fixtureChirho = setupChirho();
+		fixtureChirho.player_chirho.playChirho();
+		for (let failureChirho = 0; failureChirho < 4; failureChirho += 1)
+			fixtureChirho.audio_chirho.failedChirho();
+		expect(fixtureChirho.sounds_chirho.startChirho).toHaveBeenCalledTimes(1);
+		expect(fixtureChirho.player_chirho.snapshotChirho.phase_chirho).toBe('error');
+		fixtureChirho.player_chirho.playChirho();
+		expect(fixtureChirho.sounds_chirho.startChirho).toHaveBeenCalledTimes(2);
+	});
+
 	it('moves to a verified passage when tuning into a station without the current book', () => {
 		const partialStationChirho = STATIONS_CHIRHO.find(
 			(stationChirho) => !resolveChapterChirho(stationChirho, 'GEN', 1)

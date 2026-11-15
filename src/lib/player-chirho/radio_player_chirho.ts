@@ -42,6 +42,7 @@ export interface RadioOptionsChirho {
 	sounds_chirho: RadioSoundsChirho;
 	storage_chirho: PreferenceStorageChirho | null;
 	on_change_chirho(stateChirho: RadioStateChirho): void;
+	on_autoplay_blocked_chirho?(): void;
 	now_chirho?: () => number;
 	fetch_chirho?: typeof fetch;
 	stations_chirho?: readonly StationChirho[];
@@ -93,6 +94,7 @@ export class RadioPlayerChirho {
 	private trackChirho: ChapterTrackChirho | null = null;
 	private partIndexChirho = 0;
 	private mediaDurationChirho = 0;
+	private automaticChirho = false;
 
 	constructor(optionsChirho: RadioOptionsChirho) {
 		this.optionsChirho = optionsChirho;
@@ -372,7 +374,8 @@ export class RadioPlayerChirho {
 		playChirho: boolean,
 		positionChirho: PositionChirho,
 		secondsChirho: number | null,
-		recoveryChirho = 0
+		recoveryChirho = 0,
+		tuningChirho = true
 	): void {
 		if (this.disposedChirho) return;
 		const landingChirho = offeredChapterAtOrAfterChirho(
@@ -428,7 +431,7 @@ export class RadioPlayerChirho {
 			this.trackChirho.partAtChirho(this.pendingSecondsChirho ?? 0),
 			playChirho,
 			recoveryChirho,
-			true
+			tuningChirho && recoveryChirho === 0 && !this.automaticChirho
 		);
 	}
 
@@ -456,6 +459,7 @@ export class RadioPlayerChirho {
 			this.seekPendingChirho();
 			if (this.audioChirho.paused || this.stateChirho.phase_chirho === 'error') return;
 			this.seekFinishedChirho = true;
+			this.automaticChirho = false;
 			clearTimeout(this.timeoutChirho);
 			this.optionsChirho.sounds_chirho.stopChirho();
 			const elapsedChirho = Math.max(0, Math.round(this.nowChirho() - this.requestedAtChirho));
@@ -552,7 +556,7 @@ export class RadioPlayerChirho {
 	private finishPartChirho(): void {
 		const nextIndexChirho = this.partIndexChirho + 1;
 		if (!this.trackChirho || nextIndexChirho >= this.trackChirho.partCountChirho) {
-			this.nextChirho();
+			this.nextChirho(false);
 			return;
 		}
 		const shouldPlayChirho =
@@ -590,21 +594,24 @@ export class RadioPlayerChirho {
 			)
 				return;
 			if (errorChirho instanceof Error && errorChirho.name === 'NotSupportedError') return; // The media error handler performs bounded recovery.
-			this.failChirho(
-				errorChirho instanceof Error && errorChirho.name === 'NotAllowedError'
-					? 'Tap play to let your browser start the audio.'
-					: 'Playback stopped. Tap play to try again.'
-			);
+			if (errorChirho instanceof Error && errorChirho.name === 'NotAllowedError') {
+				this.pauseChirho();
+				this.emitChirho({ message_chirho: 'Press On to let your browser start the audio.' });
+				this.optionsChirho.on_autoplay_blocked_chirho?.();
+				return;
+			}
+			this.failChirho('Playback stopped. Turn the radio on to try again.');
 		});
 	}
 
-	playChirho(): void {
+	playChirho(automaticChirho = false): void {
 		if (
 			this.disposedChirho ||
 			this.stateChirho.phase_chirho === 'playing' ||
 			this.stateChirho.phase_chirho === 'loading'
 		)
 			return;
+		this.automaticChirho = automaticChirho;
 		if (!this.expectedUrlChirho || this.stateChirho.phase_chirho === 'error') {
 			this.switchingChirho = false;
 			const followsChirho = this.isFollowedPassageChirho();
@@ -628,6 +635,7 @@ export class RadioPlayerChirho {
 	pauseChirho(): void {
 		if (this.disposedChirho) return;
 		this.playAttemptChirho += 1;
+		this.automaticChirho = false;
 		clearTimeout(this.timeoutChirho);
 		this.audioChirho.pause();
 		this.updateMediaPositionChirho();
@@ -643,6 +651,7 @@ export class RadioPlayerChirho {
 	}
 
 	selectStationChirho(stationIdChirho: string): void {
+		this.automaticChirho = false;
 		const stationChirho = this.stationsByIdChirho.get(stationIdChirho);
 		if (
 			!stationChirho ||
@@ -670,7 +679,7 @@ export class RadioPlayerChirho {
 		this.beginTrackChirho(phaseChirho !== 'paused', positionChirho, null);
 	}
 
-	selectChapterChirho(bookIdChirho: string, chapterChirho: number): void {
+	selectChapterChirho(bookIdChirho: string, chapterChirho: number, tuningChirho = true): void {
 		const bookChirho = BOOKS_CHIRHO.find((bookChirho) => bookChirho.id_chirho === bookIdChirho);
 		if (
 			!bookChirho ||
@@ -680,6 +689,7 @@ export class RadioPlayerChirho {
 			this.disposedChirho
 		)
 			return;
+		this.automaticChirho = false;
 		this.recoveryOriginChirho = null;
 		this.followedPlaceChirho = {
 			station_id_chirho: this.stateChirho.station_id_chirho,
@@ -699,16 +709,17 @@ export class RadioPlayerChirho {
 			this.landReadyChirho();
 			return;
 		}
-		this.beginTrackChirho(phaseChirho !== 'paused', ZERO_POSITION_CHIRHO, 0);
+		this.beginTrackChirho(phaseChirho !== 'paused', ZERO_POSITION_CHIRHO, 0, 0, tuningChirho);
 	}
 
-	nextChirho(): void {
+	nextChirho(tuningChirho = true): void {
 		const nextChirho = nextOfferedChapterChirho(
 			this.stationChirho,
 			this.stateChirho.book_id_chirho,
 			this.stateChirho.chapter_chirho
 		);
-		if (nextChirho) this.selectChapterChirho(nextChirho.book_id_chirho, nextChirho.chapter_chirho);
+		if (nextChirho)
+			this.selectChapterChirho(nextChirho.book_id_chirho, nextChirho.chapter_chirho, tuningChirho);
 	}
 
 	previousChirho(): void {

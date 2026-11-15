@@ -23,12 +23,15 @@ if (
 		"Use a local preview, or explicitly select one of this project's hosted probe targets."
 	);
 const languagesProbeChirho = process.argv.includes('--languages-chirho');
+const experienceProbeChirho = process.argv.includes('--experience-chirho');
 const evidenceDirectoryChirho = new URL(
 	productionProbeChirho || workersDevProbeChirho
 		? '../spec-chirho/evidence-chirho/web-release-chirho/playback-chirho/'
-		: languagesProbeChirho
-			? '../spec-chirho/evidence-chirho/language-radio-chirho/'
-			: '../spec-chirho/evidence-chirho/web-radio-chirho/',
+		: experienceProbeChirho
+			? '../spec-chirho/evidence-chirho/radio-experience-chirho/'
+			: languagesProbeChirho
+				? '../spec-chirho/evidence-chirho/language-radio-chirho/'
+				: '../spec-chirho/evidence-chirho/web-radio-chirho/',
 	import.meta.url
 );
 mkdirSync(evidenceDirectoryChirho, { recursive: true });
@@ -116,6 +119,7 @@ pageChirho.on('response', (responseChirho) => {
 
 try {
 	await pageChirho.addInitScript(() => {
+		Object.defineProperty(navigator, 'getAutoplayPolicy', { value: () => 'disallowed' });
 		const elementsChirho: HTMLAudioElement[] = [];
 		const gesturesChirho: Array<{ at_ms_chirho: number; control_chirho: string }> = [];
 		const playingChirho: Array<{
@@ -147,6 +151,18 @@ try {
 			},
 			true
 		);
+		document.addEventListener(
+			'change',
+			(eventChirho) => {
+				const selectChirho = eventChirho.target;
+				if (selectChirho instanceof HTMLSelectElement)
+					gesturesChirho.push({
+						at_ms_chirho: performance.now(),
+						control_chirho: selectChirho.getAttribute('aria-label') ?? ''
+					});
+			},
+			true
+		);
 		window.Audio = new Proxy(window.Audio, {
 			construct(targetChirho, argumentsChirho) {
 				const audioChirho = Reflect.construct(targetChirho, argumentsChirho) as HTMLAudioElement;
@@ -170,106 +186,41 @@ try {
 		});
 	});
 	await pageChirho.goto(previewUrlChirho.href);
-	await pageChirho.getByRole('button', { name: 'Play Scripture', exact: true }).click();
-	await pageChirho.waitForFunction(
-		() =>
-			(window as unknown as { liveRadioProbeChirho: { playing_chirho: unknown[] } })
-				.liveRadioProbeChirho.playing_chirho.length >= 1,
-		null,
-		{ timeout: 20000 }
-	);
-	await verifyProgressChirho();
-	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
-	await pageChirho.waitForFunction(
-		() => {
-			const traceChirho = (
-				window as unknown as {
-					liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
-				}
-			).liveRadioProbeChirho;
-			return (
-				new Set(traceChirho.playing_chirho.map((eventChirho) => eventChirho.url_chirho)).size >= 2
-			);
-		},
-		null,
-		{ timeout: 20000 }
-	);
-	await verifyProgressChirho();
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-	await pageChirho
-		.getByRole('group', { name: 'Recordings', exact: true })
-		.getByRole('button')
-		.filter({ hasText: 'Hindi' })
-		.click();
-	await pageChirho.waitForFunction(
-		() => {
-			const traceChirho = (
-				window as unknown as {
-					liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
-				}
-			).liveRadioProbeChirho;
-			return traceChirho.playing_chirho.some((eventChirho) =>
-				eventChirho.url_chirho.includes('/hi/ulb/')
-			);
-		},
-		null,
-		{ timeout: 20000 }
-	);
-	await verifyProgressChirho();
-	if (languagesProbeChirho) {
-		await pageChirho.getByRole('searchbox').fill('Hindi');
-		await pageChirho
-			.getByRole('group', { name: 'Languages', exact: true })
-			.getByRole('button')
-			.filter({ has: pageChirho.getByText('Hindi', { exact: true }) })
-			.click();
-		await pageChirho
-			.getByRole('group', { name: 'Recordings', exact: true })
-			.getByRole('button')
-			.filter({ hasText: 'Davar Audio Bibles' })
-			.first()
-			.click();
+	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+	const waitForStreamsChirho = async (countChirho: number): Promise<void> => {
 		await pageChirho.waitForFunction(
-			() =>
-				(
+			(countChirho) => {
+				const traceChirho = (
 					window as unknown as {
 						liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
 					}
-				).liveRadioProbeChirho.playing_chirho.some((eventChirho) =>
-					eventChirho.url_chirho.startsWith('https://audio.dbs.org/')
-				),
-			null,
+				).liveRadioProbeChirho;
+				return (
+					new Set(traceChirho.playing_chirho.map((eventChirho) => eventChirho.url_chirho)).size >=
+					countChirho
+				);
+			},
+			countChirho,
 			{ timeout: 20000 }
 		);
 		await verifyProgressChirho();
-		await pageChirho.getByRole('button', { name: 'All built-in stations', exact: true }).click();
-		await pageChirho.getByRole('searchbox').fill('Spanish');
-	} else {
-		await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
-		await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	};
+	await waitForStreamsChirho(1);
+	await pageChirho.getByRole('button', { name: 'Next station', exact: true }).click();
+	await waitForStreamsChirho(2);
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('hi');
+	await waitForStreamsChirho(3);
+	if (languagesProbeChirho) {
+		await pageChirho
+			.getByRole('combobox', { name: 'Version', exact: true })
+			.selectOption({ label: 'Unlocked Literal Bible' });
+		await pageChirho
+			.getByRole('combobox', { name: 'Narration', exact: true })
+			.selectOption('biel-ulb-hi');
+		await waitForStreamsChirho(4);
 	}
-	await pageChirho
-		.getByRole('group', { name: 'Recordings', exact: true })
-		.getByRole('button')
-		.filter({ hasText: 'Spanish' })
-		.click();
-	await pageChirho.waitForFunction(
-		(expectedChirho) => {
-			const traceChirho = (
-				window as unknown as {
-					liveRadioProbeChirho: { playing_chirho: Array<{ url_chirho: string }> };
-				}
-			).liveRadioProbeChirho;
-			return (
-				new Set(traceChirho.playing_chirho.map((eventChirho) => eventChirho.url_chirho)).size >=
-				expectedChirho
-			);
-		},
-		languagesProbeChirho ? 5 : 4,
-		{ timeout: 20000 }
-	);
-	await verifyProgressChirho();
-	await pageChirho.getByRole('button', { name: /Browse stations/ }).click();
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('es');
+	await waitForStreamsChirho(languagesProbeChirho ? 5 : 4);
 	const traceChirho = await pageChirho.evaluate(() => {
 		const traceChirho = (
 			window as unknown as {
@@ -321,7 +272,7 @@ try {
 		browser_chirho: `Chromium ${browserChirho.version()}`,
 		preview_chirho: previewUrlChirho.href,
 		method_chirho:
-			'Actual upstream streams, no media interception. Browser playing event; not an acoustic or physical-device latency measurement.',
+			'Actual upstream streams, no media interception. Policy detection is held disallowed so this probe measures explicit On and control changes. Browser playing event; not an acoustic or physical-device latency measurement.',
 		navigation_to_first_playing_ms_chirho: Math.round(measurementsChirho[0].at_ms_chirho * 10) / 10,
 		progress_verified_chirho: progressChirho,
 		measurements_chirho: measurementsChirho,
