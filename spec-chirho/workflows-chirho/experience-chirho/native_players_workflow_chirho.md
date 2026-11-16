@@ -32,6 +32,8 @@ Apple playback configuration follows [media playback setup](https://developer.ap
 
 Build scripts select per-worktree/profile compiler outputs through the shared cache selector, keep source, signing material, runtime data and evidence outside the unencrypted external cache, and never change backend mid-build. Local development identifiers are provisional. No build script creates store records, registers identifiers, provisions signing, uploads an app or contacts a recording publisher.
 
+Apple output activation is a request until it completes. An activation that arrives after Off is released; one needed by a newer On is kept. Watch effect sounds require completed activation. System Off, interruptions and output loss stop both effect channels without changing Sound. On-screen Off can let its own short click finish before releasing the route, bounded at one second; an epoch cancels that deferred release when a newer activation starts. The controller's late-activation rule has fake-route red/green tests. Platform sound/output behavior still needs device checks.
+
 ```mermaid
 flowchart TD
     screen_chirho[Android activity opens] --> connect_chirho[Connect to the privately bound MediaSessionService]

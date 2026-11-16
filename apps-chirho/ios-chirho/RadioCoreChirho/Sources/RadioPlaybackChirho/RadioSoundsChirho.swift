@@ -1,11 +1,13 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 // The radio's interface sounds: static while a deliberately tuned station loads, a click for a
-// press and a knob for each step of the dial. Two channels, one clip each, so nothing stacks: a
-// new clip on a channel replaces the one before it. They come only from the listener's own presses
-// and dial steps, never from system commands or state updates, and the Sound switch silences
-// both. The clips are short prepared files bundled under native-assets-chirho; the knob clip may
-// start late inside its file, as its profile says. Part of
+// press and a knob tick for a step of the dial. Two channels, one clip each, so nothing stacks. A
+// click replaces whatever the feedback channel holds; a tick sounds only while that channel is
+// quiet, so a fast turn never cuts a click or restarts a tick, as on the web. They come only from
+// the listener's own presses and dial steps, never from system commands or state updates. The
+// Sound switch silences both and lets go of the clips; a quiet system action silences both and
+// leaves the switch alone. The clips are short prepared files bundled under native-assets-chirho
+// that never loop, and each may start late inside its file, as its profile says. Part of
 // spec-chirho/workflows-chirho/radio_sounds_workflow_chirho.md and
 // spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md.
 
@@ -17,6 +19,8 @@ import RadioCoreChirho
 public final class RadioSoundsChirho {
     /// The bundled folder that holds `sounds-chirho/profile_chirho.json` and its clips.
     public static let assetsFolderChirho = "native-assets-chirho"
+    /// Knob steps closer together than this share one tick, as on the web.
+    static let knobSpacingSecondsChirho: TimeInterval = 0.06
 
     private let profileChirho: SoundProfileChirho?
     private let folderChirho: URL?
@@ -24,7 +28,9 @@ public final class RadioSoundsChirho {
     private var playersChirho: [String: AVAudioPlayer] = [:]
     private var tuningChirho: AVAudioPlayer?
     private var feedbackChirho: AVAudioPlayer?
-    /// Whether a sound may play now. On a Watch, only once the long-form output is active.
+    /// When the last tick started, on the steady uptime clock.
+    private var lastKnobAtChirho = -TimeInterval.infinity
+    /// Whether a sound may play now. On a Watch, only through the long-form output actually given.
     private let mayPlayChirho: @MainActor () -> Bool
 
     /// Silences both channels when switched off, and lets go of the loaded clips.
@@ -48,9 +54,18 @@ public final class RadioSoundsChirho {
     /// Whether the app carries a usable profile at all.
     public var availableChirho: Bool { profileChirho != nil }
 
+    /// A deliberate press. It always sounds, replacing a click or tick under way.
     public func clickChirho() { playFeedbackChirho(.clickChirho) }
 
-    public func knobChirho() { playFeedbackChirho(.knobChirho) }
+    /// One deliberate step of the dial. It sounds only while the controls are quiet: a click is
+    /// never cut, a tick under way finishes first, and steps closer than 60 ms share a tick. No
+    /// clip loops, so a step waits at most for the rest of the clip already sounding.
+    public func knobChirho() {
+        if feedbackChirho?.isPlaying == true { return }
+        let atChirho = ProcessInfo.processInfo.systemUptime
+        guard atChirho - lastKnobAtChirho >= Self.knobSpacingSecondsChirho else { return }
+        if playFeedbackChirho(.knobChirho) { lastKnobAtChirho = atChirho }
+    }
 
     /// Static for a deliberate turn of the dial while the radio is on, chosen at random.
     public func startTuningChirho() {
@@ -69,21 +84,39 @@ public final class RadioSoundsChirho {
         tuningChirho = nil
     }
 
-    private func playFeedbackChirho(_ roleChirho: SoundRoleChirho) {
+    /// Stops the static and any click or tick at once, and leaves the Sound switch as it is: for a
+    /// quiet system Off, an interruption, or the output going away.
+    public func silenceChirho() {
+        tuningChirho?.stop()
+        feedbackChirho?.stop()
+        tuningChirho = nil
+        feedbackChirho = nil
+    }
+
+    /// What is left of a click or tick under way, so Off can let the press's own click finish.
+    public var feedbackLeftSecondsChirho: TimeInterval {
+        guard let feedbackChirho, feedbackChirho.isPlaying else { return 0 }
+        return max(0, feedbackChirho.duration - feedbackChirho.currentTime)
+    }
+
+    /// Whether the clip started.
+    @discardableResult
+    private func playFeedbackChirho(_ roleChirho: SoundRoleChirho) -> Bool {
         guard enabledChirho, mayPlayChirho(),
             let clipChirho = profileChirho?.clipsChirho[roleChirho]?.first,
             let playerChirho = playerChirho(clipChirho)
-        else { return }
+        else { return false }
         if feedbackChirho !== playerChirho { feedbackChirho?.stop() }
         feedbackChirho = playerChirho
-        startChirho(playerChirho, clipChirho)
+        return startChirho(playerChirho, clipChirho)
     }
 
-    /// From the clip's own start, even when the same clip is still sounding from the last step.
-    private func startChirho(_ playerChirho: AVAudioPlayer, _ clipChirho: SoundClipChirho) {
+    /// From the clip's own start, even when the same clip is still sounding from the last press.
+    @discardableResult
+    private func startChirho(_ playerChirho: AVAudioPlayer, _ clipChirho: SoundClipChirho) -> Bool {
         playerChirho.stop()
         playerChirho.currentTime = min(clipChirho.startSecondsChirho, max(0, playerChirho.duration - 0.01))
-        playerChirho.play()
+        return playerChirho.play()
     }
 
     private func playerChirho(_ clipChirho: SoundClipChirho) -> AVAudioPlayer? {
@@ -104,10 +137,7 @@ public final class RadioSoundsChirho {
     }
 
     private func releaseChirho() {
-        tuningChirho?.stop()
-        feedbackChirho?.stop()
-        tuningChirho = nil
-        feedbackChirho = nil
+        silenceChirho()
         playersChirho.removeAll()
     }
 }

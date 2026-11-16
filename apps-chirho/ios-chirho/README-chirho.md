@@ -42,8 +42,10 @@ Both apps bundle two things from `../shared-chirho/` by reference, never by copy
   offer play, pause, previous and next chapter, and seeking within the chapter. They never make
   interface sounds.
 - **Sounds.** Static plays while a deliberately tuned station loads. A click plays for presses and a
-  knob sound for each dial step. The Sound switch silences them; on the Watch they play only once
-  the output is on.
+  knob detent for an accepted dial step. A sounding click or tick finishes before another tick. The
+  Sound switch silences and unloads them; system Off and interruptions silence them without changing
+  the switch. Watch effects wait for completed output activation. On-screen Off lets its click finish
+  before giving the route back, at most one second later; a newer On cancels that deferred release.
 - **Memory.** It remembers the station, passage, position, followed place, Off and the Sound switch
   on the device. Nothing else is kept.
 

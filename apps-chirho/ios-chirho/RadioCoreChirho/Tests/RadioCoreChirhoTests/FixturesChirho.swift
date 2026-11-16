@@ -148,27 +148,39 @@ final class FakeTransportChirho: RadioTransportChirho {
     func clearLogChirho() { logChirho.removeAll() }
 }
 
-/// An output that is ready at once, refuses, or waits until the test decides.
+/// An output that is ready at once, refuses, or waits until the test decides. Like a real audio
+/// session it is held only once an activation completes, and a release lets it go: a release made
+/// while an activation is still under way cannot stop that activation from completing.
 @MainActor
 final class FakeRouteChirho: AudioRouteChirho {
     var resultChirho: RouteActivationChirho = .activeChirho
     var holdChirho = false
-    private var waitingChirho: CheckedContinuation<RouteActivationChirho, Never>?
+    /// Activations still waiting, oldest first.
+    private var waitingChirho: [CheckedContinuation<RouteActivationChirho, Never>] = []
     private(set) var releasesChirho = 0
+    /// Whether the output is held now.
+    private(set) var activeChirho = false
 
     func activateChirho() async -> RouteActivationChirho {
-        guard holdChirho else { return resultChirho }
-        return await withCheckedContinuation { waitingChirho = $0 }
+        var outcomeChirho = resultChirho
+        if holdChirho { outcomeChirho = await withCheckedContinuation { waitingChirho.append($0) } }
+        if outcomeChirho == .activeChirho { activeChirho = true }
+        return outcomeChirho
     }
 
+    /// Completes the oldest activation still waiting.
     func finishChirho(_ resultChirho: RouteActivationChirho) {
-        waitingChirho?.resume(returning: resultChirho)
-        waitingChirho = nil
+        guard !waitingChirho.isEmpty else { return }
+        waitingChirho.removeFirst().resume(returning: resultChirho)
     }
 
-    var isWaitingChirho: Bool { waitingChirho != nil }
+    var isWaitingChirho: Bool { !waitingChirho.isEmpty }
+    var waitingCountChirho: Int { waitingChirho.count }
 
-    func releaseChirho() { releasesChirho += 1 }
+    func releaseChirho() {
+        releasesChirho += 1
+        activeChirho = false
+    }
 }
 
 @MainActor

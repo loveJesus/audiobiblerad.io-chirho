@@ -2,8 +2,9 @@
 
 // What the iPhone and Watch views hold: the radio's state, the controls a listener uses, and the
 // wiring between the controller, AVFoundation, the system's media controls and the interface
-// sounds. Interface sounds come only from the listener's own presses here; the system's commands
-// reach the controller directly and stay quiet. Part of
+// sounds. Interface sounds come only from the listener's own presses here. The system's commands,
+// interruptions and a lost output stay quiet and stop any sound still under way; the on-screen
+// Off keeps its own click. Part of
 // spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md.
 
 import Foundation
@@ -43,9 +44,10 @@ public final class RadioModelChirho {
         stationChirho = controllerChirho.stationChirho
 
         #if os(watchOS)
-            // A Watch sounds only through the long-form output the radio asked for.
-            let mayPlayChirho: @MainActor () -> Bool = { [weak controllerChirho] in
-                controllerChirho?.stateChirho.isOnChirho ?? false
+            // A Watch sounds only through the long-form output it was actually given: not while
+            // the radio is still asking for it, and not after Off, an interruption or its loss.
+            let mayPlayChirho: @MainActor () -> Bool = { [weak routeChirho] in
+                routeChirho?.outputReadyChirho ?? false
             }
         #else
             let mayPlayChirho: @MainActor () -> Bool = { true }
@@ -53,28 +55,33 @@ public final class RadioModelChirho {
         let soundsChirho = RadioSoundsChirho(bundleChirho: bundleChirho, mayPlayChirho: mayPlayChirho)
         soundsChirho.enabledChirho = stateChirho.soundsEnabledChirho
         self.soundsChirho = soundsChirho
+        // Off gives the output back only once the press's own click has finished.
+        routeChirho.lingerSecondsChirho = { [weak soundsChirho] in
+            soundsChirho?.feedbackLeftSecondsChirho ?? 0
+        }
 
         controllerChirho.onChangeChirho = { [weak self] in self?.changedChirho($0) }
-        routeChirho.onInterruptionChirho = { [weak controllerChirho] beganChirho, resumeChirho in
-            guard let controllerChirho else { return }
+        routeChirho.onInterruptionChirho = { [weak self] beganChirho, resumeChirho in
+            guard let self else { return }
             if beganChirho {
-                controllerChirho.interruptionBeganChirho()
+                self.soundsChirho?.silenceChirho()
+                self.controllerChirho.interruptionBeganChirho()
             } else {
-                Task { await controllerChirho.interruptionEndedChirho(shouldResumeChirho: resumeChirho) }
+                Task { await self.controllerChirho.interruptionEndedChirho(shouldResumeChirho: resumeChirho) }
             }
         }
-        routeChirho.onOutputLostChirho = { [weak controllerChirho] in controllerChirho?.outputLostChirho() }
+        routeChirho.onOutputLostChirho = { [weak self] in
+            self?.soundsChirho?.silenceChirho()
+            self?.controllerChirho.outputLostChirho()
+        }
         nowPlayingChirho.connectChirho(
             NowPlayingActionsChirho(
                 onChirho: { [weak controllerChirho] in
                     guard let controllerChirho else { return }
                     Task { await controllerChirho.onChirho() }
                 },
-                offChirho: { [weak controllerChirho] in controllerChirho?.offChirho() },
-                toggleChirho: { [weak controllerChirho] in
-                    guard let controllerChirho else { return }
-                    Task { await controllerChirho.toggleChirho() }
-                },
+                offChirho: { [weak self] in self?.quietOffChirho() },
+                toggleChirho: { [weak self] in self?.quietToggleChirho() },
                 nextChirho: { [weak controllerChirho] in controllerChirho?.nextChapterChirho() },
                 previousChirho: { [weak controllerChirho] in controllerChirho?.previousChapterChirho() },
                 seekChirho: { [weak controllerChirho] secondsChirho in
@@ -133,6 +140,8 @@ public final class RadioModelChirho {
     /// Opening the app: it plays at once unless the listener's last word was Off.
     public func launchChirho() async { await controllerChirho.launchChirho() }
 
+    /// The on-screen power control. Its click sounds through Off too: the output is given back
+    /// once the click has finished.
     public func powerChirho() async {
         soundsChirho?.clickChirho()
         if stateChirho.isOnChirho {
@@ -206,6 +215,23 @@ public final class RadioModelChirho {
 
     /// Remembers the place now, as the app leaves the foreground.
     public func saveChirho() { controllerChirho.saveChirho() }
+
+    // MARK: The system's controls
+
+    /// Off from the lock screen, Control Center, headphones or the Watch's Now Playing: no click,
+    /// and any click or static still sounding stops with the radio.
+    private func quietOffChirho() {
+        soundsChirho?.silenceChirho()
+        controllerChirho.offChirho()
+    }
+
+    private func quietToggleChirho() {
+        if controllerChirho.stateChirho.isOnChirho {
+            quietOffChirho()
+        } else {
+            Task { await controllerChirho.onChirho() }
+        }
+    }
 
     // MARK: Changes
 

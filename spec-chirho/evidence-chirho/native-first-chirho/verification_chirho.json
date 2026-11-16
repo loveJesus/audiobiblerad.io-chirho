@@ -1,6 +1,6 @@
 {
 	"date_chirho": "2026-11-16",
-	"status_chirho": "Apple app builds and iPhone Simulator startup verified; Android corrected build, 27 tests and packaging pass; Android advancing runtime remains open",
+	"status_chirho": "Apple feedback/output correction builds and core tests pass; first iPhone Simulator playback observed on prior cut. Android corrected package passes; advancing Android runtime not yet established.",
 	"authority_chirho": "owner confirmed native iOS, Apple Watch and Android on 2026-11-16; no store, signing-team, provider or deployment action",
 	"producers_chirho": {
 		"ios_source_and_core_checks_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
@@ -151,6 +151,78 @@
 			],
 			"raw_evidence_chirho": "private scene-direction ios-runtime record; exact commands, images, process logs and hashes retained",
 			"source_boundary_chirho": "build from native working-tree source over baseline 63878ae; implementation subsequently committed in d82ee25; producer freeze and root build-input hashes retained"
+		},
+		"feedback_output_followup_chirho": {
+			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+			"core_tests_chirho": 41,
+			"suites_chirho": 5,
+			"sdk_typechecks_chirho": "iOS 17 and watchOS 10 pass with warnings-as-errors",
+			"negative_chirho": "Committed controller leaves a late activation active after Off; exactly one of 22 controller tests fails. The new correction passes and preserves a newer On.",
+			"application_builds_chirho": [
+				{
+					"target_chirho": "phone, including embedded Watch",
+					"seconds_chirho": 36.41,
+					"warnings_chirho": 0
+				},
+				{
+					"target_chirho": "standalone Watch, already current from Phone build",
+					"seconds_chirho": 13.39,
+					"warnings_chirho": 0
+				}
+			],
+			"changes_chirho": [
+				"Knob ticks do not cut a sounding click or tick; quiet system Off/interruption/output loss stops both effect channels without changing the Sound switch.",
+				"Watch feedback is gated on completed output activation.",
+				"Late output activation is released after Off but left to a newer On.",
+				"Off lets a deliberate click finish before giving back the route, bounded at one second; a newer activation cancels that deferred release."
+			],
+			"root_readback_chirho": {
+				"source_files_match_producer_freeze_chirho": 6,
+				"bundles_chirho": [
+					{
+						"target_chirho": "phone",
+						"executable_sha256_chirho": "27d518caa1757867a87232160761c46df19a2c59de350759eab61dde2f0c7cb0",
+						"sound_files_chirho": 12,
+						"sound_bytes_chirho": 376255,
+						"background_chirho": ["audio"],
+						"sound_and_catalogue_match_chirho": true,
+						"debug_libraries_chirho": {
+							"AudioBibleRadioChirho.debug.dylib": "1ff539cf7f7f28efd385a9cc85cf6445a6a855d6ae891b322ac37252f82f8ab7",
+							"__preview.dylib": "f49768013bc43d61dcf835625b277fec1fd3e7601873ad1f85956ee4f9b9307e"
+						}
+					},
+					{
+						"target_chirho": "watch",
+						"executable_sha256_chirho": "3528a0fe7029dfb52c9645e010cae603652a7f741affb36e7ea34e4c97e1b7cf",
+						"sound_files_chirho": 12,
+						"sound_bytes_chirho": 376255,
+						"background_chirho": ["audio"],
+						"sound_and_catalogue_match_chirho": true,
+						"debug_libraries_chirho": {
+							"__preview.dylib": "9872f824bd0c4d08c337f06822454ff2b18dd50c898029a4e661dea47860a341",
+							"AudioBibleRadioWatchChirho.debug.dylib": "414d0f755f628d84809a29d3c3221b7075dffad42161a7dc612bbcb9f0a5eedc"
+						}
+					},
+					{
+						"target_chirho": "embedded_watch",
+						"executable_sha256_chirho": "3528a0fe7029dfb52c9645e010cae603652a7f741affb36e7ea34e4c97e1b7cf",
+						"sound_files_chirho": 12,
+						"sound_bytes_chirho": 376255,
+						"background_chirho": ["audio"],
+						"sound_and_catalogue_match_chirho": true,
+						"debug_libraries_chirho": {
+							"__preview.dylib": "9872f824bd0c4d08c337f06822454ff2b18dd50c898029a4e661dea47860a341",
+							"AudioBibleRadioWatchChirho.debug.dylib": "414d0f755f628d84809a29d3c3221b7075dffad42161a7dc612bbcb9f0a5eedc"
+						}
+					}
+				]
+			},
+			"proof_limit_chirho": "Late activation has fake-route red/green proof. Platform effect gating and delayed release have review/compile proof only; this new cut was not run in Simulator or on a physical device.",
+			"remaining_chirho": [
+				"Off effect mixing with another app",
+				"media-services-reset handling",
+				"physical output, headphone and Watch checks"
+			]
 		}
 	},
 	"cache_chirho": {
@@ -214,7 +286,7 @@
 			"observed_chirho": "install and screen rendering without an app crash; John 1, credit and stall message visible; no advancing clock or framework PLAYING",
 			"diagnostics_chirho": "severe emulator class-verification/frame delays; first-open playback reached the 15-second stall before sound; UIAutomation failed and no Off/On taps were attempted",
 			"teardown_chirho": "owned install removed and owned emulator shut down; zero devices afterwards; idle adb server retained; AVD userdata mtime changed and no no-write claim is made",
-			"next_cut_chirho": "corrected APK and host-GPU method prepared separately, not yet run"
+			"next_cut_chirho": "No further runtime is scheduled; preserve the concrete emulator and instrument failures for diagnosis or a fresh device cut."
 		},
 		"not_proved_chirho": [
 			"physical playback and interface sound",
@@ -238,6 +310,26 @@
 				"run_chirho": 6,
 				"sha256_chirho": "07762d3b1ab3d4f96ba14bb0466072504acfc9fde665c7bad3790edffb480258",
 				"scope_chirho": "three primary correctness fixes before final valid-memory guard"
+			}
+		],
+		"runtime_followups_chirho": [
+			{
+				"cut_chirho": "host GPU, script",
+				"elapsed_seconds_chirho": 68,
+				"outcome_chirho": "instrument RED: calling script and copied scratch parser had incompatible arguments; no app assertion",
+				"teardown_chirho": "uninstall and owned emulator shutdown succeeded"
+			},
+			{
+				"cut_chirho": "interactive observation",
+				"outcome_chirho": "instrument RED: terminal job control stopped the driver and its emulator; no tap or app acceptance",
+				"teardown_chirho": "owned emulator stopped; direct uninstall was not confirmed in this cut; the following cold-boot preflight confirmed no existing radio install"
+			},
+			{
+				"cut_chirho": "cold host GPU, direct screenshots",
+				"elapsed_seconds_chirho": 272.931,
+				"outcome_chirho": "runtime RED: radio UI under a System UI not-responding dialog, session NONE and no advancing playhead; no tap or retry",
+				"teardown_chirho": "force-stop/uninstall/owned emulator shutdown all succeeded, no teardown failures",
+				"limits_chirho": "This is not an attribution of the System UI failure to the radio, and no Android runtime PASS is claimed"
 			}
 		]
 	},

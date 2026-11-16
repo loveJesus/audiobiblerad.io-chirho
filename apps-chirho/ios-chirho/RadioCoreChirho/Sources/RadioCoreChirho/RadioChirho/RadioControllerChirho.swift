@@ -35,7 +35,8 @@ public final class RadioControllerChirho {
     var trackChirho: TrackChirho?
     /// Raised by every load and every release, so nothing late from an older stream can act.
     var tokenChirho = 0
-    /// Raised by every On and Off, so an output chosen late cannot start a radio turned Off.
+    /// Raised by every On and Off, so an output chosen late cannot start a radio turned Off, and
+    /// is given back unless a newer On is waiting for it.
     var activationChirho = 0
     var recoveriesChirho = 0
     var recoveryOriginChirho: RecoveryOriginChirho?
@@ -135,8 +136,12 @@ public final class RadioControllerChirho {
         stateChirho.phaseChirho = .startingChirho
         stateChirho.messageChirho = ""
         let resultChirho = await routeChirho.activateChirho()
-        // Off, or another On, while the output was being chosen has the last word.
-        guard mineChirho == activationChirho, stateChirho.phaseChirho == .startingChirho else { return }
+        // Off, or another On, while the output was being chosen has the last word. An output that
+        // arrives after Off is given back at once; one that a newer On is waiting for is left to it.
+        guard mineChirho == activationChirho, stateChirho.phaseChirho == .startingChirho else {
+            if resultChirho == .activeChirho, !stateChirho.isOnChirho { routeChirho.releaseChirho() }
+            return
+        }
         guard resultChirho == .activeChirho else {
             stateChirho.phaseChirho = .offChirho
             stateChirho.messageChirho = RadioMessagesChirho.noOutputChirho

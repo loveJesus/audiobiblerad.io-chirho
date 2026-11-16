@@ -233,7 +233,7 @@ struct ControllerTestsChirho {
         #expect(controllerChirho.stateChirho.phaseChirho == .offChirho)
     }
 
-    @Test("Off while the output is being chosen wins over the output arriving")
+    @Test("Off while the output is being chosen wins over the output arriving, which is given back")
     func offDuringActivationStaysOffChirho() async throws {
         let rigChirho = rigChirho()
         let controllerChirho = rigChirho.controllerChirho
@@ -242,10 +242,35 @@ struct ControllerTestsChirho {
         while !rigChirho.routeChirho.isWaitingChirho { await Task.yield() }
         #expect(controllerChirho.stateChirho.phaseChirho == .startingChirho)
         controllerChirho.offChirho()
+        // Off's release came before the output existed, so the output still arrives after it.
         rigChirho.routeChirho.finishChirho(.activeChirho)
         await launchChirho.value
         #expect(rigChirho.transportChirho.loadsChirho.isEmpty)
         #expect(controllerChirho.stateChirho.phaseChirho == .offChirho)
+        #expect(!rigChirho.routeChirho.activeChirho, "a radio turned Off holds no output")
+    }
+
+    @Test("An output that arrives late for an earlier On is left to the newer On waiting for it")
+    func lateOutputIsLeftToNewerOnChirho() async throws {
+        let rigChirho = rigChirho()
+        let controllerChirho = rigChirho.controllerChirho
+        rigChirho.routeChirho.holdChirho = true
+        let firstChirho = Task { await controllerChirho.launchChirho() }
+        try #require(try await untilChirho { rigChirho.routeChirho.waitingCountChirho == 1 })
+        controllerChirho.offChirho()
+        let secondChirho = Task { await controllerChirho.onChirho() }
+        try #require(try await untilChirho { rigChirho.routeChirho.waitingCountChirho == 2 })
+
+        rigChirho.routeChirho.finishChirho(.activeChirho)
+        await firstChirho.value
+        #expect(rigChirho.routeChirho.activeChirho, "the newer On's output is not given back")
+        #expect(controllerChirho.stateChirho.phaseChirho == .startingChirho)
+
+        rigChirho.routeChirho.finishChirho(.activeChirho)
+        await secondChirho.value
+        #expect(controllerChirho.stateChirho.phaseChirho == .loadingChirho)
+        #expect(rigChirho.transportChirho.loadsChirho.count == 1)
+        #expect(rigChirho.routeChirho.activeChirho)
     }
 
     // MARK: Invariant: stale events cannot move a newer track
