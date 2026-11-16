@@ -1,0 +1,33 @@
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+
+# Native players
+
+L.J. confirmed native iOS/Apple Watch and Android on 2026-11-16. The first native vertical uses the existing built-in catalogue, with its actual source licences and visible credits. Davar native access remains unresolved and is not implied by its browser playback. Native builds, simulator checks, physical-device results and store acceptance are separate evidence scopes.
+
+```mermaid
+flowchart TD
+    catalogue_chirho[Canonical web catalogue contract] --> export_chirho[Export shared built-in metadata snapshot]
+    export_chirho --> bundle_chirho[Bundle metadata with iOS, Watch and Android]
+    bundle_chirho --> open_chirho[Open native radio with a chapter already resolvable]
+    open_chirho --> on_chirho[On through the native playback controller]
+    on_chirho --> source_chirho[Stream audio directly from publisher]
+    source_chirho --> platform_chirho[Publish native media session and logical chapter position]
+    platform_chirho --> command_chirho[App, headset or system control]
+    command_chirho --> on_chirho
+    source_chirho --> save_chirho[Remember validated station and passage locally]
+    source_chirho --> next_chirho[Advance to the next offered chapter]
+    next_chirho --> source_chirho
+    open_chirho --> notices_chirho[Show selected source, licence and recording credit]
+    bundle_chirho --> build_chirho[Select isolated external-first build cache with local fallback]
+    build_chirho --> admission_chirho[Fresh disk and toolchain checks; serialize substantial builds]
+    admission_chirho --> local_chirho[Unsigned local build and exact-scope tests]
+    local_chirho --> record_chirho[Record actual results and unresolved device work]
+```
+
+`scripts-chirho/native-chirho/export_catalogue_chirho.ts` writes the one generated snapshot at `apps-chirho/shared-chirho/catalogue_chirho.json`. It includes metadata and addresses, not Scripture audio. Run it with `--check-chirho` before a native build to detect stale metadata. Both native apps should reference this same source resource; the first On does not depend on a remote catalogue fetch. A future catalogue refresh must preserve the current usable copy on failure.
+
+iOS and Watch share Swift playback/catalogue code; Android uses its platform player and media session. The Watch view stays lightweight and uses the crown for station selection. The web renderer is not a native playback dependency. Each player must preserve explicit Off, bound network failures, validate remembered positions and display the playing recording's terms. The initial vertical does not establish complete web feature parity.
+
+Apple playback configuration follows [media playback setup](https://developer.apple.com/documentation/avfoundation/configuring-your-app-for-media-playback), [Watch background audio](https://developer.apple.com/documentation/watchkit/playing-background-audio) and [Watch session activation](<https://developer.apple.com/documentation/avfaudio/avaudiosession/activate(options:completionhandler:)>). A Watch needs a supported output route; activation failure must be visible. Android's implementation follows the official Media3 playback/session documentation and pins suitable stable tooling after checking the installed SDK.
+
+Build scripts select per-worktree/profile compiler outputs through the shared cache selector, keep source, signing material, runtime data and evidence outside the unencrypted external cache, and never change backend mid-build. Local development identifiers are provisional. No build script creates store records, registers identifiers, provisions signing, uploads an app or contacts a recording publisher.

@@ -1,0 +1,141 @@
+{
+	"date_chirho": "2026-11-16",
+	"status_chirho": "unsigned Apple application builds verified; runtime acceptance pending",
+	"authority_chirho": "owner confirmed native iOS, Apple Watch and Android on 2026-11-16; no store, signing-team, provider or deployment action",
+	"producers_chirho": {
+		"ios_source_and_core_checks_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+		"shared_inputs_and_application_builds_chirho": "BIBLERADIO_CHIRHO/gpt_chirho",
+		"android_source_chirho": "BIBLERADIO_CHIRHO/claude_chirho after an unfinished root draft"
+	},
+	"catalogue_chirho": {
+		"stations_chirho": 29,
+		"languages_chirho": 26,
+		"address_rows_compared_chirho": 34481,
+		"playable_chapter_addresses_chirho": 18894,
+		"sha256_chirho": "2c87959acced166f32e5a664f452f0de27e9930cd1f167d3bffacfdbeaa90402",
+		"scripture_audio_bundled_chirho": false,
+		"davar_chirho": "not included; native access unresolved"
+	},
+	"apple_chirho": {
+		"toolchain_chirho": {
+			"xcode_chirho": "27.1 (27A9275)",
+			"swift_chirho": "6.4",
+			"ios_sdk_chirho": "27.1",
+			"watch_sdk_chirho": "27.0",
+			"deployment_targets_chirho": ["iOS 17.0", "watchOS 10.0"]
+		},
+		"producer_checks_chirho": {
+			"swift_tests_chirho": 40,
+			"suites_chirho": 5,
+			"warnings_as_errors_chirho": true,
+			"parity_rows_chirho": 34481,
+			"ios_and_watch_sdk_typechecks_chirho": "pass; reported by source producer with raw logs retained"
+		},
+		"prior_reds_chirho": [
+			"run 1: setter access across controller files; fixed in product source",
+			"run 2: 34 of 36 tests passed; serialized async fixtures and state polling repaired test scheduling, not a measured product response bound",
+			"run 3: nested Swift Testing require macro and try compile errors; fixed in tests"
+		],
+		"root_application_builds_chirho": [
+			{
+				"scheme_chirho": "RadioPhoneChirho",
+				"destination_chirho": "generic/platform=iOS Simulator",
+				"result_chirho": "BUILD SUCCEEDED",
+				"warnings_chirho": 0,
+				"seconds_chirho": 649.188,
+				"includes_embedded_watch_chirho": true
+			},
+			{
+				"scheme_chirho": "RadioWatchChirho",
+				"destination_chirho": "generic/platform=watchOS Simulator",
+				"result_chirho": "BUILD SUCCEEDED",
+				"warnings_chirho": 0,
+				"seconds_chirho": 31.095,
+				"warm_from_phone_build_chirho": true
+			}
+		],
+		"bundle_inventory_chirho": [
+			{
+				"target_chirho": "phone",
+				"bundle_id_chirho": "io.audiobiblerad.radiochirho",
+				"background_chirho": ["audio"],
+				"watch_application_chirho": null,
+				"watch_independent_chirho": null,
+				"device_family_chirho": [1, 2],
+				"files_chirho": 36,
+				"bytes_chirho": 7771003,
+				"sound_files_with_profile_chirho": 12,
+				"sound_bytes_with_profile_chirho": 376255,
+				"sound_hashes_match_chirho": true,
+				"catalogue_bytes_match_chirho": true
+			},
+			{
+				"target_chirho": "watch",
+				"bundle_id_chirho": "io.audiobiblerad.radiochirho.watchkitapp",
+				"background_chirho": ["audio"],
+				"watch_application_chirho": true,
+				"watch_independent_chirho": true,
+				"device_family_chirho": [4],
+				"files_chirho": 18,
+				"bytes_chirho": 3732163,
+				"sound_files_with_profile_chirho": 12,
+				"sound_bytes_with_profile_chirho": 376255,
+				"sound_hashes_match_chirho": true,
+				"catalogue_bytes_match_chirho": true
+			},
+			{
+				"target_chirho": "embedded_watch",
+				"bundle_id_chirho": "io.audiobiblerad.radiochirho.watchkitapp",
+				"background_chirho": ["audio"],
+				"watch_application_chirho": true,
+				"watch_independent_chirho": true,
+				"device_family_chirho": [4],
+				"files_chirho": 18,
+				"bytes_chirho": 3732163,
+				"sound_files_with_profile_chirho": 12,
+				"sound_bytes_with_profile_chirho": 376255,
+				"sound_hashes_match_chirho": true,
+				"catalogue_bytes_match_chirho": true
+			}
+		],
+		"review_chirho": {
+			"reviewer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+			"scope_chirho": "read-only root build entry, environment/cache handling and project resources; not disjoint acceptance of producer core",
+			"findings_chirho": "Two lock cleanup defects fixed after the first Phone build; the final entry completed the standalone Watch build. That normal run does not inject low-space cleanup failure. Internal TMP is now forced, package-cache/checkouts isolated, and unexpected top-level native asset entries are refused."
+		},
+		"not_proved_chirho": [
+			"simulator install or launch",
+			"real publisher-stream playback through AVPlayer",
+			"physical audio and Bluetooth/output selection",
+			"background and lock-screen behavior",
+			"Watch crown on hardware",
+			"signing, upload or store acceptance"
+		],
+		"gaps_chirho": [
+			"Davar stations",
+			"split chapters",
+			"catalogue refresh",
+			"interface localization",
+			"radio artwork and store icons"
+		]
+	},
+	"cache_chirho": {
+		"profiles_chirho": ["swiftpm-core-chirho", "xcode-simulator-chirho", "android-gradle-chirho"],
+		"external_first_chirho": true,
+		"apple_entry_chirho": "scripts-chirho/native-chirho/ios-chirho/build_app_chirho.ts",
+		"apple_fallback_controls_chirho": [
+			"unavailable mount: actual shared selector chose LOCAL",
+			"injected PermissionError at external volume check: actual shared selector chose LOCAL"
+		],
+		"missing_mount_not_created_chirho": true,
+		"probe_did_not_compile_chirho": true,
+		"mid_job_backend_switch_chirho": false,
+		"runtime_and_evidence_private_internal_chirho": true,
+		"licensed_cuts_in_regenerable_build_products_chirho": true
+	},
+	"android_chirho": {
+		"status_chirho": "source frozen; Gradle unit, lint and APK checks awaiting serialized slot"
+	},
+	"raw_records_chirho": "private scene-direction record; producer logs, freeze inventories and original failures retained",
+	"publication_chirho": "not deployed; no native/store record created"
+}
