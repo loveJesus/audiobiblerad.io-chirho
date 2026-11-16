@@ -19,7 +19,7 @@ import type {
 	RadioModelOptionsChirho,
 	SurfaceRectChirho
 } from '../model_contract_chirho';
-import { createRadioMaterialsChirho } from './radio_materials_chirho';
+import { createRadioMaterialsChirho, type RadioMaterialsChirho } from './radio_materials_chirho';
 
 type PositionChirho = readonly [number, number, number];
 interface InstancePoseChirho {
@@ -32,7 +32,10 @@ interface InstancePoseChirho {
  * Physical receiver in face-pixel coordinates. Angles follow the native controls' clockwise
  * degree convention. See spec-chirho/workflows-chirho/experience-chirho/spatial_radio_workflow_chirho.md.
  */
-export function createRadioModelChirho(optionsChirho: RadioModelOptionsChirho): RadioModelChirho {
+export function createRadioModelChirho(
+	optionsChirho: RadioModelOptionsChirho,
+	sharedMaterialsChirho?: RadioMaterialsChirho
+): RadioModelChirho {
 	const groupChirho = new GroupChirho();
 	groupChirho.name = 'radio-model-chirho';
 	const widthChirho = Math.max(200, optionsChirho.width_chirho);
@@ -41,7 +44,9 @@ export function createRadioModelChirho(optionsChirho: RadioModelOptionsChirho): 
 	const cyberChirho = optionsChirho.theme_chirho === 'cyberpunk';
 	const minimalChirho = optionsChirho.theme_chirho === 'minimal';
 	const depthChirho = widthChirho * (fieldChirho ? 0.26 : minimalChirho ? 0.18 : 0.22);
-	const paletteChirho = createRadioMaterialsChirho(optionsChirho.theme_chirho);
+	// A scene keeps one palette while layout changes; only standalone models own their palette.
+	const paletteChirho =
+		sharedMaterialsChirho ?? createRadioMaterialsChirho(optionsChirho.theme_chirho);
 	const geometriesChirho = new Map<string, BufferGeometryChirho>();
 	const instancesChirho: InstancedMeshChirho[] = [];
 	let disposedChirho = false;
@@ -587,8 +592,7 @@ export function createRadioModelChirho(optionsChirho: RadioModelOptionsChirho): 
 			disposedChirho = true;
 			for (const instanceChirho of instancesChirho) instanceChirho.dispose();
 			for (const ownedGeometryChirho of geometriesChirho.values()) ownedGeometryChirho.dispose();
-			for (const materialChirho of paletteChirho.materialsChirho) materialChirho.dispose();
-			for (const textureChirho of paletteChirho.texturesChirho) textureChirho.dispose();
+			if (!sharedMaterialsChirho) paletteChirho.disposeChirho();
 			groupChirho.clear();
 			groupChirho.removeFromParent();
 		}

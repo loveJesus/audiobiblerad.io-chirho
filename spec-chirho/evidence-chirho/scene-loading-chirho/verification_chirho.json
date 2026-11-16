@@ -1,7 +1,7 @@
 {
 	"date_chirho": "2026-11-16",
 	"scope_chirho": "explicit per-visit 3D loading and detent-first dial feedback; no new world or chassis model",
-	"status_chirho": "focused checks pass; broader graphics activation remains red; not deployed",
+	"status_chirho": "explicit loading and focused real-GPU graphics checks pass; earlier software-renderer failures retained; not deployed",
 	"behavior_chirho": [
 		"Every visit starts lightweight, including legacy stored auto and three choices.",
 		"The scene module is imported only by the 3D switch; its failure or cancellation keeps the same playback controller.",
@@ -76,9 +76,31 @@
 		"raw_records_chirho": "private scene-direction record with failures, event results, inventory and peer probe hashes"
 	},
 	"remaining_chirho": [
-		"Resolve broad headless graphics-activation failure at its real rendering scope.",
+		"Broaden verification on actual rendering backends; default software-renderer failures remain recorded.",
 		"Model distinct radio bodies inside complete orbitable environments.",
 		"Physical iOS/Android/Watch, headset and acoustic checks."
 	],
-	"publication_chirho": "source checkpoint only; no Worker, DNS, provider, store or spending action"
+	"publication_chirho": "source checkpoint only; no Worker, DNS, provider, store or spending action",
+	"graphics_followup_chirho": {
+		"changes_chirho": [
+			"One material palette per theme survives layout changes; replaced geometry and final palettes retire once.",
+			"Manual readiness follows the first successful rendered frame; no retired automatic frame-rate assessment remains.",
+			"Canvas size is changed only when its dimensions change.",
+			"Front view consumes and clears orbit momentum before resetting the camera, leaving projected controls stable."
+		],
+		"unit_chirho": "304 tests in 33 files pass, including shared-palette ownership; prior factory fails the added palette assertion",
+		"build_chirho": "normal purchased-set web build succeeds",
+		"focused_browser_chirho": {
+			"passed_chirho": 4,
+			"failed_chirho": 0,
+			"renderer_chirho": "ANGLE Metal Renderer: Apple M5 Max",
+			"scope_chirho": "actual orbit/control continuity, Front reset, graphics-context loss fallback, reduced motion and touch-sized view"
+		},
+		"prior_cuts_chirho": [
+			"Default headless SwiftShader activation failures retained.",
+			"First Metal cut during the overloaded emulator run: 2 passed, 2 failed.",
+			"Second Metal cut: 3 passed, Front-view control stability failed. Final cut above passes all four."
+		],
+		"limits_chirho": "No broad two-browser or software-renderer pass, no physical-device/graphics performance claim, no complete world or new chassis in this unit."
+	}
 }

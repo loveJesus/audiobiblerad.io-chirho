@@ -71,7 +71,6 @@
 				host_chirho: hostChirho,
 				face_chirho: faceChirho,
 				theme_chirho: themeIdChirho,
-				manual_chirho: true,
 				on_failure_chirho: () => {
 					if (tokenChirho === requestChirho) failChirho();
 				},

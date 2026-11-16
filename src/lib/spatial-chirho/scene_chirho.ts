@@ -14,6 +14,7 @@ import {
 import { OrbitControls as OrbitControlsChirho } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment as RoomEnvironmentChirho } from 'three/addons/environments/RoomEnvironment.js';
 import { createRadioModelChirho } from './model-chirho/radio_model_chirho';
+import { createRadioMaterialsChirho } from './model-chirho/radio_materials_chirho';
 import { surfaceProjectionChirho } from './surface_projection_chirho';
 import type { RadioThemeIdChirho } from '$lib/themes-chirho/themes_chirho';
 import type {
@@ -32,8 +33,7 @@ export interface RadioSceneOptionsChirho {
 	host_chirho: HTMLElement;
 	face_chirho: HTMLElement;
 	theme_chirho: RadioThemeIdChirho;
-	manual_chirho?: boolean;
-	on_ready_chirho(samplesChirho: readonly number[]): void;
+	on_ready_chirho(): void;
 	on_failure_chirho(): void;
 }
 
@@ -106,6 +106,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	sceneChirho.add(rimChirho);
 	let modelChirho: RadioModelChirho | undefined;
 	let themeChirho = optionsChirho.theme_chirho;
+	let paletteChirho = createRadioMaterialsChirho(themeChirho);
 	let widthChirho = 1;
 	let heightChirho = 1;
 	let scaleChirho = 1;
@@ -113,8 +114,6 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	let disposedChirho = false;
 	let frameChirho = 0;
 	let warmingChirho = true;
-	let lastTimeChirho: number | undefined;
-	const samplesChirho: number[] = [];
 	let seenChirho = true;
 	let layoutKeyChirho = '';
 	const rectChirho = (selectorChirho: string, indexChirho = 0): SurfaceRectChirho => {
@@ -138,7 +137,11 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	const fitChirho = (): void => {
 		const viewWidthChirho = Math.max(1, hostChirho.clientWidth);
 		const viewHeightChirho = Math.max(1, hostChirho.clientHeight);
-		rendererChirho.setSize(viewWidthChirho, viewHeightChirho);
+		if (
+			rendererChirho.domElement.style.width !== `${viewWidthChirho}px` ||
+			rendererChirho.domElement.style.height !== `${viewHeightChirho}px`
+		)
+			rendererChirho.setSize(viewWidthChirho, viewHeightChirho);
 		cameraChirho.aspect = viewWidthChirho / viewHeightChirho;
 		cameraChirho.updateProjectionMatrix();
 		const tangentChirho = Math.tan((cameraChirho.fov * Math.PI) / 360);
@@ -146,11 +149,17 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			(heightChirho * scaleChirho + 1.3) / (2 * tangentChirho),
 			7.3 / (2 * tangentChirho * cameraChirho.aspect)
 		);
+		// Consume and clear previous orbit momentum before placing the camera. Otherwise the
+		// Front action keeps moving the live form controls after they have become visible.
+		const dampingChirho = controlsChirho.enableDamping;
+		controlsChirho.enableDamping = false;
+		controlsChirho.update();
 		cameraChirho.position.set(distanceChirho * 0.36, distanceChirho * 0.18, distanceChirho);
 		controlsChirho.target.set(0, 0, -0.2);
 		controlsChirho.minDistance = distanceChirho * 0.58;
 		controlsChirho.maxDistance = distanceChirho * 1.8;
 		controlsChirho.update();
+		controlsChirho.enableDamping = dampingChirho;
 	};
 	const measureChirho = (): void => {
 		widthChirho = Math.max(1, faceChirho.offsetWidth);
@@ -173,7 +182,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 				sceneChirho.remove(modelChirho.group_chirho);
 				modelChirho.disposeChirho();
 			}
-			modelChirho = createRadioModelChirho(dimensionsChirho);
+			modelChirho = createRadioModelChirho(dimensionsChirho, paletteChirho);
 			modelChirho.group_chirho.scale.setScalar(scaleChirho);
 			modelChirho.group_chirho.traverse((objectChirho) => {
 				objectChirho.castShadow = true;
@@ -213,7 +222,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 		if (!disposedChirho && seenChirho && !document.hidden && !frameChirho)
 			frameChirho = requestAnimationFrame(renderChirho);
 	};
-	function renderChirho(timeChirho: number): void {
+	function renderChirho(): void {
 		frameChirho = 0;
 		if (disposedChirho || !seenChirho || document.hidden) return;
 		let changingChirho: boolean;
@@ -227,12 +236,9 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			return;
 		}
 		if (warmingChirho) {
-			if (lastTimeChirho !== undefined) samplesChirho.push(timeChirho - lastTimeChirho);
-			lastTimeChirho = timeChirho;
-			if (samplesChirho.length >= (optionsChirho.manual_chirho ? 2 : 36)) {
-				warmingChirho = false;
-				optionsChirho.on_ready_chirho(samplesChirho.slice(-30));
-			}
+			warmingChirho = false;
+			// The explicit request is ready after a real frame; no automatic FPS assessment remains.
+			optionsChirho.on_ready_chirho();
 		}
 		if (warmingChirho || changingChirho) requestChirho();
 	}
@@ -263,7 +269,6 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	});
 	const intersectionChirho = new IntersectionObserver((entriesChirho) => {
 		seenChirho = entriesChirho[0]?.isIntersecting ?? true;
-		lastTimeChirho = undefined;
 		if (seenChirho) requestChirho();
 		else {
 			cancelAnimationFrame(frameChirho);
@@ -271,7 +276,6 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 		}
 	});
 	const visibilityChirho = (): void => {
-		lastTimeChirho = undefined;
 		if (document.hidden) {
 			cancelAnimationFrame(frameChirho);
 			frameChirho = 0;
@@ -319,6 +323,12 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			requestChirho();
 		},
 		themeChirho(valueChirho) {
+			if (valueChirho === themeChirho) return;
+			modelChirho?.disposeChirho();
+			modelChirho = undefined;
+			paletteChirho.disposeChirho();
+			paletteChirho = createRadioMaterialsChirho(valueChirho);
+			layoutKeyChirho = '';
 			themeChirho = valueChirho;
 			try {
 				measureChirho();
@@ -347,6 +357,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			document.removeEventListener('visibilitychange', visibilityChirho);
 			rendererChirho.domElement.removeEventListener('webglcontextlost', lostChirho);
 			modelChirho?.disposeChirho();
+			paletteChirho.disposeChirho();
 			keyChirho.shadow.dispose();
 			environmentChirho.dispose();
 			rendererChirho.dispose();

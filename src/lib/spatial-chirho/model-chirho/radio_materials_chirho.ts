@@ -197,6 +197,7 @@ export function createRadioMaterialsChirho(themeChirho: RadioModelOptionsChirho[
 		})
 	);
 	const texturesChirho: TextureChirho[] = [crinkleChirho, brushedChirho];
+	let disposedChirho = false;
 	return {
 		shellChirho,
 		faceChirho,
@@ -209,6 +210,14 @@ export function createRadioMaterialsChirho(themeChirho: RadioModelOptionsChirho[
 		secondaryChirho,
 		powerChirho,
 		materialsChirho,
-		texturesChirho
+		texturesChirho,
+		disposeChirho(): void {
+			if (disposedChirho) return;
+			disposedChirho = true;
+			for (const materialChirho of materialsChirho) materialChirho.dispose();
+			for (const textureChirho of texturesChirho) textureChirho.dispose();
+		}
 	};
 }
+
+export type RadioMaterialsChirho = ReturnType<typeof createRadioMaterialsChirho>;

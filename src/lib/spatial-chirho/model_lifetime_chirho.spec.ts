@@ -10,20 +10,26 @@ import {
 } from 'three';
 import { RADIO_THEMES_CHIRHO } from '$lib/themes-chirho/themes_chirho';
 import { createRadioModelChirho } from './model-chirho/radio_model_chirho';
+import { createRadioMaterialsChirho } from './model-chirho/radio_materials_chirho';
+import type { RadioModelOptionsChirho } from './model_contract_chirho';
+
+const MODEL_OPTIONS_CHIRHO: Omit<RadioModelOptionsChirho, 'theme_chirho'> = {
+	width_chirho: 568,
+	height_chirho: 820,
+	book_chirho: { x_chirho: 60, y_chirho: 430, width_chirho: 78, height_chirho: 78 },
+	chapter_chirho: { x_chirho: 430, y_chirho: 430, width_chirho: 78, height_chirho: 78 },
+	power_chirho: { x_chirho: 236, y_chirho: 430, width_chirho: 96, height_chirho: 96 },
+	display_chirho: { x_chirho: 24, y_chirho: 70, width_chirho: 520, height_chirho: 240 },
+	dial_chirho: { x_chirho: 70, y_chirho: 340, width_chirho: 428, height_chirho: 35 },
+	speaker_chirho: { x_chirho: 24, y_chirho: 650, width_chirho: 520, height_chirho: 32 }
+};
 
 describe('bounded physical receiver resources', () => {
 	for (const themeChirho of RADIO_THEMES_CHIRHO)
 		it(`disposes every owned resource once for ${themeChirho.id_chirho}`, () => {
 			const modelChirho = createRadioModelChirho({
-				theme_chirho: themeChirho.id_chirho,
-				width_chirho: 568,
-				height_chirho: 820,
-				book_chirho: { x_chirho: 60, y_chirho: 430, width_chirho: 78, height_chirho: 78 },
-				chapter_chirho: { x_chirho: 430, y_chirho: 430, width_chirho: 78, height_chirho: 78 },
-				power_chirho: { x_chirho: 236, y_chirho: 430, width_chirho: 96, height_chirho: 96 },
-				display_chirho: { x_chirho: 24, y_chirho: 70, width_chirho: 520, height_chirho: 240 },
-				dial_chirho: { x_chirho: 70, y_chirho: 340, width_chirho: 428, height_chirho: 35 },
-				speaker_chirho: { x_chirho: 24, y_chirho: 650, width_chirho: 520, height_chirho: 32 }
+				...MODEL_OPTIONS_CHIRHO,
+				theme_chirho: themeChirho.id_chirho
 			});
 			const resourcesChirho = new Set<
 				GeometryChirho | MaterialChirho | TextureChirho | InstancedMeshChirho
@@ -77,4 +83,41 @@ describe('bounded physical receiver resources', () => {
 			for (const resourceChirho of resourcesChirho)
 				expect(disposalsChirho.get(resourceChirho)).toBe(1);
 		});
+
+	it('keeps a shared material palette alive across model replacement, then retires it once', () => {
+		const paletteChirho = createRadioMaterialsChirho('field');
+		const disposalsChirho = new Map<object, number>();
+		for (const materialChirho of paletteChirho.materialsChirho) {
+			disposalsChirho.set(materialChirho, 0);
+			materialChirho.addEventListener('dispose', () => {
+				disposalsChirho.set(materialChirho, (disposalsChirho.get(materialChirho) ?? 0) + 1);
+			});
+		}
+		for (const textureChirho of paletteChirho.texturesChirho) {
+			disposalsChirho.set(textureChirho, 0);
+			textureChirho.addEventListener('dispose', () => {
+				disposalsChirho.set(textureChirho, (disposalsChirho.get(textureChirho) ?? 0) + 1);
+			});
+		}
+		for (const heightChirho of [820, 780]) {
+			const modelChirho = createRadioModelChirho(
+				{ ...MODEL_OPTIONS_CHIRHO, height_chirho: heightChirho, theme_chirho: 'field' },
+				paletteChirho
+			);
+			let usesPaletteChirho = false;
+			modelChirho.group_chirho.traverse((objectChirho) => {
+				if (
+					objectChirho instanceof MeshChirho &&
+					objectChirho.material === paletteChirho.shellChirho
+				)
+					usesPaletteChirho = true;
+			});
+			expect(usesPaletteChirho).toBe(true);
+			modelChirho.disposeChirho();
+			expect([...disposalsChirho.values()]).toEqual(Array(disposalsChirho.size).fill(0));
+		}
+		paletteChirho.disposeChirho();
+		paletteChirho.disposeChirho();
+		expect([...disposalsChirho.values()]).toEqual(Array(disposalsChirho.size).fill(1));
+	});
 });
