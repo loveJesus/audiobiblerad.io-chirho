@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { BOOKS_CHIRHO, STATIONS_CHIRHO } from '$lib/catalogue-chirho/catalogue_chirho';
+	import { createMediaSessionChirho } from '$lib/media-chirho/media_session_chirho';
 	import type { PreferenceStorageChirho } from '$lib/player-chirho/player_preferences_chirho';
 	import { createRadioSoundsChirho } from '$lib/sounds-chirho/radio_sounds_chirho';
 	import ThemeSceneChirho from '$lib/themes-chirho/ThemeSceneChirho.svelte';
@@ -60,31 +60,16 @@
 		}
 		if (widgetOptionsChirho?.theme_chirho) themeIdChirho = widgetOptionsChirho.theme_chirho;
 		const audioChirho = new Audio();
-		let metadataKeyChirho = '';
+		const mediaChirho = createMediaSessionChirho({
+			onChirho: () => sessionChirho?.onChirho(false),
+			offChirho: () => sessionChirho?.offChirho(false),
+			nextChirho: () => sessionChirho?.nextChirho(false),
+			previousChirho: () => sessionChirho?.previousChirho(false),
+			seekChirho: (secondsChirho) => sessionChirho?.seekChirho(secondsChirho)
+		});
 		const updateMediaChirho = (nextChirho: RadioSessionViewChirho): void => {
 			viewChirho = nextChirho;
-			if (!('mediaSession' in navigator) || !('MediaMetadata' in window)) return;
-			const stateChirho = nextChirho.state_chirho;
-			const stationChirho =
-				nextChirho.stations_chirho.find(
-					(entryChirho) => entryChirho.id_chirho === stateChirho.station_id_chirho
-				) ??
-				sessionChirho?.stationChirho ??
-				STATIONS_CHIRHO[0];
-			const bookChirho = BOOKS_CHIRHO.find(
-				(entryChirho) => entryChirho.id_chirho === stateChirho.book_id_chirho
-			);
-			const keyChirho = `${stateChirho.station_id_chirho}/${stateChirho.book_id_chirho}/${stateChirho.chapter_chirho}`;
-			if (keyChirho !== metadataKeyChirho) {
-				metadataKeyChirho = keyChirho;
-				navigator.mediaSession.metadata = new MediaMetadata({
-					title: `${bookChirho?.name_chirho ?? ''} ${stateChirho.chapter_chirho}`,
-					artist: stationChirho.voice_chirho || stationChirho.source_name_chirho,
-					album: `${stationChirho.version_chirho} · ${stationChirho.language_english_chirho}`
-				});
-			}
-			navigator.mediaSession.playbackState =
-				stateChirho.phase_chirho === 'playing' ? 'playing' : 'paused';
+			mediaChirho.updateChirho(nextChirho);
 		};
 		sessionChirho = new RadioSessionChirho({
 			storage_chirho: storageChirho,
@@ -112,32 +97,11 @@
 		void mountedSessionChirho.startChirho();
 		const saveChirho = (): void => mountedSessionChirho.saveChirho();
 		window.addEventListener('pagehide', saveChirho);
-		const actionsChirho: readonly [MediaSessionAction, () => void][] = [
-			['play', () => mountedSessionChirho.onChirho()],
-			['pause', () => mountedSessionChirho.offChirho()],
-			['stop', () => mountedSessionChirho.offChirho()],
-			['nexttrack', () => mountedSessionChirho.nextChirho()],
-			['previoustrack', () => mountedSessionChirho.previousChirho()]
-		];
-		if ('mediaSession' in navigator)
-			for (const [actionChirho, handlerChirho] of actionsChirho) {
-				try {
-					navigator.mediaSession.setActionHandler(actionChirho, handlerChirho);
-				} catch {
-					/* Optional browser API. */
-				}
-			}
 		return () => {
 			window.removeEventListener('pagehide', saveChirho);
 			mountedSessionChirho.disposeChirho();
-			if ('mediaSession' in navigator)
-				for (const [actionChirho] of actionsChirho) {
-					try {
-						navigator.mediaSession.setActionHandler(actionChirho, null);
-					} catch {
-						/* Optional browser API. */
-					}
-				}
+			// Unloading media can change WebKit's platform state; clear our platform state last.
+			mediaChirho.disposeChirho();
 		};
 	});
 </script>

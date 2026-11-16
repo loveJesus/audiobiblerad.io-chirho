@@ -35,6 +35,12 @@ export interface RadioSoundsChirho {
 	startChirho(): void;
 	/** Stops the tuning cue only, so a click that follows Off is still heard. */
 	stopChirho(): void;
+	/**
+	 * Stops every channel at once, a click or tick already sounding included, as turning the sounds
+	 * off does. The switch stays as it is, nothing asks for the profile, and later deliberate sounds
+	 * play as usual.
+	 */
+	silenceChirho?(): void;
 	/** False silences every channel at once. */
 	setEnabledChirho(enabledChirho: boolean): void;
 	/** Silences everything for good. Later calls do nothing. */
@@ -99,6 +105,10 @@ export function createRadioSoundsChirho(
 	};
 	const pickChirho = (clipsChirho: readonly SoundClipChirho[]): SoundClipChirho | undefined =>
 		clipsChirho[Math.floor(randomChirho() * clipsChirho.length)];
+	const stopEveryChannelChirho = (): void => {
+		tuningChirho.stopChirho();
+		interfaceChirho.stopChirho();
+	};
 
 	return {
 		startChirho() {
@@ -116,11 +126,13 @@ export function createRadioSoundsChirho(
 		stopChirho() {
 			tuningChirho.stopChirho();
 		},
+		silenceChirho() {
+			// Unlike turning the sounds off, this leaves the switch alone and asks for nothing.
+			stopEveryChannelChirho();
+		},
 		setEnabledChirho(valueChirho) {
 			enabledChirho = valueChirho;
-			if (activeChirho()) return;
-			tuningChirho.stopChirho();
-			interfaceChirho.stopChirho();
+			if (!activeChirho()) stopEveryChannelChirho();
 		},
 		disposeChirho() {
 			disposedChirho = true;

@@ -189,7 +189,9 @@ describe('the language files on disk', () => {
 
 	it('offer the 61 measured split chapters, and never one of their parts as a chapter', () => {
 		let splitChirho = 0;
+		let walkedChirho = 0;
 		const namesChirho: string[] = [];
+		const leaksChirho: string[] = [];
 		for (const stationChirho of allStationsChirho) {
 			const partsChirho = new Set<string>();
 			for (const [bookIdChirho, chaptersChirho] of Object.entries(
@@ -212,6 +214,13 @@ describe('the language files on disk', () => {
 						partsChirho.add(partChirho.url_chirho);
 				}
 			}
+			expect(offeredChapterCountChirho(stationChirho), stationChirho.id_chirho).toBe(
+				stationChirho.chapter_count_chirho + partsChirho.size / 2
+			);
+			// A station with no parts has none to return as a chapter. Every chapter of every station
+			// that has parts is asked for, and each part found under one is listed by place.
+			if (partsChirho.size === 0) continue;
+			walkedChirho += 1;
 			for (const bookChirho of BOOKS_CHIRHO) {
 				for (
 					let chapterChirho = 1;
@@ -223,13 +232,16 @@ describe('the language files on disk', () => {
 						bookChirho.id_chirho,
 						chapterChirho
 					);
-					if (audioChirho) expect(partsChirho.has(audioChirho.url_chirho)).toBe(false);
+					if (audioChirho && partsChirho.has(audioChirho.url_chirho)) {
+						leaksChirho.push(
+							`${stationChirho.id_chirho} ${bookChirho.id_chirho} ${chapterChirho}: ${audioChirho.url_chirho}`
+						);
+					}
 				}
 			}
-			expect(offeredChapterCountChirho(stationChirho)).toBe(
-				stationChirho.chapter_count_chirho + partsChirho.size / 2
-			);
 		}
+		expect(leaksChirho).toEqual([]);
+		expect(walkedChirho).toBe(59);
 		expect(splitChirho).toBe(61);
 		// Joel 2 is the second file then the third; a lettered psalm is A then B.
 		for (const lineChirho of namesChirho) {

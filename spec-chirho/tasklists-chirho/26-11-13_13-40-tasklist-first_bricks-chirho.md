@@ -67,10 +67,10 @@ Tick a box when the step is truly done and checked, not when it is started.
 
 ## Brick 8: going live (L.J.'s gate)
 
-- [ ] A licence and credits page that lists every station's source.
+- [x] A licence and credits page that lists every station's source.
 - [x] L.J. authorises the first source push on 2026-11-14; `main_chirho` is published and verified.
-- [ ] Deployment, DNS changes and store listings still require L.J.'s word.
+- [x] L.J. authorises web publication and its domain connection on 2026-11-14; apex and www serve the radio over HTTPS. Later deployments, unrelated DNS changes and store listings retain their own authority gates.
 
 ## Web landing evidence
 
-Bricks 1 through 4 are locally implemented and checked. See `spec-chirho/evidence-chirho/web-radio-chirho/verification_notes_chirho.md` for the original 29-station scope and `spec-chirho/evidence-chirho/composite-review-chirho/verification_notes_chirho.md` for later language and complete-chapter playback. The catalogue now offers 460 stations across 400 language tags, with 61 composite chapters. The source was first pushed on 2026-11-14 under GPL-3.0-or-later with the app-store permission and CC0 radio sounds. Native packaging, app identifiers, provider/key arrangements and deployment remain separate owner decisions. Nothing is deployed.
+Bricks 1 through 4 are implemented and published. See `spec-chirho/evidence-chirho/web-radio-chirho/verification_notes_chirho.md` for the original 29-station scope and `spec-chirho/evidence-chirho/composite-review-chirho/verification_notes_chirho.md` for later language and complete-chapter playback. The catalogue offers 460 stations across 400 language tags, with 61 composite chapters. The source was first pushed on 2026-11-14 under GPL-3.0-or-later with the app-store permission and CC0 radio sounds. The latest published web follow-up is recorded under `spec-chirho/evidence-chirho/sound-deadline-chirho/`. Native packaging, app identifiers and provider/key arrangements remain open; later source checkpoints are not automatically deployments.

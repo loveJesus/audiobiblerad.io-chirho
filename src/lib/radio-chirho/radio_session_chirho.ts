@@ -422,27 +422,28 @@ export class RadioSessionChirho {
 			this.offChirho();
 		else this.onChirho();
 	}
-	offChirho(): void {
+	offChirho(feedbackChirho = true): void {
 		this.emitChirho({ needs_gesture_chirho: false });
 		this.playerChirho?.pauseChirho();
 		// pause samples the playing clock first; persist Off after those intermediate snapshots.
 		this.rememberPowerChirho('off');
-		this.feedbackChirho('click');
+		if (feedbackChirho) this.feedbackChirho('click');
+		else this.optionsChirho.sounds_chirho.silenceChirho?.();
 	}
-	onChirho(): void {
+	onChirho(feedbackChirho = true): void {
 		this.rememberPowerChirho('on');
 		this.emitChirho({ needs_gesture_chirho: false });
-		this.playerChirho?.playChirho();
-		this.feedbackChirho('click');
+		this.playerChirho?.playChirho(false, feedbackChirho);
+		if (feedbackChirho) this.feedbackChirho('click');
 	}
 	seekChirho(secondsChirho: number): void {
 		this.playerChirho?.seekChirho(secondsChirho);
 	}
-	nextChirho(): void {
-		this.playerChirho?.nextChirho();
+	nextChirho(feedbackChirho = true): void {
+		this.playerChirho?.nextChirho(feedbackChirho);
 	}
-	previousChirho(): void {
-		this.playerChirho?.previousChirho();
+	previousChirho(feedbackChirho = true): void {
+		this.playerChirho?.previousChirho(feedbackChirho);
 	}
 	setSoundsChirho(valueChirho: boolean): void {
 		this.playerChirho?.setSoundsChirho(valueChirho);

@@ -1,0 +1,12 @@
+{
+	"measured_on_chirho": "2026-11-16T18:07:36.554032+00:00",
+	"outcome_chirho": "BUILT_NOT_DEPLOYED",
+	"assets_chirho": 456,
+	"asset_bytes_chirho": 3848571,
+	"asset_delta_bytes_chirho": 1790,
+	"manifest_sha256_chirho": "97941539512527f63c468b146ac5effe52e51d9b24600d8f895e0c3ba87e895a",
+	"licenced_clips_chirho": 11,
+	"unchanged_audio_images_catalogue_chirho": true,
+	"graphics_source_matches_head_chirho": true,
+	"retention_chirho": "The candidate is regenerable local build output; no extra package copy was made. Prior accepted release/rollback packages remain retained."
+}

@@ -36,6 +36,8 @@ export default defineConfig({
 		})
 	],
 	test: {
+		// Keep normal verification considerate of other fleets on this shared machine.
+		maxWorkers: 2,
 		expect: { requireAssertions: true },
 		projects: [
 			{

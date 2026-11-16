@@ -26,7 +26,9 @@ function setupSessionChirho(
 		startChirho: vi.fn(),
 		stopChirho: vi.fn(),
 		setEnabledChirho: vi.fn(),
-		disposeChirho: vi.fn()
+		disposeChirho: vi.fn(),
+		clickChirho: vi.fn(),
+		silenceChirho: vi.fn()
 	};
 	const savedChirho = optionsChirho.saved_chirho ?? new Map<string, string>();
 	const fetchChirho = vi.fn<typeof fetch>(
@@ -72,6 +74,45 @@ afterEach(() => {
 });
 
 describe('radio startup and power', () => {
+	it('keeps system power controls quiet and remembers Off without changing radio feedback defaults', async () => {
+		const fixtureChirho = setupSessionChirho();
+		await fixtureChirho.session_chirho.startChirho();
+		fixtureChirho.session_chirho.onChirho(false);
+		fixtureChirho.audio_chirho.metadataChirho();
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.session_chirho.offChirho(false);
+		expect(fixtureChirho.audio_chirho.paused).toBe(true);
+		expect(fixtureChirho.sounds_chirho.startChirho).not.toHaveBeenCalled();
+		expect(fixtureChirho.sounds_chirho.clickChirho).not.toHaveBeenCalled();
+		expect(fixtureChirho.sounds_chirho.silenceChirho).toHaveBeenCalledTimes(1);
+		expect(fixtureChirho.saved_chirho.get(POWER_KEY_CHIRHO)).toBe('off');
+		fixtureChirho.session_chirho.onChirho();
+		expect(fixtureChirho.sounds_chirho.clickChirho).toHaveBeenCalledTimes(1);
+	});
+
+	it('keeps a system retry after an error and both chapter directions quiet', async () => {
+		const fixtureChirho = setupSessionChirho();
+		await fixtureChirho.session_chirho.startChirho();
+		fixtureChirho.session_chirho.onChirho(false);
+		fixtureChirho.audio_chirho.metadataChirho();
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.audio_chirho.failedChirho(2);
+		expect(fixtureChirho.session_chirho.snapshotChirho.state_chirho.phase_chirho).toBe('error');
+		fixtureChirho.session_chirho.onChirho(false);
+		fixtureChirho.audio_chirho.metadataChirho();
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.session_chirho.nextChirho(false);
+		fixtureChirho.audio_chirho.metadataChirho();
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.session_chirho.previousChirho(false);
+		expect(fixtureChirho.sounds_chirho.startChirho).not.toHaveBeenCalled();
+		expect(fixtureChirho.sounds_chirho.clickChirho).not.toHaveBeenCalled();
+		fixtureChirho.audio_chirho.metadataChirho();
+		fixtureChirho.audio_chirho.playingChirho();
+		fixtureChirho.session_chirho.nextChirho();
+		expect(fixtureChirho.sounds_chirho.startChirho).toHaveBeenCalledTimes(1);
+	});
+
 	it('starts a bundled widget language without waiting for the remote language list', async () => {
 		vi.useFakeTimers();
 		const fixtureChirho = setupSessionChirho({

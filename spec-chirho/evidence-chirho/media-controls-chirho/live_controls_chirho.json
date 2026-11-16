@@ -1,0 +1,27 @@
+{
+	"measured_on_chirho": "2026-11-16T18:09:25.901Z",
+	"outcome_chirho": "PASS",
+	"method_chirho": "Actual publisher audio through the existing element. Native Media Session registrations and captured callbacks, not physical OS actions. No intercepted media or saved Scripture. Sound switch disabled for the source probe; deterministic browser cases cover quiet effects while enabled.",
+	"samples_chirho": [
+		{
+			"browser_chirho": "chromium 158.0.8127.18",
+			"source_url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"whole_duration_chirho": 410.230567,
+			"seek_position_chirho": 10,
+			"registered_actions_chirho": 8,
+			"same_source_resume_chirho": true,
+			"all_paused_after_stop_chirho": true,
+			"trace_sha256_chirho": "57726c274a9dc5b91878ac340a82a90f8d67410c63aa969d37c0eb69d7abb938"
+		},
+		{
+			"browser_chirho": "webkit 27.2",
+			"source_url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/hays.mp3",
+			"whole_duration_chirho": 410.2791836734694,
+			"seek_position_chirho": 10,
+			"registered_actions_chirho": 8,
+			"same_source_resume_chirho": true,
+			"all_paused_after_stop_chirho": true,
+			"trace_sha256_chirho": "7d05d2096d11ff0f8356b9bf564f0c2b9bd26ac32fea31d6c77fed1063e8caed"
+		}
+	]
+}

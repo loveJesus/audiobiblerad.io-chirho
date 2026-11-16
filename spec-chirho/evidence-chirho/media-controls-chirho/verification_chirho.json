@@ -1,0 +1,118 @@
+{
+	"measured_on_chirho": "2026-11-16T18:18:48.449831+00:00",
+	"outcome_chirho": "SOURCE_CHECKPOINT_RELEASE_GATES_OPEN",
+	"base_commit_chirho": "60efb1370da628c954d118de5d31e0030cb21966",
+	"behavior_chirho": [
+		"Existing audio controller accepts quiet platform On, Off, chapter and seek actions; logical chapter position spans split files.",
+		"No handlers or metadata are claimed before Scripture first plays. Unsupported optional APIs, malformed seeks and retained callbacks stay isolated.",
+		"System Off also silences optional effects without changing the remembered Sound switch. On-radio actions retain feedback.",
+		"Audio teardown precedes the platform clear; every snapshot reconciles the live platform state after optional effects."
+	],
+	"checks_chirho": {
+		"compiler_chirho": {
+			"errors_chirho": 0,
+			"warnings_chirho": 0
+		},
+		"lint_chirho": "PASS after formatting two new JSON summaries; the earlier formatting red is retained",
+		"unit_chirho": {
+			"passed_chirho": 301,
+			"files_chirho": 33,
+			"failed_chirho": 0
+		},
+		"focused_browsers_chirho": {
+			"passed_chirho": 14,
+			"failed_chirho": 0,
+			"engines_chirho": ["Chromium 158.0.8127.18", "WebKit 27.2"]
+		},
+		"whole_browser_chirho": {
+			"passed_chirho": 50,
+			"failed_chirho": 2,
+			"skipped_chirho": 0,
+			"flaky_chirho": 0,
+			"engine_chirho": "Chromium"
+		},
+		"build_chirho": "Normal external-cache build completed with the locally prepared licensed effects; no deployment",
+		"live_audio_chirho": "Both engines streamed the publisher chapter, sought to 10 seconds, paused, resumed on the same element/source and stopped. See live_controls_chirho.json."
+	},
+	"broader_failures_chirho": [
+		{
+			"file_chirho": "tests-chirho/spatial_radio_chirho.e2e.ts",
+			"line_chirho": 111,
+			"behavior_chirho": "Orbit and Front view action exceeds its timing bound"
+		},
+		{
+			"file_chirho": "tests-chirho/spatial_radio_chirho.e2e.ts",
+			"line_chirho": 216,
+			"behavior_chirho": "Automatic scene assessment remains loading past its timing bound"
+		}
+	],
+	"baseline_comparison_chirho": "Both final failing graphics cases also failed against the retained exact published assets. Headless ANGLE/SwiftShader traces do not establish a physical-device cause or a production regression. A compositor flag and a fixed-light shadow-reuse experiment failed their graphics checks; both were excluded and the renderer was restored byte for byte.",
+	"negative_controls_chirho": [
+		"Prior compiled application fails the new media-control checks.",
+		"With the bridge caching only its last playback-state write, a settled WebKit interface effect leaves the native state paused while Scripture continues. The strengthened check failed before the live-value correction.",
+		"WebKit receiver teardown initially left paused instead of none; unloading audio before the final platform clear passes in both engines.",
+		"Initial generated seek responses lacked accept-ranges. A controlled decoder probe showed a zero-length seekable range; adding the same range header used by source hosts restores seeking. No production seek workaround was added.",
+		"Two original unit timeouts were retained. Two-worker admission and a test-only catalogue scan correction preserve every composite-station address and count without raising timeouts. A planted part-address leak fails the catalogue check."
+	],
+	"attribution_chirho": {
+		"root_chirho": "Bridge, integration, tests, verification, records and source landing",
+		"claude_chirho": "Two-channel silence implementation/tests and read-only review; independent standalone WebKit state traces. Its focused review predates the final platform reconciliation.",
+		"claude2_chirho": "Test-only catalogue scan correction, 59-station non-vacuity guard and planted-collision proof"
+	},
+	"retained_record_hashes_chirho": [
+		{
+			"record_chirho": "checks-chirho/final_unit_chirho.json",
+			"sha256_chirho": "d6574cf290280fc221eb3ec3c27dc9da15aa28c242c434a83369fbf4ab665cb8"
+		},
+		{
+			"record_chirho": "checks-chirho/final_engines_chirho.json",
+			"sha256_chirho": "2aa71b238518c6aa7cd0f9cd358711c4d60aa899acb0fb0fb25a112b378c2d9f"
+		},
+		{
+			"record_chirho": "checks-chirho/final_full_browser_chirho.json",
+			"sha256_chirho": "ddef03d6c9d09963d94f81e484735d90daef2daf967e5af2fb59208b5985cb8b"
+		},
+		{
+			"record_chirho": "checks-chirho/final_check_chirho.json",
+			"sha256_chirho": "e0ee047e4bf26ab482b34223d528fae8b2af1debf49c215c63f20b31b4926f3c"
+		},
+		{
+			"record_chirho": "checks-chirho/final_lint_chirho.json",
+			"sha256_chirho": "43cf060a4458ea184763865e93b897d40bfab1e79117f8338fcffe4d70ff731a"
+		},
+		{
+			"record_chirho": "baseline-chirho/first_broad_red_chirho.json",
+			"sha256_chirho": "c23a19087288b935cb793fb401d6d01d8dcc26f000a5006d453a3d7ec4d1439f"
+		},
+		{
+			"record_chirho": "baseline-chirho/old_negative_chirho.json",
+			"sha256_chirho": "f00e8e5d5a755de28baedf548fd10cd7cb1f22f3326cb307c89c4f960dd6cdcc"
+		},
+		{
+			"record_chirho": "baseline-chirho/steady_effect_state_red_chirho.json",
+			"sha256_chirho": "f1c5f13ad1dc830f5a635007d047708842d7f79d73baa1e38012acce8c48a8b3"
+		},
+		{
+			"record_chirho": "baseline-chirho/prior_spatial_chirho.json",
+			"sha256_chirho": "5158b34dcfd9f56df8e06f56812e3c1e2179c018bffb0647688d108f0febcfeb"
+		},
+		{
+			"record_chirho": "baseline-chirho/prior_build_chirho.json",
+			"sha256_chirho": "3de99f6459dbbb9c0cf23deccd21bab76ea259185260ca462455284bcfcd3cb6"
+		},
+		{
+			"record_chirho": "checks-chirho/compositor_spatial_chirho.json",
+			"sha256_chirho": "021a89668edefea93a8a6451f42c184684d29e8714d9b47ab423a568558f6d2d"
+		},
+		{
+			"record_chirho": "checks-chirho/shadow_spatial_chirho.json",
+			"sha256_chirho": "c5c5390eed1006ef20797f80a5d7011db02cebd1f98c2d4cc41a893e9a5aea44"
+		}
+	],
+	"limits_chirho": [
+		"Browser tests invoke callbacks successfully registered with the native API and exercise real decoding. They do not exercise physical lock screens, headset keys, background entitlements, iOS, Android or Watch apps.",
+		"The live source sample is one chapter in two desktop engines; no acoustic or whole-library claim is made and no Scripture file was retained or re-hosted.",
+		"A standalone peer probe found that late WebKit play admission can overwrite none after immediate abort/cleanup. That narrow race was not reproduced in the integrated app and remains a device/lifecycle verification limit.",
+		"No geometry, artwork, catalogue data, dependency, audio bytes, provider, DNS or store change. No native build, new spend or deployment. The preceding hosted release remains in place."
+	]
+}

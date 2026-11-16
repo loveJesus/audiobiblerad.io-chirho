@@ -604,7 +604,7 @@ export class RadioPlayerChirho {
 		});
 	}
 
-	playChirho(automaticChirho = false): void {
+	playChirho(automaticChirho = false, tuningChirho = true): void {
 		if (
 			this.disposedChirho ||
 			this.stateChirho.phase_chirho === 'playing' ||
@@ -622,7 +622,9 @@ export class RadioPlayerChirho {
 					? this.followedPlaceChirho.station_id_chirho === this.stateChirho.station_id_chirho
 						? this.followedPlaceChirho.seconds_chirho
 						: null
-					: this.stateChirho.seconds_chirho
+					: this.stateChirho.seconds_chirho,
+				0,
+				tuningChirho
 			);
 		} else {
 			this.requestedAtChirho = this.nowChirho();
@@ -722,7 +724,7 @@ export class RadioPlayerChirho {
 			this.selectChapterChirho(nextChirho.book_id_chirho, nextChirho.chapter_chirho, tuningChirho);
 	}
 
-	previousChirho(): void {
+	previousChirho(tuningChirho = true): void {
 		let indexChirho = BOOKS_CHIRHO.findIndex(
 			(bookChirho) => bookChirho.id_chirho === this.stateChirho.book_id_chirho
 		);
@@ -740,7 +742,7 @@ export class RadioPlayerChirho {
 					chapterChirho
 				)
 			) {
-				this.selectChapterChirho(BOOKS_CHIRHO[indexChirho].id_chirho, chapterChirho);
+				this.selectChapterChirho(BOOKS_CHIRHO[indexChirho].id_chirho, chapterChirho, tuningChirho);
 				return;
 			}
 		}

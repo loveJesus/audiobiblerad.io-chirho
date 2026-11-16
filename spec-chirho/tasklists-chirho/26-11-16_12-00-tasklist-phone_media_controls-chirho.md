@@ -1,0 +1,16 @@
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+
+# Phone media controls
+
+Continue the owner's radio development with a complete browser media-control slice. Keep the single existing Scripture controller. Put the browser-only bridge in `src/lib/media-chirho/`, called by `RadioExperienceChirho`; it neither owns nor reloads audio. Native app packaging, permanent identifiers and physical-device acceptance remain separate.
+
+- [x] Add play/Off, previous/next chapter, absolute seek and bounded forward/back seek through the existing radio session; publish logical whole-chapter duration/position, including split chapters.
+- [x] Keep an unopened radio/widget from claiming metadata, tolerate missing/throwing optional APIs, clear stale chapter position while loading or failing, and retire callbacks/metadata on disposal.
+- [x] Prove actions, malformed input bounds, stale-callback cleanup and failure isolation with focused tests; exercise ordinary and split-chapter real decoder playback through browser media handlers.
+- [ ] Run appropriate broad gates, inspect the build delta, update the workflow/evidence and commit explicit owned paths with a clean outgoing scan. Preserve the last live release and clearly label any source-only result.
+
+Root owns the media module, experience integration, session/player quiet flags, browser tests and records. Claude adds the optional two-channel silence method in the existing sound runtime/tests/workflow, frozen for root review; catalogue data and art assets stay untouched. This unit creates no provider, key, store record, native bundle, paid job or message to an outside recipient.
+
+Gate follow-up: the initial broad suite recorded two unchanged 5 s timeouts (geometry disposal and catalogue split-chapter non-escape); the first browser run was stopped and is incomplete. Geometry passes in isolation, but the catalogue case still takes 6.87 s alone. Root caps normal unit workers at two. Claude2 owns a test-only efficiency correction in `language_files_chirho.spec.ts`: skip vacuous empty-part scans while preserving all addresses of composite stations, every station count and the exact 61 composites. Timeouts and assertions' meaning remain unchanged; old reds are retained.
+
+Further browser findings are retained: generated seek fixtures needed the same range-support header the sources provide; WebKit needs audio-session teardown before the final platform-state clear, and live-state reconciliation after an interface effect ends. The prior compiled release and this candidate both hit headless SwiftShader 3D timing failures. Compositor-only and fixed-light shadow-reuse experiments did not fix those gates. The rendering file was restored byte for byte; neither a graphics source change nor a special test flag is included in the phone-control landing. Those broader graphics reds remain open and prevent a complete release-gate claim.

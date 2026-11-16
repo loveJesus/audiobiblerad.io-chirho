@@ -29,7 +29,7 @@ const LICENSED_CHIRHO = {
 function radioSoundsChirho(
 	fetchChirho: typeof fetch | null = null,
 	randomChirho = () => 0.5,
-	enabledChirho = true
+	enabledChirho: boolean | null = true
 ) {
 	const elementsChirho: FakeAudioChirho[] = [];
 	let clockChirho = 0;
@@ -43,8 +43,8 @@ function radioSoundsChirho(
 		now_chirho: () => clockChirho,
 		random_chirho: randomChirho
 	});
-	// The player tells the sounds its remembered switch as soon as it is made.
-	soundsChirho.setEnabledChirho(enabledChirho);
+	// The player tells the sounds its remembered switch as soon as it is made; null has not yet.
+	if (enabledChirho !== null) soundsChirho.setEnabledChirho(enabledChirho);
 	const [tuningChirho, controlsChirho] = elementsChirho;
 	const waitChirho = (msChirho: number): void => {
 		clockChirho += msChirho;
@@ -116,11 +116,81 @@ describe('radio sounds', () => {
 		expect(controlsChirho.paused).toBe(false);
 	});
 
+	it('silences a sounding tuning cue and click together, keeping the switch on for what follows', () => {
+		const { soundsChirho, tuningChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+		soundsChirho.startChirho();
+		soundsChirho.clickChirho?.();
+		// Unlike stopChirho, a silence also stops the click already sounding.
+		soundsChirho.silenceChirho?.();
+		expect([tuningChirho.paused, controlsChirho.paused]).toEqual([true, true]);
+		waitChirho(100);
+		soundsChirho.knobChirho?.();
+		expect(controlsChirho.paused).toBe(false);
+		controlsChirho.finishChirho();
+		soundsChirho.clickChirho?.();
+		soundsChirho.startChirho();
+		expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
+			OPEN_CLICK_CHIRHO,
+			OPEN_KNOB_CHIRHO,
+			OPEN_CLICK_CHIRHO
+		]);
+		expect([tuningChirho.paused, tuningChirho.plays_chirho.length]).toEqual([false, 2]);
+	});
+
+	it('silences without asking for the profile or turning switched-off sounds back on', async () => {
+		const fetchChirho = answeringChirho(LICENSED_CHIRHO);
+		const { soundsChirho, tuningChirho, controlsChirho } = radioSoundsChirho(
+			fetchChirho,
+			undefined,
+			null
+		);
+		soundsChirho.silenceChirho?.();
+		await settleChirho();
+		expect(fetchChirho).not.toHaveBeenCalled();
+		// Switched off, as in an embedded widget: after a silence they stay off.
+		soundsChirho.setEnabledChirho(false);
+		soundsChirho.silenceChirho?.();
+		soundsChirho.startChirho();
+		soundsChirho.clickChirho?.();
+		soundsChirho.knobChirho?.();
+		await settleChirho();
+		expect(fetchChirho).not.toHaveBeenCalled();
+		expect([tuningChirho.plays_chirho, controlsChirho.plays_chirho]).toEqual([[], []]);
+		soundsChirho.setEnabledChirho(true);
+		await settleChirho();
+		soundsChirho.clickChirho?.();
+		expect(fetchChirho).toHaveBeenCalledTimes(1);
+		expect(controlsChirho.src).toBe(LICENSED_CHIRHO.click_chirho[0].url_chirho);
+	});
+
+	it('lets nothing left from a silenced sound restart it or cut the click after it', async () => {
+		const { soundsChirho, tuningChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+		tuningChirho.next_play_chirho = 'hold';
+		controlsChirho.next_play_chirho = 'hold';
+		soundsChirho.startChirho();
+		soundsChirho.clickChirho?.();
+		waitChirho(100);
+		// The silence abandons both waiting plays; their refusals and ended events arrive late.
+		soundsChirho.silenceChirho?.();
+		await settleChirho();
+		tuningChirho.deliverStaleEndedChirho();
+		controlsChirho.deliverStaleEndedChirho();
+		expect([tuningChirho.paused, controlsChirho.paused]).toEqual([true, true]);
+		soundsChirho.clickChirho?.();
+		controlsChirho.deliverStaleEndedChirho();
+		// Past both old ceilings, still inside the new click's own.
+		waitChirho(1950);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([false, OPEN_CLICK_CHIRHO]);
+		expect([tuningChirho.paused, tuningChirho.plays_chirho.length]).toEqual([true, 1]);
+		expect(controlsChirho.plays_chirho).toHaveLength(2);
+	});
+
 	it('silences everything for good when disposed', () => {
 		const { soundsChirho, tuningChirho, controlsChirho } = radioSoundsChirho();
 		soundsChirho.startChirho();
 		soundsChirho.clickChirho?.();
 		soundsChirho.disposeChirho();
+		soundsChirho.silenceChirho?.();
 		soundsChirho.setEnabledChirho(true);
 		soundsChirho.startChirho();
 		soundsChirho.clickChirho?.();
