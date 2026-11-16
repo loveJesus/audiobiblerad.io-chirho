@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<!-- A small radio: antenna, body and dial, inside the adaptive icon's safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#E7BD73"
+        android:pathData="M40,36 L66,26 L67.4,29.6 L49.6,36 Z" />
+    <path
+        android:fillColor="#E7BD73"
+        android:pathData="M34,38 L74,38 Q80,38 80,44 L80,72 Q80,78 74,78 L34,78 Q28,78 28,72 L28,44 Q28,38 34,38 Z M43,48 A10,10 0 1,0 43,68 A10,10 0 1,0 43,48 Z M60,50 L72,50 L72,54 L60,54 Z M60,58 L72,58 L72,62 L60,62 Z" />
+</vector>

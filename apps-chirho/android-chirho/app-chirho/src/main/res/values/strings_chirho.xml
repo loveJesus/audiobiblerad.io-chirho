@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<resources>
+    <string name="app_name_chirho">Audio Bible Radio</string>
+    <string name="power_description_chirho">Radio power: %1$s</string>
+    <string name="power_on_chirho">ON</string>
+    <string name="power_off_chirho">OFF</string>
+    <string name="station_chirho">Station</string>
+    <string name="book_chirho">Book</string>
+    <string name="chapter_chirho">Chapter</string>
+    <string name="previous_chirho">Previous chapter</string>
+    <string name="next_chirho">Next chapter</string>
+    <string name="sound_chirho">Radio sounds</string>
+    <string name="position_chirho">Chapter position</string>
+    <string name="position_format_chirho">%1$s / %2$s</string>
+    <string name="place_format_chirho">%1$s %2$d</string>
+    <string name="connecting_chirho">Tuning in…</string>
+    <string name="signal_error_chirho">The recording could not play. Your place is kept: turn the radio on to try again.</string>
+    <string name="stalled_error_chirho">The recording stopped arriving. Your place is kept: turn the radio on to try again.</string>
+    <string name="catalogue_error_chirho">The list of recordings could not open.</string>
+    <string name="about_chirho">Free listening, streamed from each recording\'s publisher. Its credit and licence are below.</string>
+    <string name="licence_format_chirho">Licence: %1$s (%2$s)</string>
+    <string name="source_format_chirho">Source: %1$s (%2$s)</string>
+</resources>

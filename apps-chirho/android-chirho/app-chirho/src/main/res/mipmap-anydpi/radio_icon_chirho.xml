@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/radio_background_chirho" />
+    <foreground android:drawable="@drawable/radio_icon_foreground_chirho" />
+    <monochrome android:drawable="@drawable/radio_icon_foreground_chirho" />
+</adaptive-icon>

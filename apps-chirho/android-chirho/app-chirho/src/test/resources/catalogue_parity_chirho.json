@@ -1,0 +1,237 @@
+{
+	"catalogue_sha256_chirho": "2c87959acced166f32e5a664f452f0de27e9930cd1f167d3bffacfdbeaa90402",
+	"stations_chirho": [
+		{
+			"id_chirho": "helloao-bsb-hays",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "5951122df01396b655fa2f7a692ea2b80fc327aae9194f759adf750dc489146a",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "helloao-bsb-souer",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "352a4db1d3ed2d3d478cb44899057d91b5e9e9a324aae4536777d9e150104227",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "openbible-bsb-gilbert",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "4b51c93c1927eba2c7bc23c9dba06345576f12a74ab11c73dde639532fa0af11",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-en",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "19bcc0a2793653001814657e606d2fa85503156f515bcf81bba8777d0d7ed683",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-gu",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "3e3322c26a6da4e2ada1a945aa5fb6d58193b0a54850f9c8ab7ffb82650e8aeb",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-hi",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "a8d5ffbf20d312433d9822885eb1d98fdb0b8ea96007f62771f41786a7669c30",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-kn",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "dfa2d060d9851527da7785a68495c5f1239747a2a2e1c0b350cc3ff0fb355dfa",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-ml",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "e1035383df3295da068ebdff7567d0b492178d0d64244e2362de3b28074a5930",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-mr",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "9cc5cc406aad3930a0671b69802bc491077306260f95cf2baa7e54ec2d4b06c2",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-ne",
+			"resolved_count_chirho": 259,
+			"resolved_sha256_chirho": "5861ba10fb2e1cd0782fd9c98a5655eacec10954ac9ea1418c4a54e4e1398d9f",
+			"landing_sha256_chirho": "caf3cbbb10fd2a3ce4ec01996b378cd29eb19049205ac5fe2f148fde97b7587a",
+			"next_sha256_chirho": "967b122505ba1d09e952c741f471c6870d369d0f5663efddabd660a3f18e3e5f",
+			"previous_sha256_chirho": "9b17ce4ee599db510bd949c1e5683ab4164408190588a2f64fdc27552c747137"
+		},
+		{
+			"id_chirho": "biel-ulb-or",
+			"resolved_count_chirho": 1175,
+			"resolved_sha256_chirho": "6ae3c724bd6b4e92240b7369d1a9c3ea9f46fe687ac09a0c91da28a70e6a1f28",
+			"landing_sha256_chirho": "893eb232967426851017c81ca282ea38c376ae92f469bd5663e7f41860416139",
+			"next_sha256_chirho": "b30a61d4126aaa021bce14ccbd871a114d9c2be1e95f21093a744d97d12895a8",
+			"previous_sha256_chirho": "b75b16746db5f5fdacbca57b0df660d30c4e694cb7f5449187d921eff83b8a2e"
+		},
+		{
+			"id_chirho": "biel-ulb-pa",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "b9ca0a80e2b06a227eb52b40d54283361b3024a70113b9d52593f0ad5f927f07",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-sw",
+			"resolved_count_chirho": 566,
+			"resolved_sha256_chirho": "e7f0815d4aec8c47693eaff7bd7661b6026e31e0b2ba6d816e4d82054c7734d4",
+			"landing_sha256_chirho": "0dba23138a0ce803dca6339bdc6596ac27959f16fc4f7e4d96d1ba69a474f303",
+			"next_sha256_chirho": "3954ff3c28bccb2a7bd267c369d9c74d9e90f63d17de07d8396fd05a1022ff4a",
+			"previous_sha256_chirho": "f8aef98f32925d8a084f3e8b2cc8fc05ece9970cef7c7f9c6e64fa6aafc48312"
+		},
+		{
+			"id_chirho": "biel-ulb-ta",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "cefc206284b653555855944f4e7e6f49e98839a27e171d0e5ec7769676e78869",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-te",
+			"resolved_count_chirho": 1189,
+			"resolved_sha256_chirho": "72d60ce9555e9334aedf2f0c2676d50acb9a8ff45f8a09319bc0482259798e59",
+			"landing_sha256_chirho": "76deb4259511c7b7a70a28bf6cde293707b3a701b836da2349ef5ff4bf834584",
+			"next_sha256_chirho": "98a61f7db1e297d1edaaa4aaada12f437762ce94d7f9dcd495669d98147174af",
+			"previous_sha256_chirho": "dc6224f174a7c3c847a817ceeebc14c1c151ddf2a786fae1658f8fe09626b954"
+		},
+		{
+			"id_chirho": "biel-ulb-vi",
+			"resolved_count_chirho": 1180,
+			"resolved_sha256_chirho": "e86e7c82e56fa1a783509547369b85f2cb05daba8cb346af3ad03189ed5305b3",
+			"landing_sha256_chirho": "e58d383ad18ec1101215764c13b34e6f7eb6825a3009f093b091a7abb9b946eb",
+			"next_sha256_chirho": "9079e7956018e2c8b07f543f23ddcf572501a3373cadcc5789280cb10c739795",
+			"previous_sha256_chirho": "73fe9c6b83ae3474c081f1a961457e16e53c29adfa09782171f250671bd14edd"
+		},
+		{
+			"id_chirho": "biel-reg-ida-x-tiriki",
+			"resolved_count_chirho": 74,
+			"resolved_sha256_chirho": "33a120d65bbbb1aa3fc47e01b4fac9f60870654ce6f78fb604f6218c9f0a7c92",
+			"landing_sha256_chirho": "71101437286ac97d99c1c25c0ca35bdbc5a05b76fe8ae995179370a6977717f9",
+			"next_sha256_chirho": "625d378c654324e0d4d8a48af1c5d2218ec088d42f47681f872cdcbf29f1de74",
+			"previous_sha256_chirho": "8b75d06f2abfffe1c328d7bd5efb92bcc3d6a5fe0ea085410c07b49899aef36b"
+		},
+		{
+			"id_chirho": "biel-reg-lto",
+			"resolved_count_chirho": 76,
+			"resolved_sha256_chirho": "a79408e0f81989b5179d48c5dbc2f050193f03c0648a9b9c71ae2270c28dba3d",
+			"landing_sha256_chirho": "4e404b1fb2c59e7bc07fa01fa46cf0385e9df30ceaa53d23d0bd81acaf46f5a4",
+			"next_sha256_chirho": "eac459d787b677448df6790ecf76821d62b3b85de95f347ce18915b59b33877e",
+			"previous_sha256_chirho": "2cfa6683538c1514e2fa3dbca23c2962d17d9ee7065b3cf4f237ff9db4ec8e02"
+		},
+		{
+			"id_chirho": "librivox-rva-es",
+			"resolved_count_chirho": 986,
+			"resolved_sha256_chirho": "3c3fd52f60554f03b2b7ddf8c85a9bd8e9b453e6335e2e96a425c37fec62f04f",
+			"landing_sha256_chirho": "ca6484698f8f6f90a72f0425559128e8076ec11f981571c2ceb9c44d30ff5ae9",
+			"next_sha256_chirho": "574e1eecf6f91d695beca3b85b6a495676de4f38d5e0588bd5e84af72ae2efb0",
+			"previous_sha256_chirho": "d9a701a3e202a7d424fcdb29491186aec9a7acbb146e82e0d059f20af85a311a"
+		},
+		{
+			"id_chirho": "librivox-lb1912-de",
+			"resolved_count_chirho": 28,
+			"resolved_sha256_chirho": "50df3ae4e39fd96a3be93ba853035a4bd2eeef6b506371a0cf09d6904e6980e7",
+			"landing_sha256_chirho": "bf731fd4885cd20c23491bfdde0ae9fcdaa5b245c27c42a07d1210040af5ead1",
+			"next_sha256_chirho": "086e096eed672b6295b4a0adcda75c8c00379e31c17c747e35547f8dbcf8c366",
+			"previous_sha256_chirho": "1abca0d3fda34c31780b5057a78712af7742fb0fbb616cbd4d2552d117cc2951"
+		},
+		{
+			"id_chirho": "librivox-almeida-pt",
+			"resolved_count_chirho": 16,
+			"resolved_sha256_chirho": "84b5fd9fc0f88fa0fb710fdd5048ec3eeb19e688186dad3eac0c3a41762296ff",
+			"landing_sha256_chirho": "365b92d3632d3722eb13e9f76243e6ac8648f7b6caaa5a771e0cf2694fac80e0",
+			"next_sha256_chirho": "91d9d1759d7c8542f7173834adecc8c111bd8c42f197ea1cadf220d0ea4172dd",
+			"previous_sha256_chirho": "aaa8d16728b3554bff05cf47f041144b3f235e14fc7930b32f73e6623474e093"
+		},
+		{
+			"id_chirho": "librivox-hebrew-he",
+			"resolved_count_chirho": 50,
+			"resolved_sha256_chirho": "81998097c07fdfe963f7ffd57f748add78e21886247c0e1532e5e28e37d50e2e",
+			"landing_sha256_chirho": "d20990a111185fc35385aca638d2497f23e1bc51ea81832750484af21923bdd9",
+			"next_sha256_chirho": "d64c68210b882f352c99fc1da6dee1f1ce56d2daf1cac7861cb5110cb42d6181",
+			"previous_sha256_chirho": "636417aa4cebf781e2cc3c307ab8ee22d63f6875a42e59de4ad6d15bb3998da2"
+		},
+		{
+			"id_chirho": "librivox-cuv-zh",
+			"resolved_count_chirho": 61,
+			"resolved_sha256_chirho": "be3b91cf0b9e1fb0cdf496e4d96b459c75cffc18ba8f5159ef68e35388680415",
+			"landing_sha256_chirho": "013b932efb7cb22a55ecbe2a152db2aad1f9107bcaed9d09569e35ef76e21f62",
+			"next_sha256_chirho": "4879e1c5f822c94df73e8579b59a513a036b07629ee69b33025b30eed88a5b7a",
+			"previous_sha256_chirho": "b69a35e7591c47d0bb5d0ae52d62776f89e09824b5ab97b03d23fa7ef041cdb1"
+		},
+		{
+			"id_chirho": "librivox-sv-nl",
+			"resolved_count_chirho": 43,
+			"resolved_sha256_chirho": "1d79d2f52d41ec4e66a5adb111ffef2c95047db360dad7b038bde61df29892eb",
+			"landing_sha256_chirho": "028bde795f42c78336994e5dcb7350a1000521942a6458a88bf249340b592b4e",
+			"next_sha256_chirho": "23bdc4d3b4414969e03563b2c7139138fa6cb8766f41da304f176b8ea2775160",
+			"previous_sha256_chirho": "3be3882de3131a4509e7d0d5ec3ab74f6eaed5550ef433c336c834fb67517304"
+		},
+		{
+			"id_chirho": "librivox-pe-el",
+			"resolved_count_chirho": 32,
+			"resolved_sha256_chirho": "5146d9356ed0147f5bd2f15d2fdf83d56fe8bfc31d9b1a8021ac74ec768c1e7d",
+			"landing_sha256_chirho": "793fa2113c6fc51ee458890496fa9d270f6b07da09735f973301cb9c343c9a15",
+			"next_sha256_chirho": "012f59cf4de2c8ff409f329d1c8349c579875235de270fc22963e6e3ddbb723b",
+			"previous_sha256_chirho": "016eed8ef971945af03bc47b9fa9f13d68ed6af43538a740d243ac547a577d44"
+		},
+		{
+			"id_chirho": "librivox-ste-grc",
+			"resolved_count_chirho": 5,
+			"resolved_sha256_chirho": "d66b49cde4add91660ca30bdee167fe8515c107cc01b756434be811e15dadc3a",
+			"landing_sha256_chirho": "969c4fbb99e8205d277e45e23af63d1a67e1351ee0bd1f1f4e49e6aa9984cb3a",
+			"next_sha256_chirho": "4e852470eb5ac20fbe949761c8032c3fa41c78e9434f3891b495c7454e5734df",
+			"previous_sha256_chirho": "7ccb0498bb1f1c16bed4099ee4d3e3f630db6ead29408b430706eeac892384f4"
+		},
+		{
+			"id_chirho": "librivox-csb-cu",
+			"resolved_count_chirho": 50,
+			"resolved_sha256_chirho": "4a58f96567853741178977b28e700a4d6ee9766dd53a1053828fb54f2df49565",
+			"landing_sha256_chirho": "d20990a111185fc35385aca638d2497f23e1bc51ea81832750484af21923bdd9",
+			"next_sha256_chirho": "d64c68210b882f352c99fc1da6dee1f1ce56d2daf1cac7861cb5110cb42d6181",
+			"previous_sha256_chirho": "636417aa4cebf781e2cc3c307ab8ee22d63f6875a42e59de4ad6d15bb3998da2"
+		},
+		{
+			"id_chirho": "librivox-sacy-fr",
+			"resolved_count_chirho": 16,
+			"resolved_sha256_chirho": "2d79b9be8ddb06a5b3dfb8fc038f8e9a46a3aa69c4a01c59fd4628a8f9facd77",
+			"landing_sha256_chirho": "95c839976e86231c9a08448d1d77cbeb6ca364ef64ef09d958cead66fbaed194",
+			"next_sha256_chirho": "01047ba67aa2afb9c531dc7769769ff53bb85432cbadf8ba05c33db9c8df3c77",
+			"previous_sha256_chirho": "521a74219efc6dae7ebd023c5d7590624ae196d06a77ff77d00937b5bf443a9e"
+		},
+		{
+			"id_chirho": "librivox-matiu-mi",
+			"resolved_count_chirho": 9,
+			"resolved_sha256_chirho": "acbab93fecae541eccbc51f512b97a68a12ba2547297577a466bc77af8d27ca1",
+			"landing_sha256_chirho": "e586836fb7fde3f0f14c4a5d695a4f0d379e973902cac39ae7fe60f295b50bf9",
+			"next_sha256_chirho": "ce80733f6956f2a6698bbee2a615018f1827b0d9468026fb07507dce93e4d4e7",
+			"previous_sha256_chirho": "e64bf2e555e48903a211d18c5ce92c6eb5921165b99da87c057a7767e73bc23b"
+		}
+	]
+}

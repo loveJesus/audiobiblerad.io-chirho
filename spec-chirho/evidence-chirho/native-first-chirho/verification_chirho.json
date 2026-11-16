@@ -1,6 +1,6 @@
 {
 	"date_chirho": "2026-11-16",
-	"status_chirho": "unsigned Apple application builds verified; runtime acceptance pending",
+	"status_chirho": "Apple app builds and iPhone Simulator startup verified; Android corrected build, 27 tests and packaging pass; Android advancing runtime remains open",
 	"authority_chirho": "owner confirmed native iOS, Apple Watch and Android on 2026-11-16; no store, signing-team, provider or deployment action",
 	"producers_chirho": {
 		"ios_source_and_core_checks_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
@@ -104,8 +104,6 @@
 			"findings_chirho": "Two lock cleanup defects fixed after the first Phone build; the final entry completed the standalone Watch build. That normal run does not inject low-space cleanup failure. Internal TMP is now forced, package-cache/checkouts isolated, and unexpected top-level native asset entries are refused."
 		},
 		"not_proved_chirho": [
-			"simulator install or launch",
-			"real publisher-stream playback through AVPlayer",
 			"physical audio and Bluetooth/output selection",
 			"background and lock-screen behavior",
 			"Watch crown on hardware",
@@ -117,7 +115,43 @@
 			"catalogue refresh",
 			"interface localization",
 			"radio artwork and store icons"
-		]
+		],
+		"runtime_chirho": {
+			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho, root reviewed both retained images",
+			"device_chirho": "existing iPhone 17 Simulator, iOS 26.5 (23F77)",
+			"app_version_chirho": "0.1.0 (1)",
+			"build_chirho": "first unsigned Phone application build recorded above",
+			"executable_sha256_chirho": "27d518caa1757867a87232160761c46df19a2c59de350759eab61dde2f0c7cb0",
+			"initial_station_chirho": "helloao-bsb-souer, John 1, selected from English device language",
+			"first_on_to_framework_playing_ms_chirho": 351,
+			"timing_scope_chirho": "app On to AVPlayer .playing; excludes process launch and acoustic output",
+			"screens_chirho": [
+				{
+					"position_chirho": "0:15 of 6:04",
+					"sha256_chirho": "9a259350c7b89214030377f44735334210f28ea4a5f547562431497f5673d19e"
+				},
+				{
+					"position_chirho": "0:26 of 6:04",
+					"sha256_chirho": "246d1e31d6a672f11fe763488683dff61d24d4a5ba3742a8350a4bff8b3031b1"
+				}
+			],
+			"elapsed_wall_seconds_chirho": 11,
+			"advanced_chapter_seconds_chirho": 11,
+			"diagnostics_chirho": [
+				"CoreAudio LoudnessManager no-plist messages",
+				"launch-measurement CA event failures",
+				"three CoreMedia FigFilePlayer err=-12864 messages; unclassified; playback nevertheless advanced"
+			],
+			"teardown_chirho": "new app terminated/uninstalled and only the owned device shut down; zero booted devices before/after; no erase or changes to other apps",
+			"limits_chirho": [
+				"no physical or acoustic proof",
+				"no tap/dial/interface-sound check",
+				"no background, lock screen, headset, interruption or Watch check",
+				"network traffic not captured"
+			],
+			"raw_evidence_chirho": "private scene-direction ios-runtime record; exact commands, images, process logs and hashes retained",
+			"source_boundary_chirho": "build from native working-tree source over baseline 63878ae; implementation subsequently committed in d82ee25; producer freeze and root build-input hashes retained"
+		}
 	},
 	"cache_chirho": {
 		"profiles_chirho": ["swiftpm-core-chirho", "xcode-simulator-chirho", "android-gradle-chirho"],
@@ -134,7 +168,78 @@
 		"licensed_cuts_in_regenerable_build_products_chirho": true
 	},
 	"android_chirho": {
-		"status_chirho": "source frozen; Gradle unit, lint and APK checks awaiting serialized slot"
+		"producer_chirho": "BIBLERADIO_CHIRHO/claude_chirho after unfinished root draft",
+		"status_chirho": "corrected compile, 27 JVM tests, lint and debug APK pass; runtime separate",
+		"pins_chirho": {
+			"agp_chirho": "9.5.1",
+			"gradle_chirho": "9.8.2",
+			"media3_chirho": "1.11.1",
+			"jdk_chirho": "17",
+			"compile_target_chirho": 37,
+			"build_tools_chirho": "36.0.0",
+			"sdk_downloads_chirho": false
+		},
+		"prior_reds_chirho": [
+			"run 1: deprecated Media3 connection constructor promoted to compile error; deprecated assets.srcDir DSL also repaired",
+			"run 2: 23 tests and APK assembled, lint failed with 42 findings; explicit unstable API opt-in, current error constants, API 37, private bound service and legacy backup exclusion repaired them",
+			"run 4: exactly three new controller regressions failed before their fixes: synchronous resume, synchronous load and unplayed-narration fraction across restart",
+			"run 5: redundant null check rejected by Kotlin warnings-as-errors; removed without changing the guard meaning",
+			"run 7: valid current memory at 25 seconds with unknown duration was incorrectly treated as unplayed; the extended regression failed before adding a zero-seconds requirement"
+		],
+		"final_run_chirho": {
+			"jvm_tests_chirho": 27,
+			"failed_chirho": 0,
+			"skipped_chirho": 0,
+			"compiler_warnings_chirho": 0,
+			"lint_chirho": "No issues found",
+			"exit_chirho": 0,
+			"run_chirho": 8,
+			"producer_scope_chirho": "source producer execution, raw logs and results retained; root separately matched the 32-file source freeze and APK inventory"
+		},
+		"upstream_notices_chirho": [
+			"AGP 9.5.1 Configuration.setVisible deprecation notice",
+			"shared read-only dependency cache incubating-feature notice"
+		],
+		"apk_chirho": {
+			"bytes_chirho": 6147850,
+			"sha256_chirho": "beb6a977b1db6e947457bcd90d76d1d6166c501ad26a119b5918de90e74ea051",
+			"assets_chirho": 13,
+			"asset_bytes_chirho": 547136,
+			"all_assets_independently_match_shared_inputs_chirho": true,
+			"no_original_dot_work_or_manifest_files_chirho": true,
+			"signing_chirho": "existing development debug key; no release key"
+		},
+		"runtime_chirho": {
+			"first_cut_chirho": "RED; bounded existing API 36 emulator, software GPU, one stream attempt, 536 of 600 seconds",
+			"observed_chirho": "install and screen rendering without an app crash; John 1, credit and stall message visible; no advancing clock or framework PLAYING",
+			"diagnostics_chirho": "severe emulator class-verification/frame delays; first-open playback reached the 15-second stall before sound; UIAutomation failed and no Off/On taps were attempted",
+			"teardown_chirho": "owned install removed and owned emulator shut down; zero devices afterwards; idle adb server retained; AVD userdata mtime changed and no no-write claim is made",
+			"next_cut_chirho": "corrected APK and host-GPU method prepared separately, not yet run"
+		},
+		"not_proved_chirho": [
+			"physical playback and interface sound",
+			"background/notification/headset/audio-focus behavior",
+			"Android 17 behavior changes",
+			"release signing and Play/store acceptance"
+		],
+		"corrected_behaviors_chirho": [
+			"Loading state and failure timer are established before synchronous transport callbacks may report playing.",
+			"An unplayed narration selected while Off restores from the followed fraction after process recreation.",
+			"A current narration with positive seconds, even with duration zero, resumes at its own seconds.",
+			"Old events remain generation-fenced; recovery and explicit Off preserve the remembered place."
+		],
+		"earlier_apks_chirho": [
+			{
+				"run_chirho": 3,
+				"sha256_chirho": "1668af003f05f0957718b57dad23215b15cf85941d60a06bb50c3dd30dac194e",
+				"scope_chirho": "first green package used by the failed software-renderer runtime"
+			},
+			{
+				"run_chirho": 6,
+				"sha256_chirho": "07762d3b1ab3d4f96ba14bb0466072504acfc9fde665c7bad3790edffb480258",
+				"scope_chirho": "three primary correctness fixes before final valid-memory guard"
+			}
+		]
 	},
 	"raw_records_chirho": "private scene-direction record; producer logs, freeze inventories and original failures retained",
 	"publication_chirho": "not deployed; no native/store record created"

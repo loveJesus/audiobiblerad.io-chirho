@@ -31,3 +31,21 @@ iOS and Watch share Swift playback/catalogue code; Android uses its platform pla
 Apple playback configuration follows [media playback setup](https://developer.apple.com/documentation/avfoundation/configuring-your-app-for-media-playback), [Watch background audio](https://developer.apple.com/documentation/watchkit/playing-background-audio) and [Watch session activation](<https://developer.apple.com/documentation/avfaudio/avaudiosession/activate(options:completionhandler:)>). A Watch needs a supported output route; activation failure must be visible. Android's implementation follows the official Media3 playback/session documentation and pins suitable stable tooling after checking the installed SDK.
 
 Build scripts select per-worktree/profile compiler outputs through the shared cache selector, keep source, signing material, runtime data and evidence outside the unencrypted external cache, and never change backend mid-build. Local development identifiers are provisional. No build script creates store records, registers identifiers, provisions signing, uploads an app or contacts a recording publisher.
+
+```mermaid
+flowchart TD
+    screen_chirho[Android activity opens] --> connect_chirho[Connect to the privately bound MediaSessionService]
+    connect_chirho --> state_chirho[Render the one published controller state]
+    system_chirho[Lock screen, notification or headset] --> facade_chirho[Quiet system actions through the player facade]
+    input_chirho[App press or dial step] --> command_chirho[Own-app command with deliberate feedback]
+    facade_chirho --> controller_chirho[RadioControllerChirho]
+    command_chirho --> controller_chirho
+    controller_chirho --> waiting_chirho[Set loading state and timeout before calling the transport]
+    waiting_chirho --> exo_chirho[ExoPlayer loads one publisher chapter]
+    exo_chirho --> event_chirho[Generation-fenced events, including synchronous callbacks]
+    event_chirho --> controller_chirho
+    controller_chirho --> effects_chirho[Two SoundPool channels; no effect from a system action]
+    controller_chirho --> memory_chirho[Validated current and followed places, saved at transitions and every five seconds]
+    memory_chirho --> reopen_chirho[Reopen: own seconds, or followed fraction for a genuinely unplayed narration]
+    reopen_chirho --> controller_chirho
+```
