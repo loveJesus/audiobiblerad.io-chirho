@@ -37,7 +37,11 @@ export interface CacheSelectionChirho {
 	available_bytes_chirho: number;
 }
 
-export function selectCacheChirho(worktreeChirho: string): CacheSelectionChirho {
+export function selectCacheChirho(
+	worktreeChirho: string,
+	toolChirho = 'vite-chirho'
+): CacheSelectionChirho {
+	if (!/^[a-z0-9-]+-chirho$/.test(toolChirho)) throw new Error('Invalid build-cache profile.');
 	const canonicalChirho = realpathSyncChirho(worktreeChirho);
 	checkInternalCapacityChirho(canonicalChirho);
 	const keyChirho = createHashChirho('sha256').update(canonicalChirho).digest('hex');
@@ -51,7 +55,11 @@ export function selectCacheChirho(worktreeChirho: string): CacheSelectionChirho 
 		const availableChirho = capacityChirho.bavail * capacityChirho.bsize;
 		if (availableChirho < MINIMUM_FREE_BYTES_CHIRHO)
 			throw new Error('Insufficient local space for the web cache.');
-		const rootChirho = joinChirho(canonicalChirho, 'node_modules/.cache-chirho/build-chirho');
+		const rootChirho = joinChirho(
+			canonicalChirho,
+			'node_modules/.cache-chirho/build-chirho',
+			...(toolChirho === 'vite-chirho' ? [] : [toolChirho])
+		);
 		mkdirSyncChirho(rootChirho, { recursive: true });
 		if (realpathSyncChirho(rootChirho) !== rootChirho)
 			throw new Error('Local cache must not redirect through a symlink.');
@@ -71,7 +79,7 @@ export function selectCacheChirho(worktreeChirho: string): CacheSelectionChirho 
 			'--worktree-chirho',
 			canonicalChirho,
 			'--tool-chirho',
-			'vite-chirho',
+			toolChirho,
 			'--min-free-bytes-chirho',
 			String(MINIMUM_FREE_BYTES_CHIRHO)
 		],
@@ -91,7 +99,7 @@ export function selectCacheChirho(worktreeChirho: string): CacheSelectionChirho 
 	if (
 		recordChirho.schema_chirho !== 'build-cache-v1-chirho' ||
 		recordChirho.project_chirho !== PROJECT_CHIRHO ||
-		recordChirho.tool_chirho !== 'vite-chirho' ||
+		recordChirho.tool_chirho !== toolChirho ||
 		recordChirho.worktree_key_chirho !== keyChirho ||
 		!['external_chirho', 'local_chirho'].includes(String(recordChirho.backend_chirho)) ||
 		typeof rootChirho !== 'string' ||

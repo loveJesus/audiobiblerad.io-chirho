@@ -19,10 +19,7 @@ const LICENSED_CHIRHO = {
 		{ url_chirho: '/sounds-chirho/licensed-chirho/interface-chirho/button_click_chirho.wav' }
 	],
 	knob_chirho: [
-		{
-			url_chirho: '/sounds-chirho/licensed-chirho/interface-chirho/knob_turn_chirho.wav',
-			start_seconds_chirho: 0.9
-		}
+		{ url_chirho: '/sounds-chirho/licensed-chirho/interface-chirho/knob_turn_chirho.wav' }
 	]
 };
 
@@ -217,10 +214,12 @@ describe('radio sounds', () => {
 		expect(new Set(heardChirho).size).toBe(OPEN_SOUND_PROFILE_CHIRHO.tuning_chirho.length);
 	});
 
-	it('gives knob steps closer than 60 ms one shared tick, restarting the loaded tick after that', () => {
+	it('gives knob steps closer than 60 ms one shared tick, even once that tick has ended', () => {
 		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
 		soundsChirho.knobChirho?.();
-		waitChirho(30);
+		waitChirho(20);
+		controlsChirho.finishChirho();
+		waitChirho(10);
 		soundsChirho.knobChirho?.();
 		expect(controlsChirho.plays_chirho).toHaveLength(1);
 		waitChirho(40);
@@ -230,6 +229,67 @@ describe('radio sounds', () => {
 			{ src_chirho: OPEN_KNOB_CHIRHO, time_chirho: 0 }
 		]);
 	});
+
+	it('lets a tick under way finish before a knob step sounds again, however slow it is to start', () => {
+		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+		soundsChirho.knobChirho?.();
+		// Steps while the first tick is still under way, as while a slow engine's clock has not
+		// started: none of them may restart it.
+		for (const gapChirho of [70, 70, 300, 1000]) {
+			waitChirho(gapChirho);
+			soundsChirho.knobChirho?.();
+		}
+		expect(controlsChirho.plays_chirho).toHaveLength(1);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([false, OPEN_KNOB_CHIRHO]);
+		controlsChirho.finishChirho();
+		soundsChirho.knobChirho?.();
+		expect(controlsChirho.plays_chirho).toHaveLength(2);
+		expect(controlsChirho.paused).toBe(false);
+	});
+
+	it('drops knob steps while a stalled tick waits, and loads it afresh once its ceiling lets it go', () => {
+		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+		controlsChirho.next_play_chirho = 'hold';
+		soundsChirho.knobChirho?.();
+		waitChirho(1999);
+		soundsChirho.knobChirho?.();
+		expect(controlsChirho.plays_chirho).toHaveLength(1);
+		waitChirho(1);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([true, '']);
+		soundsChirho.knobChirho?.();
+		expect(controlsChirho.plays_chirho.map((playChirho) => playChirho.src_chirho)).toEqual([
+			OPEN_KNOB_CHIRHO,
+			OPEN_KNOB_CHIRHO
+		]);
+		expect([controlsChirho.paused, controlsChirho.src]).toEqual([false, OPEN_KNOB_CHIRHO]);
+	});
+
+	it.each(['together', 'ended_first'] as const)(
+		'starts the next tick as soon as the last one reaches its end, before its ended event (%s)',
+		(orderChirho) => {
+			const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+			soundsChirho.knobChirho?.();
+			waitChirho(150);
+			controlsChirho.reachEndChirho(orderChirho);
+			soundsChirho.knobChirho?.();
+			expect(controlsChirho.plays_chirho).toHaveLength(2);
+			expect(controlsChirho.paused).toBe(false);
+		}
+	);
+
+	it.each(['refuse', 'broken'] as const)(
+		'lets the next knob step play after the browser turns a tick down (%s)',
+		async (outcomeChirho) => {
+			const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
+			controlsChirho.next_play_chirho = outcomeChirho;
+			soundsChirho.knobChirho?.();
+			await settleChirho();
+			waitChirho(70);
+			soundsChirho.knobChirho?.();
+			expect(controlsChirho.plays_chirho).toHaveLength(2);
+			expect([controlsChirho.paused, controlsChirho.error]).toEqual([false, null]);
+		}
+	);
 
 	it('never lets a knob tick cut a click, while a click always cuts a knob tick', () => {
 		const { soundsChirho, controlsChirho, waitChirho } = radioSoundsChirho();
@@ -309,7 +369,7 @@ describe('radio sounds', () => {
 		soundsChirho.startChirho();
 		soundsChirho.knobChirho?.();
 		expect(tuningChirho.src).toBe(LICENSED_CHIRHO.tuning_chirho[0].url_chirho);
-		expect(controlsChirho.src).toBe(`${LICENSED_CHIRHO.knob_chirho[0].url_chirho}#t=0.9`);
+		expect(controlsChirho.src).toBe(LICENSED_CHIRHO.knob_chirho[0].url_chirho);
 		soundsChirho.setEnabledChirho(true);
 		soundsChirho.clickChirho?.();
 		expect(fetchChirho).toHaveBeenCalledTimes(1);

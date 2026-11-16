@@ -44,6 +44,19 @@ function toneChirho(levelChirho: number, pitchChirho: number): Uint8Array {
 	);
 }
 
+/** A recording whose sound begins 300 ms in, after a faint lead-in, as a whole knob turn does. */
+function lateChirho(): Uint8Array {
+	const leadChirho = Math.round(22_050 * 0.3);
+	return encodePcmWavChirho(
+		Int16Array.from({ length: leadChirho + 1200 }, (_unusedChirho, indexChirho) =>
+			indexChirho < leadChirho
+				? indexChirho % 7
+				: Math.round(Math.sin((indexChirho - leadChirho) * 0.05) * 0.12 * 32767)
+		),
+		22_050
+	);
+}
+
 function writeChirho(pathChirho: string, bytesChirho: Uint8Array): void {
 	mkdirSync(dirname(pathChirho), { recursive: true });
 	writeFileSync(pathChirho, bytesChirho);
@@ -121,12 +134,25 @@ describe('sound preparer', () => {
 		);
 		expect(profileChirho?.source_chirho).toBe('licensed');
 		expect(profileChirho?.tuning_chirho).toHaveLength(9);
+		// Every clip plays from its first sample: the site cannot rely on a browser seeking into it.
 		expect(profileChirho?.knob_chirho).toEqual([
-			{
-				url_chirho: '/sounds-chirho/licensed-chirho/interface-chirho/knob_turn_chirho.wav',
-				start_seconds_chirho: 0.9
-			}
+			{ url_chirho: '/sounds-chirho/licensed-chirho/interface-chirho/knob_turn_chirho.wav' }
 		]);
+	});
+
+	it('refuses a click or knob tick that does not sound at once, purchased or open', () => {
+		writeChirho(join(clipsChirho, 'interface-chirho', 'knob_turn_chirho.wav'), lateChirho());
+		writeManifestChirho(CLIP_FILES_CHIRHO.map(manifestEntryChirho));
+		expect(() => prepareChirho()).toThrow(/starts sounding 300 ms in/);
+		expect(licensedFilesChirho()).toEqual([]);
+		expect(existsSync(profilePathChirho())).toBe(false);
+		rmSync(clipsChirho, { recursive: true });
+		writeChirho(
+			join(staticChirho, OPEN_SOUND_PROFILE_CHIRHO.click_chirho[0].url_chirho),
+			lateChirho()
+		);
+		expect(() => prepareChirho()).toThrow(/starts sounding 300 ms in/);
+		expect(existsSync(profilePathChirho())).toBe(false);
 	});
 
 	it('refuses a clip that differs from its manifest, keeping the last good copies', () => {

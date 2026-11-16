@@ -47,7 +47,10 @@ export interface RadioSoundsChirho {
 	disposeChirho(): void;
 	/** A deliberate press of a button. It always sounds, replacing a click or knob tick. */
 	clickChirho?(): void;
-	/** One deliberate step of a knob. Steps closer than 60 ms share a tick; a click is never cut. */
+	/**
+	 * One deliberate step of a knob. It sounds only while the controls are quiet: a click is never
+	 * cut, a tick already under way finishes first, and steps closer than 60 ms share a tick.
+	 */
 	knobChirho?(): void;
 }
 
@@ -79,7 +82,6 @@ export function createRadioSoundsChirho(
 	let disposedChirho = false;
 	let lastTuningChirho = -1;
 	let lastKnobAtChirho = Number.NEGATIVE_INFINITY;
-	let interfaceKindChirho: 'click' | 'knob' | null = null;
 
 	const fetchChirho =
 		optionsChirho.fetch_chirho === undefined
@@ -143,7 +145,6 @@ export function createRadioSoundsChirho(
 		clickChirho() {
 			const clipChirho = activeChirho() ? pickChirho(profileChirho.click_chirho) : undefined;
 			if (!clipChirho) return;
-			interfaceKindChirho = 'click';
 			interfaceChirho.playChirho(clipChirho);
 		},
 		knobChirho() {
@@ -151,9 +152,11 @@ export function createRadioSoundsChirho(
 			if (!clipChirho) return;
 			const atChirho = nowChirho();
 			if (atChirho - lastKnobAtChirho < KNOB_SPACING_MS_CHIRHO) return;
-			if (interfaceChirho.current_chirho && interfaceKindChirho === 'click') return;
+			// Nothing cuts a click, and a tick under way finishes: restarting one whose clock has not
+			// started yet would keep a slow engine silent through a fast turn. The channel's ceiling
+			// still lets a stalled tick go, so the knob is never held quiet for long.
+			if (interfaceChirho.current_chirho) return;
 			lastKnobAtChirho = atChirho;
-			interfaceKindChirho = 'knob';
 			interfaceChirho.playChirho(clipChirho);
 		}
 	};

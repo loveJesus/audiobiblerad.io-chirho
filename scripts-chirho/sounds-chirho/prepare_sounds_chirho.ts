@@ -9,60 +9,28 @@
 //
 // --require-licensed-chirho fails instead of falling back to the open set, for a release build.
 
-import { spawnSync } from 'node:child_process';
-import { existsSync } from 'node:fs';
-import { join, relative, resolve } from 'node:path';
+import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { prepareSoundsChirho } from './sound_preparer_chirho';
+import {
+	PRIVATE_CLIPS_PATH_CHIRHO,
+	gitIgnoreCheckChirho,
+	prepareSoundsChirho
+} from './sound_preparer_chirho';
 
 const REPO_DIR_CHIRHO = resolve(fileURLToPath(new URL('../..', import.meta.url)));
-/** The private folder of prepared cuts. Ignored by Git, and absent in a copy of the source. */
-const DEFAULT_CLIPS_DIR_CHIRHO = join(
-	REPO_DIR_CHIRHO,
-	'workspace-chirho/private-chirho/audio-assets-chirho/26-11-14-radio_clips-chirho'
-);
 
 function flagValueChirho(nameChirho: string): string | undefined {
 	const indexChirho = process.argv.indexOf(nameChirho);
 	return indexChirho >= 0 ? process.argv[indexChirho + 1] : undefined;
 }
 
-const probeChirho = spawnSync(
-	'git',
-	['-C', REPO_DIR_CHIRHO, 'rev-parse', '--is-inside-work-tree'],
-	{
-		encoding: 'utf8'
-	}
-);
-// A checkout whose git cannot run cannot prove what it ignores, so it is treated as ignoring nothing.
-const gitStateChirho: 'tree' | 'none' | 'unknown' = probeChirho.error
-	? existsSync(join(REPO_DIR_CHIRHO, '.git'))
-		? 'unknown'
-		: 'none'
-	: probeChirho.status === 0 && probeChirho.stdout.trim() === 'true'
-		? 'tree'
-		: 'none';
-
-function isIgnoredChirho(pathChirho: string): boolean | null {
-	if (gitStateChirho === 'none') return null;
-	if (gitStateChirho === 'unknown') return false;
-	// Exit 0: ignored. Exit 1: not ignored, or tracked. Anything else counts as not ignored.
-	return (
-		spawnSync('git', [
-			'-C',
-			REPO_DIR_CHIRHO,
-			'check-ignore',
-			'-q',
-			relative(REPO_DIR_CHIRHO, pathChirho)
-		]).status === 0
-	);
-}
-
 try {
 	const resultChirho = prepareSoundsChirho({
-		clips_dir_chirho: resolve(flagValueChirho('--clips-dir-chirho') ?? DEFAULT_CLIPS_DIR_CHIRHO),
+		clips_dir_chirho: resolve(
+			flagValueChirho('--clips-dir-chirho') ?? join(REPO_DIR_CHIRHO, PRIVATE_CLIPS_PATH_CHIRHO)
+		),
 		static_dir_chirho: join(REPO_DIR_CHIRHO, 'static'),
-		is_ignored_chirho: isIgnoredChirho,
+		is_ignored_chirho: gitIgnoreCheckChirho(REPO_DIR_CHIRHO),
 		require_licensed_chirho: process.argv.includes('--require-licensed-chirho')
 	});
 	console.log(

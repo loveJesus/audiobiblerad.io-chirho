@@ -54,3 +54,13 @@ __pycache__/
 # Purchased effects are app assets, excluded from the public source.
 /static/sounds-chirho/licensed-chirho/
 /static/sounds-chirho/profile_chirho.json
+
+# Native compiler output, local SDK paths and personal IDE state.
+/apps-chirho/**/.build/
+/apps-chirho/**/.gradle/
+/apps-chirho/**/build/
+/apps-chirho/**/build-chirho/
+/apps-chirho/**/DerivedData/
+/apps-chirho/**/xcuserdata/
+/apps-chirho/**/local.properties
+/apps-chirho/shared-chirho/native-assets-chirho/

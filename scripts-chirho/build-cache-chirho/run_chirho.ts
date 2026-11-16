@@ -1,6 +1,5 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
-import { spawn as spawnChirho } from 'node:child_process';
 import {
 	mkdirSync as mkdirSyncChirho,
 	mkdtempSync as mkdtempSyncChirho,
@@ -14,6 +13,7 @@ import {
 	childEnvironmentChirho,
 	selectCacheChirho
 } from './select_chirho';
+import { runOwnedCommandChirho } from './owned_command_chirho';
 
 // A single backend is pinned for this invocation; no automatic retry on disappearance.
 // See spec-chirho/workflows-chirho/build_cache_workflow_chirho.md.
@@ -72,62 +72,14 @@ try {
 			'node_modules/.bin',
 			profileChirho === 'unit' ? 'vitest' : 'vite'
 		);
-		const childChirho = spawnChirho(
+		process.exitCode = await runOwnedCommandChirho(
 			commandChirho,
 			profileChirho === 'unit'
 				? argumentsChirho
 				: [profileChirho === 'dev' ? 'dev' : 'build', ...argumentsChirho],
-			{
-				stdio: 'inherit',
-				detached: process.platform !== 'win32',
-				env: childEnvironmentChirho(cacheChirho, temporaryChirho)
-			}
+			childEnvironmentChirho(cacheChirho, temporaryChirho),
+			checkPinnedChirho
 		);
-		let lostChirho = false;
-		let killTimerChirho: ReturnType<typeof setTimeout> | undefined;
-		const stopChirho = (): void => {
-			try {
-				if (process.platform !== 'win32' && childChirho.pid)
-					process.kill(-childChirho.pid, 'SIGTERM');
-				else childChirho.kill('SIGTERM');
-			} catch {
-				/* The owned child may have already stopped. */
-			}
-			killTimerChirho ??= setTimeout(() => {
-				try {
-					if (process.platform !== 'win32' && childChirho.pid)
-						process.kill(-childChirho.pid, 'SIGKILL');
-					else childChirho.kill('SIGKILL');
-				} catch {
-					/* No running owned child remains. */
-				}
-			}, 2000);
-		};
-		const monitorChirho = setInterval(() => {
-			try {
-				checkPinnedChirho();
-			} catch {
-				lostChirho = true;
-				console.error(
-					'build-cache-chirho: pinned backend or capacity lost; stopping owned job, no retry.'
-				);
-				clearInterval(monitorChirho);
-				stopChirho();
-			}
-		}, 250);
-		process.once('SIGINT', stopChirho);
-		process.once('SIGTERM', stopChirho);
-		try {
-			process.exitCode = await new Promise<number>((resolveChirho) => {
-				childChirho.once('error', () => resolveChirho(1));
-				childChirho.once('exit', (codeChirho) => resolveChirho(lostChirho ? 1 : (codeChirho ?? 1)));
-			});
-		} finally {
-			clearInterval(monitorChirho);
-			clearTimeout(killTimerChirho);
-			process.removeListener('SIGINT', stopChirho);
-			process.removeListener('SIGTERM', stopChirho);
-		}
 	}
 } finally {
 	// Remove only this invocation's disposable scratch, never another job's cache/output.

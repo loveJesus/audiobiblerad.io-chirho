@@ -10,6 +10,7 @@
 // published radio, not in its public source. Without the private folder the profile names the
 // open set kept in the repository, and nothing licensed is left behind.
 
+import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import {
 	existsSync,
@@ -20,7 +21,7 @@ import {
 	rmSync,
 	writeFileSync
 } from 'node:fs';
-import { dirname, join, resolve, sep } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import {
 	OPEN_SOUND_PROFILE_CHIRHO,
 	SOUND_PROFILE_PATH_CHIRHO,
@@ -36,6 +37,9 @@ import {
 } from '../../src/lib/sounds-chirho/wav_chirho';
 
 export const CUT_MANIFEST_NAME_CHIRHO = 'cut_manifest_chirho.json';
+/** The private folder of prepared cuts, from the repository root. Absent in a copy of the source. */
+export const PRIVATE_CLIPS_PATH_CHIRHO =
+	'workspace-chirho/private-chirho/audio-assets-chirho/26-11-14-radio_clips-chirho';
 /** Where the purchased clips are served from. The static folder serves each file at its own path. */
 const LICENSED_SITE_DIR_CHIRHO = '/sounds-chirho/licensed-chirho';
 const STAGING_NAME_CHIRHO = 'staging-chirho';
@@ -61,11 +65,11 @@ const EXPECTED_CLIPS_CHIRHO: Readonly<Record<string, ClipRoleChirho>> = {
 };
 
 /**
- * Where a clip's useful sound begins. The knob recording is a whole turn: about a dozen detents
- * in 1.06 s. Its strongest detent begins at 0.90 s and only silence follows it, so one knob step
- * plays exactly one tick and ends by itself. Measured on the clip the manifest pins.
+ * The latest a click or knob tick may begin to sound, from its first sample. Every clip plays
+ * from its start: the site serves its files without byte ranges, so Chromium cannot seek into
+ * them, and an offset would be ignored. The purchased knob cut therefore holds only the detent.
  */
-const START_SECONDS_CHIRHO: Readonly<Record<string, number>> = { knob_turn_chirho: 0.9 };
+const PROMPT_ONSET_MS_CHIRHO = 50;
 
 interface CutClipChirho {
 	readonly name_chirho: string;
@@ -94,6 +98,43 @@ export interface PrepareSoundsResultChirho {
 	readonly profile_written_chirho: boolean;
 }
 
+/**
+ * Asks Git whether it ignores a path in this repository. The answer is null outside a work tree.
+ * A checkout whose git cannot run cannot prove what it ignores, so it counts as ignoring nothing.
+ */
+export function gitIgnoreCheckChirho(
+	repoDirChirho: string
+): (pathChirho: string) => boolean | null {
+	const probeChirho = spawnSync(
+		'git',
+		['-C', repoDirChirho, 'rev-parse', '--is-inside-work-tree'],
+		{
+			encoding: 'utf8'
+		}
+	);
+	const stateChirho: 'tree' | 'none' | 'unknown' = probeChirho.error
+		? existsSync(join(repoDirChirho, '.git'))
+			? 'unknown'
+			: 'none'
+		: probeChirho.status === 0 && probeChirho.stdout.trim() === 'true'
+			? 'tree'
+			: 'none';
+	return (pathChirho) => {
+		if (stateChirho === 'none') return null;
+		if (stateChirho === 'unknown') return false;
+		// Exit 0: ignored. Exit 1: not ignored, or tracked. Anything else counts as not ignored.
+		return (
+			spawnSync('git', [
+				'-C',
+				repoDirChirho,
+				'check-ignore',
+				'-q',
+				relative(repoDirChirho, pathChirho)
+			]).status === 0
+		);
+	};
+}
+
 function sitePathChirho(staticDirChirho: string, siteChirho: string): string {
 	return join(staticDirChirho, ...siteChirho.split('/').filter(Boolean));
 }
@@ -114,6 +155,22 @@ function checkLevelChirho(bytesChirho: Uint8Array, labelChirho: string): void {
 	if (peakChirho > SOUND_PEAK_LIMIT_CHIRHO)
 		throw new Error(
 			`${labelChirho} peaks at ${peakChirho.toFixed(3)} of full scale, above ${SOUND_PEAK_LIMIT_CHIRHO}`
+		);
+}
+
+/** A click or tick sounds at once: its first sample at a quarter of its peak comes within 50 ms. */
+function checkPromptChirho(bytesChirho: Uint8Array, labelChirho: string): void {
+	const wavChirho = decodePcmWavChirho(bytesChirho);
+	const thresholdChirho = (peakOfChirho(wavChirho) * 32767) / 4;
+	const firstChirho = wavChirho.samples_chirho.findIndex(
+		(sampleChirho) => Math.abs(sampleChirho) >= thresholdChirho
+	);
+	const onsetMsChirho =
+		(Math.floor(firstChirho / wavChirho.channels_chirho) / wavChirho.sample_rate_chirho) * 1000;
+	if (onsetMsChirho > PROMPT_ONSET_MS_CHIRHO)
+		throw new Error(
+			`${labelChirho} starts sounding ${Math.round(onsetMsChirho)} ms in; a click or knob tick ` +
+				`must sound within ${PROMPT_ONSET_MS_CHIRHO} ms of its first sample`
 		);
 }
 
@@ -182,13 +239,9 @@ function verifyBytesChirho(
 }
 
 function licensedProfileChirho(clipsChirho: readonly CutClipChirho[]): SoundProfileChirho {
-	const clipForChirho = (clipChirho: CutClipChirho): SoundClipChirho => {
-		const urlChirho = `${LICENSED_SITE_DIR_CHIRHO}/${clipChirho.file_chirho}`;
-		const startChirho = START_SECONDS_CHIRHO[clipChirho.name_chirho];
-		return startChirho === undefined
-			? { url_chirho: urlChirho }
-			: { url_chirho: urlChirho, start_seconds_chirho: startChirho };
-	};
+	const clipForChirho = (clipChirho: CutClipChirho): SoundClipChirho => ({
+		url_chirho: `${LICENSED_SITE_DIR_CHIRHO}/${clipChirho.file_chirho}`
+	});
 	const roleChirho = (wantedChirho: ClipRoleChirho): SoundClipChirho[] =>
 		clipsChirho.filter((clipChirho) => clipChirho.role_chirho === wantedChirho).map(clipForChirho);
 	return {
@@ -211,6 +264,7 @@ function writeProfileChirho(staticDirChirho: string, profileChirho: SoundProfile
 /** Every file the open set names is in the repository, readable and quiet. */
 function checkOpenSetChirho(staticDirChirho: string): void {
 	const { tuning_chirho, click_chirho, knob_chirho } = OPEN_SOUND_PROFILE_CHIRHO;
+	const promptChirho = new Set([...click_chirho, ...knob_chirho]);
 	for (const clipChirho of [...tuning_chirho, ...click_chirho, ...knob_chirho]) {
 		const pathChirho = sitePathChirho(staticDirChirho, clipChirho.url_chirho);
 		if (!existsSync(pathChirho))
@@ -218,7 +272,10 @@ function checkOpenSetChirho(staticDirChirho: string): void {
 				`the open sound ${clipChirho.url_chirho} is missing; ` +
 					'bun scripts-chirho/sounds-chirho/generate_interface_sounds_chirho.ts writes the interface pair'
 			);
-		checkLevelChirho(readFileSync(pathChirho), `open sound ${clipChirho.url_chirho}`);
+		const bytesChirho = readFileSync(pathChirho);
+		checkLevelChirho(bytesChirho, `open sound ${clipChirho.url_chirho}`);
+		if (promptChirho.has(clipChirho))
+			checkPromptChirho(bytesChirho, `open sound ${clipChirho.url_chirho}`);
 	}
 }
 
@@ -275,6 +332,8 @@ export function prepareSoundsChirho(
 			const contentChirho = readFileSync(sourceChirho);
 			verifyBytesChirho(contentChirho, clipChirho, 'private clip');
 			checkLevelChirho(contentChirho, `private clip ${clipChirho.file_chirho}`);
+			if (clipChirho.role_chirho !== 'tuning')
+				checkPromptChirho(contentChirho, `private clip ${clipChirho.file_chirho}`);
 			const targetChirho = join(stagingDirChirho, ...clipChirho.file_chirho.split('/'));
 			mkdirSync(dirname(targetChirho), { recursive: true });
 			writeFileSync(targetChirho, contentChirho);
