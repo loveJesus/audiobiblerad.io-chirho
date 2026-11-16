@@ -1,0 +1,84 @@
+{
+	"date_chirho": "2026-11-16",
+	"scope_chirho": "explicit per-visit 3D loading and detent-first dial feedback; no new world or chassis model",
+	"status_chirho": "focused checks pass; broader graphics activation remains red; not deployed",
+	"behavior_chirho": [
+		"Every visit starts lightweight, including legacy stored auto and three choices.",
+		"The scene module is imported only by the 3D switch; its failure or cancellation keeps the same playback controller.",
+		"FM dragging sounds each deliberate value step through the existing rate/busy gate, and commits the actual station only on release.",
+		"The prepared purchased knob clip starts at the detent; generated profiles no longer depend on seeking into a WAV.",
+		"A sounding interface tick or click finishes before another knob request is accepted. No effects stack or retry themselves."
+	],
+	"source_producers_chirho": {
+		"web_and_checks_chirho": "BIBLERADIO_CHIRHO/gpt_chirho",
+		"sound_correction_chirho": "BIBLERADIO_CHIRHO/claude_chirho"
+	},
+	"root_verification_chirho": {
+		"check_chirho": "0 errors, 0 warnings",
+		"lint_chirho": "whole-tree prettier and ESLint pass at this cut",
+		"unit_component_chirho": {
+			"passed_chirho": 303,
+			"failed_chirho": 0,
+			"files_chirho": 33,
+			"workers_chirho": 1
+		},
+		"build_chirho": "normal web build pass; purchased set prepared",
+		"dedicated_browser_chirho": {
+			"chromium_chirho": 4,
+			"webkit_chirho": 4,
+			"failed_chirho": 0,
+			"method_chirho": "real decoder events with prepared local clips; generated Scripture fixture; no acoustic claim"
+		},
+		"outgoing_web_inventory_chirho": {
+			"asset_count_chirho": 456,
+			"bytes_chirho": 3805691,
+			"delta_from_previous_candidate_bytes_chirho": -42880,
+			"media_changes_chirho": [
+				"sounds-chirho/profile_chirho.json",
+				"sounds-chirho/licensed-chirho/interface-chirho/knob_turn_chirho.wav"
+			],
+			"other_images_catalogue_and_clips_unchanged_chirho": true,
+			"native_assets_bundled_in_web_chirho": false
+		}
+	},
+	"negative_controls_chirho": [
+		"Prior compiled source requested the scene before a switch for both saved choices; both zero-request assertions failed.",
+		"Prior prepared/runtime set failed the keyboard-before-On and FM-drag media-event checks.",
+		"A planted NaN vertex still fails the aggregate geometry-finiteness guard."
+	],
+	"earlier_reds_chirho": [
+		"Initial timing fixture required three seconds of advancing audio inside an unsuitable five-second window; replaced by observed advancement followed by the old activation window.",
+		"Initial positive fixture used check() for an immediately rejected import; click() now models a request whose safe fallback can uncheck immediately.",
+		"Earlier broad unit run: 284 passed, 5 failed at unchanged timeouts. The geometry test now scans each unique geometry once and aggregates assertions; all values remain inspected and the planted-NaN negative still fails. No timeout changed."
+	],
+	"broader_browser_chirho": {
+		"planned_chirho": 110,
+		"passed_chirho": 33,
+		"failed_chirho": 4,
+		"not_run_chirho": 73,
+		"stopped_by_owner_chirho": true,
+		"failure_chirho": "Chromium graphics activation remained loading at the 20-second expectation in orbit/continuity, context-loss, reduced-motion and touch-sized cases. Stopped repeated graphics work for investigation; no broad PASS claimed.",
+		"prior_orbit_front_view_failure_chirho": "not cleared by this checkpoint; the new failures occur before reaching that action"
+	},
+	"peer_sound_proof_chirho": {
+		"standalone_accepted_ticks_chirho": {
+			"chromium_chirho": "25/25",
+			"webkit_chirho": "23/23"
+		},
+		"lane_tests_chirho": 59,
+		"scope_chirho": "producer event/clock probes, no-range server and staged cuts; rapid steps are intentionally dropped while a tick sounds; no speaker/device or live first-sound measurement"
+	},
+	"privacy_chirho": {
+		"purchased_bytes_in_git_chirho": false,
+		"originals_preserved_privately_chirho": true,
+		"private_cut_preimage_preserved_chirho": true,
+		"public_clones_chirho": "eleven original CC0 sounds",
+		"raw_records_chirho": "private scene-direction record with failures, event results, inventory and peer probe hashes"
+	},
+	"remaining_chirho": [
+		"Resolve broad headless graphics-activation failure at its real rendering scope.",
+		"Model distinct radio bodies inside complete orbitable environments.",
+		"Physical iOS/Android/Watch, headset and acoustic checks."
+	],
+	"publication_chirho": "source checkpoint only; no Worker, DNS, provider, store or spending action"
+}

@@ -257,9 +257,13 @@
 					value={dialPreviewChirho ?? dialIndexChirho}
 					aria-label="Station dial"
 					aria-valuetext={`${stationChirho.language_english_chirho}, ${stationChirho.version_chirho}, ${stationChirho.voice_chirho}`}
-					oninput={(eventChirho) => (dialPreviewChirho = Number(eventChirho.currentTarget.value))}
+					oninput={(eventChirho) => {
+						const nextChirho = Number(eventChirho.currentTarget.value);
+						if (nextChirho !== (dialPreviewChirho ?? dialIndexChirho))
+							sessionChirho?.feedbackChirho('knob');
+						dialPreviewChirho = nextChirho;
+					}}
 					onchange={(eventChirho) => {
-						sessionChirho?.feedbackChirho('knob');
 						sessionChirho?.chooseDialChirho(Number(eventChirho.currentTarget.value));
 						dialPreviewChirho = null;
 					}}

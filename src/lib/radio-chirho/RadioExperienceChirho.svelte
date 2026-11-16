@@ -117,9 +117,6 @@
 		<RadioSpatialViewChirho
 			bind:this={spatialChirho}
 			theme_id_chirho={themeIdChirho}
-			widget_chirho={widgetChirho}
-			preview_chirho={widgetOptionsChirho?.preview_chirho ?? false}
-			audio_ready_chirho={viewChirho.state_chirho.phase_chirho === 'playing'}
 			on_change_chirho={(nextChirho) => (spatialStateChirho = nextChirho)}
 		>
 			<RadioReceiverChirho

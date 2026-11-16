@@ -5,9 +5,9 @@ import {
 	observeMediaChirho,
 	mediaStateChirho,
 	mediaEventsChirho,
-	type MediaEventChirho,
 	fixtureWaveChirho
 } from './helpers-chirho/media_chirho';
+import { effectEventChirho, effectSequenceChirho } from './helpers-chirho/effect_playback_chirho';
 
 test.setTimeout(60000);
 test.beforeEach(async ({ page: pageChirho }) => {
@@ -39,6 +39,8 @@ async function openChirho(pageChirho: PageChirho, preferenceChirho = 'simple'): 
 	);
 	await pageChirho.goto('/');
 	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeEnabled();
+	if (preferenceChirho === 'three')
+		await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).click();
 }
 async function playingChirho(pageChirho: PageChirho): Promise<void> {
 	await expect
@@ -51,26 +53,6 @@ async function playingChirho(pageChirho: PageChirho): Promise<void> {
 			)
 		)
 		.toBe(true);
-}
-async function effectEventChirho(
-	pageChirho: PageChirho,
-	pathChirho: string,
-	kindChirho: 'playing' | 'ended',
-	afterChirho: number
-): Promise<MediaEventChirho> {
-	const matchesChirho = (eventChirho: MediaEventChirho): boolean =>
-		eventChirho.sequence_chirho > afterChirho &&
-		eventChirho.kind_chirho === kindChirho &&
-		eventChirho.url_chirho.split('#')[0].endsWith(pathChirho) &&
-		(kindChirho !== 'ended' || eventChirho.ended_chirho);
-	await expect
-		.poll(async () => (await mediaEventsChirho(pageChirho)).some(matchesChirho))
-		.toBe(true);
-	return (await mediaEventsChirho(pageChirho)).find(matchesChirho)!;
-}
-
-async function effectSequenceChirho(pageChirho: PageChirho): Promise<number> {
-	return (await mediaEventsChirho(pageChirho)).at(-1)?.sequence_chirho ?? 0;
 }
 async function rememberElementChirho(pageChirho: PageChirho): Promise<void> {
 	await pageChirho.evaluate(() => {
@@ -197,7 +179,7 @@ test('an unavailable renderer cannot prevent the lightweight radio from playing'
 	await playingChirho(pageChirho);
 });
 
-test('reduced motion keeps automatic selection light, with an explicit manual choice still available', async ({
+test('reduced motion starts lightweight, with an explicit 3D choice still available', async ({
 	page: pageChirho
 }) => {
 	await pageChirho.emulateMedia({ reducedMotion: 'reduce' });
@@ -211,32 +193,6 @@ test('reduced motion keeps automatic selection light, with an explicit manual ch
 		'true',
 		{ timeout: 20000 }
 	);
-});
-
-test('automatic choice judges the actual scene after sound starts and never reloads the playing source', async ({
-	page: pageChirho
-}) => {
-	await pageChirho.addInitScript(() => {
-		Object.defineProperty(navigator, 'deviceMemory', { configurable: true, value: 8 });
-		Object.defineProperty(navigator, 'hardwareConcurrency', { configurable: true, value: 8 });
-	});
-	await openChirho(pageChirho, 'auto');
-	await pageChirho.getByRole('button', { name: 'Start listening', exact: true }).click();
-	await playingChirho(pageChirho);
-	await rememberElementChirho(pageChirho);
-	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
-		'data-view-assessment-chirho',
-		/^(smooth|slow)$/,
-		{ timeout: 20000 }
-	);
-	const assessmentChirho = await pageChirho
-		.locator('.spatial-view-chirho')
-		.getAttribute('data-view-assessment-chirho');
-	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
-		'data-spatial-active-chirho',
-		assessmentChirho === 'smooth' ? 'true' : 'false'
-	);
-	await unchangedElementChirho(pageChirho);
 });
 
 test('a touch-sized scene stays within the screen and keeps the On cue actionable', async ({

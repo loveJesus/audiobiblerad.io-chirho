@@ -29,6 +29,8 @@ describe('bounded physical receiver resources', () => {
 				GeometryChirho | MaterialChirho | TextureChirho | InstancedMeshChirho
 			>();
 			let trianglesChirho = 0;
+			const invalidGeometriesChirho: string[] = [];
+			const inspectedGeometriesChirho = new Set<GeometryChirho>();
 			modelChirho.group_chirho.traverse((objectChirho) => {
 				if (!(objectChirho instanceof MeshChirho)) return;
 				resourcesChirho.add(objectChirho.geometry);
@@ -36,8 +38,11 @@ describe('bounded physical receiver resources', () => {
 					((objectChirho.geometry.index?.count ?? objectChirho.geometry.attributes.position.count) /
 						3) *
 					(objectChirho instanceof InstancedMeshChirho ? objectChirho.count : 1);
-				for (const valueChirho of objectChirho.geometry.attributes.position.array)
-					expect(Number.isFinite(valueChirho)).toBe(true);
+				if (!inspectedGeometriesChirho.has(objectChirho.geometry)) {
+					inspectedGeometriesChirho.add(objectChirho.geometry);
+					if (!objectChirho.geometry.attributes.position.array.every(Number.isFinite))
+						invalidGeometriesChirho.push(objectChirho.geometry.uuid);
+				}
 				if (objectChirho instanceof InstancedMeshChirho) resourcesChirho.add(objectChirho);
 				for (const materialChirho of Array.isArray(objectChirho.material)
 					? objectChirho.material
@@ -47,6 +52,7 @@ describe('bounded physical receiver resources', () => {
 						if (valueChirho instanceof TextureChirho) resourcesChirho.add(valueChirho);
 				}
 			});
+			expect(invalidGeometriesChirho).toEqual([]);
 			expect(trianglesChirho).toBeGreaterThan(1000);
 			expect(trianglesChirho).toBeLessThan(100000);
 			const disposalsChirho = new Map<object, number>();

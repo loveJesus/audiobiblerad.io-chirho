@@ -17,7 +17,7 @@ toggleable tuning, click and knob sounds. Verse timings carry the place between 
 other station changes use the fraction of the chapter. Partial recordings skip to their next
 available chapter.
 
-Native apps await the owner's packaging decision. Bible Brain integration awaits the owner's
+The owner confirmed native iOS/Apple Watch and Android apps on 2026-11-16; the first unsigned iPhone and Watch app builds pass, with the shared catalogue and privately prepared effects verified inside both bundles. Android implementation and its first build are under way. Simulator playback, physical devices and store release remain unverified. Bible Brain integration awaits the owner's
 key and confirmation of the permitted server arrangement.
 
 The web radio went live on 2026-11-14 at [audiobiblerad.io](https://audiobiblerad.io), with HTTPS
@@ -30,7 +30,7 @@ The web radio has book and chapter knobs, caption dropdowns, language/version/vo
 
 Audible autoplay is attempted where the browser permits it. Otherwise a prominent PRESS HERE button points to On. An explicit Off stays off when reopened. Tuning plays once per deliberate tune, without repeating during recovery or between chapters. Presses and knob steps have separate interface feedback; the sound switch silences both channels.
 
-An optional 3D switch on the radio keeps the same live controls and audio while adding a beveled case, raised rotating knobs, lighting and a camera that pivots by dragging. Vertical touch swipes and the mouse wheel still scroll the page. Automatic selection waits for Scripture to start and a quiet moment, then measures the actual scene; reduced motion, data saving, a small display or slow/unavailable graphics keep the lightweight view. Graphics failure returns to that view without replacing playback. Only the view choice is remembered. The graphics module loads on demand, and Watch retains the lightweight model.
+An optional 3D switch on the radio keeps the same live controls and audio while adding a beveled case, raised rotating knobs, lighting and a camera that pivots by dragging. Vertical touch swipes and the mouse wheel still scroll the page. The latest source begins every visit in the lightweight view and loads the graphics module only after an explicit switch, including for returning listeners. Graphics failure returns to that view without replacing playback. Watch retains the lightweight model. Distinct modeled receivers inside orbitable environments are the next visual target; the present common chassis does not complete it.
 
 The owner's short, purchased Splice effects are prepared locally for app use and excluded from public Git. A clone uses eleven deterministic CC0 sounds: nine tuning cues plus click and knob feedback. No Splice sample or right to reuse one is supplied with this repository. See the separate sound notices below.
 

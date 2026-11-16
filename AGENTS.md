@@ -85,8 +85,8 @@ sounds are CC0. Scripture recordings and purchased app effects keep their separa
 
 - Repository root: the SvelteKit web app on Cloudflare Workers. It will also serve the catalogue
   and the resolver endpoint.
-- `apps-chirho/ios-chirho/` and `apps-chirho/android-chirho/`: native apps, to be created once
-  L.J. confirms native. The sibling project at `../visual-biblical-language-reader-chirho/` shows
+- `apps-chirho/ios-chirho/` and `apps-chirho/android-chirho/`: native apps; L.J. confirmed native
+  on 2026-11-16. The sibling project at `../visual-biblical-language-reader-chirho/` shows
   the layout.
 - `spec-chirho/`: the record. Progress rows in `spec-chirho/progress-chirho.sqlite`, written with
   `bun spec-chirho/log_step_chirho.ts`.
