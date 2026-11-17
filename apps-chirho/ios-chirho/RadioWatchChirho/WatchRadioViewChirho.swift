@@ -82,7 +82,7 @@ struct WatchRadioViewChirho: View {
                     } label: {
                         Image(systemName: "info.circle")
                     }
-                    .accessibilityLabel("About this recording")
+                    .accessibilityLabel("This recording, help and privacy")
                 }
             }
             .sheet(isPresented: $passageShownChirho) {

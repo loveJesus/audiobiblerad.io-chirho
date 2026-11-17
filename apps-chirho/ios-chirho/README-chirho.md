@@ -51,9 +51,15 @@ Both apps bundle two things from `../shared-chirho/` by reference, never by copy
 
 Not in these apps yet: recordings that the browser loads by language (Davar Audio Bibles, whose
 native access is unresolved), chapters split across several files, a catalogue refresh after
-install, translated interface text, artwork and app icons. The identifiers
-`io.audiobiblerad.radiochirho` and `io.audiobiblerad.radiochirho.watchkitapp` are provisional and
-for local development only. No app record, signing identity or store listing exists.
+install, translated interface text and recording artwork. Both targets include waveform app icons,
+required-reason privacy manifests, and Help and Privacy links to the public website.
+
+The identifiers `io.audiobiblerad.radiochirho` and
+`io.audiobiblerad.radiochirho.watchkitapp` are registered for distribution preparation. This does
+not establish a signed store candidate, submission or public listing. Real simulator captures and
+their dimensions are recorded in `store-assets-chirho/screenshots_chirho.json`; they contain no
+generated interface or promotional overlays. Physical output and device-only controls remain
+separate acceptance gates.
 
 ## Checks
 

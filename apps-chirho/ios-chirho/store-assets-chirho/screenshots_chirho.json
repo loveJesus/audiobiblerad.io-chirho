@@ -1,0 +1,45 @@
+{
+	"scope_chirho": "Actual running apps; no compositing, retouching, overlays or generated interfaces.",
+	"phone_chirho": {
+		"size_chirho": "1320x2868",
+		"count_chirho": 3,
+		"device_chirho": "iPhone 17 Pro Max, iOS26.4"
+	},
+	"watch_chirho": {
+		"size_chirho": "416x496",
+		"count_chirho": 1,
+		"device_chirho": "Apple Watch Series11 46mm, watchOS26.5",
+		"remaining_chirho": "Book and Info views not captured: computer-use window access was lost. No Watch tap or crown acceptance claimed."
+	},
+	"submitted_chirho": false,
+	"files_chirho": [
+		{
+			"path_chirho": "apps-chirho/ios-chirho/store-assets-chirho/screens-phone-chirho/phone_playing_chirho.png",
+			"sha256_chirho": "7e1a9c0d0b547ba23bb443e4b4735b3a66062a75a3e903d332f612a02cb8cef3",
+			"bytes_chirho": 161388,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real simulator capture"
+		},
+		{
+			"path_chirho": "apps-chirho/ios-chirho/store-assets-chirho/screens-phone-chirho/phone_books_chirho.png",
+			"sha256_chirho": "f68bc46c7097637077fc69eeda658c3e9af0e89de4d5634ac4344c32ca621d15",
+			"bytes_chirho": 281634,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real simulator capture"
+		},
+		{
+			"path_chirho": "apps-chirho/ios-chirho/store-assets-chirho/screens-phone-chirho/phone_hindi_psalm_chirho.png",
+			"sha256_chirho": "1ea8c53b261bd8c9083a348f628a79f65a588d1f3befda21b5427061f58565a7",
+			"bytes_chirho": 186364,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real simulator capture"
+		},
+		{
+			"path_chirho": "apps-chirho/ios-chirho/store-assets-chirho/screens-watch-chirho/watch_playing_chirho.png",
+			"sha256_chirho": "90eb96274202ccb768490fd58dfb20db571d4390438e1a778fcc97465a70b0ee",
+			"bytes_chirho": 20864,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real simulator capture"
+		}
+	]
+}

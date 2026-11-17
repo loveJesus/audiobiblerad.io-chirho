@@ -3,7 +3,10 @@
 package io.audiobiblerad.radiochirho.uichirho
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.ComponentName
+import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -20,6 +23,7 @@ import android.widget.SeekBar
 import android.widget.Spinner
 import android.widget.Switch
 import android.widget.TextView
+import android.widget.Toast
 import androidx.media3.common.C
 import androidx.media3.common.Player
 import androidx.media3.session.MediaController
@@ -133,6 +137,15 @@ class RadioActivityChirho : Activity() {
         bodyChirho.addView(seekChirho)
         soundChirho = Switch(this).apply { setText(R.string.sound_chirho) }
         bodyChirho.addView(soundChirho)
+        // Help and Privacy open the website's pages in the browser. They are not radio controls:
+        // they make no sound and leave the radio playing or off as it was.
+        val linksChirho = LinearLayout(this)
+        for ((textChirho, addressChirho) in listOf(R.string.help_chirho to R.string.help_url_chirho, R.string.privacy_chirho to R.string.privacy_url_chirho))
+            linksChirho.addView(Button(this, null, android.R.attr.borderlessButtonStyle).apply {
+                setText(textChirho)
+                setOnClickListener { openPageChirho(getString(addressChirho)) }
+            }, LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f))
+        bodyChirho.addView(linksChirho)
         labelChirho(R.string.about_chirho)
         creditsChirho = TextView(this).also { textViewChirho -> bodyChirho.addView(textViewChirho) }
         val screenChirho = ScrollView(this).apply { addView(bodyChirho) }
@@ -239,6 +252,15 @@ class RadioActivityChirho : Activity() {
             if (answerChirho.resultCode == SessionResult.RESULT_SUCCESS)
                 RadioCommandsChirho.stateChirho(answerChirho.extras)?.let { answeredChirho -> renderStateChirho(answeredChirho) }
         }, mainExecutorChirho)
+    }
+
+    /** Opens one of the website's pages; without a browser, says which address could not open. */
+    private fun openPageChirho(addressChirho: String) {
+        val pageChirho = Intent(Intent.ACTION_VIEW, Uri.parse(addressChirho)).addCategory(Intent.CATEGORY_BROWSABLE)
+        runCatching { startActivity(pageChirho) }.onFailure { failureChirho ->
+            if (failureChirho !is ActivityNotFoundException) throw failureChirho
+            Toast.makeText(this, getString(R.string.link_error_chirho, addressChirho), Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun adapterChirho(valuesChirho: List<String>): ArrayAdapter<String> =

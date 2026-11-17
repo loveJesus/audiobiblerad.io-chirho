@@ -1,7 +1,7 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 // The iPhone radio's one screen: the station, the dial, the passage, power and chapter controls,
-// the place in the chapter, the Sound switch and the recording's credit.
+// the place in the chapter, the Sound switch, the recording's credit, then help and privacy.
 
 import RadioCoreChirho
 import RadioPlaybackChirho
@@ -34,6 +34,7 @@ struct PhoneRadioViewChirho: View {
                             get: { stateChirho.soundsEnabledChirho },
                             set: { modelChirho.setSoundsChirho($0) }))
                     RecordingNoticeViewChirho(stationChirho: modelChirho.stationChirho)
+                    supportChirho
                 }
                 .padding()
             }
@@ -54,6 +55,19 @@ struct PhoneRadioViewChirho: View {
             .multilineTextAlignment(.center)
         }
         .accessibilityElement(children: .combine)
+    }
+
+    /// Help and the privacy policy, on the project's site.
+    private var supportChirho: some View {
+        HStack(spacing: 28) {
+            Link(destination: SupportLinksChirho.helpChirho) {
+                Label("Help", systemImage: "questionmark.circle")
+            }
+            Link(destination: SupportLinksChirho.privacyChirho) {
+                Label("Privacy policy", systemImage: "hand.raised")
+            }
+        }
+        .font(.footnote)
     }
 
     private var controlsChirho: some View {

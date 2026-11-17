@@ -21,4 +21,10 @@
     <string name="about_chirho">Free listening, streamed from each recording\'s publisher. Its credit and licence are below.</string>
     <string name="licence_format_chirho">Licence: %1$s (%2$s)</string>
     <string name="source_format_chirho">Source: %1$s (%2$s)</string>
+    <string name="help_chirho">Help</string>
+    <string name="privacy_chirho">Privacy</string>
+    <string name="link_error_chirho">No app on this device can open %1$s</string>
+    <!-- The website's help and privacy pages, opened from the radio's screen. -->
+    <string name="help_url_chirho" translatable="false">https://audiobiblerad.io/support-chirho</string>
+    <string name="privacy_url_chirho" translatable="false">https://audiobiblerad.io/privacy-chirho</string>
 </resources>

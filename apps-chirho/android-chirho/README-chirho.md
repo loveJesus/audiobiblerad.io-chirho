@@ -4,7 +4,7 @@
 
 This is a native Views/Media3 application. The activity renders the service's state; one controller owns playback, On/Off, station and chapter selection, recovery and remembered position. Lock-screen and headset actions are quiet. Tapping the notification or the system media player opens the radio's screen. App controls can play the prepared click, detent and tuning effects. Opening the app starts listening unless the listener's last choice was Off, including a screen rebuilt during startup or restored after its process ended. Headphones coming out, or another app taking the audio, turn the radio off quietly; that is not the listener's Off, so the next opening still plays.
 
-The first vertical bundles the shared metadata snapshot: 29 stations in 26 languages. Scripture streams directly from each publisher. Credits, source and licence links are visible. Davar, split chapters, verse-based position mapping, catalogue refresh and interface translation are not included in this cut. This is a development app, with a provisional identifier and no Play listing or release signing.
+The first vertical bundles the shared metadata snapshot: 29 stations in 26 languages. Scripture streams directly from each publisher. Credits, source and licence links are visible. Help and Privacy open the website's support and privacy pages in the browser. Davar, split chapters, verse-based position mapping, catalogue refresh and interface translation are not included in this cut. This is a development app, with a provisional identifier and no Play listing or release signing.
 
 Run from the repository root:
 
@@ -27,3 +27,13 @@ Build outputs use the per-worktree `android-gradle-chirho` cache selected at inv
 The controller's JVM tests exercise synchronous playback callbacks, pending fractions across Off and process recreation, bounded recovery, stale events, explicit Off versus a platform pause, strict memory and quiet system actions. The parity test compares all 34,481 station/chapter positions against the web resolver. These checks and a packaged APK do not establish physical audio, background continuation, notification/headset behavior or store acceptance. Runtime observations and retained failures are recorded in `spec-chirho/evidence-chirho/native-first-chirho/verification_chirho.json`.
 
 The service is privately bound by this app. This cut does not offer Android Auto browsing or playback resumption through a media-button receiver. No command here provisions a key, creates a store record, uploads a release or changes the public website.
+
+Store artwork lives in `store-assets-chirho/`, outside the application's assets. The launcher, store icon and website share the waveform mark. Edit the SVG sources and export with the installed Inkscape CLI; no application build is needed:
+
+```bash
+inkscape apps-chirho/android-chirho/store-assets-chirho/play_icon_chirho.svg --export-type=png --export-background='#292e2b' --export-background-opacity=1 --export-filename=apps-chirho/android-chirho/store-assets-chirho/exports-chirho/play_icon_chirho.png
+inkscape apps-chirho/android-chirho/store-assets-chirho/play_feature_graphic_chirho.svg --export-type=png --export-background='#292e2b' --export-background-opacity=1 --export-filename=/private/tmp/play_feature_render_chirho.png
+magick /private/tmp/play_feature_render_chirho.png -alpha off -strip PNG24:apps-chirho/android-chirho/store-assets-chirho/exports-chirho/play_feature_graphic_chirho.png
+```
+
+The exports are an opaque 512×512 icon and a 1024×500 RGB feature graphic. Check the rendered image and dimensions before uploading. Screenshots come from the running app, separately from this artwork.

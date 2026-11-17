@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<!-- Google Play feature graphic, 1024 x 500: the site mark beside the name, set like the radio's
+     own heading (uppercase, letter-spaced, bold) in Avenir Next, the site's first-choice face.
+     Colours are the mark's and the radio's ink. The lockup stays centred, clear of the edges. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+	<defs>
+		<radialGradient id="glow_chirho" cx="512" cy="250" r="560" gradientUnits="userSpaceOnUse">
+			<stop offset="0" stop-color="#343b36" />
+			<stop offset="1" stop-color="#292e2b" />
+		</radialGradient>
+	</defs>
+	<rect width="1024" height="500" fill="url(#glow_chirho)" />
+	<!-- The mark from src/lib/assets/favicon.svg, nine pixels to each unit of its grid. -->
+	<g transform="translate(41 106) scale(9)">
+		<path
+			d="M8 12v8m4-12v16m4-19v22m4-19v16m4-12v8"
+			fill="none"
+			stroke="#e8bd75"
+			stroke-width="2"
+			stroke-linecap="round"
+		/>
+	</g>
+	<text
+		x="320"
+		y="268"
+		fill="#e7e5d3"
+		font-family="Avenir Next"
+		font-weight="bold"
+		font-size="50"
+		letter-spacing="7"
+	>AUDIO BIBLE RADIO</text>
+</svg>

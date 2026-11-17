@@ -153,5 +153,13 @@ The project Worker `audiobiblerad-io-chirho` and this domain's Free zone now exi
 `spec-chirho/evidence-chirho/spatial-radio-chirho/`; the earlier widget record remains under
 `spec-chirho/evidence-chirho/widget-release-chirho/`; the first release evidence remains under
 `spec-chirho/evidence-chirho/web-release-chirho/`. The dedicated `/embed-chirho` route explicitly
-permits outside framing, and `/llms.txt` provides public integration instructions. No native/store
-resource was created.
+permits outside framing, and `/llms.txt` provides public integration instructions. Those earlier web
+releases created no native or store resources.
+
+On 2026-11-17 the owner explicitly requested completion of store records, screenshots, public
+support/privacy pages and declarations. The support and privacy pages are live. The Phone and Watch
+bundle identifiers are registered for Apple distribution preparation; that is not an App Store
+Connect app record, signed build or submission. Native Help/Privacy links and matching icons pass
+their build gates. Track the remaining forms, screenshots and owner decisions in
+`spec-chirho/tasklists-chirho/2026-11-chirho/26-11-17_12-43-tasklist-store_readiness-chirho.md`.
+Do not infer legal answers or review/release authority from preparation alone.

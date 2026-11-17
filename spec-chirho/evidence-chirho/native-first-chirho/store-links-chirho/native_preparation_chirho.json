@@ -1,0 +1,102 @@
+{
+	"measured_on_chirho": "2026-11-17T19:01:52.773365+00:00",
+	"scope_chirho": "Native help/privacy links, matching branding, package checks and real store screenshot preparation; no signing, store listing upload or submission.",
+	"apple_chirho": {
+		"source_sha256_chirho": {
+			"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioCoreChirho/SupportLinksChirho.swift": "64a34cfd9f87ed661a35c74136ed25091aca513b5f612ebffdc53533bb83716b",
+			"apps-chirho/ios-chirho/RadioPhoneChirho/PhoneRadioViewChirho.swift": "9ec99dae9c62ab67dbd16395496b7ecdd0e283909734d284150a2ae8629aeb16",
+			"apps-chirho/ios-chirho/RadioWatchChirho/WatchNoticeViewChirho.swift": "6213dd41c03366e6994a313c44e998d7b6825cadfe06b49423ee88d8efadeb22",
+			"apps-chirho/ios-chirho/RadioWatchChirho/WatchRadioViewChirho.swift": "1dafd0ad3d3a6800bb929b31130257840fcd9a249980193c7c14d9c882548627"
+		},
+		"tests_chirho": 60,
+		"suites_chirho": 7,
+		"strict_typechecks_chirho": ["iOS17", "watchOS10"],
+		"phone_build_chirho": {
+			"outcome_chirho": "BUILD SUCCEEDED",
+			"warnings_chirho": 0,
+			"errors_chirho": 0,
+			"backend_chirho": "external",
+			"bundle_files_chirho": 42
+		},
+		"watch_build_chirho": {
+			"outcome_chirho": "BUILD SUCCEEDED",
+			"warnings_chirho": 0,
+			"errors_chirho": 0,
+			"backend_chirho": "local fallback when external identity was unavailable",
+			"bundle_files_chirho": 20,
+			"comparison_chirho": "Resources match the embedded Watch. Build-path-dependent executable stub and debug dylib differ."
+		},
+		"screenshots_chirho": {
+			"phone_chirho": 3,
+			"phone_size_chirho": "1320x2868",
+			"watch_chirho": 1,
+			"watch_size_chirho": "416x496",
+			"format_chirho": "RGB PNG, every RGB pixel matches the real simulator capture",
+			"manifest_chirho": "apps-chirho/ios-chirho/store-assets-chirho/screenshots_chirho.json"
+		},
+		"observed_ui_chirho": [
+			"English John1 playing on iPhone",
+			"Off, book and chapter selection, station selection while Off",
+			"Hindi Psalms23 playing on iPhone",
+			"Watch John1 Playing screen"
+		],
+		"not_claimed_chirho": [
+			"Watch Info/book taps or crown use; computer-use window access failed after the first Watch capture",
+			"Physical audio, device background, Bluetooth route loss or real media-services reset"
+		],
+		"teardown_chirho": "Both owned installs removed, both owned devices Shutdown, zero booted; devices not erased"
+	},
+	"android_chirho": {
+		"tests_chirho": 27,
+		"lint_chirho": "No issues found",
+		"build_chirho": "BUILD SUCCESSFUL, four tasks in one purchased-set invocation, two workers, no daemon",
+		"source_changes_during_gates_chirho": false,
+		"apk_chirho": {
+			"sha256_chirho": "37fb6cc68fb1b73cf362d338a1577ba0f723f1bf0d3f2c8bab89cb5b899b25fd",
+			"bytes_chirho": 6149994,
+			"debuggable_chirho": true
+		},
+		"aab_chirho": {
+			"sha256_chirho": "901e8d69d3894526ff20b78e6cebc870bc93240618af2f762346e688ff018f1a",
+			"bytes_chirho": 4435728,
+			"unsigned_chirho": true,
+			"debuggable_chirho": false
+		},
+		"assets_chirho": {
+			"count_chirho": 13,
+			"matches_prior_debug_and_release_chirho": true,
+			"contents_chirho": "Catalogue, profile and11 prepared clips; no original media or store graphics"
+		},
+		"screenshots_chirho": {
+			"outcome_chirho": "NOT COMPLETED",
+			"input_sent_chirho": false,
+			"initial_evidence_frame_chirho": 1,
+			"accepted_store_captures_chirho": 0,
+			"dependency_chirho": "CUA rejected the exact owned emulator executable path and process name as Invalid app. No fallback input or shared reconfiguration.",
+			"teardown_chirho": "Uninstall0, wm size reset and Physical1080x2400 confirmed, owned emulator stopped and process absent, failures0",
+			"retained_avd_kib_chirho": 2125952,
+			"initial_frame_chirho": {
+				"width_chirho": 1080,
+				"height_chirho": 2400,
+				"visible_chirho": "System startup wallpaper; not the radio",
+				"wm_override_chirho": "Reported1080x1920, but actual capture dimensions differ"
+			}
+		},
+		"release_runtime_chirho": "Not proven by debug runtime acceptance",
+		"upstream_notices_chirho": [
+			"AGP Configuration.setVisible deprecation for Gradle11",
+			"Gradle shared read-only dependency cache incubation"
+		],
+		"test_and_lint_readback_chirho": "Root independently read the three fresh JUnit result files and the lint NoIssues report."
+	},
+	"store_effects_chirho": {
+		"registered_apple_bundle_identifiers_chirho": [
+			"io.audiobiblerad.radiochirho",
+			"io.audiobiblerad.radiochirho.watchkitapp"
+		],
+		"app_record_submission_chirho": false,
+		"build_upload_chirho": false,
+		"review_submission_chirho": false,
+		"owner_declarations_chirho": "Pending; no answer inferred from another app or an unanswered question"
+	}
+}

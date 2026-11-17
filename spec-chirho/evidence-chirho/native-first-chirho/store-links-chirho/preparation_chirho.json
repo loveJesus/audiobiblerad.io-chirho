@@ -18,9 +18,29 @@
 		"delta_bytes_chirho": 10968,
 		"unrelated_or_original_inputs_chirho": 0
 	},
-	"publication_chirho": "NOT YET APPLIED",
+	"publication_chirho": {
+		"outcome_chirho": "PASS",
+		"source_commit_chirho": "392d03e",
+		"worker_version_chirho": "969cc411-e93f-418d-9437-8e5c88666342",
+		"prior_version_chirho": "fb0aacc9-e84c-4c7d-afb5-d5b5bfa8a065",
+		"percentage_chirho": 100,
+		"changed_assets_uploaded_chirho": 21,
+		"unchanged_assets_reused_chirho": 445,
+		"hosted_asset_matches_chirho": 466,
+		"hosted_asset_mismatches_chirho": 0,
+		"hosts_chirho": ["audiobiblerad.io", "www.audiobiblerad.io"],
+		"routes_chirho": ["/support-chirho", "/privacy-chirho"],
+		"private_paths_chirho": "404",
+		"dns_changes_chirho": false,
+		"store_submission_chirho": false
+	},
 	"limits_chirho": [
 		"The support contact currently uses the public issue tracker.",
 		"Native screenshots, signed packages, store forms and owner declarations are separate work."
+	],
+	"preparation_notes_chirho": [
+		"An initial formatter directory walk failed on an ignored private preimage; public-source enumeration repaired the normal lint entry.",
+		"An attempted new local preview refused an occupied port; the existing project preview served the newly built routes.",
+		"A Python www request returned403; normal Bun HTTPS requests returned200 for both routes. No security or DNS settings were changed."
 	]
 }

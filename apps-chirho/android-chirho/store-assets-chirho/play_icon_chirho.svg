@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<!-- Google Play icon, 512 x 512: the site mark (src/lib/assets/favicon.svg) drawn full bleed, as the
+     Apple app icon uses it. Play rounds the corners and adds the shadow itself, so the square stays
+     square, opaque and unshadowed. One unit of the mark's 32-unit grid is 16 pixels. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 32 32">
+	<rect width="32" height="32" fill="#292e2b" />
+	<path
+		d="M8 12v8m4-12v16m4-19v22m4-19v16m4-12v8"
+		fill="none"
+		stroke="#e8bd75"
+		stroke-width="2"
+		stroke-linecap="round"
+	/>
+</svg>
