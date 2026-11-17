@@ -1,0 +1,32 @@
+{
+	"measured_on_chirho": "2026-11-17",
+	"outcome_chirho": "WATCH_SIMULATOR_REMEMBERED_RESUME_PASS",
+	"scope_chirho": "Corrected shared transport candidate, fresh Watch playback and close-while-On/reopen-resume. No source rebuild, input injection, signing, store action or physical-audio claim.",
+	"source_commit_chirho": "7116613",
+	"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+	"root_readback_chirho": "All five saved-place JSONs, screenshots 2/4, first-sound logs and teardown inspected.",
+	"script_sha256_prefix_chirho": "19dbafce",
+	"bundle_files_chirho": 20,
+	"bundle_inventory_prefix_chirho": "7a411f1e",
+	"simulator_chirho": "Apple Watch Series 11 (46mm), watchOS 26.5",
+	"elapsed_seconds_chirho": 129,
+	"launches_chirho": 2,
+	"stream_loads_chirho": 2,
+	"station_chirho": "helloao-bsb-souer",
+	"book_chirho": "JHN",
+	"chapter_chirho": 1,
+	"saved_seconds_chirho": [10.500053859, 31.500090601, 37.00008881, 42.000178099, 63.000133373],
+	"explicit_off_chirho": false,
+	"framework_first_sound_ms_chirho": [195, 179],
+	"screens_chirho": "Playing before and after reopen; no Watch clock/playhead animation is inferred from the identical UI.",
+	"platform_pause_interruption_output_lost_system_off_lines_chirho": 0,
+	"crashes_chirho": 0,
+	"teardown_chirho": "Terminate/uninstall/shutdown exit 0; app absent, device Shutdown, zero booted simulators and owned residual processes. Device retained, not erased; about 34 MiB growth.",
+	"remaining_chirho": [
+		"Acoustics and physical output/headphone route",
+		"Crown and direct Watch Off/On input",
+		"Background or wrist-down playback",
+		"Media-services reset and route-disconnected recovery follow-up",
+		"Signing, release package and store acceptance"
+	]
+}

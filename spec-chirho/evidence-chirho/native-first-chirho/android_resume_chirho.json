@@ -1,0 +1,58 @@
+{
+	"measured_on_chirho": "2026-11-17",
+	"outcome_chirho": "ANDROID_EMULATOR_FRESH_AND_REMEMBERED_RESUME_PASS",
+	"scope_chirho": "Two headless launches of the compiled Android package on API 36, direct publisher playback, saved-place advancement and close-while-On/reopen resume. No input injection or acoustic proof.",
+	"source_commit_chirho": "7116613",
+	"apk_sha256_chirho": "91939875aea4c311efffb81d8a3e08e2f8ca95a233e9ac0196b904c83b9c2c0e",
+	"apk_bytes_chirho": 6147850,
+	"producer_chirho": "BIBLERADIO_CHIRHO/claude_chirho",
+	"root_readback_chirho": "All 12 acceptance entries, raw data-partition readback, command journal and teardown, empty crash buffer, and the reopened screenshot inspected. The producer message said 13 checks; the actual saved JSON contains 12, all passing.",
+	"driver_sha256_prefix_chirho": "92ec393ad5b0c811",
+	"launcher_sha256_prefix_chirho": "28374632f4d8a8ba",
+	"acceptance_checks_chirho": 12,
+	"elapsed_seconds_chirho": 339.052,
+	"launches_chirho": 2,
+	"stream_loads_chirho": 2,
+	"first_run_chirho": {
+		"station_chirho": "helloao-bsb-hays",
+		"book_chirho": "JHN",
+		"chapter_chirho": 1,
+		"saved_seconds_chirho": [7.911, 16.524],
+		"observed_span_seconds_chirho": 11.934,
+		"platform_session_chirho": "PLAYING, one session, non-null application launch intent"
+	},
+	"closed_chirho": {
+		"saved_seconds_chirho": 16.524,
+		"power_chirho": "on",
+		"processes_chirho": 0,
+		"sessions_chirho": 0
+	},
+	"reopened_chirho": {
+		"saved_seconds_chirho": [22.24, 37.179],
+		"observed_span_seconds_chirho": 12.949,
+		"platform_session_chirho": "PLAYING, one session, non-null application launch intent; new process"
+	},
+	"launch_to_framework_playing_seconds_chirho": [17.037, 16.504],
+	"performance_limit_chirho": "An unsettled emulator with high guest load; these include process/service startup and are not physical-device latency or acoustic figures.",
+	"original_red_chirho": "The preceding cold-boot cut stopped before install with zero loads. The emulator forced a 6 GiB guest partition despite the 2 GiB request, and df reported /data/user/0. Its original low ceiling/parser refusal is preserved as an environment/instrument result.",
+	"corrected_environment_chirho": {
+		"guest_total_kib_chirho": 6082144,
+		"reviewed_guest_ceiling_kib_chirho": 6300000,
+		"monitored_host_stop_kib_chirho": 3145728,
+		"host_allocation_peak_kib_chirho": 1236160,
+		"host_allocation_final_kib_chirho": 1285308,
+		"log_bytes_approx_chirho": 310000,
+		"internal_free_floor_gib_chirho": 20,
+		"scope_chirho": "Same initialized isolated AVD, four bounded instrument changes, no app/source change and one corrected run."
+	},
+	"crash_buffer_bytes_chirho": 0,
+	"errors_chirho": "No fatal, player or audio error reported. Platform codec/resource, Media Quality Service, ashmem and provider-probe diagnostics retained privately.",
+	"teardown_chirho": "App force-stopped and uninstalled successfully; owned emulator stopped, no teardown failures. Shared adb and shared AVD fingerprint unchanged. Owned isolated AVD retained shut down without user packages for the next acceptance cut; it was not erased.",
+	"remaining_chirho": [
+		"Explicit Off, reopening while Off and deliberate On through actual UI",
+		"System-pause behavior on the platform",
+		"Notification, lock-screen and headset actions",
+		"Acoustics and physical-device behavior",
+		"Release signing and Google Play acceptance"
+	]
+}
