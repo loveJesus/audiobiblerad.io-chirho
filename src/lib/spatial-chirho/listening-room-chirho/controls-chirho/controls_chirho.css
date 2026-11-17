@@ -1,0 +1,240 @@
+/* For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) */
+.room-controls-chirho {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	overflow: hidden;
+}
+.room-control-plane-chirho {
+	position: absolute;
+	left: 0;
+	top: 0;
+	transform-origin: 0 0;
+	transform-style: preserve-3d;
+	pointer-events: auto;
+	backface-visibility: hidden;
+	box-sizing: border-box;
+}
+.room-control-plane-chirho * {
+	box-sizing: border-box;
+}
+.room-control-plane-chirho button,
+.room-control-plane-chirho select,
+.room-control-plane-chirho input {
+	font: inherit;
+	color: inherit;
+}
+.room-control-plane-chirho button:focus-visible,
+.room-control-plane-chirho select:focus-visible,
+.room-control-plane-chirho input:focus-visible {
+	outline: 3px solid #ffdb84;
+	outline-offset: 3px;
+}
+.room-control-plane-chirho > select {
+	height: 100%;
+	width: 100%;
+	font:
+		12px/1.1 'Bradley Hand',
+		cursive;
+	color: #eee2b5;
+	background: #252e23;
+	border: 1px solid #aa9869;
+	border-radius: 2px;
+	padding: 0 4px;
+}
+.room-screen-chirho {
+	height: 100%;
+	padding: 2px 6px;
+	background: #1d2922;
+	color: #f7e2a3;
+	display: grid;
+	grid-template-columns: 1fr 1.35fr;
+	grid-template-rows: 22px 20px 20px;
+	gap: 1px 9px;
+	overflow: hidden;
+	font: 12px/1.15 system-ui;
+}
+.room-screen-chirho > label {
+	display: flex;
+	gap: 5px;
+	align-items: center;
+	min-width: 0;
+}
+.room-screen-chirho label:nth-child(3) {
+	grid-column: 1/-1;
+}
+.room-screen-chirho select {
+	min-width: 0;
+	width: 100%;
+	height: 100%;
+	border: 0;
+	border-bottom: 1px solid #a79762;
+	background: #1d2922;
+	color: #f7e2a3;
+	font: 13px/1.2 system-ui;
+	padding: 0 18px 0 3px;
+	background-position: right 2px center;
+	background-size: 12px;
+}
+.room-station-chirho {
+	grid-column: 1/-1;
+	white-space: nowrap;
+	font-size: 9px;
+}
+.room-station-chirho input {
+	width: 100%;
+	height: 12px;
+	min-width: 70px;
+	margin: 0;
+	accent-color: #eab869;
+}
+.room-status-chirho {
+	min-width: 58px;
+}
+.room-knob-chirho {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	border: 0 !important;
+	border-radius: 50%;
+	background: transparent !important;
+	touch-action: none;
+	color: #1b211e;
+	cursor: ns-resize;
+}
+.room-knob-chirho > span {
+	position: absolute;
+	left: 50%;
+	top: 39%;
+	height: 6%;
+	width: 2px;
+	background: #181d1b;
+	transform-origin: 50% 180%;
+	transform: translateX(-50%) rotate(var(--knob-angle-chirho));
+	box-shadow: 0 0 1px #eee;
+}
+.room-knob-chirho:disabled {
+	cursor: default;
+	opacity: 0.4;
+}
+.room-power-chirho {
+	width: 100%;
+	height: 100%;
+	border: 0 !important;
+	border-radius: 4px;
+	background: transparent !important;
+	color: #fff2dc !important;
+	font: bold 11px system-ui !important;
+	padding: 0 !important;
+	text-shadow: 0 1px 2px #241a13;
+	cursor: pointer;
+}
+.room-power-chirho[aria-pressed='true'] {
+	color: #fff6cf !important;
+	text-shadow: 0 0 5px #e8dc93;
+}
+.room-sounds-chirho {
+	width: 100%;
+	height: 100%;
+	border: 0 !important;
+	border-radius: 4px;
+	padding: 0 !important;
+	background: transparent !important;
+	color: #252a24 !important;
+	font: bold 9px/1.2 system-ui !important;
+	cursor: pointer;
+}
+.room-press-chirho {
+	position: absolute;
+	left: 50%;
+	top: -43px;
+	transform: translateX(-50%);
+	padding: 8px 12px !important;
+	border: 2px solid #fff !important;
+	border-radius: 8px;
+	background: #ffce60 !important;
+	color: #202822 !important;
+	white-space: nowrap;
+	font: bold 15px system-ui !important;
+	box-shadow: 0 4px 14px #0009;
+	animation: room-prompt-chirho 1s ease-in-out infinite alternate;
+	cursor: pointer;
+}
+.room-press-chirho[hidden] {
+	display: none;
+}
+@keyframes room-prompt-chirho {
+	to {
+		translate: 0 -8px;
+	}
+}
+@media (prefers-reduced-motion: reduce) {
+	.room-press-chirho {
+		animation: none;
+	}
+}
+.room-paper-chirho {
+	height: 100%;
+	overflow: auto;
+	padding: 4px;
+	color: #302b23;
+	background: #e9e0cd;
+	font:
+		10px/1.25 Georgia,
+		serif;
+	white-space: pre-line;
+	text-align: left;
+	border-radius: 1px;
+}
+.room-credit-readable-chirho {
+	position: absolute;
+	right: 12px;
+	bottom: 8px;
+	max-width: min(72ch, 80%);
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 10px;
+	background: #151b18e8;
+	color: #eee7d3;
+	border-radius: 4px;
+	font: 11px/1.4 system-ui;
+	pointer-events: auto;
+}
+.room-credit-readable-chirho[hidden] {
+	display: none;
+}
+.room-about-button-chirho {
+	font: bold 15px system-ui !important;
+	border: 1px solid #b1b9a0 !important;
+	border-radius: 50%;
+	padding: 2px !important;
+	min-width: 24px;
+	min-height: 24px;
+	cursor: pointer;
+}
+.room-about-chirho {
+	max-width: min(600px, 90vw);
+	background: #eee8d9;
+	color: #25312a;
+	border: 2px solid #8d997e;
+	border-radius: 10px;
+	padding: 24px;
+	font: 16px/1.6 system-ui;
+}
+.room-about-chirho::backdrop {
+	background: #101a14aa;
+}
+.room-about-chirho button {
+	color: #25312a;
+	background: #d3dac8;
+	border: 1px solid #727d68;
+}
+
+.room-knob-large-chirho > span {
+	top: 20%;
+	height: 14%;
+	width: 3px;
+	transform-origin: 50% 214%;
+}

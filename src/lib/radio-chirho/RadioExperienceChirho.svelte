@@ -32,7 +32,8 @@
 		active_chirho: false,
 		wanted_chirho: false,
 		busy_chirho: false,
-		message_chirho: ''
+		message_chirho: '',
+		scene_kind_chirho: 'room' as 'room' | 'original'
 	});
 	let storageChirho: PreferenceStorageChirho | null = null;
 	function chooseThemeChirho(valueChirho: RadioThemeIdChirho): void {
@@ -112,6 +113,8 @@
 	data-radio-theme-chirho={themeIdChirho}
 	data-radio-widget-chirho={widgetChirho ? '' : undefined}
 	data-radio-spatial-chirho={spatialStateChirho.active_chirho}
+	data-radio-room-chirho={spatialStateChirho.active_chirho &&
+		spatialStateChirho.scene_kind_chirho === 'room'}
 >
 	{#if !widgetChirho && !spatialStateChirho.active_chirho}<ThemeSceneChirho
 			theme_id_chirho={themeIdChirho}
@@ -119,6 +122,9 @@
 	<main>
 		<RadioSpatialViewChirho
 			bind:this={spatialChirho}
+			session_chirho={sessionChirho}
+			view_chirho={viewChirho}
+			widget_chirho={widgetChirho}
 			theme_id_chirho={themeIdChirho}
 			on_change_chirho={(nextChirho) => (spatialStateChirho = nextChirho)}
 		>
@@ -170,6 +176,11 @@
 		grid-template-columns: minmax(0, 1fr);
 		align-items: center;
 		padding: clamp(18px, 4vh, 56px) clamp(12px, 4vw, 48px);
+	}
+	.radio-world-chirho[data-radio-room-chirho='true'] {
+		padding: 0;
+		align-items: start;
+		background: #101619;
 	}
 	main {
 		width: 100%;

@@ -13,6 +13,8 @@ Placement: the shared language-library repair belongs in src/lib/language-chirho
 - [x] Add the prominent view switch and remove development diagnostics and footer.
 - [x] Initialize playable simple controls before the separate graphics import; apply conservative capability admission and render fallback.
 - [x] Verify all four existing 2D themes and their art remain unchanged.
-- [ ] Connect the detailed room and switch to the existing themed receiver in the main application, preserving one audio controller. The prototype simple form is not the final themed 2D view.
+- [x] Connect the detailed room and switch to the existing themed receiver in the main application, preserving one audio controller. The prototype simple form is not the final themed 2D view.
 
 Validation: 314 unit/browser-component tests pass; svelte-check reports zero errors and warnings; repository lint passes. Native Chrome observed Rundi playback with publisher credit, then the same station/passage at 0:37 in 2D and 0:45 after returning to 3D. This is local prototype verification, not a production release or physical-device result.
+
+Follow-up: the actual themed integration is complete locally; see 26-11-17_01-22-tasklist-detailed_room_integration-chirho.md and the listening-room verification record. The prototype form is superseded by the original Svelte receiver on return to 2D.

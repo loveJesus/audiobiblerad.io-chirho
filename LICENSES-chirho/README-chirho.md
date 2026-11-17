@@ -22,6 +22,12 @@ The radio published at https://audiobiblerad.io may also play a few short tuning
 
 The pictures of the radio itself, under `static/images-chirho/radios-chirho/`, were made for this project on 2026-11-14 with AI image generation (OpenAI's GPT Image 2.6) from text descriptions alone: no reference image, no third-party picture and nothing downloaded. The project then cropped, adjusted and encoded them. They are machine-made pictures, not photographs of real objects or places. They are shared under the same GPL-3.0-or-later terms as the code, to the extent the project holds any rights in them. No exclusive copyright in AI-generated material is claimed.
 
+## Listening-room scene
+
+The detailed listening room and cassette stereo under `static/scenes-chirho/listening-room-chirho/` are project-created procedural geometry and materials. The preferred editable construction source is under `artwork-chirho/listening-room-chirho/`: two Python recipes, their normalized export baseline, and two original text-only AI-generated image inputs (the distant city and framed Psalm 46:10 poster). The managed image-generation tool did not report an exact model identifier. No downloaded stock mesh, reference photograph, third-party album cover or font file is included. Cassette handwriting uses original hand-plotted strokes; other modeled lettering uses Blender's built-in font. The source README records provenance, hashes and reproduction instructions.
+
+These scene assets and construction sources share the project's GPL-3.0-or-later terms and section 7 permission above, to the extent the project holds rights in them. No exclusive copyright in AI-generated material is claimed. The scene contains no Scripture recording or purchased sound sample. Runtime effects retain their separate licences.
+
 ## Scripture audio is not covered
 
 No Scripture audio is in this repository. The radio streams each recording from its publisher's own host, and each recording stays under its publisher's own terms. Neither the GPL above nor the CC0 dedication grants any right in it. Some of those terms forbid commercial use: Davar Audio Bibles' recordings "may not be sold or used for any commercial purpose", and their copyright notices must be shown when shared.

@@ -1,7 +1,7 @@
 {
 	"date_chirho": "2026-11-17",
 	"previous_record_chirho": "verification_chirho.json",
-	"scope_chirho": "Source corrections, strict local gates, package inventories and one corrected iPhone simulator reopen-resume check. No signing, store upload, deployment or physical-device acceptance.",
+	"scope_chirho": "Source corrections, strict local gates, package inventories and corrected iPhone simulator reopen-resume and tapped acceptance. No signing, store upload, deployment or physical-device acceptance.",
 	"apple_chirho": {
 		"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
 		"root_review_chirho": "Five current source hashes reconciled against the producer freeze; saved-place readbacks and resumed screenshot inspected.",
@@ -28,7 +28,24 @@
 			"explicit_off_chirho": false,
 			"teardown_chirho": "App removed, device shut down, zero booted simulators and crashes."
 		},
-		"runtime_limit_chirho": "No acoustic or isolated latency claim. Deliberate Off/reopen/On, menus, effects, lock screen and physical output remain separate acceptance. DeviceHub instrument failures are retained privately and are not app failures."
+		"runtime_limit_chirho": "No acoustic or isolated latency claim. Effects were preloaded but not verified by listening; the Sound switch was not toggled. Physical output, background, lock screen, remote commands and interruptions remain separate device gates. Earlier instrument failures remain preserved and are not app failures.",
+		"tapped_vertical_chirho": {
+			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho, native CUA input by root",
+			"source_commit_chirho": "7116613",
+			"bundle_files_verified_chirho": 42,
+			"device_chirho": "iPhone 17, iOS 26.5 Simulator",
+			"loads_chirho": 2,
+			"off_saved_seconds_chirho": [53, 53],
+			"reopen_off_saved_seconds_chirho": [53, 53],
+			"reopen_explicit_off_chirho": true,
+			"resume_screen_seconds_chirho": [66, 87],
+			"resume_observation_gap_seconds_chirho": 21,
+			"resume_saved_seconds_chirho": [63.5, 85],
+			"resume_explicit_off_chirho": false,
+			"selection_while_off_chirho": "Genesis 2, zero seconds, still Off; a station step carried the passage to the next narration without starting playback.",
+			"outcome_chirho": "PASS at simulator scope: fresh playback, Off holds, remembered Off prevents reopening autoplay, deliberate On resumes past the 15-second bound, book/chapter/station choice while Off stays quiet.",
+			"teardown_chirho": "App removed, device shut down, zero booted simulators and crashes; root subsequently quit its DeviceHub window."
+		}
 	},
 	"android_chirho": {
 		"producer_chirho": "BIBLERADIO_CHIRHO/claude_chirho",

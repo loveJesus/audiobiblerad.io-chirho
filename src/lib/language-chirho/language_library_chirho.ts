@@ -11,6 +11,8 @@ import {
 	type StationChirho
 } from '$lib/catalogue-chirho/catalogue_chirho';
 
+import { readBoundedBytesChirho } from '$lib/site-chirho/bounded_response_chirho';
+
 const MAX_CATALOGUE_BYTES_CHIRHO = 128_000;
 const REQUEST_TIMEOUT_MS_CHIRHO = 8_000;
 const MAX_CACHED_LANGUAGES_CHIRHO = 3;
@@ -60,42 +62,6 @@ export function stationsInLanguageChirho(
 	return [...stationsChirho.values()];
 }
 
-// Bounded reads and cancellation follow spec-chirho/workflows-chirho/language_workflow_chirho.md.
-async function boundedResponseChirho(responseChirho: Response): Promise<Response> {
-	if (!responseChirho.ok || !responseChirho.body) {
-		await responseChirho.body?.cancel();
-		throw new Error('Language data unavailable');
-	}
-	if (Number(responseChirho.headers.get('content-length')) > MAX_CATALOGUE_BYTES_CHIRHO) {
-		await responseChirho.body.cancel();
-		throw new Error('Language data too large');
-	}
-	const readerChirho = responseChirho.body.getReader();
-	const chunksChirho: Uint8Array[] = [];
-	let lengthChirho = 0;
-	try {
-		while (true) {
-			const chunkChirho = await readerChirho.read();
-			if (chunkChirho.done) break;
-			lengthChirho += chunkChirho.value.byteLength;
-			if (lengthChirho > MAX_CATALOGUE_BYTES_CHIRHO) {
-				await readerChirho.cancel();
-				throw new Error('Language data too large');
-			}
-			chunksChirho.push(chunkChirho.value);
-		}
-	} finally {
-		readerChirho.releaseLock();
-	}
-	const bytesChirho = new Uint8Array(lengthChirho);
-	let offsetChirho = 0;
-	for (const chunkChirho of chunksChirho) {
-		bytesChirho.set(chunkChirho, offsetChirho);
-		offsetChirho += chunkChirho.byteLength;
-	}
-	return new Response(bytesChirho);
-}
-
 /** One index, one active selection, and at most three cached language files. Never reads audio. */
 export class LanguageLibraryChirho {
 	private readonly cacheChirho = new Map<string, readonly StationChirho[]>();
@@ -128,7 +94,9 @@ export class LanguageLibraryChirho {
 						await responseChirho.body?.cancel();
 						throw new MissingLanguageFileChirho('No additional language file');
 					}
-					return boundedResponseChirho(responseChirho);
+					return new Response(
+						await readBoundedBytesChirho(responseChirho, MAX_CATALOGUE_BYTES_CHIRHO)
+					);
 				})
 			);
 			if (controllerChirho.signal.aborted || this.disposedChirho)

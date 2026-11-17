@@ -1,0 +1,67 @@
+{
+	"date_chirho": "2026-11-17",
+	"scope_chirho": "Integrated local web build and browser checks; source publication only. No deployment or physical-device acceptance.",
+	"model_chirho": {
+		"path_chirho": "static/scenes-chirho/listening-room-chirho/room_chirho.glb",
+		"bytes_chirho": 15339680,
+		"sha256_chirho": "99fe8b8ca3425e9d41f18f71a4a7d1650ca1c31edf0478ad365bd1b030815288",
+		"triangles_chirho": 217684,
+		"meshes_chirho": 539,
+		"materials_chirho": 40,
+		"images_chirho": 15,
+		"lights_chirho": 7,
+		"external_image_uris_chirho": false
+	},
+	"editable_source_chirho": {
+		"path_chirho": "artwork-chirho/listening-room-chirho/",
+		"blender_chirho": "5.2.2 LTS",
+		"reproduction_chirho": "Executed from the portable repository recipe. Support assertions pass; all seven normalized lights and forty material/texture records match the retained baseline. Geometry counts match. GLB byte identity is not promised; accessor/buffer ordering differs.",
+		"warnings_chirho": 0,
+		"embedded_font_files_chirho": false,
+		"image_provenance_chirho": "Two original text-only managed image generations; exact model identifier not reported. Thirteen procedural surface maps. No reference photograph or downloaded stock mesh embedded."
+	},
+	"unit_chirho": {
+		"files_chirho": 37,
+		"tests_chirho": 318,
+		"result_chirho": "PASS"
+	},
+	"compiler_chirho": {
+		"errors_chirho": 0,
+		"warnings_chirho": 0
+	},
+	"lint_chirho": "Repository Prettier and ESLint pass; changed files rechecked after final refinements.",
+	"build_chirho": {
+		"result_chirho": "PASS",
+		"purchased_effects_chirho": "Eleven verified prepared cuts, 375070 bytes; require-licensed preflight passed.",
+		"storage_chirho": "External-first cache; one intermediate build automatically used an isolated local fallback after the selector could not verify the external identity. Final build selected the external cache.",
+		"files_chirho": 463,
+		"bytes_chirho": 19340825,
+		"source_input_or_private_entries_chirho": [],
+		"diagnostics_chirho": "No compiler warnings. Rolldown emitted its plugin-timing performance diagnostics."
+	},
+	"browser_chirho": {
+		"engines_chirho": ["Chromium with Metal", "WebKit"],
+		"admission_and_controls_chirho": "10/10 checks pass across the two engines. Explicit 2D, reduced motion and limited resources request neither scene entry nor model; automatic model failure leaves Scripture playing.",
+		"final_graphics_chirho": "6/6 checks pass across the two engines, including detailed-room controls, actual GPU context loss, original 3D radio continuity and an unavailable renderer. The room-control case repeats from the earlier batch.",
+		"observed_chirho": [
+			"Book labels preview during a real pointer turn and remain stable across playback snapshots",
+			"Large station knob and station slider both select another narration",
+			"All four original 2D themes restore visibly",
+			"The same Scripture element remains playing with no new load across view/theme changes and real context loss",
+			"Manual entry, exit and failure restore appropriate keyboard focus"
+		],
+		"fixture_chirho": "Every external request was fulfilled with generated audio or refused. No Scripture recording was copied.",
+		"initial_reds_chirho": [
+			"Test compared a room book id with the original receiver numeric book order; corrected to compare the selected book name.",
+			"WebKit manual entry left body focused; presentation now focuses its toolbar when the prior target is body or the old receiver.",
+			"Rendered dropdown text was clipped by inherited form padding; fixed in the room-specific styles."
+		]
+	},
+	"themes_chirho": ["minimal", "digital", "field", "cyberpunk"],
+	"remaining_chirho": [
+		"Actual low-end and mobile GPU performance",
+		"Physical-device audio and assistive-technology review",
+		"Deployment remains separate",
+		"Native signing, physical background/lock-screen acceptance and store actions remain separate"
+	]
+}

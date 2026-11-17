@@ -33,11 +33,14 @@ test.afterEach(async ({ page: pageChirho }, infoChirho) => {
 		});
 	}
 });
-async function openChirho(pageChirho: PageChirho, preferenceChirho = 'simple'): Promise<void> {
-	await pageChirho.addInitScript(
-		(preferenceChirho) => localStorage.setItem('audio-bible-radio-view-chirho', preferenceChirho),
-		preferenceChirho
-	);
+async function openChirho(pageChirho: PageChirho, preferenceChirho = 'two'): Promise<void> {
+	await pageChirho.addInitScript((preferenceChirho) => {
+		localStorage.setItem(
+			'audio-bible-radio-view-chirho',
+			preferenceChirho === 'three' ? 'two' : preferenceChirho
+		);
+		localStorage.setItem('audio-bible-radio-scene-chirho', 'original');
+	}, preferenceChirho);
 	await pageChirho.goto('/');
 	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeEnabled();
 	if (preferenceChirho === 'three')
@@ -235,7 +238,7 @@ test('a real 3D radio stays within its viewing cone and its controls preserve pl
 	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toBeVisible();
 	await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
 	await expect(pageChirho.locator('.spatial-face-chirho')).toHaveCSS('visibility', 'visible');
-	await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).uncheck();
+	await pageChirho.getByRole('button', { name: 'Switch to 2D radio', exact: true }).click();
 	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toHaveCount(0);
 	await unchangedElementChirho(pageChirho);
 	expect((await mediaStateChirho(pageChirho)).length).toBeLessThanOrEqual(3);
@@ -313,7 +316,7 @@ test('the modeled settings and camera controls change around one continuing radi
 		await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
 		await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toBeVisible();
 	}
-	await pageChirho.getByRole('button', { name: 'Simple view', exact: true }).click();
+	await pageChirho.getByRole('button', { name: 'Switch to 2D radio', exact: true }).click();
 	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toHaveCount(0);
 	await unchangedElementChirho(pageChirho);
 });
