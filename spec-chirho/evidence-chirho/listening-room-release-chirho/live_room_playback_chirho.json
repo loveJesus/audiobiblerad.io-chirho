@@ -1,0 +1,37 @@
+{
+	"measured_on_chirho": "2026-11-17T11:43:55.136Z",
+	"origin_chirho": "https://audiobiblerad.io",
+	"method_chirho": "One real upstream Scripture stream; no media substitution or retained Scripture bytes. Explicit gesture, actual 3D model, same-element/load-count and clock checks across views. Not acoustic or physical-device proof.",
+	"samples_chirho": [
+		{
+			"phase_chirho": "2D before",
+			"url_chirho": "https://audio.bible.helloao.org/api/BSB/JHN/1/audio/souer.mp3",
+			"seconds_chirho": 0.398405,
+			"loads_chirho": 1
+		},
+		{
+			"phase_chirho": "3D room",
+			"seconds_chirho": 3.820607,
+			"paused_chirho": false,
+			"same_element_chirho": true,
+			"loads_chirho": 1,
+			"expected_loads_chirho": 1,
+			"elements_chirho": 3,
+			"credit_chirho": "Berean Standard Bible, narrated by Bob Souer. Dedicated to the public domain (CC0 1.0). · CC0 1.0 Universal, a public domain dedication"
+		},
+		{
+			"phase_chirho": "restored 2D",
+			"seconds_chirho": 6.433972,
+			"paused_chirho": false,
+			"same_element_chirho": true,
+			"loads_chirho": 1,
+			"expected_loads_chirho": 1,
+			"elements_chirho": 3,
+			"credit_chirho": "Berean Standard Bible, narrated by Bob Souer. Dedicated to the public domain (CC0 1.0)."
+		}
+	],
+	"outcome_chirho": "PASS",
+	"off_chirho": true,
+	"source_count_chirho": 1,
+	"errors_chirho": []
+}

@@ -1,0 +1,66 @@
+{
+	"measured_on_chirho": "2026-11-17T11:39:42.779Z",
+	"outcome_chirho": "LIVE_PLAYER_AND_LISTENING_ROOM_VERIFIED",
+	"worker_chirho": "audiobiblerad-io-chirho",
+	"version_chirho": "fb0aacc9-e84c-4c7d-afb5-d5b5bfa8a065",
+	"percentage_chirho": 100,
+	"deployment_chirho": "ecb4328d-f3c3-40f0-8683-3ad88bae36c2",
+	"source_commit_chirho": "3d5943e",
+	"application_source_commit_chirho": "4886fff",
+	"prior_version_chirho": "8520e1bc-713a-4347-a337-52b121b333f5",
+	"authority_chirho": "Owner: upload our player changes to the web; keep native apps including Apple Watch moving. Web mutation confined to the existing Worker and its two custom domains.",
+	"apply_chirho": "One apply, exit 0; immediate provider readback confirms the single new version at 100%. No retry.",
+	"rollback_chirho": "All 456 prior assets plus the prior Worker were read back against their retained hashes before apply. Prior version/package retained privately.",
+	"dns_changed_chirho": false,
+	"bindings_and_compatibility_preserved_chirho": true,
+	"hosts_chirho": [
+		{
+			"origin_chirho": "https://audiobiblerad.io",
+			"status_chirho": 200,
+			"version_chirho": {
+				"version": "1794899665316"
+			},
+			"sha256_chirho": "c54bcfa8a5af863680d68274563c674b5a4be5a010d7e8be71dbdeb7dfcc923f"
+		},
+		{
+			"origin_chirho": "https://www.audiobiblerad.io",
+			"status_chirho": 200,
+			"version_chirho": {
+				"version": "1794899665316"
+			},
+			"sha256_chirho": "c54bcfa8a5af863680d68274563c674b5a4be5a010d7e8be71dbdeb7dfcc923f"
+		}
+	],
+	"assets_chirho": {
+		"count_chirho": 460,
+		"bytes_chirho": 19336193,
+		"mismatches_chirho": 0,
+		"worker_bytes_chirho": 649758,
+		"worker_sha256_chirho": "4bb4e18c2b2ed9d08ddea006a6eb4b62c75e9b48e73db9c3846ce29cfbb0c8cf",
+		"model_bytes_chirho": 15339680,
+		"model_sha256_chirho": "99fe8b8ca3425e9d41f18f71a4a7d1650ca1c31edf0478ad365bd1b030815288",
+		"licensed_effects_chirho": 11,
+		"licensed_bytes_chirho": 375070,
+		"private_or_editable_inputs_chirho": 0
+	},
+	"gates_chirho": {
+		"fresh_check_errors_chirho": 0,
+		"fresh_check_warnings_chirho": 0,
+		"reused_unchanged_application_gates_chirho": "318 tests in 37 files, lint and production build; 10 admission/control plus 6 final graphics checks. No application source or prepared byte changed before upload.",
+		"dry_run_chirho": "PASS; complete package inventory unchanged through upload",
+		"hosted_fixture_cases_chirho": 2,
+		"actual_recordings_chirho": 5,
+		"actual_source_hosts_chirho": 5,
+		"actual_room_view_switch_chirho": "One additional real Scripture stream kept its element and one load while the clock advanced 0.398 to 3.821 to 6.434 seconds across 2D, room, restored 2D. Off stopped it.",
+		"page_errors_chirho": 0
+	},
+	"instrument_notes_chirho": [
+		"A Python urllib version request received 403. Normal TLS-validated curl and browser requests returned 200 and exact version bytes for both hosts. No TLS or browser security override was used.",
+		"Worker deployment reported 9 ms startup; browser first-playing metrics are sample framework events, not acoustic or isolated performance guarantees."
+	],
+	"limits_chirho": [
+		"No physical-device, acoustic, complete-library or spoken-content validation.",
+		"The 3D control and context-loss cases use generated tones; real upstream progress and real room continuity are recorded separately.",
+		"Native signing, device background/remote/output acceptance and store actions remain separate."
+	]
+}

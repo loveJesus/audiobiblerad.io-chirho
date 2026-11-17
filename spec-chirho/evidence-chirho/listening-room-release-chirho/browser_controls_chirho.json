@@ -1,0 +1,15 @@
+{
+	"outcome_chirho": "PASS",
+	"origin_chirho": "https://audiobiblerad.io",
+	"browser_cases_chirho": 2,
+	"engines_chirho": ["Chromium Metal", "WebKit"],
+	"scope_chirho": "Actual public application and model. External media fulfilled by generated tones or refused; separate real upstream results are recorded alongside. No deployment or network substitution inside the app.",
+	"checks_chirho": [
+		"Large station knob and station slider choose another narration",
+		"Book labels preview during pointer turn and remain stable across playback snapshots",
+		"All four original 2D themes restore and focus returns",
+		"Same playing element and load count survive view/theme changes",
+		"Real graphics context loss returns to 2D with continuing audio"
+	],
+	"errors_chirho": 0
+}
