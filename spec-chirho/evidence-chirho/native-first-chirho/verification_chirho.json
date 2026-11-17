@@ -1,6 +1,6 @@
 {
 	"date_chirho": "2026-11-16",
-	"status_chirho": "Apple feedback/output correction builds and core tests pass; first iPhone Simulator playback observed on prior cut. Android corrected package passes; advancing Android runtime not yet established.",
+	"status_chirho": "Apple source, resources and simulator position advancement verified at bounded scope; Android corrected package passes, but emulator boot/runtime acceptance remains open.",
 	"authority_chirho": "owner confirmed native iOS, Apple Watch and Android on 2026-11-16; no store, signing-team, provider or deployment action",
 	"producers_chirho": {
 		"ios_source_and_core_checks_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
@@ -251,6 +251,25 @@
 			},
 			"shared_resources_chirho": "Catalogue, profile and eleven purchased cuts match the source in all three bundles, with no preparation files. Embedded and standalone Watch copies are byte-identical.",
 			"limits_chirho": "Unsigned Debug simulator packaging only. No new simulator run, signed archive, upload or store acceptance."
+		},
+		"watch_runtime_chirho": {
+			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho; root independently decoded both copied app-container plist Data values.",
+			"source_chirho": "9b9d6bf exact unit43 resource-verified bundle",
+			"device_chirho": "Existing Apple Watch Series11 46mm Simulator, watchOS26.5",
+			"elapsed_seconds_chirho": 99,
+			"first_on_to_framework_playing_ms_chirho": 191,
+			"same_station_and_chapter_chirho": "helloao-bsb-souer JHN1",
+			"saved_seconds_chirho": [10.500106101, 31.000102004],
+			"elapsed_between_copies_seconds_chirho": 21,
+			"screens_chirho": "Playing in both retained screenshots; Watch screen has no position clock.",
+			"prior_readback_chirho": "First run queried an external defaults domain and returned empty; retained unchanged as an instrument failure.",
+			"diagnostics_chirho": "CoreMedia -12864, simulator CoreAudio/UIScene and crown-indicator messages remain unclassified.",
+			"teardown_chirho": "Only the owned install removed and owned boot shut down;0booted devices and0crash reports; existing device retained.",
+			"limits_chirho": [
+				"No acoustic or physical-device proof.",
+				"No background/wrist-down, Bluetooth/route picker, crown interaction or signed-store acceptance.",
+				"Network requests not captured; no chapter recovery observed."
+			]
 		}
 	},
 	"cache_chirho": {
@@ -359,7 +378,15 @@
 				"teardown_chirho": "force-stop/uninstall/owned emulator shutdown all succeeded, no teardown failures",
 				"limits_chirho": "This is not an attribution of the System UI failure to the radio, and no Android runtime PASS is claimed"
 			}
-		]
+		],
+		"isolated_runtime_chirho": {
+			"source_chirho": "2126ecc corrected APK, SHA256 beb6a977b1db6e947457bcd90d76d1d6166c501ad26a119b5918de90e74ea051",
+			"result_chirho": "Boot bound expired at240seconds while adb remained offline; no app installed and0stream loads.",
+			"setup_chirho": "Fresh owned4GiB host-GPU AVD using the installed API36 arm64 image; guest filesystem guard would run before install.",
+			"teardown_chirho": "Emulator stopped243.6seconds,0teardown failures;580464KiB owned AVD deleted afterwards; shared AVD configuration fingerprint unchanged.",
+			"instrument_red_chirho": "AVD creation succeeded, but reporting grep expected space-delimited INI keys and returned1. Root reconciled config/pointer/no copied image and did not replay creation.",
+			"limits_chirho": "This is an emulator startup result before application execution; Android playback remains unverified. No SDK image, release key or store action."
+		}
 	},
 	"raw_records_chirho": "private scene-direction record; producer logs, freeze inventories and original failures retained",
 	"publication_chirho": "not deployed; no native/store record created"

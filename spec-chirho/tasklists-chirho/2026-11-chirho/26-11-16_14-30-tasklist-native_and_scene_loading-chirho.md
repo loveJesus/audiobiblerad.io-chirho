@@ -29,3 +29,5 @@ Owner refinement, 2026-11-16 evening: the supplied stereo-room reference is the 
 - [ ] Verify native runtime and prepare initial App Store and Google Play candidates, listings, privacy/support content, icons and screenshots. Preserve actual runtime failures and resolve required acceptance gaps before submission.
 
 The focused room is a Christian listening room: a Bible and original praise/worship artwork replace secular album/branding content from the visual reference.
+
+The subsequent Watch container-readback check observed BSB John 1 saved position advancing 10.500106101 to 31.000102004 seconds over 21 seconds, with Playing screens and a 191 ms On-to-framework event. The earlier empty external-domain readback remains retained. The fresh isolated Android host-GPU AVD never reached online adb within its 240-second boot bound; no app was installed, and the owned AVD was retired after clean teardown. Store listing/policy drafts are private and unsubmitted; legal questionnaire answers, release packaging and device acceptance remain pending.
