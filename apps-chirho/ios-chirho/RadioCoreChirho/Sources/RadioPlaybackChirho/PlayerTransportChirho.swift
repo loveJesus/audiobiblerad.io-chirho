@@ -3,27 +3,31 @@
 // One AVPlayer that streams a chapter straight from its publisher's host and tells the radio what
 // actually happened. Each load starts a new generation and removes the older item's observers, and
 // every report is checked against the generation it came from, so the radio never hears from a
-// stream it replaced. Part of
+// stream it replaced. What the player was asked to do is kept in a PlayerIntentChirho, and each
+// report is read against it. Part of
 // spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md.
 
 import AVFoundation
 import Foundation
 import RadioCoreChirho
+import os
 
 @MainActor
 public final class PlayerTransportChirho: RadioTransportChirho {
     private let playerChirho = AVPlayer()
-    private var generationChirho = 0
+    /// The current stream, whether the radio wants sound, whether the player was told to play,
+    /// and a start still waiting for its stream.
+    private var intentChirho = PlayerIntentChirho()
     private var eventsChirho: (@MainActor (TransportEventChirho) -> Void)?
     private var observationsChirho: [NSKeyValueObservation] = []
     private var notificationsChirho: [any NSObjectProtocol] = []
     private var timeObserverChirho: Any?
     private var readySentChirho = false
     private var failedSentChirho = false
-    /// Where to start once the stream is ready; a seek is placed then, never before.
-    private var startSecondsChirho: Double?
-    /// The radio asked for sound, so a pause it did not ask for came from the platform.
-    private var expectingPlayChirho = false
+    private let loggerChirho = Logger(
+        subsystem: "io.audiobiblerad.radiochirho", category: "playback-chirho")
+
+    private var generationChirho: Int { intentChirho.generationChirho }
 
     public init() {
         playerChirho.automaticallyWaitsToMinimizeStalling = true
@@ -35,33 +39,30 @@ public final class PlayerTransportChirho: RadioTransportChirho {
         eventsChirho: @escaping @MainActor (TransportEventChirho) -> Void
     ) {
         detachChirho()
-        generationChirho += 1
+        // With a later start, sound waits for the seek once the stream is ready.
+        let playNowChirho = intentChirho.loadChirho(
+            startSecondsChirho: startSecondsChirho, playChirho: playChirho)
         self.eventsChirho = eventsChirho
         readySentChirho = false
         failedSentChirho = false
-        self.startSecondsChirho = startSecondsChirho.flatMap { $0 > 0 ? $0 : nil }
-        expectingPlayChirho = playChirho
         let itemChirho = AVPlayerItem(url: urlChirho)
         observeChirho(itemChirho, generationChirho)
         playerChirho.replaceCurrentItem(with: itemChirho)
-        // With a later start, sound waits for the seek once the stream is ready.
-        if playChirho, self.startSecondsChirho == nil { playerChirho.play() }
+        if playNowChirho { playerChirho.play() }
     }
 
     public func playChirho() {
-        expectingPlayChirho = true
-        guard startSecondsChirho == nil else { return }
-        playerChirho.play()
+        if intentChirho.playChirho() { playerChirho.play() }
     }
 
     public func pauseChirho() {
-        expectingPlayChirho = false
+        intentChirho.pauseChirho()
         playerChirho.pause()
     }
 
     public func seekChirho(toSecondsChirho secondsChirho: Double) {
         guard secondsChirho.isFinite else { return }
-        startSecondsChirho = nil
+        intentChirho.seekChirho()
         playerChirho.seek(
             to: CMTime(seconds: max(0, secondsChirho), preferredTimescale: 600),
             toleranceBefore: .zero, toleranceAfter: .zero)
@@ -69,9 +70,7 @@ public final class PlayerTransportChirho: RadioTransportChirho {
 
     public func clearChirho() {
         detachChirho()
-        generationChirho += 1
-        expectingPlayChirho = false
-        startSecondsChirho = nil
+        intentChirho.clearChirho()
         playerChirho.pause()
         playerChirho.replaceCurrentItem(with: nil)
     }
@@ -152,10 +151,9 @@ public final class PlayerTransportChirho: RadioTransportChirho {
 
     /// The start that waited for the stream: seek there, then sound if the radio still wants it.
     private func placeStartChirho(_ generationChirho: Int) {
-        guard generationChirho == self.generationChirho, let secondsChirho = startSecondsChirho else {
+        guard let secondsChirho = intentChirho.readyChirho(generationChirho: generationChirho) else {
             return
         }
-        startSecondsChirho = nil
         playerChirho.seek(
             to: CMTime(seconds: secondsChirho, preferredTimescale: 600), toleranceBefore: .zero,
             toleranceAfter: .zero
@@ -166,8 +164,7 @@ public final class PlayerTransportChirho: RadioTransportChirho {
     }
 
     private func startAfterSeekChirho(_ generationChirho: Int) {
-        guard generationChirho == self.generationChirho, expectingPlayChirho else { return }
-        playerChirho.play()
+        if intentChirho.startPlacedChirho(generationChirho: generationChirho) { playerChirho.play() }
     }
 
     private func timeControlChangedChirho(_ generationChirho: Int) {
@@ -184,8 +181,12 @@ public final class PlayerTransportChirho: RadioTransportChirho {
             let durationChirho = itemChirho.duration.seconds
             let atEndChirho =
                 durationChirho.isFinite && itemChirho.currentTime().seconds >= durationChirho - 0.5
-            guard expectingPlayChirho, itemChirho.status != .failed, !atEndChirho else { return }
-            expectingPlayChirho = false
+            guard
+                intentChirho.pausedChirho(
+                    generationChirho: generationChirho, failedChirho: itemChirho.status == .failed,
+                    atEndChirho: atEndChirho)
+            else { return }
+            loggerChirho.info("platform pause reported")
             sendChirho(.stoppedBySystemChirho, generationChirho)
         @unknown default:
             break

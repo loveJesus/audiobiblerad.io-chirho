@@ -1,0 +1,61 @@
+{
+	"date_chirho": "2026-11-17",
+	"previous_record_chirho": "verification_chirho.json",
+	"scope_chirho": "Source corrections, strict local gates, package inventories and one corrected iPhone simulator reopen-resume check. No signing, store upload, deployment or physical-device acceptance.",
+	"apple_chirho": {
+		"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+		"root_review_chirho": "Five current source hashes reconciled against the producer freeze; saved-place readbacks and resumed screenshot inspected.",
+		"swift_tests_chirho": 49,
+		"suites_chirho": 6,
+		"warnings_as_errors_chirho": true,
+		"red_before_fix_chirho": "Exactly three intent tests failed with nine issues before the two decision guards; unchanged tests passed after the correction.",
+		"correction_chirho": "A remembered start waits for stream readiness and its placement seek; a pause is a platform stop only after that stream was told to play. Off and generation replacement still fence stale callbacks.",
+		"sdk_typechecks_chirho": ["iOS 17.0", "watchOS 10.0"],
+		"phone_and_watch_builds_chirho": "Unsigned simulator builds passed with zero warning/error lines; purchased effect set required.",
+		"phone_files_chirho": 42,
+		"watch_files_chirho": 20,
+		"embedded_and_standalone_watch_identical_chirho": true,
+		"phone_device_family_chirho": [1],
+		"watch_device_family_chirho": [4],
+		"headless_resume_chirho": {
+			"device_chirho": "iPhone 17, iOS 26.5 Simulator",
+			"loads_chirho": 2,
+			"saved_second_at_close_chirho": 31,
+			"resumed_screen_seconds_chirho": [39, 56],
+			"observation_gap_seconds_chirho": 17,
+			"saved_readbacks_chirho": [31, 52.500096585],
+			"same_passage_chirho": true,
+			"explicit_off_chirho": false,
+			"teardown_chirho": "App removed, device shut down, zero booted simulators and crashes."
+		},
+		"runtime_limit_chirho": "No acoustic or isolated latency claim. Deliberate Off/reopen/On, menus, effects, lock screen and physical output remain separate acceptance. DeviceHub instrument failures are retained privately and are not app failures."
+	},
+	"android_chirho": {
+		"producer_chirho": "BIBLERADIO_CHIRHO/claude_chirho",
+		"root_review_chirho": "All 33 current source hashes match the gated source inventory.",
+		"corrections_chirho": [
+			"Immutable session launch intent",
+			"Platform audio loss powers down without recording explicit listener Off",
+			"Every screen connection asks the controller for once-only opening autoplay"
+		],
+		"red_before_fix_chirho": "Focused controller run had exactly one failing platform-pause/reopen regression; the unchanged regression passed after repair.",
+		"jvm_tests_chirho": 27,
+		"kotlin_warnings_chirho": 0,
+		"lint_chirho": "No issues found",
+		"apk_bytes_chirho": 6147850,
+		"apk_sha256_chirho": "91939875aea4c311efffb81d8a3e08e2f8ca95a233e9ac0196b904c83b9c2c0e",
+		"assets_chirho": {
+			"count_chirho": 13,
+			"contents_chirho": "Shared metadata catalogue, profile and eleven purchased effect cuts; no originals or private manifests."
+		},
+		"runtime_chirho": "Still unverified for this corrected package. Earlier emulator/instrument failures remain evidence; no retry is treated as a pass."
+	},
+	"open_store_work_chirho": [
+		"Owner legal/privacy/export declarations",
+		"Support and privacy URLs",
+		"Physical background/lock-screen/output checks",
+		"Signing and release archives",
+		"Store records, metadata and screenshots",
+		"Upload, processing and submission"
+	]
+}

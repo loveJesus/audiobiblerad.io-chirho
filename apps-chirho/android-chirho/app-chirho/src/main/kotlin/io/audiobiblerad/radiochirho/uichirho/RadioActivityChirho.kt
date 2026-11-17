@@ -66,7 +66,6 @@ class RadioActivityChirho : Activity() {
     private var shownBookChirho = ""
     private var renderingChirho = false
     private var draggingChirho = false
-    private var autoplayPendingChirho = false
     private val handlerChirho = Handler(Looper.getMainLooper())
     private val mainExecutorChirho = Executor { taskChirho -> handlerChirho.post(taskChirho) }
     private val clockChirho = object : Runnable {
@@ -86,7 +85,6 @@ class RadioActivityChirho : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        autoplayPendingChirho = savedInstanceState == null
         val catalogueChirho = runCatching { readBundledCatalogueChirho(assets) }.getOrNull()
         if (catalogueChirho == null) {
             setContentView(TextView(this).apply { setText(R.string.catalogue_error_chirho) })
@@ -203,10 +201,10 @@ class RadioActivityChirho : Activity() {
                 controllerChirho.addListener(playerListenerChirho)
                 powerChirho.isEnabled = true
                 commandChirho(RadioCommandsChirho.STATE_CHIRHO, FeedbackChirho.NONE_CHIRHO) {}
-                if (autoplayPendingChirho) {
-                    autoplayPendingChirho = false
-                    commandChirho(RadioCommandsChirho.AUTOPLAY_CHIRHO, FeedbackChirho.NONE_CHIRHO) {}
-                }
+                // Every connection asks and the radio plays only for its first, never after the
+                // listener's Off. So a screen rebuilt before it could ask (a rotation or theme
+                // change during startup), or restored after its process ended, still opens playing.
+                commandChirho(RadioCommandsChirho.AUTOPLAY_CHIRHO, FeedbackChirho.NONE_CHIRHO) {}
                 handlerChirho.post(clockChirho)
             }.onFailure { statusChirho.setText(R.string.catalogue_error_chirho) }
         }, mainExecutorChirho)

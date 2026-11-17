@@ -336,15 +336,31 @@ class RadioControllerChirhoTest {
     }
 
     @Test
-    fun aSystemPauseTurnsTheRadioOffQuietlyAndIsRememberedChirho() {
+    fun aSystemPauseTurnsTheRadioOffQuietlyButIsNotTheListenersOffChirho() {
         val rigChirho = RigChirho()
-        rigChirho.radioChirho.onChirho(FeedbackChirho.NONE_CHIRHO)
+        rigChirho.radioChirho.autoplayChirho()
         rigChirho.hearChirho()
+        rigChirho.audioChirho.clockMsChirho = 42_000
         rigChirho.radioChirho.onSystemPausedChirho(rigChirho.generationChirho)
         assertFalse(rigChirho.stateChirho.poweredChirho)
         assertEquals("pause", rigChirho.audioChirho.callsChirho.last())
-        assertEquals("off", rigChirho.storeChirho.valuesChirho[RadioControllerChirho.POWER_KEY_CHIRHO])
         assertTrue("silence" in rigChirho.effectsChirho.callsChirho)
+        assertEquals(42.0, rigChirho.savedChirho().currentChirho!!.secondsChirho, 0.0)
+        // The same radio's screen connecting again does not start it again by itself.
+        rigChirho.radioChirho.autoplayChirho()
+        assertEquals(1, rigChirho.audioChirho.loadsChirho.size)
+        assertFalse(rigChirho.stateChirho.poweredChirho)
+        // Headphones coming out, or another app taking the audio, is not the listener's Off: the
+        // next opening plays, as on the web and on Apple.
+        val reopenedChirho = RigChirho(rigChirho.storeChirho)
+        reopenedChirho.radioChirho.autoplayChirho()
+        assertEquals(1, reopenedChirho.audioChirho.loadsChirho.size)
+        // An Off from a lock screen, notification or headset is the listener's, and keeps the next opening quiet.
+        reopenedChirho.hearChirho()
+        reopenedChirho.radioChirho.offChirho(FeedbackChirho.NONE_CHIRHO)
+        val quietChirho = RigChirho(reopenedChirho.storeChirho)
+        quietChirho.radioChirho.autoplayChirho()
+        assertTrue(quietChirho.audioChirho.loadsChirho.isEmpty())
     }
 
     @Test

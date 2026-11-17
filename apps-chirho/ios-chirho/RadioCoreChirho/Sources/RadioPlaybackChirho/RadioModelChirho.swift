@@ -64,13 +64,16 @@ public final class RadioModelChirho {
         routeChirho.onInterruptionChirho = { [weak self] beganChirho, resumeChirho in
             guard let self else { return }
             if beganChirho {
+                self.loggerChirho.info("interruption began")
                 self.soundsChirho?.silenceChirho()
                 self.controllerChirho.interruptionBeganChirho()
             } else {
+                self.loggerChirho.info("interruption ended, resume \(resumeChirho, privacy: .public)")
                 Task { await self.controllerChirho.interruptionEndedChirho(shouldResumeChirho: resumeChirho) }
             }
         }
         routeChirho.onOutputLostChirho = { [weak self] in
+            self?.loggerChirho.info("output lost")
             self?.soundsChirho?.silenceChirho()
             self?.controllerChirho.outputLostChirho()
         }
@@ -221,6 +224,7 @@ public final class RadioModelChirho {
     /// Off from the lock screen, Control Center, headphones or the Watch's Now Playing: no click,
     /// and any click or static still sounding stops with the radio.
     private func quietOffChirho() {
+        loggerChirho.info("system control Off")
         soundsChirho?.silenceChirho()
         controllerChirho.offChirho()
     }

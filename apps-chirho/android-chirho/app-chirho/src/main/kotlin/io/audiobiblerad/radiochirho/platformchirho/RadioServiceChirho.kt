@@ -2,6 +2,7 @@
 
 package io.audiobiblerad.radiochirho.platformchirho
 
+import android.app.PendingIntent
 import android.os.Bundle
 import android.os.Process
 import androidx.annotation.OptIn
@@ -59,11 +60,21 @@ class RadioServiceChirho : MediaSessionService() {
         ) { stateChirho -> publishChirho(stateChirho) }
         this.playerChirho = playerChirho
         this.audioChirho = audioChirho
-        sessionChirho = MediaSession.Builder(this, RadioFacadeChirho(playerChirho) { radioChirho })
+        val builderChirho = MediaSession.Builder(this, RadioFacadeChirho(playerChirho) { radioChirho })
             .setCallback(callbackChirho)
-            .build()
+        screenIntentChirho()?.let { intentChirho -> builderChirho.setSessionActivity(intentChirho) }
+        sessionChirho = builderChirho.build()
         radioChirho?.let { createdChirho -> publishChirho(createdChirho.stateChirho) }
     }
+
+    /**
+     * Tapping the notification, the lock-screen player or the system media controls opens the
+     * radio's screen, as its launcher icon does. Without it the session's launch intent is null.
+     */
+    private fun screenIntentChirho(): PendingIntent? =
+        packageManager.getLaunchIntentForPackage(packageName)?.let { launchChirho ->
+            PendingIntent.getActivity(this, 0, launchChirho, PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT)
+        }
 
     private fun publishChirho(stateChirho: RadioStateChirho) {
         sessionChirho?.setSessionExtras(RadioCommandsChirho.stateBundleChirho(stateChirho))

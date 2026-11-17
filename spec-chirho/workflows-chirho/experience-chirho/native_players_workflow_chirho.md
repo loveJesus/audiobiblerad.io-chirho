@@ -55,4 +55,8 @@ flowchart TD
     reopen_chirho --> controller_chirho
 ```
 
+Apple remembered starts have two separate waits: the stream becoming ready and the initial seek completing. `PlayerIntentChirho` keeps On waiting through both, and treats a paused report as a platform pause only after this generation was actually told to play. Off, interruptions and replacement generations fence readiness and seek callbacks. A later deliberate seek must not strand the original placement. Foundation-only tests exercise these decisions; actual AVPlayer resume is checked separately.
+
+Android distinguishes the listener's explicit Off from output or audio-focus loss. Both power down quietly and keep the place, but only a deliberate user pause/Off persists the opening choice. Each screen connection asks for opening autoplay; the controller owns the once-per-session guard. The platform session carries an immutable launch intent so its notification can open this app.
+
 Apple resource builds must keep the mandatory `PrivacyInfo.xcprivacy` filename at each app bundle root. The native Phone and Watch catalogues use opaque app icons; inspect `Assets.car` and the actual icon plist keys after building, including the embedded Watch copy. Required-API reasons describe only observed defaults and elapsed-time uses. They do not stand in for the owner's store data-collection, tracking or export declarations.

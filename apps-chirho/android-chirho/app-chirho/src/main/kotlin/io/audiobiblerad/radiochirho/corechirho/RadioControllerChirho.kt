@@ -14,6 +14,10 @@ package io.audiobiblerad.radiochirho.corechirho
 // - Progress is saved at most every 5 s while playing, and at every meaningful change.
 // - Nothing loads while Off, so a pending start (seconds or fraction) waits for the next On.
 // - System commands are quiet. On-screen commands may play a click, a knob tick or a tuning cue.
+// - The listener's Off, from the screen or a system control, is remembered and keeps the next
+//   opening quiet. A pause the platform makes by itself (headphones out, another app taking the
+//   audio) turns the radio off just as quietly, but it is not the listener's choice, as on the
+//   web and on Apple.
 class RadioControllerChirho(
     private val catalogueChirho: CatalogueChirho,
     private val audioChirho: AudioPortChirho,
@@ -114,9 +118,15 @@ class RadioControllerChirho(
         emitChirho()
     }
 
+    /** The listener's Off, from the screen or from a lock screen, notification or headset. */
     fun offChirho(feedbackChirho: FeedbackChirho) {
         if (disposedChirho) return
         writeChirho(POWER_KEY_CHIRHO, "off")
+        powerDownChirho(feedbackChirho)
+    }
+
+    /** Off without deciding whether the next opening plays: only [offChirho] remembers that. */
+    private fun powerDownChirho(feedbackChirho: FeedbackChirho) {
         sampleChirho()
         poweredChirho = false
         cancelTimersChirho()
@@ -196,7 +206,10 @@ class RadioControllerChirho(
         emitChirho()
     }
 
-    /** Opening the screen starts listening, as the web does where it may, unless the last choice was Off. */
+    /**
+     * Opening the screen starts listening, as the web does where it may, unless the listener's
+     * last choice was Off. Every screen connection asks; only the first for this radio counts.
+     */
     fun autoplayChirho() {
         if (disposedChirho || autoplayUsedChirho) return
         autoplayUsedChirho = true
@@ -316,7 +329,8 @@ class RadioControllerChirho(
 
     override fun onSystemPausedChirho(generationChirho: Int) {
         if (staleChirho(generationChirho) || !poweredChirho) return
-        offChirho(FeedbackChirho.NONE_CHIRHO)
+        // Quiet and off for now, with nothing resumed by itself; the remembered choice is untouched.
+        powerDownChirho(FeedbackChirho.NONE_CHIRHO)
     }
 
     // Internals.
