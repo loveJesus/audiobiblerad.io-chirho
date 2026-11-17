@@ -55,12 +55,46 @@
 		"spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md": "fc71b0373e274b088bacdbc2eef0ec214f8ca943b4bafdbe40e8334718c7296a",
 		"apps-chirho/ios-chirho/RadioCoreChirho/Tests/RadioCoreChirhoTests/ControllerTestsChirho.swift": "18eeb74b3d924d6fc0e6ecaf0fc4df62d5d9f74b09a4f4638b2b7f55f1d03b43"
 	},
-	"candidate_runtime_chirho": "Pending the same normal fresh-playback/remembered-resume simulator verticals against these exact new bundles. Earlier runtime receipts describe the previous candidate.",
+	"candidate_runtime_chirho": {
+		"iphone_chirho": {
+			"outcome_chirho": "FRESH_AND_REMEMBERED_RESUME_PASS",
+			"elapsed_seconds_chirho": 126,
+			"source_commit_chirho": "13ba3d6",
+			"script_sha256_prefix_chirho": "e834995b",
+			"saved_seconds_chirho": [5.000057598, 26.500090376, 26.500090376, 32, 53.000120214],
+			"framework_first_sound_ms_chirho": [365, 201],
+			"launches_chirho": 2,
+			"loads_chirho": 2,
+			"same_station_passage_chirho": true,
+			"explicit_off_chirho": false,
+			"screens_chirho": "Playing at each observation; root inspected the final screen.",
+			"crashes_chirho": 0,
+			"platform_pause_interruption_output_lost_system_off_media_services_lines_chirho": 0,
+			"teardown_chirho": "Terminate/uninstall/shutdown succeeded; app absent and zero booted simulators. Owned runtime processes quiet; devices retained, not erased."
+		},
+		"watch_chirho": {
+			"outcome_chirho": "FRESH_AND_REMEMBERED_RESUME_PASS",
+			"elapsed_seconds_chirho": 117,
+			"source_commit_chirho": "13ba3d6",
+			"script_sha256_prefix_chirho": "f935f5b9",
+			"saved_seconds_chirho": [15.500081191, 31.500061367, 31.500061367, 37, 58.000073931],
+			"framework_first_sound_ms_chirho": [176, 184],
+			"launches_chirho": 2,
+			"loads_chirho": 2,
+			"same_station_passage_chirho": true,
+			"explicit_off_chirho": false,
+			"screens_chirho": "Playing at each observation; root inspected the final screen.",
+			"crashes_chirho": 0,
+			"platform_pause_interruption_output_lost_system_off_media_services_lines_chirho": 0,
+			"teardown_chirho": "Terminate/uninstall/shutdown succeeded; app absent and zero booted simulators. Owned runtime processes quiet; devices retained, not erased."
+		}
+	},
 	"not_proven_chirho": [
 		"An actual Reset Media Services action",
 		"A physical Bluetooth route disconnection",
 		"Physical audio, background playback and remote/headset controls",
 		"Watch crown input",
 		"Signing or store acceptance"
-	]
+	],
+	"runtime_scope_chirho": "Normal playback and remembered-resume regression checks on the exact new Phone/Watch bundles. No actual reset, route loss, crown or other input was injected. These passes do not establish acoustics or physical reset recovery."
 }

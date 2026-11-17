@@ -11,7 +11,7 @@ Placement: retain the Foundation-only controller/intent tests in RadioCoreChirho
 - [x] Rebuild invalidated transport/effect objects after services return, clear stale readiness and keep reset errors out of chapter-skip recovery.
 - [x] Map a route-disconnected interruption to the quiet output-lost path, with no self-restart.
 - [x] Run the full core/parity and strict iOS/watchOS type checks in the next free compiler slot, then build both purchased-set simulator apps.
-- [ ] Review the final diff and reconcile package inventories; repeat the applicable simulator vertical on the new candidate.
+- [x] Review the final diff and reconcile package inventories; repeat the applicable simulator vertical on the new candidate.
 - [x] Preserve physical Reset Media Services, output-route, background and crown checks as device gates; do not claim them from fake tests.
 
 Review before the compiler slot found one additional cancellation case: output loss during the pending initial or reset-recovery activation must fence that activation before a late active result can start playback. The eleven-case red-first extension is now green in the 60-test suite; the original nine-test freeze and first corrected-build failure are preserved.

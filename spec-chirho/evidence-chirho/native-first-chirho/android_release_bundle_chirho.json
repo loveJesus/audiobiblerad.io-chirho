@@ -1,0 +1,50 @@
+{
+	"measured_on_chirho": "2026-11-17",
+	"outcome_chirho": "UNSIGNED_ANDROID_RELEASE_BUNDLE_BUILT_AND_INSPECTED",
+	"source_commit_chirho": "13ba3d6",
+	"android_source_chirho": "Unchanged from the verified 7116613 Android source and 91939875 debug APK.",
+	"producer_chirho": "BIBLERADIO_CHIRHO/claude_chirho",
+	"root_readback_chirho": "Retained/build byte equality, complete AAB hash and entry count, thirteen staged asset bytes, absent signatures/native libraries and the actual AAB manifest proto independently checked with the installed aapt2; temporary proto view removed.",
+	"command_chirho": "bun scripts-chirho/native-chirho/android-chirho/build_chirho.ts --require-licensed-chirho :app-chirho:bundleRelease",
+	"result_chirho": "BUILD SUCCESSFUL",
+	"elapsed_build_seconds_chirho": 166,
+	"tasks_chirho": 47,
+	"tasks_executed_chirho": 46,
+	"sha256_chirho": "56c0e29b631227480b6414c14ed4a66031f343644c3ba80f8aac652f0db497fa",
+	"bytes_chirho": 4434792,
+	"entries_chirho": 173,
+	"unsigned_chirho": true,
+	"debuggable_chirho": false,
+	"identity_chirho": {
+		"application_id_chirho": "io.audiobiblerad.radiochirho",
+		"version_code_chirho": 1,
+		"version_name_chirho": "0.1.0",
+		"min_sdk_chirho": 26,
+		"target_sdk_chirho": 37,
+		"compile_sdk_chirho": 37
+	},
+	"permissions_chirho": [
+		"android.permission.INTERNET",
+		"android.permission.WAKE_LOCK",
+		"android.permission.FOREGROUND_SERVICE",
+		"android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK",
+		"android.permission.ACCESS_NETWORK_STATE",
+		"io.audiobiblerad.radiochirho.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+	],
+	"foreground_service_type_chirho": "mediaPlayback",
+	"dex_files_chirho": 2,
+	"native_libraries_chirho": 0,
+	"assets_chirho": {
+		"count_chirho": 13,
+		"scope_chirho": "One catalogue, one purchased-effect profile and eleven WAV cuts; every asset byte-identical to staged source and the tested debug APK. No originals or work entries.",
+		"purchased_wav_bytes_chirho": 375070
+	},
+	"inspection_limits_chirho": [
+		"The release dex differs from the tested debug APK and has not run.",
+		"Device APK generation/install requires bundletool or Play internal testing.",
+		"Bundle dependency metadata was inventoried, not decoded.",
+		"No upload signing, Play validation, declaration or store acceptance is established."
+	],
+	"retention_chirho": "One verified unsigned package and bounded inventory/logs retained privately outside the evictable cache. No signing material created.",
+	"teardown_chirho": "No owned Gradle/Kotlin JVM or per-run temporary folder remains. The initialized owned AVD stays shut down; no runtime occurred in this packaging unit."
+}
