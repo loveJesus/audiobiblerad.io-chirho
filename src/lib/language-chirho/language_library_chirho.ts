@@ -115,9 +115,11 @@ export class LanguageLibraryChirho {
 		if (this.disposedChirho) throw new Error('Language library closed');
 		const timeoutChirho = setTimeout(() => controllerChirho.abort(), REQUEST_TIMEOUT_MS_CHIRHO);
 		try {
+			// Native browser fetch must not receive this library instance as its receiver.
+			const fetchChirho = this.fetchChirho;
 			const valueChirho = await loadChirho(
 				fetchingReaderChirho(async (inputChirho, initChirho) => {
-					const responseChirho = await this.fetchChirho(inputChirho, {
+					const responseChirho = await fetchChirho(inputChirho, {
 						...initChirho,
 						signal: controllerChirho.signal,
 						referrerPolicy: 'no-referrer'

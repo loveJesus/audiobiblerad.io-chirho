@@ -24,6 +24,16 @@ afterEach(() => {
 });
 
 describe('on-demand language catalogue', () => {
+	it('does not call a browser fetch function with the library as its receiver', async () => {
+		const fetchChirho = async function (this: unknown, inputChirho: RequestInfo | URL) {
+			if (this !== undefined && this !== globalThis) throw new TypeError('Illegal invocation');
+			return new Response(readFileSync(`static${String(inputChirho)}`));
+		};
+		const libraryChirho = new LanguageLibraryChirho(fetchChirho);
+		librariesChirho.push(libraryChirho);
+		expect((await libraryChirho.loadListChirho()).length).toBeGreaterThan(0);
+		expect((await libraryChirho.loadStationsChirho('hi')).length).toBeGreaterThan(0);
+	});
 	it('cancels an unsuccessful HTTP response without downloading its error body', async () => {
 		const fixtureValueChirho = fixtureChirho();
 		let cancelledChirho = false;
