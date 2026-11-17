@@ -14,6 +14,7 @@ import { CATALOGUE_CHIRHO } from '../../src/lib/catalogue-chirho/catalogue_chirh
 // Only this project's own assets are fetched: four requests at a time, no source Scripture.
 const workersDevChirho = process.argv.includes('--workers-dev-chirho');
 const roomReleaseChirho = process.argv.includes('--room-chirho');
+const storeLinksReleaseChirho = process.argv.includes('--store-links-chirho');
 const spatialReleaseChirho = process.argv.includes('--spatial-chirho');
 const widgetReleaseChirho =
 	roomReleaseChirho || spatialReleaseChirho || process.argv.includes('--widget-chirho');
@@ -22,9 +23,13 @@ if (
 		.slice(2)
 		.some(
 			(argumentChirho) =>
-				!['--workers-dev-chirho', '--widget-chirho', '--spatial-chirho', '--room-chirho'].includes(
-					argumentChirho
-				)
+				![
+					'--workers-dev-chirho',
+					'--widget-chirho',
+					'--spatial-chirho',
+					'--room-chirho',
+					'--store-links-chirho'
+				].includes(argumentChirho)
 		)
 )
 	throw new Error('Unknown hosted-verification argument');
@@ -32,13 +37,15 @@ const originChirho = workersDevChirho
 	? 'https://audiobiblerad-io-chirho.lovejesus.workers.dev'
 	: 'https://audiobiblerad.io';
 const rootChirho = '.svelte-kit/cloudflare';
-const evidenceChirho = roomReleaseChirho
-	? 'spec-chirho/evidence-chirho/listening-room-release-chirho'
-	: spatialReleaseChirho
-		? 'spec-chirho/evidence-chirho/spatial-radio-chirho'
-		: widgetReleaseChirho
-			? 'spec-chirho/evidence-chirho/widget-release-chirho'
-			: 'spec-chirho/evidence-chirho/web-release-chirho';
+const evidenceChirho = storeLinksReleaseChirho
+	? 'spec-chirho/evidence-chirho/native-first-chirho/store-links-chirho'
+	: roomReleaseChirho
+		? 'spec-chirho/evidence-chirho/listening-room-release-chirho'
+		: spatialReleaseChirho
+			? 'spec-chirho/evidence-chirho/spatial-radio-chirho'
+			: widgetReleaseChirho
+				? 'spec-chirho/evidence-chirho/widget-release-chirho'
+				: 'spec-chirho/evidence-chirho/web-release-chirho';
 async function saveEvidenceChirho(resultChirho: unknown): Promise<void> {
 	await mkdirChirho(evidenceChirho, { recursive: true });
 	await writeFileChirho(
@@ -119,6 +126,7 @@ const routesChirho: Array<{ path_chirho: string; status_chirho: number; valid_ch
 ];
 for (const pathChirho of [
 	'/credits-chirho',
+	...(storeLinksReleaseChirho ? ['/privacy-chirho', '/support-chirho'] : []),
 	'/catalogue-chirho',
 	...(widgetReleaseChirho ? ['/embed-chirho', '/widget-chirho', '/llms.txt'] : []),
 	'/_worker.js',
@@ -133,6 +141,8 @@ for (const pathChirho of [
 	const publicRouteChirho = [
 		'/',
 		'/credits-chirho',
+		'/privacy-chirho',
+		'/support-chirho',
 		'/catalogue-chirho',
 		'/embed-chirho',
 		'/widget-chirho',
@@ -146,6 +156,12 @@ for (const pathChirho of [
 			responseChirho.headers.get('access-control-allow-origin') === '*';
 	if (pathChirho === '/credits-chirho')
 		validChirho &&= textChirho.includes('CC0') && textChirho.includes('Creative Commons');
+	if (pathChirho === '/privacy-chirho')
+		validChirho &&=
+			textChirho.includes('Requests to recording publishers') &&
+			textChirho.includes('/support-chirho');
+	if (pathChirho === '/support-chirho')
+		validChirho &&= textChirho.includes('Apple Watch') && textChirho.includes('/privacy-chirho');
 	if (pathChirho === '/embed-chirho')
 		validChirho &&=
 			responseChirho.headers.get('content-security-policy')?.includes('frame-ancestors *') ===

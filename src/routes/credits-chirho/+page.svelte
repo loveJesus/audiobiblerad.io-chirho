@@ -60,8 +60,8 @@
 		<section>
 			<h2>Radio sounds</h2>
 			<p>
-				The nine short tuning sounds were synthesized for Audio Bible Radio. They contain no
-				third-party recordings. Turn them off with the Radio sounds switch.
+				The public source includes original synthesized effects under CC0. Release builds may use
+				separately licensed tuning and control effects. Turn them off with the Radio sounds switch.
 			</p>
 		</section>
 	</main>

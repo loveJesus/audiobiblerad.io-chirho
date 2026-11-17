@@ -12,4 +12,7 @@ export const SITE_URL_CHIRHO = `https://${SITE_DOMAIN_CHIRHO}`;
 
 export const SITE_MAKER_CHIRHO = 'Love Jesus Software';
 
+export const SITE_SOURCE_URL_CHIRHO = 'https://github.com/loveJesus/audiobiblerad.io-chirho';
+export const SITE_ISSUES_URL_CHIRHO = `${SITE_SOURCE_URL_CHIRHO}/issues`;
+
 export const SITE_SUMMARY_CHIRHO = 'The audio Bible in many languages. Turn it on and it plays.';

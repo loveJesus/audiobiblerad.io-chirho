@@ -13,7 +13,7 @@
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"gen": "bun scripts-chirho/generate_worker_types_chirho.ts",
 		"gen:check": "bun scripts-chirho/generate_worker_types_chirho.ts --check",
-		"lint": "prettier --check . && eslint .",
+		"lint": "bun scripts-chirho/lint_chirho.ts",
 		"format": "prettier --write .",
 		"test:unit": "bun scripts-chirho/build-cache-chirho/run_chirho.ts unit",
 		"test": "bun run test:unit -- --run && bun run test:e2e",

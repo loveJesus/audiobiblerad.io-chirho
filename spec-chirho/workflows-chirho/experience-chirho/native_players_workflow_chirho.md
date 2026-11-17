@@ -22,6 +22,8 @@ flowchart TD
     build_chirho --> admission_chirho[Fresh disk and toolchain checks; serialize substantial builds]
     admission_chirho --> resources_chirho[Prepare exact catalogue, effects, icons and required-API manifests]
     resources_chirho --> local_chirho[Unsigned local build and exact-scope tests]
+    resources_chirho --> policy_chirho[Link the public support and privacy pages from the native interfaces]
+    policy_chirho --> live_policy_chirho[Verify the deployed pages and truthful publisher-request disclosures]
     local_chirho --> inspect_chirho[Inspect built app roots, icon metadata and exact resource inventory]
     inspect_chirho --> record_chirho
     local_chirho --> record_chirho[Record actual results and unresolved device work]
@@ -62,3 +64,5 @@ Apple media-services loss and reset are platform events: neither a bad file nor 
 Android distinguishes the listener's explicit Off from output or audio-focus loss. Both power down quietly and keep the place, but only a deliberate user pause/Off persists the opening choice. Each screen connection asks for opening autoplay; the controller owns the once-per-session guard. The platform session carries an immutable launch intent so its notification can open this app.
 
 Apple resource builds must keep the mandatory `PrivacyInfo.xcprivacy` filename at each app bundle root. The native Phone and Watch catalogues use opaque app icons; inspect `Assets.car` and the actual icon plist keys after building, including the embedded Watch copy. Required-API reasons describe only observed defaults and elapsed-time uses. They do not stand in for the owner's store data-collection, tracking or export declarations.
+
+The native Help and Privacy links open `https://audiobiblerad.io/support-chirho` and `https://audiobiblerad.io/privacy-chirho` only on the listener's action. Their public pages describe device-local preferences, direct publisher requests and publisher logging, and distinguish the website's hosting from native playback. Keep the live URLs usable before store metadata or screenshots rely on them. Store records, screenshots, owner attestations, signed packages, uploads and review submission are separately reconciled stages; a reserved identifier or successful local build does not complete them.

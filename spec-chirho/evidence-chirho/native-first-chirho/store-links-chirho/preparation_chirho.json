@@ -1,0 +1,26 @@
+{
+	"measured_on_chirho": "2026-11-17T18:31:28.264261+00:00",
+	"outcome_chirho": "PASS for prepared web pages; publication is separately recorded",
+	"scope_chirho": "Public help/privacy pages, recording-effects credit correction, and a Git source enumeration for lint that does not walk ignored private evidence. Native build and store actions have separate acceptance scopes.",
+	"gates_chirho": {
+		"svelte_errors_chirho": 0,
+		"svelte_warnings_chirho": 0,
+		"lint_chirho": "PASS",
+		"unit_tests_chirho": 318,
+		"unit_files_chirho": 37,
+		"production_build_chirho": "PASS, licensed 11-clip set",
+		"local_render_probes_chirho": "2/2, both routes at desktop1280 and mobile390; no page errors or horizontal overflow",
+		"dry_run_chirho": "PASS"
+	},
+	"package_chirho": {
+		"prepared_files_chirho": 469,
+		"bytes_chirho": 19351793,
+		"delta_bytes_chirho": 10968,
+		"unrelated_or_original_inputs_chirho": 0
+	},
+	"publication_chirho": "NOT YET APPLIED",
+	"limits_chirho": [
+		"The support contact currently uses the public issue tracker.",
+		"Native screenshots, signed packages, store forms and owner declarations are separate work."
+	]
+}

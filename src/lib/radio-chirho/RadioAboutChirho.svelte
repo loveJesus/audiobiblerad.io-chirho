@@ -3,6 +3,7 @@
 <script lang="ts">
 	import { resolve as resolvePathChirho } from '$app/paths';
 	import { STATIONS_CHIRHO } from '$lib/catalogue-chirho/catalogue_chirho';
+	import { SITE_SOURCE_URL_CHIRHO } from '$lib/site-chirho/site_config_chirho';
 	import type { RadioSessionViewChirho } from './radio_types_chirho';
 	let {
 		open_chirho: openChirho,
@@ -93,10 +94,12 @@
 	{/if}
 	<div class="about-links-chirho">
 		<a href={resolvePathChirho('/widget-chirho')}>Embed this radio</a>
+		<a href={resolvePathChirho('/support-chirho')} target="_blank" rel="noreferrer">Help ↗</a>
+		<a href={resolvePathChirho('/privacy-chirho')} target="_blank" rel="noreferrer">Privacy ↗</a>
 		<a href={resolvePathChirho('/credits-chirho')}>Recording credits</a><a
-			href="https://github.com/loveJesus/audiobiblerad.io-chirho"
+			href={SITE_SOURCE_URL_CHIRHO}
 			target="_blank"
-			rel="noreferrer">Source & licences ↗</a
+			rel="external noreferrer">Source & licences ↗</a
 		>
 	</div>
 	<p class="about-domain-chirho">audiobiblerad.io</p>

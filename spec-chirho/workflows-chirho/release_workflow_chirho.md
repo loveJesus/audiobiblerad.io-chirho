@@ -24,6 +24,10 @@ flowchart TD
 
 `--room-chirho` includes the widget/header checks and writes its own listening-room release receipt, preserving earlier release records. It compares the detailed model and every lazy chunk by their prepared bytes, without downloading editable construction inputs or private media. Browser playback and control acceptance remain a separate bounded probe; asset equality alone does not prove them.
 
+`--store-links-chirho` adds the public privacy and support routes and stores a separate receipt under `native-first-chirho/store-links-chirho/`. Combine it with `--room-chirho` when those pages ship alongside the listening room. The native Help and Privacy links use these same HTTPS routes.
+
+`bun run lint` enumerates tracked and non-ignored new source files through Git before running Prettier and ESLint. Missing files, symlinks, private evidence and build caches are excluded from discovery, so formatters never recursively traverse private preimages. Existing generated-file exclusions still apply.
+
 During a nameserver migration, old delegation caches may continue querying the former provider. Keep this domain's answers consistent while those caches expire. In the first publication, public certificate-validation TXT values were mirrored temporarily and retired after issuance; former parking A answers were aligned with verified authoritative Cloudflare edges, preserving the existing www CNAME. Cloudflare's managed DNS is canonical. Never use those copied edge addresses as permanent origin configuration, and read both providers' current state before any later DNS change.
 
 Keep exact API preimages and the previous prepared directory in the ignored private release directory on the internal disk. Read back each external mutation. Reconcile an uncertain response before another mutation; never recreate a zone or replay an upload merely because its first response was delayed. Roll back a subsequent release to a retained verified Worker version and matching asset set. Registrar rollback uses the retained prior nameservers; it also requires propagation, so it is not an instant rollback.
