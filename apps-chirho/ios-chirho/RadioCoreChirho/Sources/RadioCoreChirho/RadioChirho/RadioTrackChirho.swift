@@ -126,6 +126,7 @@ extension RadioControllerChirho {
         case .stoppedBySystemChirho:
             guard trackChirho.wantsPlayChirho else { return }
             pausedBySystemChirho = true
+            platformPausedChirho = true
             silenceChirho()
             saveChirho()
         }
@@ -154,6 +155,7 @@ extension RadioControllerChirho {
             recoveryOriginChirho = nil
         }
         recoveriesChirho = 0
+        servicesStartMadeChirho = false
         saveChirho()
     }
 
@@ -174,6 +176,11 @@ extension RadioControllerChirho {
     /// A missing or unplayable file that never sounded skips to the next chapter, at most a few
     /// times. A network failure never skips: the place is kept for the next On.
     func failedChirho(_ failureChirho: TransportFailureChirho, _ trackChirho: TrackChirho) {
+        // The platform's services went away under the stream: not the file, so never another chapter.
+        guard failureChirho != .servicesChirho else {
+            servicesLostChirho()
+            return
+        }
         guard trackChirho.wantsPlayChirho else {
             // Off during loading or recovery stays off. The stream is let go and On asks afresh.
             restoreOriginChirho()
@@ -236,10 +243,11 @@ extension RadioControllerChirho {
         stateChirho.phaseChirho = .offChirho
     }
 
-    /// Lets go of the stream entirely.
+    /// Lets go of the stream entirely, and with it any pause the platform made of it.
     func releaseTrackChirho() {
         cancelTimeoutChirho()
         tokenChirho += 1
+        platformPausedChirho = false
         if trackChirho != nil {
             trackChirho = nil
             transportChirho.clearChirho()

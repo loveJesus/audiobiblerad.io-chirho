@@ -113,7 +113,7 @@ final class FakeTransportChirho: RadioTransportChirho {
     }
 
     private(set) var loadsChirho: [LoadChirho] = []
-    /// `load`, `play`, `pause`, `seek` and `clear`, in order.
+    /// `load`, `play`, `pause`, `seek`, `clear` and `rebuild`, in order.
     private(set) var logChirho: [String] = []
 
     func loadChirho(
@@ -136,6 +136,7 @@ final class FakeTransportChirho: RadioTransportChirho {
         seeksChirho.append(toSecondsChirho)
     }
     func clearChirho() { logChirho.append("clear") }
+    func rebuildChirho() { logChirho.append("rebuild") }
 
     /// Speaks for a stream: the latest by default, or the `loadIndexChirho`th.
     func sendChirho(_ eventChirho: TransportEventChirho, loadIndexChirho: Int? = nil) {

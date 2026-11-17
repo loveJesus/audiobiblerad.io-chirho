@@ -1,0 +1,66 @@
+{
+	"measured_on_chirho": "2026-11-17",
+	"outcome_chirho": "APPLE_AUDIO_SERVICES_RECOVERY_SOURCE_AND_BUILD_PASS",
+	"base_commit_chirho": "184e18d",
+	"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho",
+	"reviewer_chirho": "BIBLERADIO_CHIRHO/gpt_chirho",
+	"behavior_chirho": [
+		"A lost/reset media service preserves station, passage, second and followed place without chapter skipping.",
+		"Rebuild the stream/effect players only when media services return, clear route readiness and make at most one quiet start until actual playback occurs.",
+		"Explicit Off, stale generations and output loss override pending recovery.",
+		"An output loss while any initial or recovery activation is pending fences the late activation.",
+		"A route-disconnected interruption takes the output-lost path and never resumes from interruption end alone."
+	],
+	"red_before_fix_chirho": {
+		"tests_chirho": 60,
+		"suites_chirho": 7,
+		"failing_tests_chirho": 11,
+		"issues_chirho": 37,
+		"scope_chirho": "Expected named fake-controller/transport tests, including the additional output-loss cancellation found in root review."
+	},
+	"original_compile_failure_chirho": "The first corrected macOS package build rejected AVError.Code.mediaServicesWereReset, which the installed SDK declares only for iPhone-family platforms. The original failed log and frozen source were preserved. An iOS/watchOS compile guard leaves the Mac test adapter unconfigured; device behavior is unchanged.",
+	"green_chirho": {
+		"core_tests_chirho": 60,
+		"suites_chirho": 7,
+		"locator_parity_rows_chirho": 34481,
+		"catalogue_check_chirho": "matches",
+		"type_checks_chirho": ["arm64-apple-ios17.0", "arm64-apple-watchos10.0"],
+		"warnings_as_errors_chirho": true
+	},
+	"package_chirho": {
+		"phone_files_chirho": 42,
+		"watch_files_chirho": 20,
+		"added_files_chirho": 0,
+		"removed_files_chirho": 0,
+		"changed_chirho": "Only Phone and Watch debug dylibs, including the embedded Watch dylib. Embedded and standalone Watch inventories are identical.",
+		"warnings_chirho": 0,
+		"errors_chirho": 0,
+		"resource_identity_chirho": "Catalogue, profile plus eleven purchased clips, icons and required-API manifests are byte-identical to the previous verified bundle.",
+		"phone_family_chirho": [1],
+		"watch_family_chirho": [4],
+		"phone_inventory_sha256_chirho": "1f9c95ba128704598c3cec6529c8ac1d5373ae44ee040c8bc1151504b3ad1eec",
+		"watch_inventory_sha256_chirho": "83447b23f3fb9ef97ff0a1e91c66d06e0b1b3ef6c24e5338367d20a9a0ccd7ef"
+	},
+	"source_sha256_chirho": {
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioCoreChirho/RadioChirho/TransportChirho.swift": "ddbb51ba0f721bbe7db0bdd9e7499c96b1a5a18a6579e98e5cb4eda79fe095fb",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioCoreChirho/RadioChirho/RadioControllerChirho.swift": "0724bc5b855d6603b1234aa451faedb5c5d603542b49dbd5ace7b578d6f46dd7",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioCoreChirho/RadioChirho/RadioTrackChirho.swift": "db7d4196fa4038f95142bb997edf709e11de656370ddcffe674dd02b1cc6664e",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioCoreChirho/RadioChirho/RadioStateChirho.swift": "e7413bc8412ab989b08d0c653c93a6560ded8167a1733a7c3adce16c9d03369c",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioPlaybackChirho/PlayerTransportChirho.swift": "e294d644e6ed99150eff06a3d3cb54554cde7acf532583341b6dcc672e72cc3a",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioPlaybackChirho/RadioSoundsChirho.swift": "8a1f522d5b12d52e0f4982b725c069aa26f2a9d0c414cdaf6038aebfef9fc53f",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioPlaybackChirho/AudioSessionRouteChirho.swift": "0d0842e9f9748c00326ea074825e526e33ad167725472a9e6b17c0eadf96ae09",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Sources/RadioPlaybackChirho/RadioModelChirho.swift": "1d7f403f6fcbe1004f5826c0eb9931658bac825783dbc6fecdc0fdc685df93ff",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Tests/RadioCoreChirhoTests/FixturesChirho.swift": "9f0c574643e9bf5e30c533d8a13f484a0e4e6828f88351f1f2de5ef9a83fa83c",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Tests/RadioCoreChirhoTests/ServicesResetTestsChirho.swift": "1515e08380443ec9ce6d614cfe8be2f2365ff76c810c61820346554dd9ac9e39",
+		"spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md": "fc71b0373e274b088bacdbc2eef0ec214f8ca943b4bafdbe40e8334718c7296a",
+		"apps-chirho/ios-chirho/RadioCoreChirho/Tests/RadioCoreChirhoTests/ControllerTestsChirho.swift": "18eeb74b3d924d6fc0e6ecaf0fc4df62d5d9f74b09a4f4638b2b7f55f1d03b43"
+	},
+	"candidate_runtime_chirho": "Pending the same normal fresh-playback/remembered-resume simulator verticals against these exact new bundles. Earlier runtime receipts describe the previous candidate.",
+	"not_proven_chirho": [
+		"An actual Reset Media Services action",
+		"A physical Bluetooth route disconnection",
+		"Physical audio, background playback and remote/headset controls",
+		"Watch crown input",
+		"Signing or store acceptance"
+	]
+}

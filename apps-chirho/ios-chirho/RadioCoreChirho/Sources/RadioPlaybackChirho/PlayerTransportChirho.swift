@@ -12,9 +12,20 @@ import Foundation
 import RadioCoreChirho
 import os
 
+/// AVFoundation's own error for its media services going away under a stream. The SDK declares it
+/// for iPhone-family platforms only; the Mac build that runs the package tests has none.
+#if os(iOS) || os(watchOS)
+    private let servicesErrorChirho: (domainChirho: String, codeChirho: Int)? = (
+        domainChirho: AVFoundationErrorDomain, codeChirho: AVError.Code.mediaServicesWereReset.rawValue
+    )
+#else
+    private let servicesErrorChirho: (domainChirho: String, codeChirho: Int)? = nil
+#endif
+
 @MainActor
 public final class PlayerTransportChirho: RadioTransportChirho {
-    private let playerChirho = AVPlayer()
+    /// Made again only when the platform's media services return after going away.
+    private var playerChirho: AVPlayer
     /// The current stream, whether the radio wants sound, whether the player was told to play,
     /// and a start still waiting for its stream.
     private var intentChirho = PlayerIntentChirho()
@@ -30,8 +41,14 @@ public final class PlayerTransportChirho: RadioTransportChirho {
     private var generationChirho: Int { intentChirho.generationChirho }
 
     public init() {
+        playerChirho = PlayerTransportChirho.newPlayerChirho()
+    }
+
+    private static func newPlayerChirho() -> AVPlayer {
+        let playerChirho = AVPlayer()
         playerChirho.automaticallyWaitsToMinimizeStalling = true
         playerChirho.actionAtItemEnd = .pause
+        return playerChirho
     }
 
     public func loadChirho(
@@ -75,6 +92,13 @@ public final class PlayerTransportChirho: RadioTransportChirho {
         playerChirho.replaceCurrentItem(with: nil)
     }
 
+    /// The platform's audio services came back after going away: the player made before them is
+    /// gone, so whatever it held is let go and a new player takes its place for the next load.
+    public func rebuildChirho() {
+        clearChirho()
+        playerChirho = PlayerTransportChirho.newPlayerChirho()
+    }
+
     // MARK: Reports
 
     private func observeChirho(_ itemChirho: AVPlayerItem, _ generationChirho: Int) {
@@ -108,7 +132,7 @@ public final class PlayerTransportChirho: RadioTransportChirho {
             ) { @Sendable [weak self] notificationChirho in
                 let failureChirho = TransportFailureChirho.classifyChirho(
                     notificationChirho.userInfo?[AVPlayerItemFailedToPlayToEndTimeErrorKey]
-                        as? any Error)
+                        as? any Error, servicesErrorChirho: servicesErrorChirho)
                 guard let self else { return }
                 Task { @MainActor in self.failChirho(failureChirho, generationChirho) }
             }
@@ -137,7 +161,9 @@ public final class PlayerTransportChirho: RadioTransportChirho {
         else { return }
         switch itemChirho.status {
         case .failed:
-            failChirho(TransportFailureChirho.classifyChirho(itemChirho.error), generationChirho)
+            failChirho(
+                TransportFailureChirho.classifyChirho(
+                    itemChirho.error, servicesErrorChirho: servicesErrorChirho), generationChirho)
         case .readyToPlay:
             let durationChirho = itemChirho.duration.seconds
             guard !readySentChirho, durationChirho.isFinite, durationChirho > 0 else { return }

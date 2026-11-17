@@ -12,6 +12,9 @@ public enum TransportFailureChirho: Sendable, Equatable {
     case networkChirho
     /// The host answered, but the file cannot be played: missing, refused, or not audio.
     case unplayableChirho
+    /// The platform's audio services went away under the stream: neither the file nor the
+    /// connection. The radio keeps its place and never skips a chapter for it.
+    case servicesChirho
 
     /// The URL-loading failures that mean the connection, not the file. A media framework wraps
     /// them, so the whole chain of underlying errors is read, a few levels deep.
@@ -22,12 +25,21 @@ public enum TransportFailureChirho: Sendable, Equatable {
         NSURLErrorSecureConnectionFailed
     ]
 
-    /// Which kind of failure an error is. Anything that is not plainly the connection counts as
-    /// an unplayable file, which the radio skips past a bounded number of times.
-    public static func classifyChirho(_ errorChirho: (any Error)?) -> TransportFailureChirho {
+    /// Which kind of failure an error is. Anything that is not plainly the connection, or the
+    /// platform's own services going away, counts as an unplayable file, which the radio skips
+    /// past a bounded number of times. `servicesErrorChirho` names the platform's error for its
+    /// services going away; the playback layer supplies it, so this file needs no media framework.
+    public static func classifyChirho(
+        _ errorChirho: (any Error)?, servicesErrorChirho: (domainChirho: String, codeChirho: Int)? = nil
+    ) -> TransportFailureChirho {
         var currentChirho = errorChirho.map { $0 as NSError }
         for _ in 0..<8 {
             guard let errorChirho = currentChirho else { break }
+            if let servicesErrorChirho, errorChirho.domain == servicesErrorChirho.domainChirho,
+                errorChirho.code == servicesErrorChirho.codeChirho
+            {
+                return .servicesChirho
+            }
             if errorChirho.domain == NSURLErrorDomain, networkCodesChirho.contains(errorChirho.code) {
                 return .networkChirho
             }
@@ -65,6 +77,9 @@ public protocol RadioTransportChirho: AnyObject {
     func seekChirho(toSecondsChirho: Double)
     /// Lets go of the current stream entirely.
     func clearChirho()
+    /// The platform's audio services came back after going away, and every player made before
+    /// them is gone: lets go of everything and starts again with a new player. Nothing is loaded.
+    func rebuildChirho()
 }
 
 public enum RouteActivationChirho: Sendable, Equatable {

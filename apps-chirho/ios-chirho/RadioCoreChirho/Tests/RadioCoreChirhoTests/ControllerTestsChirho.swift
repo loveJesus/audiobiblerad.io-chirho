@@ -371,6 +371,28 @@ struct ControllerTestsChirho {
         #expect(rigChirho.transportChirho.logChirho.last == "pause")
     }
 
+    @Test("Headphones coming out while an On chooses its output stop that On")
+    func lostOutputStopsChoosingOnChirho() async throws {
+        let rigChirho = rigChirho(secondsChirho: 20)
+        let controllerChirho = rigChirho.controllerChirho
+        rigChirho.routeChirho.holdChirho = true
+        let openingChirho = Task { await controllerChirho.launchChirho() }
+        #expect(try await untilChirho { rigChirho.routeChirho.isWaitingChirho })
+        controllerChirho.outputLostChirho()
+        #expect(controllerChirho.stateChirho.phaseChirho == .offChirho)
+        rigChirho.routeChirho.finishChirho(.activeChirho)
+        await openingChirho.value
+        #expect(rigChirho.transportChirho.loadsChirho.isEmpty)
+        #expect(controllerChirho.stateChirho.phaseChirho == .offChirho)
+        #expect(!rigChirho.routeChirho.activeChirho)
+        let storedChirho = try #require(rigChirho.storedChirho())
+        #expect(!storedChirho.explicitOffChirho)
+        #expect(storedChirho.secondsChirho == 20)
+        // Not the listener's Off, and not an interruption's to resume.
+        await controllerChirho.interruptionEndedChirho(shouldResumeChirho: true)
+        #expect(rigChirho.transportChirho.loadsChirho.isEmpty)
+    }
+
     @Test("Previous and next chapter wrap round the canon")
     func chaptersWrapChirho() async throws {
         let rigChirho = RadioRigChirho(

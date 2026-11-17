@@ -7,10 +7,14 @@
 // Whether an output is in place is known only from an activation that completed, never from the
 // request. Apple requires running audio to stop before a session is deactivated, so Off gives the
 // output back only once the press's own click has finished, and never after a newer On has asked
-// again. Apple:
+// again. When the platform's media services go away or come back, the session it held is gone: the
+// output is no longer in place, a release waiting on a click is dropped, and the radio is told so it
+// can hold and rebuild. An interruption that begins because the route disconnected is the output
+// going away, not another app's turn. Apple:
 // https://developer.apple.com/documentation/watchkit/playing-background-audio,
-// https://developer.apple.com/documentation/avfaudio/avaudiosession/activate(options:completionhandler:)
-// and https://developer.apple.com/documentation/avfaudio/avaudiosession/setactive(_:options:)
+// https://developer.apple.com/documentation/avfaudio/avaudiosession/activate(options:completionhandler:),
+// https://developer.apple.com/documentation/avfaudio/avaudiosession/setactive(_:options:)
+// and https://developer.apple.com/documentation/avfaudio/avaudiosession/mediaserviceswereresetnotification
 // Part of spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md.
 
 import AVFoundation
@@ -25,12 +29,17 @@ public final class AudioSessionRouteChirho: AudioRouteChirho {
     /// Another app or a call took the audio (true), or gave it back (false), and whether the
     /// platform says listening may resume.
     public var onInterruptionChirho: ((_ beganChirho: Bool, _ shouldResumeChirho: Bool) -> Void)?
-    /// The output in use went away, such as headphones coming out.
+    /// The output in use went away, such as headphones coming out or the route disconnecting.
     public var onOutputLostChirho: (() -> Void)?
+    /// The platform's media services went away; everything made with them no longer works.
+    public var onServicesLostChirho: (() -> Void)?
+    /// The platform's media services came back; players made before them must be made again.
+    public var onServicesResetChirho: (() -> Void)?
     /// What is left, in seconds, of a sound under way that Off should not cut.
     public var lingerSecondsChirho: (@MainActor () -> TimeInterval)?
     /// The output is in place: set only when an activation completes, and cleared by Off, by an
-    /// interruption and by the output going away. Asking for an output is not having one.
+    /// interruption, by the output going away and by the media services going away or coming back.
+    /// Asking for an output is not having one.
     public private(set) var outputReadyChirho = false
     /// Raised by every activation and every release, so a release that waited cannot undo a
     /// newer On.
@@ -50,12 +59,20 @@ public final class AudioSessionRouteChirho: AudioRouteChirho {
                         .flatMap(AVAudioSession.InterruptionType.init(rawValue:))
                     let optionsChirho = AVAudioSession.InterruptionOptions(
                         rawValue: infoChirho?[AVAudioSessionInterruptionOptionKey] as? UInt ?? 0)
+                    let reasonChirho = (infoChirho?[AVAudioSessionInterruptionReasonKey] as? UInt)
+                        .flatMap(AVAudioSession.InterruptionReason.init(rawValue:))
                     guard let typeChirho else { return }
                     let beganChirho = typeChirho == .began
                     let resumeChirho = optionsChirho.contains(.shouldResume)
+                    // A route that disconnected is the output going away: never resumed by itself.
+                    let disconnectedChirho = beganChirho && reasonChirho == .routeDisconnected
                     guard let self else { return }
                     Task { @MainActor in
-                        self.interruptedChirho(beganChirho: beganChirho, resumeChirho: resumeChirho)
+                        if disconnectedChirho {
+                            self.lostOutputChirho()
+                        } else {
+                            self.interruptedChirho(beganChirho: beganChirho, resumeChirho: resumeChirho)
+                        }
                     }
                 },
                 centerChirho.addObserver(
@@ -66,6 +83,18 @@ public final class AudioSessionRouteChirho: AudioRouteChirho {
                     guard reasonChirho == .oldDeviceUnavailable else { return }
                     guard let self else { return }
                     Task { @MainActor in self.lostOutputChirho() }
+                },
+                centerChirho.addObserver(
+                    forName: AVAudioSession.mediaServicesWereLostNotification, object: nil, queue: .main
+                ) { @Sendable [weak self] _ in
+                    guard let self else { return }
+                    Task { @MainActor in self.servicesChangedChirho(lostChirho: true) }
+                },
+                centerChirho.addObserver(
+                    forName: AVAudioSession.mediaServicesWereResetNotification, object: nil, queue: .main
+                ) { @Sendable [weak self] _ in
+                    guard let self else { return }
+                    Task { @MainActor in self.servicesChangedChirho(lostChirho: false) }
                 }
             ]
         #endif
@@ -161,5 +190,15 @@ public final class AudioSessionRouteChirho: AudioRouteChirho {
     private func lostOutputChirho() {
         outputReadyChirho = false
         onOutputLostChirho?()
+    }
+
+    /// The services that held the session went away or came back. Either way the output is not in
+    /// place, and a release still waiting on a click has no session left to give back.
+    private func servicesChangedChirho(lostChirho: Bool) {
+        epochChirho += 1
+        outputReadyChirho = false
+        lingerTaskChirho?.cancel()
+        lingerTaskChirho = nil
+        if lostChirho { onServicesLostChirho?() } else { onServicesResetChirho?() }
     }
 }

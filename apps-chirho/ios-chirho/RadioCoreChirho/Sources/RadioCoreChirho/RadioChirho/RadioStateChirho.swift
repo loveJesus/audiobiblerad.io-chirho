@@ -78,4 +78,7 @@ public enum RadioMessagesChirho {
     public static let noOutputChirho =
         "No audio output is available. Connect headphones or a speaker, then turn the radio on."
     public static let bookMissingChirho = "This book is unavailable here. Turn the dial to find it."
+    /// Native only: the platform's audio services went away under the radio, which holds its place.
+    public static let servicesChirho =
+        "The system's audio restarted. Turn the radio on if it does not continue."
 }

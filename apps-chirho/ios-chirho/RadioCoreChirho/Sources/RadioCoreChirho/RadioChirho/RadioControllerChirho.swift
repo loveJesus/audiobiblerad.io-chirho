@@ -49,6 +49,16 @@ public final class RadioControllerChirho {
     var lastSaveChirho = 0.0
     var pausedBySystemChirho = false
     var launchedChirho = false
+    /// The platform's audio services went away while the radio was sounding or about to, so one
+    /// start of its own is owed when they return. The listener's On or Off, and a lost output,
+    /// settle it.
+    var resumeAfterServicesChirho = false
+    /// That start has been made and nothing has sounded since, so a further loss waits for the
+    /// listener: at most one start of its own between two moments of actual sound.
+    var servicesStartMadeChirho = false
+    /// The platform paused the stream with no interruption or lost output announced to explain it.
+    /// If its audio services go away next, the pause was theirs and the radio counts as sounding.
+    var platformPausedChirho = false
 
     public init(
         catalogueChirho: CatalogueChirho, transportChirho: any RadioTransportChirho,
@@ -129,6 +139,8 @@ public final class RadioControllerChirho {
     public func onChirho() async {
         explicitOffChirho = false
         pausedBySystemChirho = false
+        resumeAfterServicesChirho = false
+        platformPausedChirho = false
         guard !stateChirho.isOnChirho else { return }
         activationChirho += 1
         let mineChirho = activationChirho
@@ -171,6 +183,8 @@ public final class RadioControllerChirho {
     public func offChirho() {
         explicitOffChirho = true
         pausedBySystemChirho = false
+        resumeAfterServicesChirho = false
+        platformPausedChirho = false
         activationChirho += 1
         silenceChirho()
         routeChirho.releaseChirho()
@@ -279,6 +293,8 @@ public final class RadioControllerChirho {
 
     /// Another app or a call took the audio. The radio waits, and resumes if the platform says so.
     public func interruptionBeganChirho() {
+        // An announced interruption explains any pause the platform reported just before it.
+        platformPausedChirho = false
         guard trackChirho?.wantsPlayChirho == true else { return }
         pausedBySystemChirho = true
         silenceChirho()
@@ -291,12 +307,58 @@ public final class RadioControllerChirho {
         if shouldResumeChirho, !explicitOffChirho { await onChirho() }
     }
 
-    /// Headphones came out: stop, and do not start again by ourselves.
+    /// Headphones came out: stop, and do not start again by ourselves. An output still being chosen
+    /// goes with them, so a start waiting for it, ordinary or owed, does not go ahead either.
     public func outputLostChirho() {
         pausedBySystemChirho = false
+        resumeAfterServicesChirho = false
+        platformPausedChirho = false
+        if stateChirho.phaseChirho == .startingChirho {
+            activationChirho += 1
+            stateChirho.phaseChirho = .offChirho
+            saveChirho()
+            return
+        }
         guard trackChirho?.wantsPlayChirho == true else { return }
         silenceChirho()
         saveChirho()
+    }
+
+    /// The platform's audio services went away, or a stream failed because they did. That is
+    /// neither a bad file nor the listener's word: the radio stops quietly, keeps its station,
+    /// passage, second and followed place, never moves to another chapter, and owes one start of
+    /// its own if it was sounding or about to, including when the platform paused it unannounced
+    /// a moment before.
+    public func servicesLostChirho() {
+        let soundingChirho =
+            trackChirho?.wantsPlayChirho == true || stateChirho.phaseChirho == .startingChirho
+            || platformPausedChirho
+        if soundingChirho, !explicitOffChirho { resumeAfterServicesChirho = true }
+        // An output being chosen now belongs to the services that went away.
+        activationChirho += 1
+        updateFollowedPositionChirho()
+        restoreOriginChirho()
+        releaseTrackChirho()
+        stateChirho.durationChirho = 0
+        stateChirho.verseChirho = nil
+        if soundingChirho {
+            stateChirho.phaseChirho = .offChirho
+            stateChirho.messageChirho = RadioMessagesChirho.servicesChirho
+        }
+        saveChirho()
+    }
+
+    /// The platform's audio services are back. Nothing made before them still works, so the
+    /// transport starts afresh, and the start owed since they went away is made once, at the place
+    /// kept. Off at any moment cancels it, and a further loss before any sound waits for On.
+    public func servicesResetChirho() async {
+        servicesLostChirho()
+        transportChirho.rebuildChirho()
+        let owedChirho = resumeAfterServicesChirho && !explicitOffChirho && !servicesStartMadeChirho
+        resumeAfterServicesChirho = false
+        guard owedChirho else { return }
+        servicesStartMadeChirho = true
+        await onChirho()
     }
 
     public func setSoundsChirho(_ enabledChirho: Bool) {

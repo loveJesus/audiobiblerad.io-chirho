@@ -93,6 +93,13 @@ public final class RadioSoundsChirho {
         feedbackChirho = nil
     }
 
+    /// The platform's media services came back after going away, and every clip player made before
+    /// is gone: lets go of them all, and loads the click and knob again while Sound is on.
+    public func rebuildChirho() {
+        releaseChirho()
+        if enabledChirho { preloadChirho() }
+    }
+
     /// What is left of a click or tick under way, so Off can let the press's own click finish.
     public var feedbackLeftSecondsChirho: TimeInterval {
         guard let feedbackChirho, feedbackChirho.isPlaying else { return 0 }

@@ -4,7 +4,9 @@
 // wiring between the controller, AVFoundation, the system's media controls and the interface
 // sounds. Interface sounds come only from the listener's own presses here. The system's commands,
 // interruptions and a lost output stay quiet and stop any sound still under way; the on-screen
-// Off keeps its own click. Part of
+// Off keeps its own click. When the platform's media services go away the radio holds its place;
+// when they return the clip players are made again before the controller rebuilds the stream
+// player and makes its one start of its own. Part of
 // spec-chirho/workflows-chirho/experience-chirho/native_players_workflow_chirho.md.
 
 import Foundation
@@ -76,6 +78,17 @@ public final class RadioModelChirho {
             self?.loggerChirho.info("output lost")
             self?.soundsChirho?.silenceChirho()
             self?.controllerChirho.outputLostChirho()
+        }
+        routeChirho.onServicesLostChirho = { [weak self] in
+            self?.loggerChirho.info("media services lost")
+            self?.soundsChirho?.silenceChirho()
+            self?.controllerChirho.servicesLostChirho()
+        }
+        routeChirho.onServicesResetChirho = { [weak self] in
+            guard let self else { return }
+            self.loggerChirho.info("media services reset")
+            self.soundsChirho?.rebuildChirho()
+            Task { await self.controllerChirho.servicesResetChirho() }
         }
         nowPlayingChirho.connectChirho(
             NowPlayingActionsChirho(
