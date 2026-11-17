@@ -68,19 +68,46 @@
 			"contents_chirho": "Catalogue, profile and11 prepared clips; no original media or store graphics"
 		},
 		"screenshots_chirho": {
-			"outcome_chirho": "NOT COMPLETED",
-			"input_sent_chirho": false,
-			"initial_evidence_frame_chirho": 1,
-			"accepted_store_captures_chirho": 0,
-			"dependency_chirho": "CUA rejected the exact owned emulator executable path and process name as Invalid app. No fallback input or shared reconfiguration.",
-			"teardown_chirho": "Uninstall0, wm size reset and Physical1080x2400 confirmed, owned emulator stopped and process absent, failures0",
-			"retained_avd_kib_chirho": 2125952,
-			"initial_frame_chirho": {
-				"width_chirho": 1080,
-				"height_chirho": 2400,
-				"visible_chirho": "System startup wallpaper; not the radio",
-				"wm_override_chirho": "Reported1080x1920, but actual capture dimensions differ"
-			}
+			"outcome_chirho": "Four real screenshots reviewed and prepared; not uploaded",
+			"accepted_store_captures_chirho": 4,
+			"size_chirho": "1080x1920",
+			"format_chirho": "8-bit RGB PNG",
+			"bytes_chirho": 549614,
+			"manifest_chirho": "apps-chirho/android-chirho/store-assets-chirho/screenshots_chirho.json",
+			"review_chirho": "Root viewed all four, verified exact hashes and PNG headers, and compared every decoded RGB byte against the fully opaque raw captures. No crop or app-pixel changes.",
+			"status_bar_chirho": "Android system demo mode: 12:00, full battery and Wi-Fi, mobile and notification icons hidden",
+			"prior_attempt_chirho": {
+				"outcome_chirho": "NOT COMPLETED",
+				"input_sent_chirho": false,
+				"initial_evidence_frame_chirho": 1,
+				"accepted_store_captures_chirho": 0,
+				"dependency_chirho": "CUA rejected the exact owned emulator executable path and process name as Invalid app. No fallback input or shared reconfiguration.",
+				"teardown_chirho": "Uninstall0, wm size reset and Physical1080x2400 confirmed, owned emulator stopped and process absent, failures0",
+				"retained_avd_kib_chirho": 2125952,
+				"initial_frame_chirho": {
+					"width_chirho": 1080,
+					"height_chirho": 2400,
+					"visible_chirho": "System startup wallpaper; not the radio",
+					"wm_override_chirho": "Reported1080x1920, but actual capture dimensions differ"
+				},
+				"display_persistence_followup_chirho": "A later boot retained the 1080x1920 override. The earlier reset was verified live only and did not persist through emu kill."
+			},
+			"capture_run_chirho": {
+				"stream_starts_chirho": 5,
+				"initial_stalls_chirho": 2,
+				"other_observation_chirho": "A Hindi stream had buffered data but decoder/mixer underruns, lagging progress and a later stop. The screenshot is a real On state; displayed 0:15 is the controller estimate, with decoded progress around 11 seconds.",
+				"host_load_chirho": "Producer recorded load averages around 24 to 30 and inferred CPU starvation. This review does not isolate the cause or establish an app/network defect.",
+				"system_restart_chirho": "Android system process restarted before app installation; crash buffer held 36 DeadSystemException lines, none from the app."
+			},
+			"teardown_readback_chirho": "Retained log reports uninstall Success, no user packages, both demo settings zero, Physical1080x2400 without override, sync then guest power-down and emulator exit0, ports5584/5585 free and owned emulator gone.",
+			"retained_avd_kib_chirho": 2345140,
+			"display_persistence_chirho": "This run reset the override, waited4s, synced and shut down gracefully. Persistence remains unverified until the next authorized boot; read wm size before changing it.",
+			"not_claimed_chirho": [
+				"Playback or performance acceptance from this capture run",
+				"Acoustic output or physical-device behavior",
+				"Release-variant runtime",
+				"Play upload, processing or review acceptance"
+			]
 		},
 		"release_runtime_chirho": "Not proven by debug runtime acceptance",
 		"upstream_notices_chirho": [
@@ -98,5 +125,6 @@
 		"build_upload_chirho": false,
 		"review_submission_chirho": false,
 		"owner_declarations_chirho": "Pending; no answer inferred from another app or an unanswered question"
-	}
+	},
+	"updated_on_chirho": "2026-11-17T21:57:30.957745+00:00"
 }

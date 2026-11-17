@@ -1,0 +1,54 @@
+{
+	"scope_chirho": "Actual running app; no compositing, retouching, overlays or generated interfaces. Status bar in Android's system demo mode.",
+	"phone_chirho": {
+		"size_chirho": "1080x1920",
+		"count_chirho": 4,
+		"device_chirho": "Android emulator, Medium Phone Google Play image, Android 16 (API 36), 420 dpi; 1080x2400 panel run at a 1080x1920 display size so the app lays out at 9:16",
+		"apk_sha256_chirho": "37fb6cc68fb1b73cf362d338a1577ba0f723f1bf0d3f2c8bab89cb5b899b25fd"
+	},
+	"submitted_chirho": false,
+	"files_chirho": [
+		{
+			"path_chirho": "apps-chirho/android-chirho/store-assets-chirho/screens-phone-chirho/phone_playing_chirho.png",
+			"sha256_chirho": "3be8189b8d804e49f95b28eb89638edf1370fc9707f303cfb2ec676b02ac668a",
+			"bytes_chirho": 139068,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real emulator capture",
+			"shows_chirho": "English Berean Standard Bible, John 1, On, displayed 0:17 / 6:50, credit and licence visible",
+			"crop_chirho": false
+		},
+		{
+			"path_chirho": "apps-chirho/android-chirho/store-assets-chirho/screens-phone-chirho/phone_stations_chirho.png",
+			"sha256_chirho": "727cf813fdf344ccc70eff2e93ca53d8e95d8051f4a4e723c45e29e5cd36cd99",
+			"bytes_chirho": 149176,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real emulator capture",
+			"shows_chirho": "Station picker with English narrations and multiple languages",
+			"crop_chirho": false
+		},
+		{
+			"path_chirho": "apps-chirho/android-chirho/store-assets-chirho/screens-phone-chirho/phone_hindi_john_chirho.png",
+			"sha256_chirho": "2fca1cf995f5cd8978dd4f717c2baa49209d428ef64eeb90c3eeec7030283df0",
+			"bytes_chirho": 159881,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real emulator capture",
+			"shows_chirho": "Hindi Unlocked Literal Bible, John 1, On, displayed 0:15 / 7:18, credit and licence visible",
+			"crop_chirho": false
+		},
+		{
+			"path_chirho": "apps-chirho/android-chirho/store-assets-chirho/screens-phone-chirho/phone_books_chirho.png",
+			"sha256_chirho": "f99fd81f74840df525ca73f1ce798c4b406a4d8d5bb738240e3d9a5a8df013c8",
+			"bytes_chirho": 101489,
+			"pixel_change_chirho": 0,
+			"format_chirho": "8-bit RGB PNG; alpha removed only from an already opaque real emulator capture",
+			"shows_chirho": "Book picker over the Hindi John 1 screen",
+			"crop_chirho": false
+		}
+	],
+	"review_chirho": {
+		"viewed_chirho": 4,
+		"png_headers_chirho": "All four raw and final captures are 1080x1920; final PNGs are 8-bit RGB",
+		"raw_rgb_comparison_chirho": "Every decoded RGB byte matches the corresponding fully opaque raw capture; no crop",
+		"runtime_scope_chirho": "Real UI states only; not a performance, acoustic, release-variant or store-acceptance test. The displayed Hindi time is the controller estimate; the decoder lagged and that stream later stalled."
+	}
+}

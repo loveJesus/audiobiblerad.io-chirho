@@ -37,3 +37,5 @@ magick /private/tmp/play_feature_render_chirho.png -alpha off -strip PNG24:apps-
 ```
 
 The exports are an opaque 512×512 icon and a 1024×500 RGB feature graphic. Check the rendered image and dimensions before uploading. Screenshots come from the running app, separately from this artwork.
+
+Four real Android screenshots are prepared in `store-assets-chirho/screens-phone-chirho/`, with hashes and capture descriptions in `store-assets-chirho/screenshots_chirho.json`. Each is 1080×1920, with unchanged RGB pixels and no crop; Android's system demo mode supplies the clean status bar. The capture run also recorded stalls and decoder underruns, so these images do not establish playback performance or release acceptance. The retained emulator's display override was reset before graceful power-off; check its actual size at the next authorized boot because an earlier reset verified live did not persist through `emu kill`.
