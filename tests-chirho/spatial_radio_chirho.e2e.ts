@@ -1,6 +1,7 @@
 // For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV)
 
 import { test, expect, type Page as PageChirho } from '@playwright/test';
+import { readFileSync as readFileChirho } from 'node:fs';
 import {
 	observeMediaChirho,
 	mediaStateChirho,
@@ -90,7 +91,118 @@ async function unchangedElementChirho(pageChirho: PageChirho): Promise<void> {
 	).toBe(true);
 }
 
-test('a real 3D radio orbits and its native controls work without replacing playback when views switch', async ({
+test('the weighted orbit moves, keeps the controls in view and gently returns after release', async ({
+	page: pageChirho
+}) => {
+	await openChirho(pageChirho, 'three');
+	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
+		'data-spatial-active-chirho',
+		'true',
+		{ timeout: 20000 }
+	);
+	await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
+	const faceChirho = pageChirho.locator('.spatial-face-chirho');
+	// Front view schedules the projected form on the next paint; sample its painted home pose.
+	await pageChirho.evaluate(
+		() =>
+			new Promise<void>((resolveChirho) =>
+				requestAnimationFrame(() => requestAnimationFrame(() => resolveChirho()))
+			)
+	);
+	const matrixChirho = () =>
+		faceChirho.evaluate((nodeChirho) =>
+			Array.from(new DOMMatrix(getComputedStyle(nodeChirho).transform).toFloat64Array())
+		);
+	const homeChirho = await matrixChirho();
+	const differenceChirho = async () =>
+		Math.max(
+			...(await matrixChirho()).map((valueChirho, indexChirho) =>
+				Math.abs(valueChirho - homeChirho[indexChirho])
+			)
+		);
+	await pageChirho.mouse.move(24, 160);
+	await pageChirho.mouse.down();
+	await pageChirho.mouse.move(780, 210, { steps: 18 });
+	await expect.poll(differenceChirho).toBeGreaterThan(10);
+	await expect(faceChirho).toHaveCSS('visibility', 'visible');
+	await pageChirho.mouse.up();
+	await expect.poll(differenceChirho, { timeout: 12000 }).toBeLessThan(1);
+	await pageChirho.emulateMedia({ reducedMotion: 'reduce' });
+	await pageChirho.mouse.move(24, 160);
+	await pageChirho.mouse.down();
+	await pageChirho.mouse.move(650, 210, { steps: 14 });
+	await pageChirho.mouse.up();
+	await pageChirho.waitForTimeout(1400);
+	const stoppedChirho = await matrixChirho();
+	await pageChirho.waitForTimeout(600);
+	const laterChirho = await matrixChirho();
+	expect(
+		Math.max(
+			...laterChirho.map((valueChirho, indexChirho) =>
+				Math.abs(valueChirho - stoppedChirho[indexChirho])
+			)
+		)
+	).toBeLessThan(0.05);
+	await expect(faceChirho).toHaveCSS('visibility', 'visible');
+});
+
+test('long publisher notices do not resize the hardware or move its controls', async ({
+	page: pageChirho
+}) => {
+	const fileChirho = JSON.parse(
+		readFileChirho('static/catalogue-chirho/languages-chirho/h/hi.json', 'utf8')
+	) as {
+		stations_chirho: { id_chirho: string; version_chirho: string; credit_chirho: string }[];
+	};
+	const stationChirho = fileChirho.stations_chirho[0];
+	stationChirho.credit_chirho +=
+		' The publisher copyright and recording notice remains available in full. '.repeat(20);
+	await pageChirho.route('**/catalogue-chirho/languages-chirho/h/hi.json', (routeChirho) =>
+		routeChirho.fulfill({ json: fileChirho })
+	);
+	await pageChirho.setViewportSize({ width: 1280, height: 1000 });
+	await openChirho(pageChirho);
+	const layoutChirho = () =>
+		pageChirho.locator('.radio-chirho').evaluate((nodeChirho) => {
+			const powerChirho = nodeChirho.querySelector<HTMLElement>('.power-well-chirho')!;
+			return {
+				width_chirho: (nodeChirho as HTMLElement).offsetWidth,
+				height_chirho: (nodeChirho as HTMLElement).offsetHeight,
+				power_x_chirho: powerChirho.offsetLeft,
+				power_y_chirho: powerChirho.offsetTop
+			};
+		});
+	for (const themeChirho of ['minimal', 'field', 'digital', 'cyberpunk']) {
+		await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('en');
+		await pageChirho
+			.getByRole('combobox', { name: 'Radio model', exact: true })
+			.selectOption(themeChirho);
+		const beforeChirho = await layoutChirho();
+		await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('hi');
+		await pageChirho
+			.getByRole('combobox', { name: 'Version', exact: true })
+			.selectOption({ label: stationChirho.version_chirho });
+		await pageChirho
+			.getByRole('combobox', { name: 'Narration', exact: true })
+			.selectOption(stationChirho.id_chirho);
+		await expect(pageChirho.locator('.credit-chirho')).toContainText(stationChirho.credit_chirho);
+		expect(await layoutChirho()).toEqual(beforeChirho);
+	}
+	await pageChirho
+		.getByRole('combobox', { name: 'Radio model', exact: true })
+		.selectOption('digital');
+	await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).check();
+	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
+		'data-spatial-active-chirho',
+		'true',
+		{ timeout: 20000 }
+	);
+	const longChirho = await layoutChirho();
+	await pageChirho.getByRole('combobox', { name: 'Language', exact: true }).selectOption('en');
+	expect(await layoutChirho()).toEqual(longChirho);
+});
+
+test('a real 3D radio stays within its viewing cone and its controls preserve playback across views', async ({
 	page: pageChirho
 }) => {
 	await openChirho(pageChirho);
@@ -119,7 +231,7 @@ test('a real 3D radio orbits and its native controls work without replacing play
 	await pageChirho.mouse.down();
 	await pageChirho.mouse.move(800, 150, { steps: 24 });
 	await pageChirho.mouse.up();
-	await expect(pageChirho.locator('.spatial-face-chirho')).toHaveCSS('visibility', 'hidden');
+	await expect(pageChirho.locator('.spatial-face-chirho')).toHaveCSS('visibility', 'visible');
 	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toBeVisible();
 	await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
 	await expect(pageChirho.locator('.spatial-face-chirho')).toHaveCSS('visibility', 'visible');
@@ -159,6 +271,53 @@ test('losing the real graphics context returns to simple while the same audio ke
 	).toBe('three');
 });
 
+test('the modeled settings and camera controls change around one continuing radio', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.setViewportSize({ width: 1440, height: 1000 });
+	await openChirho(pageChirho);
+	await pageChirho.getByRole('button', { name: 'Start listening', exact: true }).click();
+	await playingChirho(pageChirho);
+	await rememberElementChirho(pageChirho);
+	await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).check();
+	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
+		'data-spatial-active-chirho',
+		'true',
+		{ timeout: 20000 }
+	);
+	for (const themeChirho of ['field', 'digital', 'cyberpunk']) {
+		await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
+		await pageChirho
+			.getByRole('combobox', { name: 'Radio model', exact: true })
+			.selectOption(themeChirho);
+		await expect(pageChirho.locator('.radio-world-chirho')).toHaveAttribute(
+			'data-radio-theme-chirho',
+			themeChirho
+		);
+		await pageChirho.getByRole('button', { name: 'Scene view', exact: true }).click();
+		await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toBeVisible();
+		await pageChirho.getByRole('button', { name: 'Move camera farther', exact: true }).click();
+		await pageChirho.getByRole('button', { name: 'Move camera closer', exact: true }).click();
+		await unchangedElementChirho(pageChirho);
+		await pageChirho.screenshot({
+			path: test.info().outputPath(`${themeChirho}_world_chirho.png`)
+		});
+		await pageChirho.mouse.move(30, 200);
+		await pageChirho.mouse.down();
+		await pageChirho.mouse.move(850, 200, { steps: 24 });
+		await pageChirho.mouse.up();
+		await expect(pageChirho.locator('.spatial-face-chirho')).toHaveCSS('visibility', 'visible');
+		await pageChirho.screenshot({
+			path: test.info().outputPath(`${themeChirho}_angled_chirho.png`)
+		});
+		await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
+		await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toBeVisible();
+	}
+	await pageChirho.getByRole('button', { name: 'Simple view', exact: true }).click();
+	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toHaveCount(0);
+	await unchangedElementChirho(pageChirho);
+});
+
 test('an unavailable renderer cannot prevent the lightweight radio from playing', async ({
 	page: pageChirho
 }) => {
@@ -175,6 +334,92 @@ test('an unavailable renderer cannot prevent the lightweight radio from playing'
 	await openChirho(pageChirho, 'three');
 	await expect(pageChirho.locator('.spatial-message-chirho')).toBeVisible();
 	await expect(pageChirho.locator('canvas.radio-geometry-chirho')).toHaveCount(0);
+	await pageChirho.getByRole('button', { name: 'Start listening', exact: true }).click();
+	await playingChirho(pageChirho);
+});
+
+test('a living scene stops graphics work for reduced motion and when offscreen, without stopping Scripture', async ({
+	page: pageChirho
+}) => {
+	await pageChirho.addInitScript(() => {
+		const stateChirho = window as unknown as { graphicsDrawsChirho: number };
+		stateChirho.graphicsDrawsChirho = 0;
+		const originalChirho = WebGL2RenderingContext.prototype.drawElements;
+		WebGL2RenderingContext.prototype.drawElements = function (
+			...argumentsChirho: Parameters<typeof originalChirho>
+		) {
+			stateChirho.graphicsDrawsChirho++;
+			return Reflect.apply(originalChirho, this, argumentsChirho);
+		};
+	});
+	const drawsChirho = () =>
+		pageChirho.evaluate(
+			() => (window as unknown as { graphicsDrawsChirho: number }).graphicsDrawsChirho
+		);
+	await openChirho(pageChirho);
+	await pageChirho.getByRole('button', { name: 'Start listening', exact: true }).click();
+	await playingChirho(pageChirho);
+	await rememberElementChirho(pageChirho);
+	await pageChirho
+		.getByRole('combobox', { name: 'Radio model', exact: true })
+		.selectOption('field');
+	await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).check();
+	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
+		'data-spatial-active-chirho',
+		'true',
+		{ timeout: 20000 }
+	);
+	const movingChirho = await drawsChirho();
+	await expect.poll(drawsChirho).toBeGreaterThan(movingChirho);
+	await pageChirho.emulateMedia({ reducedMotion: 'reduce' });
+	await pageChirho.waitForTimeout(1200);
+	const stillChirho = await drawsChirho();
+	await pageChirho.waitForTimeout(500);
+	expect(await drawsChirho()).toBe(stillChirho);
+	await pageChirho.emulateMedia({ reducedMotion: 'no-preference' });
+	await expect.poll(drawsChirho).toBeGreaterThan(stillChirho);
+	await pageChirho.evaluate(() => {
+		document.body.style.paddingBottom = '2000px';
+		scrollTo(0, document.documentElement.scrollHeight);
+	});
+	await pageChirho.waitForTimeout(500);
+	const offscreenChirho = await drawsChirho();
+	await pageChirho.waitForTimeout(500);
+	expect(await drawsChirho()).toBe(offscreenChirho);
+	await unchangedElementChirho(pageChirho);
+	await pageChirho.evaluate(() => {
+		document.body.style.paddingBottom = '';
+		scrollTo(0, 0);
+	});
+	await expect.poll(drawsChirho).toBeGreaterThan(offscreenChirho);
+});
+
+test('phone controls remain usable in each modeled radio', async ({ page: pageChirho }) => {
+	await pageChirho.setViewportSize({ width: 390, height: 844 });
+	await openChirho(pageChirho);
+	await pageChirho.getByRole('checkbox', { name: '3D radio view', exact: true }).check();
+	await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
+		'data-spatial-active-chirho',
+		'true',
+		{ timeout: 20000 }
+	);
+	for (const themeChirho of ['field', 'digital', 'cyberpunk']) {
+		await pageChirho.getByRole('button', { name: 'Front view', exact: true }).click();
+		await pageChirho
+			.getByRole('combobox', { name: 'Radio model', exact: true })
+			.selectOption(themeChirho);
+		const powerChirho = await pageChirho
+			.getByRole('button', { name: 'Radio power', exact: true })
+			.boundingBox();
+		expect(powerChirho?.width).toBeGreaterThanOrEqual(44);
+		expect(powerChirho?.height).toBeGreaterThanOrEqual(44);
+		expect(
+			await pageChirho.evaluate(() => document.documentElement.scrollWidth <= innerWidth)
+		).toBe(true);
+		await pageChirho.screenshot({
+			path: test.info().outputPath(`${themeChirho}_phone_chirho.png`)
+		});
+	}
 	await pageChirho.getByRole('button', { name: 'Start listening', exact: true }).click();
 	await playingChirho(pageChirho);
 });
@@ -404,12 +649,14 @@ test('wheel scrolling over the active scene still moves the page', async ({ page
 });
 
 test.describe('touch scene scrolling', () => {
+	test.skip(
+		({ browserName: browserNameChirho }) => browserNameChirho !== 'chromium',
+		'This probe sends native Chromium touch input.'
+	);
 	test.use({ hasTouch: true, viewport: { width: 390, height: 620 } });
 	test('a vertical swipe over the scene scrolls while a horizontal gesture remains available for orbit', async ({
-		page: pageChirho,
-		browserName: browserNameChirho
+		page: pageChirho
 	}) => {
-		test.skip(browserNameChirho !== 'chromium', 'This probe sends native Chromium touch input.');
 		await openChirho(pageChirho, 'three');
 		await expect(pageChirho.locator('.spatial-view-chirho')).toHaveAttribute(
 			'data-spatial-active-chirho',

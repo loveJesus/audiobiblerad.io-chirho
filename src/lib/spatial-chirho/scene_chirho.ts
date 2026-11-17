@@ -9,13 +9,20 @@ import {
 	PMREMGenerator as PMREMGeneratorChirho,
 	ACESFilmicToneMapping as ToneMappingChirho,
 	SRGBColorSpace as ColorSpaceChirho,
-	PCFShadowMap as ShadowMapChirho
+	PCFShadowMap as ShadowMapChirho,
+	Color as ColorChirho,
+	FogExp2 as FogChirho,
+	Box3 as BoundsChirho,
+	Vector3 as VectorChirho,
+	PointLight as PointLightChirho
 } from 'three';
 import { OrbitControls as OrbitControlsChirho } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment as RoomEnvironmentChirho } from 'three/addons/environments/RoomEnvironment.js';
 import { createRadioModelChirho } from './model-chirho/radio_model_chirho';
 import { createRadioMaterialsChirho } from './model-chirho/radio_materials_chirho';
+import { createRadioWorldChirho, type RadioWorldChirho } from './world-chirho/radio_world_chirho';
 import { surfaceProjectionChirho } from './surface_projection_chirho';
+import { OrbitReturnChirho } from './orbit_return_chirho';
 import type { RadioThemeIdChirho } from '$lib/themes-chirho/themes_chirho';
 import type {
 	RadioModelChirho,
@@ -27,6 +34,8 @@ export interface RadioSceneChirho {
 	activateChirho(activeChirho: boolean): void;
 	themeChirho(themeChirho: RadioThemeIdChirho): void;
 	frontChirho(): void;
+	sceneViewChirho(): void;
+	zoomChirho(directionChirho: number): void;
 	disposeChirho(): void;
 }
 export interface RadioSceneOptionsChirho {
@@ -57,7 +66,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	rendererChirho.domElement.setAttribute('aria-hidden', 'true');
 	hostChirho.insertBefore(rendererChirho.domElement, hostChirho.firstChild);
 	const sceneChirho = new SceneChirho();
-	const cameraChirho = new CameraChirho(34, 1, 0.1, 150);
+	const cameraChirho = new CameraChirho(34, 1, 0.1, 400);
 	const previousTouchActionChirho = hostChirho.style.touchAction;
 	const controlsChirho = new OrbitControlsChirho(cameraChirho, hostChirho);
 	controlsChirho.enablePan = false;
@@ -65,7 +74,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	controlsChirho.enableDamping = true;
 	controlsChirho.dampingFactor = 0.12;
 	controlsChirho.minPolarAngle = Math.PI * 0.23;
-	controlsChirho.maxPolarAngle = Math.PI * 0.59;
+	controlsChirho.maxPolarAngle = Math.PI * 0.52;
 	controlsChirho.rotateSpeed = 0.55;
 	controlsChirho.zoomSpeed = 0.6;
 	controlsChirho.enabled = false;
@@ -104,7 +113,13 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	const rimChirho = new DirectionalLightChirho(0xbed6ff, 2);
 	rimChirho.position.set(7, 4, -5);
 	sceneChirho.add(rimChirho);
+	const cyanFillChirho = new PointLightChirho('#44d5f5', 24, 22, 2);
+	cyanFillChirho.position.set(-7, -2, 6);
+	const pinkFillChirho = new PointLightChirho('#ec49ae', 30, 22, 2);
+	pinkFillChirho.position.set(7, 1, -4);
+	sceneChirho.add(cyanFillChirho, pinkFillChirho);
 	let modelChirho: RadioModelChirho | undefined;
+	let worldChirho: RadioWorldChirho | undefined;
 	let themeChirho = optionsChirho.theme_chirho;
 	let paletteChirho = createRadioMaterialsChirho(themeChirho);
 	let widthChirho = 1;
@@ -116,6 +131,16 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	let warmingChirho = true;
 	let seenChirho = true;
 	let layoutKeyChirho = '';
+	// A phone opens close enough to use its controls. Scene view remains an explicit wider shot.
+	let wideChirho = hostChirho.clientWidth >= 700;
+	let lastWorldFrameChirho = 0;
+	let lastFrameChirho = 0;
+	let lastInputChirho = performance.now();
+	let holdingChirho = false;
+	let editingChirho = false;
+	const orbitReturnChirho = new OrbitReturnChirho();
+	const motionChirho = matchMedia('(prefers-reduced-motion: reduce)');
+	controlsChirho.enableDamping = !motionChirho.matches;
 	const rectChirho = (selectorChirho: string, indexChirho = 0): SurfaceRectChirho => {
 		const elementChirho = faceChirho.querySelectorAll<HTMLElement>(selectorChirho)[indexChirho];
 		if (!elementChirho) return { x_chirho: 0, y_chirho: 0, width_chirho: 0, height_chirho: 0 };
@@ -145,21 +170,38 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 		cameraChirho.aspect = viewWidthChirho / viewHeightChirho;
 		cameraChirho.updateProjectionMatrix();
 		const tangentChirho = Math.tan((cameraChirho.fov * Math.PI) / 360);
-		const distanceChirho = Math.max(
-			(heightChirho * scaleChirho + 1.3) / (2 * tangentChirho),
-			7.3 / (2 * tangentChirho * cameraChirho.aspect)
-		);
+		const boxChirho = modelChirho
+			? new BoundsChirho().setFromObject(modelChirho.group_chirho)
+			: undefined;
+		const boundsChirho =
+			boxChirho?.getSize(new VectorChirho()) ?? new VectorChirho(6, heightChirho * scaleChirho, 2);
+		const targetYChirho = wideChirho ? (boxChirho?.getCenter(new VectorChirho()).y ?? 0) : 0;
+		const distanceChirho =
+			Math.max(
+				(wideChirho
+					? Math.max(heightChirho * scaleChirho + 1.3, boundsChirho.y + 1.3)
+					: heightChirho * scaleChirho + 1.3) /
+					(2 * tangentChirho),
+				(wideChirho ? Math.max(7.3, boundsChirho.x + 1.5) : 7.3) /
+					(2 * tangentChirho * cameraChirho.aspect)
+			) * (wideChirho ? 1.16 : 1);
 		// Consume and clear previous orbit momentum before placing the camera. Otherwise the
 		// Front action keeps moving the live form controls after they have become visible.
 		const dampingChirho = controlsChirho.enableDamping;
 		controlsChirho.enableDamping = false;
 		controlsChirho.update();
-		cameraChirho.position.set(distanceChirho * 0.36, distanceChirho * 0.18, distanceChirho);
-		controlsChirho.target.set(0, 0, -0.2);
+		cameraChirho.position.set(
+			distanceChirho * (wideChirho ? 0.48 : 0.1),
+			targetYChirho + distanceChirho * (wideChirho ? 0.25 : 0.06),
+			distanceChirho
+		);
+		controlsChirho.target.set(0, targetYChirho, -0.2);
 		controlsChirho.minDistance = distanceChirho * 0.58;
-		controlsChirho.maxDistance = distanceChirho * 1.8;
+		controlsChirho.maxDistance = Math.max(distanceChirho, Math.min(distanceChirho * 1.8, 70));
 		controlsChirho.update();
 		controlsChirho.enableDamping = dampingChirho;
+		orbitReturnChirho.setHomeChirho(cameraChirho.position, controlsChirho.target);
+		lastInputChirho = performance.now();
 	};
 	const measureChirho = (): void => {
 		widthChirho = Math.max(1, faceChirho.offsetWidth);
@@ -191,6 +233,22 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			sceneChirho.add(modelChirho.group_chirho);
 			layoutKeyChirho = nextKeyChirho;
 		}
+		if (!worldChirho) {
+			worldChirho = createRadioWorldChirho(themeChirho);
+			sceneChirho.add(worldChirho.group_chirho);
+			sceneChirho.background = new ColorChirho(worldChirho.sky_chirho);
+			sceneChirho.fog = new FogChirho(
+				worldChirho.fog_chirho,
+				themeChirho === 'cyberpunk' ? 0.006 : 0.0045
+			);
+			keyChirho.color.set(themeChirho === 'cyberpunk' ? '#83cafa' : '#ffecd5');
+			rimChirho.color.set(themeChirho === 'cyberpunk' ? '#ec5bb8' : '#bed6ff');
+			cyanFillChirho.visible = pinkFillChirho.visible = themeChirho === 'cyberpunk';
+			sceneChirho.environmentIntensity = themeChirho === 'cyberpunk' ? 0.4 : 0.75;
+		}
+		worldChirho.group_chirho.position.y = modelChirho
+			? new BoundsChirho().setFromObject(modelChirho.group_chirho).min.y - 0.02
+			: (-heightChirho * scaleChirho) / 2 - 0.18;
 		fitChirho();
 	};
 	const projectChirho = (): void => {
@@ -222,12 +280,37 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 		if (!disposedChirho && seenChirho && !document.hidden && !frameChirho)
 			frameChirho = requestAnimationFrame(renderChirho);
 	};
-	function renderChirho(): void {
+	function renderChirho(timeChirho: number): void {
 		frameChirho = 0;
 		if (disposedChirho || !seenChirho || document.hidden) return;
 		let changingChirho: boolean;
+		let returningChirho: boolean;
 		try {
+			controlsChirho.rotateSpeed = 0.55 * orbitReturnChirho.resistanceChirho;
 			changingChirho = controlsChirho.update();
+			const elapsedChirho = lastFrameChirho ? (timeChirho - lastFrameChirho) / 1000 : 0;
+			lastFrameChirho = timeChirho;
+			returningChirho = orbitReturnChirho.updateChirho(
+				cameraChirho.position,
+				controlsChirho.target,
+				(timeChirho - lastInputChirho) / 1000,
+				elapsedChirho,
+				activeChirho && !motionChirho.matches && !holdingChirho && !editingChirho
+			);
+			cameraChirho.lookAt(controlsChirho.target);
+			const animatedChirho = activeChirho && !motionChirho.matches && worldChirho?.animated_chirho;
+			if (
+				!warmingChirho &&
+				!changingChirho &&
+				!returningChirho &&
+				animatedChirho &&
+				timeChirho - lastWorldFrameChirho < 33
+			) {
+				requestChirho();
+				return;
+			}
+			lastWorldFrameChirho = timeChirho;
+			if (!motionChirho.matches) worldChirho?.updateChirho(timeChirho / 1000);
 			updateKnobsChirho();
 			rendererChirho.render(sceneChirho, cameraChirho);
 			projectChirho();
@@ -240,7 +323,13 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			// The explicit request is ready after a real frame; no automatic FPS assessment remains.
 			optionsChirho.on_ready_chirho();
 		}
-		if (warmingChirho || changingChirho) requestChirho();
+		if (
+			warmingChirho ||
+			changingChirho ||
+			returningChirho ||
+			(activeChirho && !motionChirho.matches && worldChirho?.animated_chirho)
+		)
+			requestChirho();
 	}
 	const resizeChirho = new ResizeObserver(() => {
 		if (!disposedChirho) {
@@ -269,19 +358,37 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 	});
 	const intersectionChirho = new IntersectionObserver((entriesChirho) => {
 		seenChirho = entriesChirho[0]?.isIntersecting ?? true;
-		if (seenChirho) requestChirho();
-		else {
+		if (seenChirho) {
+			lastFrameChirho = 0;
+			requestChirho();
+		} else {
 			cancelAnimationFrame(frameChirho);
 			frameChirho = 0;
 		}
 	});
 	const visibilityChirho = (): void => {
+		lastFrameChirho = 0;
 		if (document.hidden) {
 			cancelAnimationFrame(frameChirho);
 			frameChirho = 0;
 		} else requestChirho();
 	};
+	const motionChangedChirho = (): void => {
+		if (motionChirho.matches) {
+			const positionChirho = cameraChirho.position.clone();
+			const targetChirho = controlsChirho.target.clone();
+			controlsChirho.enableDamping = false;
+			controlsChirho.update();
+			cameraChirho.position.copy(positionChirho);
+			controlsChirho.target.copy(targetChirho);
+			controlsChirho.update();
+		} else controlsChirho.enableDamping = true;
+		requestChirho();
+	};
 	const downChirho = (eventChirho: PointerEvent): void => {
+		holdingChirho = true;
+		lastInputChirho = performance.now();
+		editingChirho = false;
 		if (
 			eventChirho.target instanceof Element &&
 			eventChirho.target.closest('button,select,input,a,[role="slider"]')
@@ -289,23 +396,36 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			controlsChirho.enabled = false;
 	};
 	const upChirho = (): void => {
+		holdingChirho = false;
+		lastInputChirho = performance.now();
 		controlsChirho.enabled = activeChirho;
+		requestChirho();
 	};
 	const lostChirho = (eventChirho: Event): void => {
 		eventChirho.preventDefault();
 		if (!disposedChirho) optionsChirho.on_failure_chirho();
 	};
 	const focusChirho = (): void => {
+		editingChirho = true;
 		if (cameraChirho.position.z < 1) {
+			wideChirho = false;
 			fitChirho();
 			requestChirho();
 		}
+	};
+	const blurChirho = (eventChirho: FocusEvent): void => {
+		editingChirho =
+			eventChirho.relatedTarget instanceof Node && faceChirho.contains(eventChirho.relatedTarget);
+		lastInputChirho = performance.now();
+		requestChirho();
 	};
 	hostChirho.addEventListener('pointerdown', downChirho, true);
 	window.addEventListener('pointerup', upChirho);
 	window.addEventListener('pointercancel', upChirho);
 	faceChirho.addEventListener('focusin', focusChirho);
+	faceChirho.addEventListener('focusout', blurChirho);
 	document.addEventListener('visibilitychange', visibilityChirho);
+	motionChirho.addEventListener('change', motionChangedChirho);
 	rendererChirho.domElement.addEventListener('webglcontextlost', lostChirho);
 	controlsChirho.addEventListener('change', requestChirho);
 	resizeChirho.observe(hostChirho);
@@ -315,7 +435,7 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 		activateChirho(valueChirho) {
 			activeChirho = valueChirho;
 			controlsChirho.enabled = valueChirho;
-			hostChirho.style.touchAction = valueChirho ? 'pan-y' : previousTouchActionChirho;
+			hostChirho.style.touchAction = valueChirho ? 'pan-y pinch-zoom' : previousTouchActionChirho;
 			if (!valueChirho) {
 				faceChirho.style.removeProperty('transform');
 				faceChirho.style.removeProperty('visibility');
@@ -327,6 +447,8 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			modelChirho?.disposeChirho();
 			modelChirho = undefined;
 			paletteChirho.disposeChirho();
+			worldChirho?.disposeChirho();
+			worldChirho = undefined;
 			paletteChirho = createRadioMaterialsChirho(valueChirho);
 			layoutKeyChirho = '';
 			themeChirho = valueChirho;
@@ -338,7 +460,28 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			}
 		},
 		frontChirho() {
+			wideChirho = false;
 			fitChirho();
+			requestChirho();
+		},
+		sceneViewChirho() {
+			wideChirho = true;
+			fitChirho();
+			requestChirho();
+		},
+		zoomChirho(directionChirho) {
+			const offsetChirho = cameraChirho.position.clone().sub(controlsChirho.target);
+			const nextDistanceChirho = Math.max(
+				controlsChirho.minDistance,
+				Math.min(
+					controlsChirho.maxDistance,
+					offsetChirho.length() * (directionChirho > 0 ? 0.83 : 1.2)
+				)
+			);
+			cameraChirho.position
+				.copy(controlsChirho.target)
+				.add(offsetChirho.setLength(nextDistanceChirho));
+			controlsChirho.update();
 			requestChirho();
 		},
 		disposeChirho() {
@@ -354,10 +497,13 @@ export function createRadioSceneChirho(optionsChirho: RadioSceneOptionsChirho): 
 			window.removeEventListener('pointerup', upChirho);
 			window.removeEventListener('pointercancel', upChirho);
 			faceChirho.removeEventListener('focusin', focusChirho);
+			faceChirho.removeEventListener('focusout', blurChirho);
 			document.removeEventListener('visibilitychange', visibilityChirho);
+			motionChirho.removeEventListener('change', motionChangedChirho);
 			rendererChirho.domElement.removeEventListener('webglcontextlost', lostChirho);
 			modelChirho?.disposeChirho();
 			paletteChirho.disposeChirho();
+			worldChirho?.disposeChirho();
 			keyChirho.shadow.dispose();
 			environmentChirho.dispose();
 			rendererChirho.dispose();

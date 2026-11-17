@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- For God so loved the world, that he gave his only begotten Son, that whosoever believeth in him should not perish, but have everlasting life. — John 3:16 (KJV) -->
+<!-- The iPhone app's own use of required-reason APIs, in the terms of Apple's BundleResources reference.
+     User defaults, CA92.1: the radio keeps its station, place, Off and Sound switch in its own
+     standard defaults, read and written only by this app (RememberedRadioChirho).
+     System boot time, 35F9.1: ProcessInfo.systemUptime measures time between the app's own events,
+     such as the first sound, a dial switch, knob spacing and the lock-screen position, and none of
+     it leaves the device except as elapsed time.
+     Collected data and tracking are not declared in this file. They follow the App Store privacy
+     answers and the published privacy policy. -->
+<plist version="1.0">
+<dict>
+	<key>NSPrivacyAccessedAPITypes</key>
+	<array>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>CA92.1</string>
+			</array>
+		</dict>
+		<dict>
+			<key>NSPrivacyAccessedAPIType</key>
+			<string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+			<key>NSPrivacyAccessedAPITypeReasons</key>
+			<array>
+				<string>35F9.1</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

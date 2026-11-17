@@ -29,7 +29,7 @@
 		session_chirho?: RadioSessionChirho;
 		theme_id_chirho: RadioThemeIdChirho;
 		on_theme_chirho(valueChirho: RadioThemeIdChirho): void;
-		on_about_chirho(): void;
+		on_about_chirho(openerChirho: HTMLElement): void;
 		spatial_chirho?: boolean;
 		spatial_wanted_chirho?: boolean;
 		spatial_busy_chirho?: boolean;
@@ -158,8 +158,10 @@
 		<div class="radio-top-actions-chirho">
 			<span class="on-air-chirho" class:active-chirho={stateChirho.phase_chirho === 'playing'}
 				><i aria-hidden="true"></i>{statusChirho}</span
-			><button class="about-button-chirho" aria-label="About and settings" onclick={onAboutChirho}
-				>?</button
+			><button
+				class="about-button-chirho"
+				aria-label="About and settings"
+				onclick={(eventChirho) => onAboutChirho(eventChirho.currentTarget)}>?</button
 			>
 		</div>
 	</div>
@@ -405,20 +407,26 @@
 			/><span class="switch-chirho" aria-hidden="true"></span><span>SOUND</span></label
 		>
 	</div>
-	{#if spatialMessageChirho}<p class="spatial-message-chirho" role="status">
-			{spatialMessageChirho}
-		</p>{/if}
-	<div class="status-message-chirho" role="status" aria-live="polite">
-		{viewChirho.language_message_chirho ||
-			(viewChirho.restoring_chirho ? 'Restoring your station…' : stateChirho.message_chirho)}
+	<div class="radio-notices-chirho">
+		{#if spatialMessageChirho}<p class="spatial-message-chirho" role="status">
+				{spatialMessageChirho}
+			</p>{/if}
+		<div class="status-message-chirho" role="status" aria-live="polite">
+			{viewChirho.language_message_chirho ||
+				(viewChirho.restoring_chirho ? 'Restoring your station…' : stateChirho.message_chirho)}
+		</div>
+		{#if viewChirho.restore_failed_chirho}<div class="restore-note-chirho" role="status">
+				<p>Your saved station could not load. Your place is kept.</p>
+				<button onclick={() => void sessionChirho?.restoreChirho()}>Retry saved station</button
+				><button onclick={() => sessionChirho?.chooseBuiltinsChirho()}>Use built-in stations</button
+				>
+			</div>{/if}
+		{#if !stateChirho.storage_available_chirho}<p class="storage-message-chirho" role="status">
+				Listening works, but this browser cannot save your place.
+			</p>{/if}
 	</div>
-	{#if viewChirho.restore_failed_chirho}<div class="restore-note-chirho" role="status">
-			<p>Your saved station could not load. Your place is kept.</p>
-			<button onclick={() => void sessionChirho?.restoreChirho()}>Retry saved station</button
-			><button onclick={() => sessionChirho?.chooseBuiltinsChirho()}>Use built-in stations</button>
-		</div>{/if}
 	<div class="speaker-grille-chirho" aria-hidden="true"></div>
-	<div class="credit-chirho">
+	<div class="credit-chirho" role="region" aria-label="Recording credits">
 		<p>{stationChirho.credit_chirho}</p>
 		<p>
 			<a href={stationChirho.source_url_chirho} target="_blank" rel="external noreferrer"
@@ -436,9 +444,6 @@
 				: 'verified chapters.'}
 		</p>
 	</div>
-	{#if !stateChirho.storage_available_chirho}<p class="storage-message-chirho" role="status">
-			Listening works, but this browser cannot save your place.
-		</p>{/if}
 </section>
 
 <style>
@@ -460,6 +465,7 @@
 			inset 0 1px 0 #ffffff10;
 	}
 	.radio-top-chirho {
+		block-size: 44px;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -522,6 +528,8 @@
 		opacity: 0.8;
 	}
 	.display-chirho {
+		box-sizing: border-box;
+		block-size: 218px;
 		padding: 18px 20px 16px;
 		background-color: var(--radio-screen-chirho, #18251f);
 		color: var(--radio-screen-ink-chirho, #e9ead6);
@@ -613,6 +621,12 @@
 		padding-top: 12px;
 		margin-top: 12px;
 		font-size: 16px;
+	}
+	.passage-display-chirho > span:first-child {
+		min-width: 0;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 	.passage-display-chirho small {
 		font-size: 0.8em;
@@ -911,8 +925,14 @@
 		text-align: center;
 		margin-top: 10px;
 	}
+	.radio-notices-chirho {
+		block-size: 4.25rem;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		scrollbar-width: thin;
+	}
 	.status-message-chirho:empty {
-		display: none;
+		visibility: hidden;
 	}
 	.restore-note-chirho {
 		font-size: 12px;
@@ -935,6 +955,11 @@
 		opacity: 0.7;
 	}
 	.credit-chirho {
+		block-size: 7rem;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		scrollbar-width: thin;
+		overflow-wrap: anywhere;
 		font-size: 10px;
 		line-height: 1.65;
 		text-align: center;

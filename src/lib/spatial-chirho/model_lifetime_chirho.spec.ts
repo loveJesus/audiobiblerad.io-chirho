@@ -6,7 +6,9 @@ import {
 	InstancedMesh as InstancedMeshChirho,
 	Texture as TextureChirho,
 	BufferGeometry as GeometryChirho,
-	Material as MaterialChirho
+	Material as MaterialChirho,
+	Box3 as BoundsChirho,
+	Vector3 as VectorChirho
 } from 'three';
 import { RADIO_THEMES_CHIRHO } from '$lib/themes-chirho/themes_chirho';
 import { createRadioModelChirho } from './model-chirho/radio_model_chirho';
@@ -25,6 +27,29 @@ const MODEL_OPTIONS_CHIRHO: Omit<RadioModelOptionsChirho, 'theme_chirho'> = {
 };
 
 describe('bounded physical receiver resources', () => {
+	it('gives the stereo portable, deep field set and beveled receiver different physical silhouettes', () => {
+		const dimensionsChirho = new Map<string, VectorChirho>();
+		for (const themeChirho of RADIO_THEMES_CHIRHO) {
+			const modelChirho = createRadioModelChirho({
+				...MODEL_OPTIONS_CHIRHO,
+				theme_chirho: themeChirho.id_chirho
+			});
+			dimensionsChirho.set(
+				themeChirho.id_chirho,
+				new BoundsChirho().setFromObject(modelChirho.group_chirho).getSize(new VectorChirho())
+			);
+			modelChirho.disposeChirho();
+		}
+		expect(dimensionsChirho.get('digital')!.x).toBeGreaterThan(
+			dimensionsChirho.get('field')!.x * 1.5
+		);
+		expect(dimensionsChirho.get('field')!.z).toBeGreaterThan(
+			dimensionsChirho.get('minimal')!.z * 1.7
+		);
+		expect(dimensionsChirho.get('cyberpunk')!.x).toBeGreaterThan(
+			dimensionsChirho.get('minimal')!.x * 1.2
+		);
+	});
 	for (const themeChirho of RADIO_THEMES_CHIRHO)
 		it(`disposes every owned resource once for ${themeChirho.id_chirho}`, () => {
 			const modelChirho = createRadioModelChirho({

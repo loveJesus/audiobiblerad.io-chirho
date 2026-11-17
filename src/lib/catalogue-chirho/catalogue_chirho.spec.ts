@@ -118,15 +118,19 @@ describe('the shipped catalogue', () => {
 			for (const [bookChirho, chapterChirho] of everyChapterOfChirho(stationChirho)) {
 				const whereChirho = `${stationChirho.id_chirho} ${bookChirho} ${chapterChirho}`;
 				const audioChirho = resolveChapterChirho(stationChirho, bookChirho, chapterChirho);
-				expect(audioChirho, whereChirho).not.toBeNull();
-				expect(isSecureAddressChirho(audioChirho!.url_chirho), whereChirho).toBe(true);
-				addressesChirho.add(audioChirho!.url_chirho);
-				expect(audioChirho!.timings_url_chirho !== undefined, whereChirho).toBe(
-					stationChirho.has_timings_chirho
-				);
-				if (audioChirho!.timings_url_chirho !== undefined) {
-					expect(isSecureAddressChirho(audioChirho!.timings_url_chirho), whereChirho).toBe(true);
-				}
+				// Keep the exhaustive scan cheap: failures retain their precise station/chapter,
+				// without allocating several assertion objects for every valid address.
+				if (!audioChirho) throw new Error(`${whereChirho}: chapter did not resolve`);
+				if (!isSecureAddressChirho(audioChirho.url_chirho))
+					throw new Error(`${whereChirho}: insecure or incomplete audio address`);
+				addressesChirho.add(audioChirho.url_chirho);
+				if ((audioChirho.timings_url_chirho !== undefined) !== stationChirho.has_timings_chirho)
+					throw new Error(`${whereChirho}: timing availability disagrees with station`);
+				if (
+					audioChirho.timings_url_chirho !== undefined &&
+					!isSecureAddressChirho(audioChirho.timings_url_chirho)
+				)
+					throw new Error(`${whereChirho}: insecure or incomplete timing address`);
 			}
 			// Two chapters never share an address.
 			expect(addressesChirho.size, stationChirho.id_chirho).toBe(

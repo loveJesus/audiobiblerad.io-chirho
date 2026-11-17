@@ -20,7 +20,10 @@ flowchart TD
     open_chirho --> notices_chirho[Show selected source, licence and recording credit]
     bundle_chirho --> build_chirho[Select isolated external-first build cache with local fallback]
     build_chirho --> admission_chirho[Fresh disk and toolchain checks; serialize substantial builds]
-    admission_chirho --> local_chirho[Unsigned local build and exact-scope tests]
+    admission_chirho --> resources_chirho[Prepare exact catalogue, effects, icons and required-API manifests]
+    resources_chirho --> local_chirho[Unsigned local build and exact-scope tests]
+    local_chirho --> inspect_chirho[Inspect built app roots, icon metadata and exact resource inventory]
+    inspect_chirho --> record_chirho
     local_chirho --> record_chirho[Record actual results and unresolved device work]
 ```
 
@@ -51,3 +54,5 @@ flowchart TD
     memory_chirho --> reopen_chirho[Reopen: own seconds, or followed fraction for a genuinely unplayed narration]
     reopen_chirho --> controller_chirho
 ```
+
+Apple resource builds must keep the mandatory `PrivacyInfo.xcprivacy` filename at each app bundle root. The native Phone and Watch catalogues use opaque app icons; inspect `Assets.car` and the actual icon plist keys after building, including the embedded Watch copy. Required-API reasons describe only observed defaults and elapsed-time uses. They do not stand in for the owner's store data-collection, tracking or export declarations.

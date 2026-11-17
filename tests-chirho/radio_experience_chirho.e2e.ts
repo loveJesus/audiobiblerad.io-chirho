@@ -126,8 +126,16 @@ test('all four radio skins keep controls, credits, focus and device memory on a 
 });
 
 test('allowed autoplay advances unmuted without a tap or tuning, and explicit Off survives reopening', async ({
-	page: pageChirho
+	page: pageChirho,
+	browserName: browserNameChirho
 }) => {
+	// Audible autoplay without a gesture exists here only through Chromium's launch switch above.
+	// WebKit has none: without user activation it refuses the first-open play() with
+	// NotAllowedError and the radio prompts, which the refused-autoplay test covers.
+	test.skip(
+		browserNameChirho !== 'chromium',
+		'Only Chromium can be launched to allow audible autoplay without a gesture.'
+	);
 	await observeMediaChirho(pageChirho, 'allowed');
 	await mediaRoutesChirho(pageChirho);
 	await pageChirho.goto('/');
@@ -175,9 +183,21 @@ test('a rejected autoplay attempt prompts at On and preserves the saved passage 
 				sounds_enabled_chirho: false
 			})
 		);
+		// A browser that needs a gesture, opened only by real input. navigator.userActivation cannot
+		// be the gate: Playwright's own polling activates the page, and when its PRESS HERE poll ran
+		// before the first-open play(), that play() was let through.
+		let gestureChirho = false;
+		for (const kindChirho of ['pointerdown', 'keydown'])
+			addEventListener(
+				kindChirho,
+				(eventChirho) => {
+					if (eventChirho.isTrusted) gestureChirho = true;
+				},
+				true
+			);
 		const playChirho = HTMLMediaElement.prototype.play;
 		HTMLMediaElement.prototype.play = function () {
-			if (!navigator.userActivation.hasBeenActive)
+			if (!gestureChirho)
 				return Promise.reject(new DOMException('Gesture required', 'NotAllowedError'));
 			return playChirho.call(this);
 		};

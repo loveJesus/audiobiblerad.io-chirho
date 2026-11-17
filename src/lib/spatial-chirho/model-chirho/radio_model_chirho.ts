@@ -20,6 +20,7 @@ import type {
 	SurfaceRectChirho
 } from '../model_contract_chirho';
 import { createRadioMaterialsChirho, type RadioMaterialsChirho } from './radio_materials_chirho';
+import { buildRadioChassisChirho } from './radio_chassis_chirho';
 
 type PositionChirho = readonly [number, number, number];
 interface InstancePoseChirho {
@@ -43,7 +44,8 @@ export function createRadioModelChirho(
 	const fieldChirho = optionsChirho.theme_chirho === 'field';
 	const cyberChirho = optionsChirho.theme_chirho === 'cyberpunk';
 	const minimalChirho = optionsChirho.theme_chirho === 'minimal';
-	const depthChirho = widthChirho * (fieldChirho ? 0.26 : minimalChirho ? 0.18 : 0.22);
+	const depthChirho =
+		widthChirho * (fieldChirho ? 0.45 : minimalChirho ? 0.18 : cyberChirho ? 0.35 : 0.3);
 	// A scene keeps one palette while layout changes; only standalone models own their palette.
 	const paletteChirho =
 		sharedMaterialsChirho ?? createRadioMaterialsChirho(optionsChirho.theme_chirho);
@@ -188,22 +190,20 @@ export function createRadioModelChirho(
 		];
 	}
 
-	// Separate shell, rear closure, dark gasket and sheet-metal face catch light at every edge.
-	roundedChirho(
+	buildRadioChassisChirho(
+		optionsChirho.theme_chirho,
 		widthChirho,
 		heightChirho,
 		depthChirho,
-		fieldChirho ? 18 : 15,
-		paletteChirho.shellChirho,
-		[0, 0, -depthChirho / 2 - 8]
+		paletteChirho,
+		{
+			roundedChirho,
+			meshChirho,
+			geometryChirho,
+			cylinderChirho,
+			ringChirho
+		}
 	);
-	roundedChirho(widthChirho - 10, heightChirho - 10, 5, 2, paletteChirho.rubberChirho, [0, 0, -7]);
-	roundedChirho(widthChirho - 16, heightChirho - 16, 6, 2.7, paletteChirho.faceChirho, [0, 0, -4]);
-	roundedChirho(widthChirho - 20, heightChirho - 20, 5, 2, paletteChirho.knobChirho, [
-		0,
-		0,
-		-depthChirho - 8
-	]);
 
 	// The case seam remains visible from either side, even at grazing camera angles.
 	for (const sideChirho of [-1, 1]) {
@@ -220,7 +220,7 @@ export function createRadioModelChirho(
 		for (const verticalChirho of [-1, 1]) {
 			const xChirho = sideChirho * (widthChirho / 2 - 17);
 			const yChirho = verticalChirho * (heightChirho / 2 - 17);
-			for (const rearChirho of [false, true]) {
+			for (const rearChirho of optionsChirho.theme_chirho === 'digital' ? [] : [false, true]) {
 				const zChirho = rearChirho ? -depthChirho - 11.4 : 0;
 				screwsChirho.push({ position_chirho: [xChirho, yChirho, zChirho] });
 				slotsChirho.push({
@@ -375,11 +375,11 @@ export function createRadioModelChirho(
 			rotorChirho
 		);
 		meshChirho(
-			cylinderChirho(radiusChirho * 0.72, 0.8),
+			cylinderChirho(radiusChirho * 0.72, optionsChirho.theme_chirho === 'digital' ? 1.6 : 0.8),
 			optionsChirho.theme_chirho === 'digital'
 				? paletteChirho.metalChirho
 				: paletteChirho.knobChirho,
-			[0, 0, 26],
+			[0, 0, optionsChirho.theme_chirho === 'digital' ? 28 : 26],
 			rotorChirho
 		);
 		const ribsChirho: InstancePoseChirho[] = [];
@@ -402,7 +402,7 @@ export function createRadioModelChirho(
 			1.5,
 			0.6,
 			paletteChirho.accentChirho,
-			[0, radiusChirho * 0.61, 27.1],
+			[0, radiusChirho * 0.61, optionsChirho.theme_chirho === 'digital' ? 29.2 : 27.1],
 			rotorChirho
 		);
 		return rotorChirho;
@@ -452,52 +452,54 @@ export function createRadioModelChirho(
 	repeatChirho(unitBoxChirho, paletteChirho.cavityChirho, ventsChirho);
 	repeatChirho(unitBoxChirho, paletteChirho.shellChirho, louversChirho);
 
-	// A carry handle is built as a U, leaving open air underneath its leather/rubber grip.
-	const handleHalfChirho = widthChirho * (fieldChirho ? 0.29 : 0.25);
-	const handleZChirho = -depthChirho * 0.48;
-	for (const sideChirho of [-1, 1]) {
-		roundedChirho(28, 8, 25, 3, paletteChirho.metalChirho, [
-			sideChirho * handleHalfChirho,
-			heightChirho / 2 + 1,
+	if (!cyberChirho && optionsChirho.theme_chirho !== 'digital') {
+		// A carry handle is built as a U, leaving open air underneath its leather/rubber grip.
+		const handleHalfChirho = widthChirho * (fieldChirho ? 0.29 : 0.25);
+		const handleZChirho = -depthChirho * 0.48;
+		for (const sideChirho of [-1, 1]) {
+			roundedChirho(28, 8, 25, 3, paletteChirho.metalChirho, [
+				sideChirho * handleHalfChirho,
+				heightChirho / 2 + 1,
+				handleZChirho
+			]);
+			roundedChirho(
+				12,
+				40,
+				16,
+				5,
+				fieldChirho ? paletteChirho.shellChirho : paletteChirho.metalChirho,
+				[sideChirho * handleHalfChirho, heightChirho / 2 + 19, handleZChirho]
+			);
+		}
+		roundedChirho(
+			handleHalfChirho * 2 + 12,
+			15,
+			17,
+			6,
+			fieldChirho ? paletteChirho.shellChirho : paletteChirho.metalChirho,
+			[0, heightChirho / 2 + 39, handleZChirho]
+		);
+		roundedChirho(handleHalfChirho * 1.5, 18, 22, 7, paletteChirho.rubberChirho, [
+			0,
+			heightChirho / 2 + 38,
 			handleZChirho
 		]);
-		roundedChirho(
-			12,
-			40,
-			16,
-			5,
-			fieldChirho ? paletteChirho.shellChirho : paletteChirho.metalChirho,
-			[sideChirho * handleHalfChirho, heightChirho / 2 + 19, handleZChirho]
-		);
+		const gripRibsChirho: InstancePoseChirho[] = [];
+		for (let indexChirho = -7; indexChirho <= 7; indexChirho += 1) {
+			gripRibsChirho.push({
+				position_chirho: [
+					(indexChirho * handleHalfChirho) / 12,
+					heightChirho / 2 + 39,
+					handleZChirho + 11.1
+				],
+				scale_chirho: [1, 10, 0.6]
+			});
+		}
+		repeatChirho(unitBoxChirho, paletteChirho.knobChirho, gripRibsChirho);
 	}
-	roundedChirho(
-		handleHalfChirho * 2 + 12,
-		15,
-		17,
-		6,
-		fieldChirho ? paletteChirho.shellChirho : paletteChirho.metalChirho,
-		[0, heightChirho / 2 + 39, handleZChirho]
-	);
-	roundedChirho(handleHalfChirho * 1.5, 18, 22, 7, paletteChirho.rubberChirho, [
-		0,
-		heightChirho / 2 + 38,
-		handleZChirho
-	]);
-	const gripRibsChirho: InstancePoseChirho[] = [];
-	for (let indexChirho = -7; indexChirho <= 7; indexChirho += 1) {
-		gripRibsChirho.push({
-			position_chirho: [
-				(indexChirho * handleHalfChirho) / 12,
-				heightChirho / 2 + 39,
-				handleZChirho + 11.1
-			],
-			scale_chirho: [1, 10, 0.6]
-		});
-	}
-	repeatChirho(unitBoxChirho, paletteChirho.knobChirho, gripRibsChirho);
 
 	for (const sideChirho of [-1, 1]) {
-		for (const rearChirho of [false, true]) {
+		for (const rearChirho of optionsChirho.theme_chirho === 'digital' ? [] : [false, true]) {
 			roundedChirho(widthChirho * 0.13, 15, 23, 5, paletteChirho.rubberChirho, [
 				sideChirho * widthChirho * 0.31,
 				-heightChirho / 2 - 5,

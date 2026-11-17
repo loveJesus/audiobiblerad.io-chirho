@@ -134,7 +134,9 @@ describe('the language files on disk', () => {
 				0
 			)
 		);
-	});
+		// This exhaustive scan resolves roughly350,000 addresses. On the shared build machine it
+		// measured7.8s; its20s audit deadline leaves every host/canonical-address check in place.
+	}, 20000);
 
 	it('play the fourth file as Joel 3 on exactly the recordings taken to count Joel in four', async () => {
 		const evidenceChirho = JSON.parse(await readFile(EVIDENCE_CHIRHO, 'utf8')) as {

@@ -1,0 +1,125 @@
+{
+	"date_chirho": "2026-11-16",
+	"status_chirho": "Working source checkpoint; the detailed Christian1980s room is a new, unaccepted asset refinement",
+	"producer_chirho": "BIBLERADIO_CHIRHO/gpt_chirho",
+	"scope_chirho": "actual orbitable worlds and distinct modeled radio bodies behind the existing explicit per-visit activation boundary",
+	"bodies_chirho": {
+		"minimal_chirho": "simple rounded receiver",
+		"field_chirho": "deep steel equipment case with protective cage and side handles",
+		"digital_chirho": "wide classic stereo with layered speaker grilles, twin cassette decks, meters, chrome handle and aerial",
+		"cyberpunk_chirho": "beveled polygonal case with equipment wings and encoder accents"
+	},
+	"worlds_chirho": {
+		"minimal_chirho": "studio tabletop",
+		"field_chirho": "modeled bank, stones, water, trees and distant relief",
+		"digital_chirho": "modeled dock, fjord water, shore and surrounding relief",
+		"cyberpunk_chirho": "modeled pavement, buildings, windows and neon details"
+	},
+	"lifetime_chirho": [
+		"One active world and renderer, independent of the existing audio controller.",
+		"World geometry and procedural textures are constructed only inside the dynamically imported scene.",
+		"Finite resource budgets and idempotent disposal are exercised by unit tests.",
+		"Water and rain motion are bounded near 30 frames per second, stopped for reduced motion, hidden tabs and offscreen scenes.",
+		"The background-image scene is unmounted while the actual 3D world is active."
+	],
+	"rendered_passes_chirho": [
+		{
+			"pass_chirho": 1,
+			"browser_chirho": "Chromium with ANGLE Metal on Apple M5 Max",
+			"passed_cases_chirho": 5,
+			"scope_chirho": "orbit/Front control continuity, graphics-context fallback, model/world/camera changes around one continuing audio element, reduced motion and phone-sized On cue",
+			"visual_findings_chirho": [
+				"The digital face was too upright; its desktop layout is being widened.",
+				"Ground colour conversion and coarse trees/stones needed refinement.",
+				"Tall foreground scenery blocked some rear angles; the supported orbit needs a clear corridor."
+			],
+			"raw_images_chirho": "six front/rear images retained privately with hashes"
+		},
+		{
+			"pass_chirho": 2,
+			"browser_chirho": "Chromium with Metal",
+			"passed_cases_chirho": 7,
+			"failed_cases_chirho": 0,
+			"changes_chirho": [
+				"Broad digital panel and fitted aerial; different cyberpunk control arrangement.",
+				"Needle-spray foliage, smoother stones, corrected sRGB ground colours and surface grain.",
+				"Clear camera corridor and full ring of distant city blocks."
+			],
+			"behavior_chirho": "Reduced-motion and offscreen GPU work stop while the same Scripture element continues; phone control sizes also pass.",
+			"visual_findings_chirho": [
+				"Phone toolbar overlaps credits; move it outside the projection viewport.",
+				"Digital cap surfaces fight at similar depth; separate their front surfaces."
+			]
+		},
+		{
+			"pass_chirho": 3,
+			"browser_chirho": "Chromium with Metal",
+			"passed_cases_chirho": 5,
+			"failed_cases_chirho": 2,
+			"changes_chirho": [
+				"Separate camera toolbar row and projection stage.",
+				"Move digital cap/pointer surfaces apart."
+			],
+			"failure_chirho": "The new grid inherited a 553-pixel min-content width on a 390-pixel viewport. The DOM diagnostic confirmed the actual widths; explicit zero-minimum grid tracks repair the cause.",
+			"status_chirho": "Grid correction passed the next exact recheck."
+		},
+		{
+			"pass_chirho": 4,
+			"browser_chirho": "Chromium with Metal",
+			"passed_cases_chirho": 7,
+			"failed_cases_chirho": 0,
+			"scope_chirho": "actual rendered desktop/phone scenes after zero-minimum grid repair; images retained privately"
+		}
+	],
+	"asset_policy_chirho": "This source checkpoint introduces no external images, source recordings or paid generation. Its surfaces are code generated. The separately prepared Christian reference and Blender candidate remain private and are not shipped.",
+	"remaining_chirho": [
+		"Detailed Christian1980s room, live lava lamp/rain and mapped working controls, judged against the owner reference.",
+		"Final whole-browser/device acceptance of that eventual room.",
+		"Physical-device graphics and acoustic checks."
+	],
+	"publication_chirho": "source development only; not deployed",
+	"verification_chirho": {
+		"whole_unit_before_final_camera_refinement_chirho": {
+			"passed_chirho": 312,
+			"files_chirho": 35
+		},
+		"final_camera_unit_chirho": {
+			"passed_chirho": 4,
+			"frame_rates_chirho": "50Hz,5Hz and1Hz return rates agree; reduced-motion/interaction holds and cone bound covered"
+		},
+		"check_chirho": "0errors/0warnings",
+		"broad_browser_chirho": {
+			"passed_chirho": 115,
+			"failed_chirho": 3,
+			"skipped_chirho": 2,
+			"planned_chirho": 120
+		},
+		"final_exact_rechecks_chirho": {
+			"passed_chirho": 4,
+			"failed_chirho": 0,
+			"browsers_chirho": ["Chromium Metal", "WebKit"],
+			"scope_chirho": "weighted orbit/cone/return/reduced-motion and exact saved-position recovery"
+		},
+		"claim_limit_chirho": "Earlier broad failures are retained; no claim of a single clean full browser run after the final camera refinement.",
+		"whole_unit_chirho": {
+			"passed_chirho": 313,
+			"files_chirho": 35,
+			"seconds_chirho": 85.79,
+			"scope_chirho": "Final elapsed-time camera source, including all four orbit-return tests."
+		},
+		"lint_chirho": "Prettier and ESLint pass over the complete tree."
+	},
+	"interface_chirho": [
+		"Publisher notice and status text occupy fixed scrollable/reserved regions; actual long-notice checks pass across all skins and the 3D digital layout.",
+		"The camera stays within45degrees, resists more toward the edge, and returns after release using elapsed time; reduced motion also disables inertia.",
+		"The explicit About opener is restored on close, including WebKit.",
+		"Confirmed test instrumentation corrections preserve autoplay, recovery, framing and attribution behavior; original failures retained."
+	],
+	"assets_chirho": {
+		"assets_chirho": 456,
+		"bytes_chirho": 3862794,
+		"lazy_scene_closure_bytes_chirho": 639611,
+		"licensed_profile_chirho": "licensed",
+		"native_or_model_payload_chirho": []
+	}
+}

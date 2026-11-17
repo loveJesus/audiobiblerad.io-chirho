@@ -5,6 +5,11 @@
 	isolation: isolate;
 	width: 100%;
 }
+.spatial-stage-chirho {
+	position: relative;
+	min-width: 0;
+	min-height: 0;
+}
 .spatial-face-chirho {
 	width: min(100%, 568px);
 	margin: auto;
@@ -20,6 +25,15 @@
 }
 .spatial-view-chirho[data-spatial-active-chirho='true'] {
 	height: max(820px, 100svh);
+	display: grid;
+	grid-template-columns: minmax(0, 1fr);
+	grid-template-rows: minmax(0, 1fr) auto;
+	gap: 12px;
+	padding-bottom: 12px;
+	box-sizing: border-box;
+	background: var(--radio-page-chirho);
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] .spatial-stage-chirho {
 	overflow: hidden;
 }
 .spatial-view-chirho[data-spatial-active-chirho='true'] .radio-geometry-chirho {
@@ -83,10 +97,8 @@
 	font-size: 13px;
 }
 .camera-controls-chirho {
-	position: absolute;
-	bottom: 12px;
-	left: 50%;
-	transform: translateX(-50%);
+	position: relative;
+	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -94,7 +106,9 @@
 	gap: 10px;
 	z-index: 2;
 	width: max-content;
-	max-width: 95%;
+	max-width: calc(100% - 24px);
+	min-width: 0;
+	box-sizing: border-box;
 	padding: 8px 14px;
 	border-radius: 12px;
 	color: var(--radio-page-ink-chirho);
@@ -113,6 +127,113 @@
 .camera-controls-chirho button:focus-visible {
 	outline: 3px solid var(--radio-focus-chirho);
 	outline-offset: 3px;
+}
+
+/* The stereo portable has a broad central control panel; the field set remains upright. */
+[data-radio-theme-chirho='digital']
+	.spatial-view-chirho[data-spatial-active-chirho='true']
+	.spatial-face-chirho {
+	width: min(800px, calc(100% - 28px));
+}
+@media (min-width: 700px) {
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.radio-chirho {
+		display: grid;
+		grid-template-columns: 1.2fr 1fr;
+		grid-template-rows: 28px 126px 44px 54px 40px 64px;
+		gap: 10px 24px;
+		width: 100%;
+		padding: 20px !important;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.radio-chirho
+		> :is(
+			.radio-top-chirho,
+			.tuning-chirho,
+			.radio-bottom-chirho,
+			.radio-notices-chirho,
+			.status-message-chirho,
+			.speaker-grille-chirho,
+			.credit-chirho,
+			.storage-message-chirho,
+			.restore-note-chirho,
+			.spatial-message-chirho
+		) {
+		grid-column: 1 / -1;
+		margin-block: 0;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.display-chirho {
+		grid-column: 1;
+		grid-row: 2 / 4;
+		block-size: 100%;
+		padding: 10px 16px;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.selector-row-chirho {
+		grid-column: 2;
+		grid-row: 2;
+		margin: 0;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.seek-row-chirho {
+		grid-column: 2;
+		grid-row: 3;
+		margin: 0;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.radio-notices-chirho {
+		grid-column: 2;
+		grid-row: 6;
+		block-size: 64px;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.credit-chirho {
+		grid-column: 1;
+		grid-row: 6;
+		block-size: 64px;
+		font-size: 10px;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.speaker-grille-chirho {
+		display: none !important;
+	}
+	[data-radio-theme-chirho='digital']
+		.spatial-view-chirho[data-spatial-active-chirho='true']
+		.station-language-chirho {
+		font-size: 30px;
+	}
+}
+[data-radio-theme-chirho='cyberpunk']
+	.spatial-view-chirho[data-spatial-active-chirho='true']
+	.selector-row-chirho {
+	display: grid;
+	grid-template-columns: 1fr 1fr 0.8fr;
+}
+[data-radio-theme-chirho='cyberpunk']
+	.spatial-view-chirho[data-spatial-active-chirho='true']
+	.selector-row-chirho
+	.power-well-chirho {
+	grid-column: 3;
+	grid-row: 1;
+}
+[data-radio-theme-chirho='cyberpunk']
+	.spatial-view-chirho[data-spatial-active-chirho='true']
+	.selector-row-chirho
+	> .knob-control-chirho:last-child {
+	grid-column: 2;
+	grid-row: 1;
+}
+.spatial-view-chirho[data-spatial-active-chirho='true'] {
+	user-select: none;
 }
 .radio-world-chirho[data-radio-spatial-chirho='true'] {
 	padding: 0 !important;

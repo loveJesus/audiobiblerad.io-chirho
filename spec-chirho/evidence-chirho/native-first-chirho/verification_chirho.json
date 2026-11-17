@@ -114,7 +114,7 @@
 			"split chapters",
 			"catalogue refresh",
 			"interface localization",
-			"radio artwork and store icons"
+			"final native radio artwork"
 		],
 		"runtime_chirho": {
 			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho, root reviewed both retained images",
@@ -223,6 +223,34 @@
 				"media-services-reset handling",
 				"physical output, headphone and Watch checks"
 			]
+		},
+		"resources_followup_chirho": {
+			"producer_chirho": "BIBLERADIO_CHIRHO/claude2_chirho; root rehashed the nine source paths and all three built bundle inventories.",
+			"application_builds_chirho": [
+				{
+					"target_chirho": "phone with embedded Watch",
+					"seconds_chirho": 87.76,
+					"warnings_chirho": 0
+				},
+				{
+					"target_chirho": "standalone Watch",
+					"seconds_chirho": 60.49,
+					"warnings_chirho": 0
+				}
+			],
+			"actool_chirho": "Four catalogue compilations; no warnings or notices.",
+			"privacy_manifest_chirho": "Exact PrivacyInfo.xcprivacy at each app root; UserDefaults CA92.1 and SystemBootTime 35F9.1. This does not answer the store privacy questionnaire.",
+			"icons_chirho": "Opaque 1024px source; AppIconChirho compiled into Assets.car and named in each app plist.",
+			"bundle_files_chirho": {
+				"phone_including_watch_chirho": 42,
+				"watch_chirho": 20
+			},
+			"assets_car_sha256_chirho": {
+				"phone_chirho": "2d7aaa488a5f1858bd31b616193ace462393837a2d64e72d0c4a598303eab3e3",
+				"watch_chirho": "395c2f0a292531d58169ee18279b1511fe090458c322edf9941e191ea6bd73c6"
+			},
+			"shared_resources_chirho": "Catalogue, profile and eleven purchased cuts match the source in all three bundles, with no preparation files. Embedded and standalone Watch copies are byte-identical.",
+			"limits_chirho": "Unsigned Debug simulator packaging only. No new simulator run, signed archive, upload or store acceptance."
 		}
 	},
 	"cache_chirho": {

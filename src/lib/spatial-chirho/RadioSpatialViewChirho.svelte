@@ -136,12 +136,17 @@
 	data-spatial-active-chirho={activeChirho}
 	data-spatial-loading-chirho={busyChirho}
 	data-view-assessment-chirho={assessmentChirho}
-	bind:this={hostChirho}
 >
-	<div class="spatial-face-chirho" bind:this={faceChirho}>{@render children()}</div>
+	<div class="spatial-stage-chirho" bind:this={hostChirho}>
+		<div class="spatial-face-chirho" bind:this={faceChirho}>{@render children()}</div>
+	</div>
 	{#if activeChirho}<div class="camera-controls-chirho">
-			<span>Drag sideways to look around</span>
+			<span>Drag to look around · returns gently</span>
 			<button onclick={() => sceneChirho?.frontChirho()}>Front view</button>
+			<button onclick={() => sceneChirho?.sceneViewChirho()}>Scene view</button>
+			<button aria-label="Move camera closer" onclick={() => sceneChirho?.zoomChirho(1)}>+</button>
+			<button aria-label="Move camera farther" onclick={() => sceneChirho?.zoomChirho(-1)}>−</button
+			>
 			<button onclick={toggleChirho}>Simple view</button>
 		</div>{/if}
 </div>

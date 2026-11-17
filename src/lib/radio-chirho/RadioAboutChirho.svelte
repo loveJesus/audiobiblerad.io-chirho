@@ -6,10 +6,17 @@
 	import type { RadioSessionViewChirho } from './radio_types_chirho';
 	let {
 		open_chirho: openChirho,
+		opener_chirho: openerChirho = null,
 		view_chirho: viewChirho,
 		on_close_chirho: onCloseChirho
 	}: {
 		open_chirho: boolean;
+		/**
+		 * The control that opened the dialog. Focus goes back to it however the dialog closes:
+		 * WebKit does not focus a clicked button, so the dialog's own focus return would land on
+		 * the page instead.
+		 */
+		opener_chirho?: HTMLElement | null;
 		view_chirho: RadioSessionViewChirho;
 		on_close_chirho(): void;
 	} = $props();
@@ -23,9 +30,13 @@
 		if (openChirho && dialogChirho && !dialogChirho.open) dialogChirho.showModal();
 		else if (!openChirho && dialogChirho?.open) dialogChirho.close();
 	});
+	function closedChirho(): void {
+		if (openerChirho?.isConnected) openerChirho.focus();
+		onCloseChirho();
+	}
 </script>
 
-<dialog bind:this={dialogChirho} aria-labelledby="about-title-chirho" onclose={onCloseChirho}>
+<dialog bind:this={dialogChirho} aria-labelledby="about-title-chirho" onclose={closedChirho}>
 	<div class="about-top-chirho">
 		<span>№ 316 / THE WORD, WITH YOU</span><button
 			aria-label="Close about"

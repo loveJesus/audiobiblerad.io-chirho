@@ -234,6 +234,19 @@ test('network failure preserves a saved passage and an explicit retry resumes it
 	await expect(seekChirho).toBeEnabled();
 	await seekChirho.press('PageUp');
 	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
+
+	let failuresChirho = 0;
+	const abortChirho = (routeChirho: import('@playwright/test').Route) => {
+		// One count per load the radio starts. WebKit opens every media load with a two-byte range
+		// probe (bytes=0-1) and then reads; Chromium sends the read alone.
+		if (routeChirho.request().headers()['range'] !== 'bytes=0-1') failuresChirho += 1;
+		return routeChirho.abort('connectionrefused');
+	};
+	await pageChirho.route('https://**/*.mp3', abortChirho);
+	await pageChirho.reload();
+	await expect(pageChirho.getByRole('button', { name: 'Radio power', exact: true })).toBeEnabled();
+	// Navigation may finish a pending media seek while pagehide saves. Compare recovery with
+	// the actual saved place it starts from, after that navigation has completed.
 	const beforeChirho = await pageChirho.evaluate(
 		() =>
 			JSON.parse(localStorage.getItem('audio-bible-radio-preferences-chirho')!) as {
@@ -241,13 +254,6 @@ test('network failure preserves a saved passage and an explicit retry resumes it
 				seconds_chirho: number;
 			}
 	);
-	let failuresChirho = 0;
-	const abortChirho = (routeChirho: import('@playwright/test').Route) => {
-		failuresChirho += 1;
-		return routeChirho.abort('connectionrefused');
-	};
-	await pageChirho.route('https://**/*.mp3', abortChirho);
-	await pageChirho.reload();
 	await pageChirho.getByRole('button', { name: 'Radio power', exact: true }).click();
 	await expect.poll(() => failuresChirho).toBe(4);
 	await expect(pageChirho.getByRole('combobox', { name: 'Chapter', exact: true })).toHaveValue('3');

@@ -115,11 +115,21 @@ test('a parent frame-src denial is distinguishable from our allowed widget respo
 	pageChirho.on('console', (messageChirho) => {
 		if (messageChirho.text().includes('frame-src')) blockedChirho.push(messageChirho.text());
 	});
+	const widgetRequestsChirho: string[] = [];
+	pageChirho.on('request', (requestChirho) => {
+		if (requestChirho.url().includes('/embed-chirho'))
+			widgetRequestsChirho.push(requestChirho.url());
+	});
 	await hostChirho(pageChirho, '/embed-chirho', "frame-src 'self'");
 	await expect.poll(() => blockedChirho.length).toBeGreaterThan(0);
-	await expect(
-		pageChirho.frameLocator('iframe').getByRole('button', { name: 'Radio power', exact: true })
-	).toHaveCount(0);
+	// The parent refuses the frame before any request leaves the browser, so our response and the
+	// framing it allows never take part. The frame never holds our page: Chromium puts its own
+	// error page there, while WebKit leaves a frame with no document, which a locator inside it
+	// would wait on forever.
+	expect(widgetRequestsChirho).toEqual([]);
+	expect(pageChirho.frames().map((frameChirho) => frameChirho.url())).not.toContainEqual(
+		expect.stringContaining('/embed-chirho')
+	);
 });
 
 test('widget interaction never overwrites the full radio preferences and works when third-party storage is denied', async ({

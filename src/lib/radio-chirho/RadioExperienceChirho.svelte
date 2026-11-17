@@ -26,6 +26,7 @@
 	let viewChirho = $state(initialRadioViewChirho());
 	let themeIdChirho = $state<RadioThemeIdChirho>('minimal');
 	let aboutOpenChirho = $state(false);
+	let aboutOpenerChirho = $state<HTMLElement | null>(null);
 	let spatialChirho = $state<RadioSpatialViewChirho>();
 	let spatialStateChirho = $state({
 		active_chirho: false,
@@ -112,7 +113,9 @@
 	data-radio-widget-chirho={widgetChirho ? '' : undefined}
 	data-radio-spatial-chirho={spatialStateChirho.active_chirho}
 >
-	{#if !widgetChirho}<ThemeSceneChirho theme_id_chirho={themeIdChirho} />{/if}
+	{#if !widgetChirho && !spatialStateChirho.active_chirho}<ThemeSceneChirho
+			theme_id_chirho={themeIdChirho}
+		/>{/if}
 	<main>
 		<RadioSpatialViewChirho
 			bind:this={spatialChirho}
@@ -124,7 +127,8 @@
 				session_chirho={sessionChirho}
 				theme_id_chirho={themeIdChirho}
 				on_theme_chirho={chooseThemeChirho}
-				on_about_chirho={() => {
+				on_about_chirho={(openerChirho) => {
+					aboutOpenerChirho = openerChirho;
 					sessionChirho?.feedbackChirho('click');
 					aboutOpenChirho = true;
 				}}
@@ -147,6 +151,7 @@
 		>{/if}
 	<RadioAboutChirho
 		open_chirho={aboutOpenChirho}
+		opener_chirho={aboutOpenerChirho}
 		view_chirho={viewChirho}
 		on_close_chirho={() => {
 			aboutOpenChirho = false;
@@ -162,11 +167,13 @@
 		position: relative;
 		color: var(--radio-page-ink-chirho, #292e2b);
 		display: grid;
+		grid-template-columns: minmax(0, 1fr);
 		align-items: center;
 		padding: clamp(18px, 4vh, 56px) clamp(12px, 4vw, 48px);
 	}
 	main {
 		width: 100%;
+		min-width: 0;
 		margin: auto;
 	}
 	.widget-home-chirho {
